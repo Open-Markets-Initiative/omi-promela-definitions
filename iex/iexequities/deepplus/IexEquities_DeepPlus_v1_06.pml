@@ -1,0 +1,2059 @@
+/*
+ * Investors Exchange DeepPlus
+ *
+ * Generated from the binary model. Every record is a run of fields, and spin checks the two
+ * claims the model's rules call for: that encoding a record writes the bytes its fields say,
+ * and that decoding those bytes gives the record back and consumes exactly what was written.
+ *
+ * A field is the bytes it occupies. Nothing is read as an integer: spin evaluates an int in
+ * 32 bits, as TLC does, so a field wider than that has no range a checker could enumerate,
+ * and bytes are exact at any width. No rule stated here depends on a value.
+ *
+ * Each record is checked at four patterns: every byte zero, every byte the space a text
+ * field pads with, every byte with all bits set, and the ramp - each byte holding where it
+ * lies, which is what catches a field written or read out of place.
+ *
+ * What this definition does not state, and the model does:
+ *   - a length prefix framing what follows
+ *   - a field read in bits
+ *
+ * License: MIT No Attribution
+ */
+
+/* ---- The wire ---------------------------------------------------------------- */
+
+/* the widest record this protocol states, which is the most a check writes at once */
+#define WIRE 56
+
+/* the bytes a record is written to and read back from */
+byte wire[WIRE];
+
+/* where the next byte is written or read, so a nested record carries on from its holder */
+int at;
+
+/* ---- Message Header: 3 bytes ------------------------------------------------- */
+
+/* Snap message header */
+typedef MessageHeader {
+  byte message_length[2];
+  byte message_type
+};
+
+int message_header_at;
+
+/* every byte of Message Header set to one value */
+inline fill_message_header(message_header_record, message_header_value) {
+  message_header_at = 0;
+  do
+  :: message_header_at < 2 -> message_header_record.message_length[message_header_at] = message_header_value; message_header_at = message_header_at + 1
+  :: else -> break
+  od;
+  message_header_record.message_type = message_header_value;
+  skip
+}
+
+/* each byte of Message Header set to where it lies, so a field read out of place says so */
+inline ramp_message_header(message_header_record, message_header_base) {
+  message_header_at = 0;
+  do
+  :: message_header_at < 2 -> message_header_record.message_length[message_header_at] = (message_header_base + 0 + message_header_at + 1) % 256; message_header_at = message_header_at + 1
+  :: else -> break
+  od;
+  message_header_record.message_type = (message_header_base + 2 + 1) % 256;
+  skip
+}
+
+/* Message Header to the wire, 3 bytes from where the cursor stands */
+inline encode_message_header(message_header_record) {
+  message_header_at = 0;
+  do
+  :: message_header_at < 2 -> wire[at] = message_header_record.message_length[message_header_at]; at = at + 1; message_header_at = message_header_at + 1
+  :: else -> break
+  od;
+  wire[at] = message_header_record.message_type; at = at + 1;
+  skip
+}
+
+/* Message Header off the wire, 3 bytes from where the cursor stands */
+inline decode_message_header(message_header_record) {
+  message_header_at = 0;
+  do
+  :: message_header_at < 2 -> message_header_record.message_length[message_header_at] = wire[at]; at = at + 1; message_header_at = message_header_at + 1
+  :: else -> break
+  od;
+  message_header_record.message_type = wire[at]; at = at + 1;
+  skip
+}
+
+/* what was read of Message Header is what was written, byte for byte */
+inline equal_message_header(message_header_read, message_header_written) {
+  message_header_at = 0;
+  do
+  :: message_header_at < 2 -> assert(message_header_read.message_length[message_header_at] == message_header_written.message_length[message_header_at]); message_header_at = message_header_at + 1
+  :: else -> break
+  od;
+  assert(message_header_read.message_type == message_header_written.message_type);
+  skip
+}
+
+/* ---- Snapshot Request Message: 56 bytes -------------------------------------- */
+
+/* The Snapshot Request message is sent from the client to the Deep Plus Snap server to authenticate and request a Snapshot Response */
+typedef SnapshotRequestMessage {
+  byte authentication_token[40];
+  byte channel_id[4];
+  byte session_id[4];
+  byte minimum_sequence_number[8]
+};
+
+int snapshot_request_message_at;
+
+/* every byte of Snapshot Request Message set to one value */
+inline fill_snapshot_request_message(snapshot_request_message_record, snapshot_request_message_value) {
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 40 -> snapshot_request_message_record.authentication_token[snapshot_request_message_at] = snapshot_request_message_value; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> snapshot_request_message_record.channel_id[snapshot_request_message_at] = snapshot_request_message_value; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> snapshot_request_message_record.session_id[snapshot_request_message_at] = snapshot_request_message_value; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 8 -> snapshot_request_message_record.minimum_sequence_number[snapshot_request_message_at] = snapshot_request_message_value; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Snapshot Request Message set to where it lies, so a field read out of place says so */
+inline ramp_snapshot_request_message(snapshot_request_message_record, snapshot_request_message_base) {
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 40 -> snapshot_request_message_record.authentication_token[snapshot_request_message_at] = (snapshot_request_message_base + 0 + snapshot_request_message_at + 1) % 256; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> snapshot_request_message_record.channel_id[snapshot_request_message_at] = (snapshot_request_message_base + 40 + snapshot_request_message_at + 1) % 256; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> snapshot_request_message_record.session_id[snapshot_request_message_at] = (snapshot_request_message_base + 44 + snapshot_request_message_at + 1) % 256; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 8 -> snapshot_request_message_record.minimum_sequence_number[snapshot_request_message_at] = (snapshot_request_message_base + 48 + snapshot_request_message_at + 1) % 256; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Snapshot Request Message to the wire, 56 bytes from where the cursor stands */
+inline encode_snapshot_request_message(snapshot_request_message_record) {
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 40 -> wire[at] = snapshot_request_message_record.authentication_token[snapshot_request_message_at]; at = at + 1; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> wire[at] = snapshot_request_message_record.channel_id[snapshot_request_message_at]; at = at + 1; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> wire[at] = snapshot_request_message_record.session_id[snapshot_request_message_at]; at = at + 1; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 8 -> wire[at] = snapshot_request_message_record.minimum_sequence_number[snapshot_request_message_at]; at = at + 1; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Snapshot Request Message off the wire, 56 bytes from where the cursor stands */
+inline decode_snapshot_request_message(snapshot_request_message_record) {
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 40 -> snapshot_request_message_record.authentication_token[snapshot_request_message_at] = wire[at]; at = at + 1; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> snapshot_request_message_record.channel_id[snapshot_request_message_at] = wire[at]; at = at + 1; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> snapshot_request_message_record.session_id[snapshot_request_message_at] = wire[at]; at = at + 1; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 8 -> snapshot_request_message_record.minimum_sequence_number[snapshot_request_message_at] = wire[at]; at = at + 1; snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Snapshot Request Message is what was written, byte for byte */
+inline equal_snapshot_request_message(snapshot_request_message_read, snapshot_request_message_written) {
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 40 -> assert(snapshot_request_message_read.authentication_token[snapshot_request_message_at] == snapshot_request_message_written.authentication_token[snapshot_request_message_at]); snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> assert(snapshot_request_message_read.channel_id[snapshot_request_message_at] == snapshot_request_message_written.channel_id[snapshot_request_message_at]); snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 4 -> assert(snapshot_request_message_read.session_id[snapshot_request_message_at] == snapshot_request_message_written.session_id[snapshot_request_message_at]); snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  snapshot_request_message_at = 0;
+  do
+  :: snapshot_request_message_at < 8 -> assert(snapshot_request_message_read.minimum_sequence_number[snapshot_request_message_at] == snapshot_request_message_written.minimum_sequence_number[snapshot_request_message_at]); snapshot_request_message_at = snapshot_request_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Error Response Message: 1 bytes ----------------------------------------- */
+
+/* Sent by the Deep Plus Snap server to the client when a Snapshot Request is rejected */
+typedef ErrorResponseMessage {
+  byte reject_reason_code
+};
+
+/* every byte of Error Response Message set to one value */
+inline fill_error_response_message(error_response_message_record, error_response_message_value) {
+  error_response_message_record.reject_reason_code = error_response_message_value;
+  skip
+}
+
+/* each byte of Error Response Message set to where it lies, so a field read out of place says so */
+inline ramp_error_response_message(error_response_message_record, error_response_message_base) {
+  error_response_message_record.reject_reason_code = (error_response_message_base + 0 + 1) % 256;
+  skip
+}
+
+/* Error Response Message to the wire, 1 bytes from where the cursor stands */
+inline encode_error_response_message(error_response_message_record) {
+  wire[at] = error_response_message_record.reject_reason_code; at = at + 1;
+  skip
+}
+
+/* Error Response Message off the wire, 1 bytes from where the cursor stands */
+inline decode_error_response_message(error_response_message_record) {
+  error_response_message_record.reject_reason_code = wire[at]; at = at + 1;
+  skip
+}
+
+/* what was read of Error Response Message is what was written, byte for byte */
+inline equal_error_response_message(error_response_message_read, error_response_message_written) {
+  assert(error_response_message_read.reject_reason_code == error_response_message_written.reject_reason_code);
+  skip
+}
+
+/* ---- Snapshot Start Message: 8 bytes ----------------------------------------- */
+
+/* First message of a Snapshot Response sent from the Deep Plus Snap server when a Snapshot Request is successful */
+typedef SnapshotStartMessage {
+  byte snapshot_length[8]
+};
+
+int snapshot_start_message_at;
+
+/* every byte of Snapshot Start Message set to one value */
+inline fill_snapshot_start_message(snapshot_start_message_record, snapshot_start_message_value) {
+  snapshot_start_message_at = 0;
+  do
+  :: snapshot_start_message_at < 8 -> snapshot_start_message_record.snapshot_length[snapshot_start_message_at] = snapshot_start_message_value; snapshot_start_message_at = snapshot_start_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Snapshot Start Message set to where it lies, so a field read out of place says so */
+inline ramp_snapshot_start_message(snapshot_start_message_record, snapshot_start_message_base) {
+  snapshot_start_message_at = 0;
+  do
+  :: snapshot_start_message_at < 8 -> snapshot_start_message_record.snapshot_length[snapshot_start_message_at] = (snapshot_start_message_base + 0 + snapshot_start_message_at + 1) % 256; snapshot_start_message_at = snapshot_start_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Snapshot Start Message to the wire, 8 bytes from where the cursor stands */
+inline encode_snapshot_start_message(snapshot_start_message_record) {
+  snapshot_start_message_at = 0;
+  do
+  :: snapshot_start_message_at < 8 -> wire[at] = snapshot_start_message_record.snapshot_length[snapshot_start_message_at]; at = at + 1; snapshot_start_message_at = snapshot_start_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Snapshot Start Message off the wire, 8 bytes from where the cursor stands */
+inline decode_snapshot_start_message(snapshot_start_message_record) {
+  snapshot_start_message_at = 0;
+  do
+  :: snapshot_start_message_at < 8 -> snapshot_start_message_record.snapshot_length[snapshot_start_message_at] = wire[at]; at = at + 1; snapshot_start_message_at = snapshot_start_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Snapshot Start Message is what was written, byte for byte */
+inline equal_snapshot_start_message(snapshot_start_message_read, snapshot_start_message_written) {
+  snapshot_start_message_at = 0;
+  do
+  :: snapshot_start_message_at < 8 -> assert(snapshot_start_message_read.snapshot_length[snapshot_start_message_at] == snapshot_start_message_written.snapshot_length[snapshot_start_message_at]); snapshot_start_message_at = snapshot_start_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Iextp Header: 40 bytes -------------------------------------------------- */
+
+/* IexTp header of the wrapped feed message */
+typedef IextpHeader {
+  byte version;
+  byte reserved;
+  byte message_protocol_id[2];
+  byte channel_id[4];
+  byte session_id[4];
+  byte payload_length[2];
+  byte message_count[2];
+  byte stream_offset[8];
+  byte first_message_sequence_number[8];
+  byte send_time[8]
+};
+
+int iextp_header_at;
+
+/* every byte of Iextp Header set to one value */
+inline fill_iextp_header(iextp_header_record, iextp_header_value) {
+  iextp_header_record.version = iextp_header_value;
+  iextp_header_record.reserved = iextp_header_value;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.message_protocol_id[iextp_header_at] = iextp_header_value; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> iextp_header_record.channel_id[iextp_header_at] = iextp_header_value; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> iextp_header_record.session_id[iextp_header_at] = iextp_header_value; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.payload_length[iextp_header_at] = iextp_header_value; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.message_count[iextp_header_at] = iextp_header_value; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.stream_offset[iextp_header_at] = iextp_header_value; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.first_message_sequence_number[iextp_header_at] = iextp_header_value; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.send_time[iextp_header_at] = iextp_header_value; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Iextp Header set to where it lies, so a field read out of place says so */
+inline ramp_iextp_header(iextp_header_record, iextp_header_base) {
+  iextp_header_record.version = (iextp_header_base + 0 + 1) % 256;
+  iextp_header_record.reserved = (iextp_header_base + 1 + 1) % 256;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.message_protocol_id[iextp_header_at] = (iextp_header_base + 2 + iextp_header_at + 1) % 256; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> iextp_header_record.channel_id[iextp_header_at] = (iextp_header_base + 4 + iextp_header_at + 1) % 256; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> iextp_header_record.session_id[iextp_header_at] = (iextp_header_base + 8 + iextp_header_at + 1) % 256; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.payload_length[iextp_header_at] = (iextp_header_base + 12 + iextp_header_at + 1) % 256; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.message_count[iextp_header_at] = (iextp_header_base + 14 + iextp_header_at + 1) % 256; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.stream_offset[iextp_header_at] = (iextp_header_base + 16 + iextp_header_at + 1) % 256; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.first_message_sequence_number[iextp_header_at] = (iextp_header_base + 24 + iextp_header_at + 1) % 256; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.send_time[iextp_header_at] = (iextp_header_base + 32 + iextp_header_at + 1) % 256; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Iextp Header to the wire, 40 bytes from where the cursor stands */
+inline encode_iextp_header(iextp_header_record) {
+  wire[at] = iextp_header_record.version; at = at + 1;
+  wire[at] = iextp_header_record.reserved; at = at + 1;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> wire[at] = iextp_header_record.message_protocol_id[iextp_header_at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> wire[at] = iextp_header_record.channel_id[iextp_header_at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> wire[at] = iextp_header_record.session_id[iextp_header_at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> wire[at] = iextp_header_record.payload_length[iextp_header_at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> wire[at] = iextp_header_record.message_count[iextp_header_at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> wire[at] = iextp_header_record.stream_offset[iextp_header_at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> wire[at] = iextp_header_record.first_message_sequence_number[iextp_header_at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> wire[at] = iextp_header_record.send_time[iextp_header_at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Iextp Header off the wire, 40 bytes from where the cursor stands */
+inline decode_iextp_header(iextp_header_record) {
+  iextp_header_record.version = wire[at]; at = at + 1;
+  iextp_header_record.reserved = wire[at]; at = at + 1;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.message_protocol_id[iextp_header_at] = wire[at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> iextp_header_record.channel_id[iextp_header_at] = wire[at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> iextp_header_record.session_id[iextp_header_at] = wire[at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.payload_length[iextp_header_at] = wire[at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> iextp_header_record.message_count[iextp_header_at] = wire[at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.stream_offset[iextp_header_at] = wire[at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.first_message_sequence_number[iextp_header_at] = wire[at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> iextp_header_record.send_time[iextp_header_at] = wire[at]; at = at + 1; iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Iextp Header is what was written, byte for byte */
+inline equal_iextp_header(iextp_header_read, iextp_header_written) {
+  assert(iextp_header_read.version == iextp_header_written.version);
+  assert(iextp_header_read.reserved == iextp_header_written.reserved);
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> assert(iextp_header_read.message_protocol_id[iextp_header_at] == iextp_header_written.message_protocol_id[iextp_header_at]); iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> assert(iextp_header_read.channel_id[iextp_header_at] == iextp_header_written.channel_id[iextp_header_at]); iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 4 -> assert(iextp_header_read.session_id[iextp_header_at] == iextp_header_written.session_id[iextp_header_at]); iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> assert(iextp_header_read.payload_length[iextp_header_at] == iextp_header_written.payload_length[iextp_header_at]); iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 2 -> assert(iextp_header_read.message_count[iextp_header_at] == iextp_header_written.message_count[iextp_header_at]); iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> assert(iextp_header_read.stream_offset[iextp_header_at] == iextp_header_written.stream_offset[iextp_header_at]); iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> assert(iextp_header_read.first_message_sequence_number[iextp_header_at] == iextp_header_written.first_message_sequence_number[iextp_header_at]); iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  iextp_header_at = 0;
+  do
+  :: iextp_header_at < 8 -> assert(iextp_header_read.send_time[iextp_header_at] == iextp_header_written.send_time[iextp_header_at]); iextp_header_at = iextp_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- System Event Message: 9 bytes ------------------------------------------- */
+
+/* The System Event Message is used to indicate events that apply to the market or the data feed. */
+typedef SystemEventMessage {
+  byte system_event;
+  byte timestamp[8]
+};
+
+int system_event_message_at;
+
+/* every byte of System Event Message set to one value */
+inline fill_system_event_message(system_event_message_record, system_event_message_value) {
+  system_event_message_record.system_event = system_event_message_value;
+  system_event_message_at = 0;
+  do
+  :: system_event_message_at < 8 -> system_event_message_record.timestamp[system_event_message_at] = system_event_message_value; system_event_message_at = system_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of System Event Message set to where it lies, so a field read out of place says so */
+inline ramp_system_event_message(system_event_message_record, system_event_message_base) {
+  system_event_message_record.system_event = (system_event_message_base + 0 + 1) % 256;
+  system_event_message_at = 0;
+  do
+  :: system_event_message_at < 8 -> system_event_message_record.timestamp[system_event_message_at] = (system_event_message_base + 1 + system_event_message_at + 1) % 256; system_event_message_at = system_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* System Event Message to the wire, 9 bytes from where the cursor stands */
+inline encode_system_event_message(system_event_message_record) {
+  wire[at] = system_event_message_record.system_event; at = at + 1;
+  system_event_message_at = 0;
+  do
+  :: system_event_message_at < 8 -> wire[at] = system_event_message_record.timestamp[system_event_message_at]; at = at + 1; system_event_message_at = system_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* System Event Message off the wire, 9 bytes from where the cursor stands */
+inline decode_system_event_message(system_event_message_record) {
+  system_event_message_record.system_event = wire[at]; at = at + 1;
+  system_event_message_at = 0;
+  do
+  :: system_event_message_at < 8 -> system_event_message_record.timestamp[system_event_message_at] = wire[at]; at = at + 1; system_event_message_at = system_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of System Event Message is what was written, byte for byte */
+inline equal_system_event_message(system_event_message_read, system_event_message_written) {
+  assert(system_event_message_read.system_event == system_event_message_written.system_event);
+  system_event_message_at = 0;
+  do
+  :: system_event_message_at < 8 -> assert(system_event_message_read.timestamp[system_event_message_at] == system_event_message_written.timestamp[system_event_message_at]); system_event_message_at = system_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Trading Status Message: 21 bytes ---------------------------------------- */
+
+/* The Trading Status Message is used to indicate the current trading status of a security. */
+typedef TradingStatusMessage {
+  byte trading_status;
+  byte timestamp[8];
+  byte symbol[8];
+  byte reason[4]
+};
+
+int trading_status_message_at;
+
+/* every byte of Trading Status Message set to one value */
+inline fill_trading_status_message(trading_status_message_record, trading_status_message_value) {
+  trading_status_message_record.trading_status = trading_status_message_value;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> trading_status_message_record.timestamp[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> trading_status_message_record.symbol[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> trading_status_message_record.reason[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Trading Status Message set to where it lies, so a field read out of place says so */
+inline ramp_trading_status_message(trading_status_message_record, trading_status_message_base) {
+  trading_status_message_record.trading_status = (trading_status_message_base + 0 + 1) % 256;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> trading_status_message_record.timestamp[trading_status_message_at] = (trading_status_message_base + 1 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> trading_status_message_record.symbol[trading_status_message_at] = (trading_status_message_base + 9 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> trading_status_message_record.reason[trading_status_message_at] = (trading_status_message_base + 17 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Trading Status Message to the wire, 21 bytes from where the cursor stands */
+inline encode_trading_status_message(trading_status_message_record) {
+  wire[at] = trading_status_message_record.trading_status; at = at + 1;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> wire[at] = trading_status_message_record.timestamp[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> wire[at] = trading_status_message_record.symbol[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> wire[at] = trading_status_message_record.reason[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Trading Status Message off the wire, 21 bytes from where the cursor stands */
+inline decode_trading_status_message(trading_status_message_record) {
+  trading_status_message_record.trading_status = wire[at]; at = at + 1;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> trading_status_message_record.timestamp[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> trading_status_message_record.symbol[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> trading_status_message_record.reason[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Trading Status Message is what was written, byte for byte */
+inline equal_trading_status_message(trading_status_message_read, trading_status_message_written) {
+  assert(trading_status_message_read.trading_status == trading_status_message_written.trading_status);
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> assert(trading_status_message_read.timestamp[trading_status_message_at] == trading_status_message_written.timestamp[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 8 -> assert(trading_status_message_read.symbol[trading_status_message_at] == trading_status_message_written.symbol[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> assert(trading_status_message_read.reason[trading_status_message_at] == trading_status_message_written.reason[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Retail Liquidity Indicator Message: 17 bytes ---------------------------- */
+
+/* broadcasts a real-time Retail Liquidity Indicator Message each time there is an update to IEX's eligible retail liquidity interest during the trading day */
+typedef RetailLiquidityIndicatorMessage {
+  byte retail_liquidity_indicator;
+  byte timestamp[8];
+  byte symbol[8]
+};
+
+int retail_liquidity_indicator_message_at;
+
+/* every byte of Retail Liquidity Indicator Message set to one value */
+inline fill_retail_liquidity_indicator_message(retail_liquidity_indicator_message_record, retail_liquidity_indicator_message_value) {
+  retail_liquidity_indicator_message_record.retail_liquidity_indicator = retail_liquidity_indicator_message_value;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> retail_liquidity_indicator_message_record.timestamp[retail_liquidity_indicator_message_at] = retail_liquidity_indicator_message_value; retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> retail_liquidity_indicator_message_record.symbol[retail_liquidity_indicator_message_at] = retail_liquidity_indicator_message_value; retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Retail Liquidity Indicator Message set to where it lies, so a field read out of place says so */
+inline ramp_retail_liquidity_indicator_message(retail_liquidity_indicator_message_record, retail_liquidity_indicator_message_base) {
+  retail_liquidity_indicator_message_record.retail_liquidity_indicator = (retail_liquidity_indicator_message_base + 0 + 1) % 256;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> retail_liquidity_indicator_message_record.timestamp[retail_liquidity_indicator_message_at] = (retail_liquidity_indicator_message_base + 1 + retail_liquidity_indicator_message_at + 1) % 256; retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> retail_liquidity_indicator_message_record.symbol[retail_liquidity_indicator_message_at] = (retail_liquidity_indicator_message_base + 9 + retail_liquidity_indicator_message_at + 1) % 256; retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Retail Liquidity Indicator Message to the wire, 17 bytes from where the cursor stands */
+inline encode_retail_liquidity_indicator_message(retail_liquidity_indicator_message_record) {
+  wire[at] = retail_liquidity_indicator_message_record.retail_liquidity_indicator; at = at + 1;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> wire[at] = retail_liquidity_indicator_message_record.timestamp[retail_liquidity_indicator_message_at]; at = at + 1; retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> wire[at] = retail_liquidity_indicator_message_record.symbol[retail_liquidity_indicator_message_at]; at = at + 1; retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Retail Liquidity Indicator Message off the wire, 17 bytes from where the cursor stands */
+inline decode_retail_liquidity_indicator_message(retail_liquidity_indicator_message_record) {
+  retail_liquidity_indicator_message_record.retail_liquidity_indicator = wire[at]; at = at + 1;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> retail_liquidity_indicator_message_record.timestamp[retail_liquidity_indicator_message_at] = wire[at]; at = at + 1; retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> retail_liquidity_indicator_message_record.symbol[retail_liquidity_indicator_message_at] = wire[at]; at = at + 1; retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Retail Liquidity Indicator Message is what was written, byte for byte */
+inline equal_retail_liquidity_indicator_message(retail_liquidity_indicator_message_read, retail_liquidity_indicator_message_written) {
+  assert(retail_liquidity_indicator_message_read.retail_liquidity_indicator == retail_liquidity_indicator_message_written.retail_liquidity_indicator);
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> assert(retail_liquidity_indicator_message_read.timestamp[retail_liquidity_indicator_message_at] == retail_liquidity_indicator_message_written.timestamp[retail_liquidity_indicator_message_at]); retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  retail_liquidity_indicator_message_at = 0;
+  do
+  :: retail_liquidity_indicator_message_at < 8 -> assert(retail_liquidity_indicator_message_read.symbol[retail_liquidity_indicator_message_at] == retail_liquidity_indicator_message_written.symbol[retail_liquidity_indicator_message_at]); retail_liquidity_indicator_message_at = retail_liquidity_indicator_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Operational Halt Status Message: 17 bytes ------------------------------- */
+
+/* The Exchange may suspend trading of one or more securities on IEX for operational reasons and indicates such operational halt using the Operational Halt Status Message. */
+typedef OperationalHaltStatusMessage {
+  byte operational_halt_status;
+  byte timestamp[8];
+  byte symbol[8]
+};
+
+int operational_halt_status_message_at;
+
+/* every byte of Operational Halt Status Message set to one value */
+inline fill_operational_halt_status_message(operational_halt_status_message_record, operational_halt_status_message_value) {
+  operational_halt_status_message_record.operational_halt_status = operational_halt_status_message_value;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> operational_halt_status_message_record.timestamp[operational_halt_status_message_at] = operational_halt_status_message_value; operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> operational_halt_status_message_record.symbol[operational_halt_status_message_at] = operational_halt_status_message_value; operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Operational Halt Status Message set to where it lies, so a field read out of place says so */
+inline ramp_operational_halt_status_message(operational_halt_status_message_record, operational_halt_status_message_base) {
+  operational_halt_status_message_record.operational_halt_status = (operational_halt_status_message_base + 0 + 1) % 256;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> operational_halt_status_message_record.timestamp[operational_halt_status_message_at] = (operational_halt_status_message_base + 1 + operational_halt_status_message_at + 1) % 256; operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> operational_halt_status_message_record.symbol[operational_halt_status_message_at] = (operational_halt_status_message_base + 9 + operational_halt_status_message_at + 1) % 256; operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Operational Halt Status Message to the wire, 17 bytes from where the cursor stands */
+inline encode_operational_halt_status_message(operational_halt_status_message_record) {
+  wire[at] = operational_halt_status_message_record.operational_halt_status; at = at + 1;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> wire[at] = operational_halt_status_message_record.timestamp[operational_halt_status_message_at]; at = at + 1; operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> wire[at] = operational_halt_status_message_record.symbol[operational_halt_status_message_at]; at = at + 1; operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Operational Halt Status Message off the wire, 17 bytes from where the cursor stands */
+inline decode_operational_halt_status_message(operational_halt_status_message_record) {
+  operational_halt_status_message_record.operational_halt_status = wire[at]; at = at + 1;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> operational_halt_status_message_record.timestamp[operational_halt_status_message_at] = wire[at]; at = at + 1; operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> operational_halt_status_message_record.symbol[operational_halt_status_message_at] = wire[at]; at = at + 1; operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Operational Halt Status Message is what was written, byte for byte */
+inline equal_operational_halt_status_message(operational_halt_status_message_read, operational_halt_status_message_written) {
+  assert(operational_halt_status_message_read.operational_halt_status == operational_halt_status_message_written.operational_halt_status);
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> assert(operational_halt_status_message_read.timestamp[operational_halt_status_message_at] == operational_halt_status_message_written.timestamp[operational_halt_status_message_at]); operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  operational_halt_status_message_at = 0;
+  do
+  :: operational_halt_status_message_at < 8 -> assert(operational_halt_status_message_read.symbol[operational_halt_status_message_at] == operational_halt_status_message_written.symbol[operational_halt_status_message_at]); operational_halt_status_message_at = operational_halt_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Short Sale Price Test Status Message: 18 bytes -------------------------- */
+
+/* The Short Sale Price Test Message is used to indicate when a short sale price test restriction is in effect for a security. */
+typedef ShortSalePriceTestStatusMessage {
+  byte short_sale_price_test_status;
+  byte timestamp[8];
+  byte symbol[8];
+  byte detail
+};
+
+int short_sale_price_test_status_message_at;
+
+/* every byte of Short Sale Price Test Status Message set to one value */
+inline fill_short_sale_price_test_status_message(short_sale_price_test_status_message_record, short_sale_price_test_status_message_value) {
+  short_sale_price_test_status_message_record.short_sale_price_test_status = short_sale_price_test_status_message_value;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> short_sale_price_test_status_message_record.timestamp[short_sale_price_test_status_message_at] = short_sale_price_test_status_message_value; short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> short_sale_price_test_status_message_record.symbol[short_sale_price_test_status_message_at] = short_sale_price_test_status_message_value; short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  short_sale_price_test_status_message_record.detail = short_sale_price_test_status_message_value;
+  skip
+}
+
+/* each byte of Short Sale Price Test Status Message set to where it lies, so a field read out of place says so */
+inline ramp_short_sale_price_test_status_message(short_sale_price_test_status_message_record, short_sale_price_test_status_message_base) {
+  short_sale_price_test_status_message_record.short_sale_price_test_status = (short_sale_price_test_status_message_base + 0 + 1) % 256;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> short_sale_price_test_status_message_record.timestamp[short_sale_price_test_status_message_at] = (short_sale_price_test_status_message_base + 1 + short_sale_price_test_status_message_at + 1) % 256; short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> short_sale_price_test_status_message_record.symbol[short_sale_price_test_status_message_at] = (short_sale_price_test_status_message_base + 9 + short_sale_price_test_status_message_at + 1) % 256; short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  short_sale_price_test_status_message_record.detail = (short_sale_price_test_status_message_base + 17 + 1) % 256;
+  skip
+}
+
+/* Short Sale Price Test Status Message to the wire, 18 bytes from where the cursor stands */
+inline encode_short_sale_price_test_status_message(short_sale_price_test_status_message_record) {
+  wire[at] = short_sale_price_test_status_message_record.short_sale_price_test_status; at = at + 1;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> wire[at] = short_sale_price_test_status_message_record.timestamp[short_sale_price_test_status_message_at]; at = at + 1; short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> wire[at] = short_sale_price_test_status_message_record.symbol[short_sale_price_test_status_message_at]; at = at + 1; short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = short_sale_price_test_status_message_record.detail; at = at + 1;
+  skip
+}
+
+/* Short Sale Price Test Status Message off the wire, 18 bytes from where the cursor stands */
+inline decode_short_sale_price_test_status_message(short_sale_price_test_status_message_record) {
+  short_sale_price_test_status_message_record.short_sale_price_test_status = wire[at]; at = at + 1;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> short_sale_price_test_status_message_record.timestamp[short_sale_price_test_status_message_at] = wire[at]; at = at + 1; short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> short_sale_price_test_status_message_record.symbol[short_sale_price_test_status_message_at] = wire[at]; at = at + 1; short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  short_sale_price_test_status_message_record.detail = wire[at]; at = at + 1;
+  skip
+}
+
+/* what was read of Short Sale Price Test Status Message is what was written, byte for byte */
+inline equal_short_sale_price_test_status_message(short_sale_price_test_status_message_read, short_sale_price_test_status_message_written) {
+  assert(short_sale_price_test_status_message_read.short_sale_price_test_status == short_sale_price_test_status_message_written.short_sale_price_test_status);
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> assert(short_sale_price_test_status_message_read.timestamp[short_sale_price_test_status_message_at] == short_sale_price_test_status_message_written.timestamp[short_sale_price_test_status_message_at]); short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  short_sale_price_test_status_message_at = 0;
+  do
+  :: short_sale_price_test_status_message_at < 8 -> assert(short_sale_price_test_status_message_read.symbol[short_sale_price_test_status_message_at] == short_sale_price_test_status_message_written.symbol[short_sale_price_test_status_message_at]); short_sale_price_test_status_message_at = short_sale_price_test_status_message_at + 1
+  :: else -> break
+  od;
+  assert(short_sale_price_test_status_message_read.detail == short_sale_price_test_status_message_written.detail);
+  skip
+}
+
+/* ---- Security Event Message: 17 bytes ---------------------------------------- */
+
+/* The Security Event Message is used to indicate events that apply to a security */
+typedef SecurityEventMessage {
+  byte security_event;
+  byte timestamp[8];
+  byte symbol[8]
+};
+
+int security_event_message_at;
+
+/* every byte of Security Event Message set to one value */
+inline fill_security_event_message(security_event_message_record, security_event_message_value) {
+  security_event_message_record.security_event = security_event_message_value;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> security_event_message_record.timestamp[security_event_message_at] = security_event_message_value; security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> security_event_message_record.symbol[security_event_message_at] = security_event_message_value; security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Security Event Message set to where it lies, so a field read out of place says so */
+inline ramp_security_event_message(security_event_message_record, security_event_message_base) {
+  security_event_message_record.security_event = (security_event_message_base + 0 + 1) % 256;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> security_event_message_record.timestamp[security_event_message_at] = (security_event_message_base + 1 + security_event_message_at + 1) % 256; security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> security_event_message_record.symbol[security_event_message_at] = (security_event_message_base + 9 + security_event_message_at + 1) % 256; security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Security Event Message to the wire, 17 bytes from where the cursor stands */
+inline encode_security_event_message(security_event_message_record) {
+  wire[at] = security_event_message_record.security_event; at = at + 1;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> wire[at] = security_event_message_record.timestamp[security_event_message_at]; at = at + 1; security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> wire[at] = security_event_message_record.symbol[security_event_message_at]; at = at + 1; security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Security Event Message off the wire, 17 bytes from where the cursor stands */
+inline decode_security_event_message(security_event_message_record) {
+  security_event_message_record.security_event = wire[at]; at = at + 1;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> security_event_message_record.timestamp[security_event_message_at] = wire[at]; at = at + 1; security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> security_event_message_record.symbol[security_event_message_at] = wire[at]; at = at + 1; security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Security Event Message is what was written, byte for byte */
+inline equal_security_event_message(security_event_message_read, security_event_message_written) {
+  assert(security_event_message_read.security_event == security_event_message_written.security_event);
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> assert(security_event_message_read.timestamp[security_event_message_at] == security_event_message_written.timestamp[security_event_message_at]); security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  security_event_message_at = 0;
+  do
+  :: security_event_message_at < 8 -> assert(security_event_message_read.symbol[security_event_message_at] == security_event_message_written.symbol[security_event_message_at]); security_event_message_at = security_event_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Add Order Message: 37 bytes --------------------------------------------- */
+
+/* A displayed order that has been added to the IEX Book */
+typedef AddOrderMessage {
+  byte side;
+  byte timestamp[8];
+  byte symbol[8];
+  byte order_id[8];
+  byte size[4];
+  byte price[8]
+};
+
+int add_order_message_at;
+
+/* every byte of Add Order Message set to one value */
+inline fill_add_order_message(add_order_message_record, add_order_message_value) {
+  add_order_message_record.side = add_order_message_value;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.timestamp[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.symbol[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.order_id[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 4 -> add_order_message_record.size[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.price[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Add Order Message set to where it lies, so a field read out of place says so */
+inline ramp_add_order_message(add_order_message_record, add_order_message_base) {
+  add_order_message_record.side = (add_order_message_base + 0 + 1) % 256;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.timestamp[add_order_message_at] = (add_order_message_base + 1 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.symbol[add_order_message_at] = (add_order_message_base + 9 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.order_id[add_order_message_at] = (add_order_message_base + 17 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 4 -> add_order_message_record.size[add_order_message_at] = (add_order_message_base + 25 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.price[add_order_message_at] = (add_order_message_base + 29 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Add Order Message to the wire, 37 bytes from where the cursor stands */
+inline encode_add_order_message(add_order_message_record) {
+  wire[at] = add_order_message_record.side; at = at + 1;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> wire[at] = add_order_message_record.timestamp[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> wire[at] = add_order_message_record.symbol[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> wire[at] = add_order_message_record.order_id[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 4 -> wire[at] = add_order_message_record.size[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> wire[at] = add_order_message_record.price[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Add Order Message off the wire, 37 bytes from where the cursor stands */
+inline decode_add_order_message(add_order_message_record) {
+  add_order_message_record.side = wire[at]; at = at + 1;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.timestamp[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.symbol[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.order_id[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 4 -> add_order_message_record.size[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> add_order_message_record.price[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Add Order Message is what was written, byte for byte */
+inline equal_add_order_message(add_order_message_read, add_order_message_written) {
+  assert(add_order_message_read.side == add_order_message_written.side);
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> assert(add_order_message_read.timestamp[add_order_message_at] == add_order_message_written.timestamp[add_order_message_at]); add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> assert(add_order_message_read.symbol[add_order_message_at] == add_order_message_written.symbol[add_order_message_at]); add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> assert(add_order_message_read.order_id[add_order_message_at] == add_order_message_written.order_id[add_order_message_at]); add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 4 -> assert(add_order_message_read.size[add_order_message_at] == add_order_message_written.size[add_order_message_at]); add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  add_order_message_at = 0;
+  do
+  :: add_order_message_at < 8 -> assert(add_order_message_read.price[add_order_message_at] == add_order_message_written.price[add_order_message_at]); add_order_message_at = add_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Order Delete Message: 25 bytes ------------------------------------------ */
+
+/* A displayed order that was removed from the IEX Book */
+typedef OrderDeleteMessage {
+  byte reserved_1;
+  byte timestamp[8];
+  byte symbol[8];
+  byte order_id_reference[8]
+};
+
+int order_delete_message_at;
+
+/* every byte of Order Delete Message set to one value */
+inline fill_order_delete_message(order_delete_message_record, order_delete_message_value) {
+  order_delete_message_record.reserved_1 = order_delete_message_value;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.timestamp[order_delete_message_at] = order_delete_message_value; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.symbol[order_delete_message_at] = order_delete_message_value; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.order_id_reference[order_delete_message_at] = order_delete_message_value; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Order Delete Message set to where it lies, so a field read out of place says so */
+inline ramp_order_delete_message(order_delete_message_record, order_delete_message_base) {
+  order_delete_message_record.reserved_1 = (order_delete_message_base + 0 + 1) % 256;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.timestamp[order_delete_message_at] = (order_delete_message_base + 1 + order_delete_message_at + 1) % 256; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.symbol[order_delete_message_at] = (order_delete_message_base + 9 + order_delete_message_at + 1) % 256; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.order_id_reference[order_delete_message_at] = (order_delete_message_base + 17 + order_delete_message_at + 1) % 256; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Order Delete Message to the wire, 25 bytes from where the cursor stands */
+inline encode_order_delete_message(order_delete_message_record) {
+  wire[at] = order_delete_message_record.reserved_1; at = at + 1;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> wire[at] = order_delete_message_record.timestamp[order_delete_message_at]; at = at + 1; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> wire[at] = order_delete_message_record.symbol[order_delete_message_at]; at = at + 1; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> wire[at] = order_delete_message_record.order_id_reference[order_delete_message_at]; at = at + 1; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Order Delete Message off the wire, 25 bytes from where the cursor stands */
+inline decode_order_delete_message(order_delete_message_record) {
+  order_delete_message_record.reserved_1 = wire[at]; at = at + 1;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.timestamp[order_delete_message_at] = wire[at]; at = at + 1; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.symbol[order_delete_message_at] = wire[at]; at = at + 1; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> order_delete_message_record.order_id_reference[order_delete_message_at] = wire[at]; at = at + 1; order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Order Delete Message is what was written, byte for byte */
+inline equal_order_delete_message(order_delete_message_read, order_delete_message_written) {
+  assert(order_delete_message_read.reserved_1 == order_delete_message_written.reserved_1);
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> assert(order_delete_message_read.timestamp[order_delete_message_at] == order_delete_message_written.timestamp[order_delete_message_at]); order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> assert(order_delete_message_read.symbol[order_delete_message_at] == order_delete_message_written.symbol[order_delete_message_at]); order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  order_delete_message_at = 0;
+  do
+  :: order_delete_message_at < 8 -> assert(order_delete_message_read.order_id_reference[order_delete_message_at] == order_delete_message_written.order_id_reference[order_delete_message_at]); order_delete_message_at = order_delete_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Clear Book Message: 17 bytes -------------------------------------------- */
+
+/* This message is used to indicate that the IEX Book for a symbol has been cleared of all orders */
+typedef ClearBookMessage {
+  byte reserved_1;
+  byte timestamp[8];
+  byte symbol[8]
+};
+
+int clear_book_message_at;
+
+/* every byte of Clear Book Message set to one value */
+inline fill_clear_book_message(clear_book_message_record, clear_book_message_value) {
+  clear_book_message_record.reserved_1 = clear_book_message_value;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> clear_book_message_record.timestamp[clear_book_message_at] = clear_book_message_value; clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> clear_book_message_record.symbol[clear_book_message_at] = clear_book_message_value; clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Clear Book Message set to where it lies, so a field read out of place says so */
+inline ramp_clear_book_message(clear_book_message_record, clear_book_message_base) {
+  clear_book_message_record.reserved_1 = (clear_book_message_base + 0 + 1) % 256;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> clear_book_message_record.timestamp[clear_book_message_at] = (clear_book_message_base + 1 + clear_book_message_at + 1) % 256; clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> clear_book_message_record.symbol[clear_book_message_at] = (clear_book_message_base + 9 + clear_book_message_at + 1) % 256; clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Clear Book Message to the wire, 17 bytes from where the cursor stands */
+inline encode_clear_book_message(clear_book_message_record) {
+  wire[at] = clear_book_message_record.reserved_1; at = at + 1;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> wire[at] = clear_book_message_record.timestamp[clear_book_message_at]; at = at + 1; clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> wire[at] = clear_book_message_record.symbol[clear_book_message_at]; at = at + 1; clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Clear Book Message off the wire, 17 bytes from where the cursor stands */
+inline decode_clear_book_message(clear_book_message_record) {
+  clear_book_message_record.reserved_1 = wire[at]; at = at + 1;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> clear_book_message_record.timestamp[clear_book_message_at] = wire[at]; at = at + 1; clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> clear_book_message_record.symbol[clear_book_message_at] = wire[at]; at = at + 1; clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Clear Book Message is what was written, byte for byte */
+inline equal_clear_book_message(clear_book_message_read, clear_book_message_written) {
+  assert(clear_book_message_read.reserved_1 == clear_book_message_written.reserved_1);
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> assert(clear_book_message_read.timestamp[clear_book_message_at] == clear_book_message_written.timestamp[clear_book_message_at]); clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  clear_book_message_at = 0;
+  do
+  :: clear_book_message_at < 8 -> assert(clear_book_message_read.symbol[clear_book_message_at] == clear_book_message_written.symbol[clear_book_message_at]); clear_book_message_at = clear_book_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Snapshot End Message: 8 bytes ------------------------------------------- */
+
+/* Final message of a Snapshot Response, carries the sequence number at which the snapshot was created */
+typedef SnapshotEndMessage {
+  byte snapshot_sequence_number[8]
+};
+
+int snapshot_end_message_at;
+
+/* every byte of Snapshot End Message set to one value */
+inline fill_snapshot_end_message(snapshot_end_message_record, snapshot_end_message_value) {
+  snapshot_end_message_at = 0;
+  do
+  :: snapshot_end_message_at < 8 -> snapshot_end_message_record.snapshot_sequence_number[snapshot_end_message_at] = snapshot_end_message_value; snapshot_end_message_at = snapshot_end_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Snapshot End Message set to where it lies, so a field read out of place says so */
+inline ramp_snapshot_end_message(snapshot_end_message_record, snapshot_end_message_base) {
+  snapshot_end_message_at = 0;
+  do
+  :: snapshot_end_message_at < 8 -> snapshot_end_message_record.snapshot_sequence_number[snapshot_end_message_at] = (snapshot_end_message_base + 0 + snapshot_end_message_at + 1) % 256; snapshot_end_message_at = snapshot_end_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Snapshot End Message to the wire, 8 bytes from where the cursor stands */
+inline encode_snapshot_end_message(snapshot_end_message_record) {
+  snapshot_end_message_at = 0;
+  do
+  :: snapshot_end_message_at < 8 -> wire[at] = snapshot_end_message_record.snapshot_sequence_number[snapshot_end_message_at]; at = at + 1; snapshot_end_message_at = snapshot_end_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Snapshot End Message off the wire, 8 bytes from where the cursor stands */
+inline decode_snapshot_end_message(snapshot_end_message_record) {
+  snapshot_end_message_at = 0;
+  do
+  :: snapshot_end_message_at < 8 -> snapshot_end_message_record.snapshot_sequence_number[snapshot_end_message_at] = wire[at]; at = at + 1; snapshot_end_message_at = snapshot_end_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Snapshot End Message is what was written, byte for byte */
+inline equal_snapshot_end_message(snapshot_end_message_read, snapshot_end_message_written) {
+  snapshot_end_message_at = 0;
+  do
+  :: snapshot_end_message_at < 8 -> assert(snapshot_end_message_read.snapshot_sequence_number[snapshot_end_message_at] == snapshot_end_message_written.snapshot_sequence_number[snapshot_end_message_at]); snapshot_end_message_at = snapshot_end_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- What spin checks -------------------------------------------------------- */
+
+/* Message Header: encoded, read back, and compared */
+proctype check_message_header() {
+  MessageHeader message_header_sent;
+  MessageHeader message_header_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_message_header(message_header_sent, 0)
+  :: pattern == 1 -> fill_message_header(message_header_sent, 32)
+  :: pattern == 2 -> fill_message_header(message_header_sent, 255)
+  :: else -> ramp_message_header(message_header_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_message_header(message_header_sent);
+    assert(at == 3);
+    at = 0;
+    decode_message_header(message_header_got);
+    assert(at == 3);
+    equal_message_header(message_header_got, message_header_sent)
+  }
+}
+
+/* Snapshot Request Message: encoded, read back, and compared */
+proctype check_snapshot_request_message() {
+  SnapshotRequestMessage snapshot_request_message_sent;
+  SnapshotRequestMessage snapshot_request_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_snapshot_request_message(snapshot_request_message_sent, 0)
+  :: pattern == 1 -> fill_snapshot_request_message(snapshot_request_message_sent, 32)
+  :: pattern == 2 -> fill_snapshot_request_message(snapshot_request_message_sent, 255)
+  :: else -> ramp_snapshot_request_message(snapshot_request_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_snapshot_request_message(snapshot_request_message_sent);
+    assert(at == 56);
+    at = 0;
+    decode_snapshot_request_message(snapshot_request_message_got);
+    assert(at == 56);
+    equal_snapshot_request_message(snapshot_request_message_got, snapshot_request_message_sent)
+  }
+}
+
+/* Error Response Message: encoded, read back, and compared */
+proctype check_error_response_message() {
+  ErrorResponseMessage error_response_message_sent;
+  ErrorResponseMessage error_response_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_error_response_message(error_response_message_sent, 0)
+  :: pattern == 1 -> fill_error_response_message(error_response_message_sent, 32)
+  :: pattern == 2 -> fill_error_response_message(error_response_message_sent, 255)
+  :: else -> ramp_error_response_message(error_response_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_error_response_message(error_response_message_sent);
+    assert(at == 1);
+    at = 0;
+    decode_error_response_message(error_response_message_got);
+    assert(at == 1);
+    equal_error_response_message(error_response_message_got, error_response_message_sent)
+  }
+}
+
+/* Snapshot Start Message: encoded, read back, and compared */
+proctype check_snapshot_start_message() {
+  SnapshotStartMessage snapshot_start_message_sent;
+  SnapshotStartMessage snapshot_start_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_snapshot_start_message(snapshot_start_message_sent, 0)
+  :: pattern == 1 -> fill_snapshot_start_message(snapshot_start_message_sent, 32)
+  :: pattern == 2 -> fill_snapshot_start_message(snapshot_start_message_sent, 255)
+  :: else -> ramp_snapshot_start_message(snapshot_start_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_snapshot_start_message(snapshot_start_message_sent);
+    assert(at == 8);
+    at = 0;
+    decode_snapshot_start_message(snapshot_start_message_got);
+    assert(at == 8);
+    equal_snapshot_start_message(snapshot_start_message_got, snapshot_start_message_sent)
+  }
+}
+
+/* Iextp Header: encoded, read back, and compared */
+proctype check_iextp_header() {
+  IextpHeader iextp_header_sent;
+  IextpHeader iextp_header_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_iextp_header(iextp_header_sent, 0)
+  :: pattern == 1 -> fill_iextp_header(iextp_header_sent, 32)
+  :: pattern == 2 -> fill_iextp_header(iextp_header_sent, 255)
+  :: else -> ramp_iextp_header(iextp_header_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_iextp_header(iextp_header_sent);
+    assert(at == 40);
+    at = 0;
+    decode_iextp_header(iextp_header_got);
+    assert(at == 40);
+    equal_iextp_header(iextp_header_got, iextp_header_sent)
+  }
+}
+
+/* System Event Message: encoded, read back, and compared */
+proctype check_system_event_message() {
+  SystemEventMessage system_event_message_sent;
+  SystemEventMessage system_event_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_system_event_message(system_event_message_sent, 0)
+  :: pattern == 1 -> fill_system_event_message(system_event_message_sent, 32)
+  :: pattern == 2 -> fill_system_event_message(system_event_message_sent, 255)
+  :: else -> ramp_system_event_message(system_event_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_system_event_message(system_event_message_sent);
+    assert(at == 9);
+    at = 0;
+    decode_system_event_message(system_event_message_got);
+    assert(at == 9);
+    equal_system_event_message(system_event_message_got, system_event_message_sent)
+  }
+}
+
+/* Trading Status Message: encoded, read back, and compared */
+proctype check_trading_status_message() {
+  TradingStatusMessage trading_status_message_sent;
+  TradingStatusMessage trading_status_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_trading_status_message(trading_status_message_sent, 0)
+  :: pattern == 1 -> fill_trading_status_message(trading_status_message_sent, 32)
+  :: pattern == 2 -> fill_trading_status_message(trading_status_message_sent, 255)
+  :: else -> ramp_trading_status_message(trading_status_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_trading_status_message(trading_status_message_sent);
+    assert(at == 21);
+    at = 0;
+    decode_trading_status_message(trading_status_message_got);
+    assert(at == 21);
+    equal_trading_status_message(trading_status_message_got, trading_status_message_sent)
+  }
+}
+
+/* Retail Liquidity Indicator Message: encoded, read back, and compared */
+proctype check_retail_liquidity_indicator_message() {
+  RetailLiquidityIndicatorMessage retail_liquidity_indicator_message_sent;
+  RetailLiquidityIndicatorMessage retail_liquidity_indicator_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_retail_liquidity_indicator_message(retail_liquidity_indicator_message_sent, 0)
+  :: pattern == 1 -> fill_retail_liquidity_indicator_message(retail_liquidity_indicator_message_sent, 32)
+  :: pattern == 2 -> fill_retail_liquidity_indicator_message(retail_liquidity_indicator_message_sent, 255)
+  :: else -> ramp_retail_liquidity_indicator_message(retail_liquidity_indicator_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_retail_liquidity_indicator_message(retail_liquidity_indicator_message_sent);
+    assert(at == 17);
+    at = 0;
+    decode_retail_liquidity_indicator_message(retail_liquidity_indicator_message_got);
+    assert(at == 17);
+    equal_retail_liquidity_indicator_message(retail_liquidity_indicator_message_got, retail_liquidity_indicator_message_sent)
+  }
+}
+
+/* Operational Halt Status Message: encoded, read back, and compared */
+proctype check_operational_halt_status_message() {
+  OperationalHaltStatusMessage operational_halt_status_message_sent;
+  OperationalHaltStatusMessage operational_halt_status_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_operational_halt_status_message(operational_halt_status_message_sent, 0)
+  :: pattern == 1 -> fill_operational_halt_status_message(operational_halt_status_message_sent, 32)
+  :: pattern == 2 -> fill_operational_halt_status_message(operational_halt_status_message_sent, 255)
+  :: else -> ramp_operational_halt_status_message(operational_halt_status_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_operational_halt_status_message(operational_halt_status_message_sent);
+    assert(at == 17);
+    at = 0;
+    decode_operational_halt_status_message(operational_halt_status_message_got);
+    assert(at == 17);
+    equal_operational_halt_status_message(operational_halt_status_message_got, operational_halt_status_message_sent)
+  }
+}
+
+/* Short Sale Price Test Status Message: encoded, read back, and compared */
+proctype check_short_sale_price_test_status_message() {
+  ShortSalePriceTestStatusMessage short_sale_price_test_status_message_sent;
+  ShortSalePriceTestStatusMessage short_sale_price_test_status_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_short_sale_price_test_status_message(short_sale_price_test_status_message_sent, 0)
+  :: pattern == 1 -> fill_short_sale_price_test_status_message(short_sale_price_test_status_message_sent, 32)
+  :: pattern == 2 -> fill_short_sale_price_test_status_message(short_sale_price_test_status_message_sent, 255)
+  :: else -> ramp_short_sale_price_test_status_message(short_sale_price_test_status_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_short_sale_price_test_status_message(short_sale_price_test_status_message_sent);
+    assert(at == 18);
+    at = 0;
+    decode_short_sale_price_test_status_message(short_sale_price_test_status_message_got);
+    assert(at == 18);
+    equal_short_sale_price_test_status_message(short_sale_price_test_status_message_got, short_sale_price_test_status_message_sent)
+  }
+}
+
+/* Security Event Message: encoded, read back, and compared */
+proctype check_security_event_message() {
+  SecurityEventMessage security_event_message_sent;
+  SecurityEventMessage security_event_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_security_event_message(security_event_message_sent, 0)
+  :: pattern == 1 -> fill_security_event_message(security_event_message_sent, 32)
+  :: pattern == 2 -> fill_security_event_message(security_event_message_sent, 255)
+  :: else -> ramp_security_event_message(security_event_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_security_event_message(security_event_message_sent);
+    assert(at == 17);
+    at = 0;
+    decode_security_event_message(security_event_message_got);
+    assert(at == 17);
+    equal_security_event_message(security_event_message_got, security_event_message_sent)
+  }
+}
+
+/* Add Order Message: encoded, read back, and compared */
+proctype check_add_order_message() {
+  AddOrderMessage add_order_message_sent;
+  AddOrderMessage add_order_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_add_order_message(add_order_message_sent, 0)
+  :: pattern == 1 -> fill_add_order_message(add_order_message_sent, 32)
+  :: pattern == 2 -> fill_add_order_message(add_order_message_sent, 255)
+  :: else -> ramp_add_order_message(add_order_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_add_order_message(add_order_message_sent);
+    assert(at == 37);
+    at = 0;
+    decode_add_order_message(add_order_message_got);
+    assert(at == 37);
+    equal_add_order_message(add_order_message_got, add_order_message_sent)
+  }
+}
+
+/* Order Delete Message: encoded, read back, and compared */
+proctype check_order_delete_message() {
+  OrderDeleteMessage order_delete_message_sent;
+  OrderDeleteMessage order_delete_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_order_delete_message(order_delete_message_sent, 0)
+  :: pattern == 1 -> fill_order_delete_message(order_delete_message_sent, 32)
+  :: pattern == 2 -> fill_order_delete_message(order_delete_message_sent, 255)
+  :: else -> ramp_order_delete_message(order_delete_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_order_delete_message(order_delete_message_sent);
+    assert(at == 25);
+    at = 0;
+    decode_order_delete_message(order_delete_message_got);
+    assert(at == 25);
+    equal_order_delete_message(order_delete_message_got, order_delete_message_sent)
+  }
+}
+
+/* Clear Book Message: encoded, read back, and compared */
+proctype check_clear_book_message() {
+  ClearBookMessage clear_book_message_sent;
+  ClearBookMessage clear_book_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_clear_book_message(clear_book_message_sent, 0)
+  :: pattern == 1 -> fill_clear_book_message(clear_book_message_sent, 32)
+  :: pattern == 2 -> fill_clear_book_message(clear_book_message_sent, 255)
+  :: else -> ramp_clear_book_message(clear_book_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_clear_book_message(clear_book_message_sent);
+    assert(at == 17);
+    at = 0;
+    decode_clear_book_message(clear_book_message_got);
+    assert(at == 17);
+    equal_clear_book_message(clear_book_message_got, clear_book_message_sent)
+  }
+}
+
+/* Snapshot End Message: encoded, read back, and compared */
+proctype check_snapshot_end_message() {
+  SnapshotEndMessage snapshot_end_message_sent;
+  SnapshotEndMessage snapshot_end_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_snapshot_end_message(snapshot_end_message_sent, 0)
+  :: pattern == 1 -> fill_snapshot_end_message(snapshot_end_message_sent, 32)
+  :: pattern == 2 -> fill_snapshot_end_message(snapshot_end_message_sent, 255)
+  :: else -> ramp_snapshot_end_message(snapshot_end_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_snapshot_end_message(snapshot_end_message_sent);
+    assert(at == 8);
+    at = 0;
+    decode_snapshot_end_message(snapshot_end_message_got);
+    assert(at == 8);
+    equal_snapshot_end_message(snapshot_end_message_got, snapshot_end_message_sent)
+  }
+}
+
+/* one checking process, chosen nondeterministically, so every one of them runs */
+init {
+  if
+  :: run check_message_header()
+  :: run check_snapshot_request_message()
+  :: run check_error_response_message()
+  :: run check_snapshot_start_message()
+  :: run check_iextp_header()
+  :: run check_system_event_message()
+  :: run check_trading_status_message()
+  :: run check_retail_liquidity_indicator_message()
+  :: run check_operational_halt_status_message()
+  :: run check_short_sale_price_test_status_message()
+  :: run check_security_event_message()
+  :: run check_add_order_message()
+  :: run check_order_delete_message()
+  :: run check_clear_book_message()
+  :: run check_snapshot_end_message()
+  fi
+}

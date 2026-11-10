@@ -1,0 +1,2366 @@
+/*
+ * Chicago Board Options Exchange OOF Multicast Top
+ *
+ * Generated from the binary model. Every record is a run of fields, and spin checks the two
+ * claims the model's rules call for: that encoding a record writes the bytes its fields say,
+ * and that decoding those bytes gives the record back and consumes exactly what was written.
+ *
+ * A field is the bytes it occupies. Nothing is read as an integer: spin evaluates an int in
+ * 32 bits, as TLC does, so a field wider than that has no range a checker could enumerate,
+ * and bytes are exact at any width. No rule stated here depends on a value.
+ *
+ * Each record is checked at four patterns: every byte zero, every byte the space a text
+ * field pads with, every byte with all bits set, and the ramp - each byte holding where it
+ * lies, which is what catches a field written or read out of place.
+ *
+ * What this definition does not state, and the model does:
+ *   - the dispatch that chooses a message by its type
+ *   - a run filling what frames it
+ *   - a run counted by a field
+ *   - a field read in bits
+ *
+ * License: MIT No Attribution
+ */
+
+/* ---- The wire ---------------------------------------------------------------- */
+
+/* the widest record this protocol states, which is the most a check writes at once */
+#define WIRE 58
+
+/* the bytes a record is written to and read back from */
+byte wire[WIRE];
+
+/* where the next byte is written or read, so a nested record carries on from its holder */
+int at;
+
+/* ---- Packet Header: 8 bytes -------------------------------------------------- */
+
+typedef PacketHeader {
+  byte length[2];
+  byte message_count;
+  byte unit;
+  byte sequence[4]
+};
+
+int packet_header_at;
+
+/* every byte of Packet Header set to one value */
+inline fill_packet_header(packet_header_record, packet_header_value) {
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 2 -> packet_header_record.length[packet_header_at] = packet_header_value; packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  packet_header_record.message_count = packet_header_value;
+  packet_header_record.unit = packet_header_value;
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 4 -> packet_header_record.sequence[packet_header_at] = packet_header_value; packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Packet Header set to where it lies, so a field read out of place says so */
+inline ramp_packet_header(packet_header_record, packet_header_base) {
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 2 -> packet_header_record.length[packet_header_at] = (packet_header_base + 0 + packet_header_at + 1) % 256; packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  packet_header_record.message_count = (packet_header_base + 2 + 1) % 256;
+  packet_header_record.unit = (packet_header_base + 3 + 1) % 256;
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 4 -> packet_header_record.sequence[packet_header_at] = (packet_header_base + 4 + packet_header_at + 1) % 256; packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Packet Header to the wire, 8 bytes from where the cursor stands */
+inline encode_packet_header(packet_header_record) {
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 2 -> wire[at] = packet_header_record.length[packet_header_at]; at = at + 1; packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  wire[at] = packet_header_record.message_count; at = at + 1;
+  wire[at] = packet_header_record.unit; at = at + 1;
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 4 -> wire[at] = packet_header_record.sequence[packet_header_at]; at = at + 1; packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Packet Header off the wire, 8 bytes from where the cursor stands */
+inline decode_packet_header(packet_header_record) {
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 2 -> packet_header_record.length[packet_header_at] = wire[at]; at = at + 1; packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  packet_header_record.message_count = wire[at]; at = at + 1;
+  packet_header_record.unit = wire[at]; at = at + 1;
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 4 -> packet_header_record.sequence[packet_header_at] = wire[at]; at = at + 1; packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Packet Header is what was written, byte for byte */
+inline equal_packet_header(packet_header_read, packet_header_written) {
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 2 -> assert(packet_header_read.length[packet_header_at] == packet_header_written.length[packet_header_at]); packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  assert(packet_header_read.message_count == packet_header_written.message_count);
+  assert(packet_header_read.unit == packet_header_written.unit);
+  packet_header_at = 0;
+  do
+  :: packet_header_at < 4 -> assert(packet_header_read.sequence[packet_header_at] == packet_header_written.sequence[packet_header_at]); packet_header_at = packet_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Message Header: 2 bytes ------------------------------------------------- */
+
+typedef MessageHeader {
+  byte message_length;
+  byte message_type
+};
+
+/* every byte of Message Header set to one value */
+inline fill_message_header(message_header_record, message_header_value) {
+  message_header_record.message_length = message_header_value;
+  message_header_record.message_type = message_header_value;
+  skip
+}
+
+/* each byte of Message Header set to where it lies, so a field read out of place says so */
+inline ramp_message_header(message_header_record, message_header_base) {
+  message_header_record.message_length = (message_header_base + 0 + 1) % 256;
+  message_header_record.message_type = (message_header_base + 1 + 1) % 256;
+  skip
+}
+
+/* Message Header to the wire, 2 bytes from where the cursor stands */
+inline encode_message_header(message_header_record) {
+  wire[at] = message_header_record.message_length; at = at + 1;
+  wire[at] = message_header_record.message_type; at = at + 1;
+  skip
+}
+
+/* Message Header off the wire, 2 bytes from where the cursor stands */
+inline decode_message_header(message_header_record) {
+  message_header_record.message_length = wire[at]; at = at + 1;
+  message_header_record.message_type = wire[at]; at = at + 1;
+  skip
+}
+
+/* what was read of Message Header is what was written, byte for byte */
+inline equal_message_header(message_header_read, message_header_written) {
+  assert(message_header_read.message_length == message_header_written.message_length);
+  assert(message_header_read.message_type == message_header_written.message_type);
+  skip
+}
+
+/* ---- Time Reference Message: 16 bytes ---------------------------------------- */
+
+/* The Time Reference message is used to provide a midnight reference point for recipients of the feed. It is sent whenever the system starts up and when the system crosses a midnight boundary. All subsequent Time messages for the same unit will the use the last Midnight Reference until another Time Reference message is received for that unit. The Time Reference message includes the Trade Date, so most other sequenced messages will not include that information. Time Reference messages will be included in a spin response. */
+typedef TimeReferenceMessage {
+  byte midnight_reference[4];
+  byte time_reference[4];
+  byte time_offset[4];
+  byte trade_date[4]
+};
+
+int time_reference_message_at;
+
+/* every byte of Time Reference Message set to one value */
+inline fill_time_reference_message(time_reference_message_record, time_reference_message_value) {
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.midnight_reference[time_reference_message_at] = time_reference_message_value; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.time_reference[time_reference_message_at] = time_reference_message_value; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.time_offset[time_reference_message_at] = time_reference_message_value; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.trade_date[time_reference_message_at] = time_reference_message_value; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Time Reference Message set to where it lies, so a field read out of place says so */
+inline ramp_time_reference_message(time_reference_message_record, time_reference_message_base) {
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.midnight_reference[time_reference_message_at] = (time_reference_message_base + 0 + time_reference_message_at + 1) % 256; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.time_reference[time_reference_message_at] = (time_reference_message_base + 4 + time_reference_message_at + 1) % 256; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.time_offset[time_reference_message_at] = (time_reference_message_base + 8 + time_reference_message_at + 1) % 256; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.trade_date[time_reference_message_at] = (time_reference_message_base + 12 + time_reference_message_at + 1) % 256; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Time Reference Message to the wire, 16 bytes from where the cursor stands */
+inline encode_time_reference_message(time_reference_message_record) {
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> wire[at] = time_reference_message_record.midnight_reference[time_reference_message_at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> wire[at] = time_reference_message_record.time_reference[time_reference_message_at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> wire[at] = time_reference_message_record.time_offset[time_reference_message_at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> wire[at] = time_reference_message_record.trade_date[time_reference_message_at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Time Reference Message off the wire, 16 bytes from where the cursor stands */
+inline decode_time_reference_message(time_reference_message_record) {
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.midnight_reference[time_reference_message_at] = wire[at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.time_reference[time_reference_message_at] = wire[at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.time_offset[time_reference_message_at] = wire[at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> time_reference_message_record.trade_date[time_reference_message_at] = wire[at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Time Reference Message is what was written, byte for byte */
+inline equal_time_reference_message(time_reference_message_read, time_reference_message_written) {
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> assert(time_reference_message_read.midnight_reference[time_reference_message_at] == time_reference_message_written.midnight_reference[time_reference_message_at]); time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> assert(time_reference_message_read.time_reference[time_reference_message_at] == time_reference_message_written.time_reference[time_reference_message_at]); time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> assert(time_reference_message_read.time_offset[time_reference_message_at] == time_reference_message_written.time_offset[time_reference_message_at]); time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  time_reference_message_at = 0;
+  do
+  :: time_reference_message_at < 4 -> assert(time_reference_message_read.trade_date[time_reference_message_at] == time_reference_message_written.trade_date[time_reference_message_at]); time_reference_message_at = time_reference_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Time Message: 8 bytes --------------------------------------------------- */
+
+/* A Time message is immediately generated and sent when there is a TOP event for a given clock second. If there is no new sequenced TOP event for a given clock second, then no Time message is sent for that second. All subsequent Time Offset fields for the same unit will use the new Time value as the base until another Time message is received for the same unit. The Time field is the number of seconds relative to midnight Central Time, which is provided in the Time Reference message. The Time message also includes the Epoch Time field, which is the current time represented as the number of whole seconds since the Epoch (Midnight January 1, 1970). */
+typedef TimeMessage {
+  byte time_reference[4];
+  byte epoch_time[4]
+};
+
+int time_message_at;
+
+/* every byte of Time Message set to one value */
+inline fill_time_message(time_message_record, time_message_value) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.time_reference[time_message_at] = time_message_value; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.epoch_time[time_message_at] = time_message_value; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Time Message set to where it lies, so a field read out of place says so */
+inline ramp_time_message(time_message_record, time_message_base) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.time_reference[time_message_at] = (time_message_base + 0 + time_message_at + 1) % 256; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.epoch_time[time_message_at] = (time_message_base + 4 + time_message_at + 1) % 256; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Time Message to the wire, 8 bytes from where the cursor stands */
+inline encode_time_message(time_message_record) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> wire[at] = time_message_record.time_reference[time_message_at]; at = at + 1; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> wire[at] = time_message_record.epoch_time[time_message_at]; at = at + 1; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Time Message off the wire, 8 bytes from where the cursor stands */
+inline decode_time_message(time_message_record) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.time_reference[time_message_at] = wire[at]; at = at + 1; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.epoch_time[time_message_at] = wire[at]; at = at + 1; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Time Message is what was written, byte for byte */
+inline equal_time_message(time_message_read, time_message_written) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> assert(time_message_read.time_reference[time_message_at] == time_message_written.time_reference[time_message_at]); time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> assert(time_message_read.epoch_time[time_message_at] == time_message_written.epoch_time[time_message_at]); time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Unit Clear Message: 4 bytes --------------------------------------------- */
+
+/* The Unit Clear message instructs feed recipients to clear all market snapshots for the CFE book in the unit specified in the Sequenced Unit Header message header. It would be distributed in rare recovery events such as a data center fail-over. */
+typedef UnitClearMessage {
+  byte time_offset[4]
+};
+
+int unit_clear_message_at;
+
+/* every byte of Unit Clear Message set to one value */
+inline fill_unit_clear_message(unit_clear_message_record, unit_clear_message_value) {
+  unit_clear_message_at = 0;
+  do
+  :: unit_clear_message_at < 4 -> unit_clear_message_record.time_offset[unit_clear_message_at] = unit_clear_message_value; unit_clear_message_at = unit_clear_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Unit Clear Message set to where it lies, so a field read out of place says so */
+inline ramp_unit_clear_message(unit_clear_message_record, unit_clear_message_base) {
+  unit_clear_message_at = 0;
+  do
+  :: unit_clear_message_at < 4 -> unit_clear_message_record.time_offset[unit_clear_message_at] = (unit_clear_message_base + 0 + unit_clear_message_at + 1) % 256; unit_clear_message_at = unit_clear_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Unit Clear Message to the wire, 4 bytes from where the cursor stands */
+inline encode_unit_clear_message(unit_clear_message_record) {
+  unit_clear_message_at = 0;
+  do
+  :: unit_clear_message_at < 4 -> wire[at] = unit_clear_message_record.time_offset[unit_clear_message_at]; at = at + 1; unit_clear_message_at = unit_clear_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Unit Clear Message off the wire, 4 bytes from where the cursor stands */
+inline decode_unit_clear_message(unit_clear_message_record) {
+  unit_clear_message_at = 0;
+  do
+  :: unit_clear_message_at < 4 -> unit_clear_message_record.time_offset[unit_clear_message_at] = wire[at]; at = at + 1; unit_clear_message_at = unit_clear_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Unit Clear Message is what was written, byte for byte */
+inline equal_unit_clear_message(unit_clear_message_read, unit_clear_message_written) {
+  unit_clear_message_at = 0;
+  do
+  :: unit_clear_message_at < 4 -> assert(unit_clear_message_read.time_offset[unit_clear_message_at] == unit_clear_message_written.time_offset[unit_clear_message_at]); unit_clear_message_at = unit_clear_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Oof Symbol Mapping Message: 58 bytes ------------------------------------ */
+
+/* An OOF Symbol Mapping message is used to map the 6 character multicast feed symbol field and options on futures name to the option contract and future underlying. The option contract is comprised of the strike price, put/call flag, options expiration date, and future underlying. The future underlying is comprised of the futures product and futures expiration date, which map to a futures symbol. This message can be sent either as a sequenced message or as an unsequenced message. It is sent as a sequenced message at system startup upon the beginning of a trading session or if an instrument is created or modified during a trading day. A new sequenced message may also be sent for a symbol that does not visibly change any attribute. A continuous loop of unsequenced symbol mapping messages (sequence = 0) is sent throughout the day at variable rates as bandwidth allows. The Time Offset field should be ignored on unsequenced messages. OOF Symbol Mapping messages are included in a spin response and will be disseminated before Complex Instrument Definition Expanded messages. */
+typedef OofSymbolMappingMessage {
+  byte time_offset[4];
+  byte feed_symbol[6];
+  byte futures_product[8];
+  byte futures_expiration[4];
+  byte futures_symbol[6];
+  byte strike_price[8];
+  byte call_put_indicator;
+  byte options_expiration[4];
+  byte options_on_futures_name[16];
+  byte symbol_condition
+};
+
+int oof_symbol_mapping_message_at;
+
+/* every byte of Oof Symbol Mapping Message set to one value */
+inline fill_oof_symbol_mapping_message(oof_symbol_mapping_message_record, oof_symbol_mapping_message_value) {
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.time_offset[oof_symbol_mapping_message_at] = oof_symbol_mapping_message_value; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> oof_symbol_mapping_message_record.feed_symbol[oof_symbol_mapping_message_at] = oof_symbol_mapping_message_value; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> oof_symbol_mapping_message_record.futures_product[oof_symbol_mapping_message_at] = oof_symbol_mapping_message_value; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.futures_expiration[oof_symbol_mapping_message_at] = oof_symbol_mapping_message_value; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> oof_symbol_mapping_message_record.futures_symbol[oof_symbol_mapping_message_at] = oof_symbol_mapping_message_value; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> oof_symbol_mapping_message_record.strike_price[oof_symbol_mapping_message_at] = oof_symbol_mapping_message_value; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_record.call_put_indicator = oof_symbol_mapping_message_value;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.options_expiration[oof_symbol_mapping_message_at] = oof_symbol_mapping_message_value; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 16 -> oof_symbol_mapping_message_record.options_on_futures_name[oof_symbol_mapping_message_at] = oof_symbol_mapping_message_value; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_record.symbol_condition = oof_symbol_mapping_message_value;
+  skip
+}
+
+/* each byte of Oof Symbol Mapping Message set to where it lies, so a field read out of place says so */
+inline ramp_oof_symbol_mapping_message(oof_symbol_mapping_message_record, oof_symbol_mapping_message_base) {
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.time_offset[oof_symbol_mapping_message_at] = (oof_symbol_mapping_message_base + 0 + oof_symbol_mapping_message_at + 1) % 256; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> oof_symbol_mapping_message_record.feed_symbol[oof_symbol_mapping_message_at] = (oof_symbol_mapping_message_base + 4 + oof_symbol_mapping_message_at + 1) % 256; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> oof_symbol_mapping_message_record.futures_product[oof_symbol_mapping_message_at] = (oof_symbol_mapping_message_base + 10 + oof_symbol_mapping_message_at + 1) % 256; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.futures_expiration[oof_symbol_mapping_message_at] = (oof_symbol_mapping_message_base + 18 + oof_symbol_mapping_message_at + 1) % 256; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> oof_symbol_mapping_message_record.futures_symbol[oof_symbol_mapping_message_at] = (oof_symbol_mapping_message_base + 22 + oof_symbol_mapping_message_at + 1) % 256; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> oof_symbol_mapping_message_record.strike_price[oof_symbol_mapping_message_at] = (oof_symbol_mapping_message_base + 28 + oof_symbol_mapping_message_at + 1) % 256; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_record.call_put_indicator = (oof_symbol_mapping_message_base + 36 + 1) % 256;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.options_expiration[oof_symbol_mapping_message_at] = (oof_symbol_mapping_message_base + 37 + oof_symbol_mapping_message_at + 1) % 256; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 16 -> oof_symbol_mapping_message_record.options_on_futures_name[oof_symbol_mapping_message_at] = (oof_symbol_mapping_message_base + 41 + oof_symbol_mapping_message_at + 1) % 256; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_record.symbol_condition = (oof_symbol_mapping_message_base + 57 + 1) % 256;
+  skip
+}
+
+/* Oof Symbol Mapping Message to the wire, 58 bytes from where the cursor stands */
+inline encode_oof_symbol_mapping_message(oof_symbol_mapping_message_record) {
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> wire[at] = oof_symbol_mapping_message_record.time_offset[oof_symbol_mapping_message_at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> wire[at] = oof_symbol_mapping_message_record.feed_symbol[oof_symbol_mapping_message_at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> wire[at] = oof_symbol_mapping_message_record.futures_product[oof_symbol_mapping_message_at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> wire[at] = oof_symbol_mapping_message_record.futures_expiration[oof_symbol_mapping_message_at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> wire[at] = oof_symbol_mapping_message_record.futures_symbol[oof_symbol_mapping_message_at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> wire[at] = oof_symbol_mapping_message_record.strike_price[oof_symbol_mapping_message_at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = oof_symbol_mapping_message_record.call_put_indicator; at = at + 1;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> wire[at] = oof_symbol_mapping_message_record.options_expiration[oof_symbol_mapping_message_at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 16 -> wire[at] = oof_symbol_mapping_message_record.options_on_futures_name[oof_symbol_mapping_message_at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = oof_symbol_mapping_message_record.symbol_condition; at = at + 1;
+  skip
+}
+
+/* Oof Symbol Mapping Message off the wire, 58 bytes from where the cursor stands */
+inline decode_oof_symbol_mapping_message(oof_symbol_mapping_message_record) {
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.time_offset[oof_symbol_mapping_message_at] = wire[at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> oof_symbol_mapping_message_record.feed_symbol[oof_symbol_mapping_message_at] = wire[at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> oof_symbol_mapping_message_record.futures_product[oof_symbol_mapping_message_at] = wire[at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.futures_expiration[oof_symbol_mapping_message_at] = wire[at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> oof_symbol_mapping_message_record.futures_symbol[oof_symbol_mapping_message_at] = wire[at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> oof_symbol_mapping_message_record.strike_price[oof_symbol_mapping_message_at] = wire[at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_record.call_put_indicator = wire[at]; at = at + 1;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> oof_symbol_mapping_message_record.options_expiration[oof_symbol_mapping_message_at] = wire[at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 16 -> oof_symbol_mapping_message_record.options_on_futures_name[oof_symbol_mapping_message_at] = wire[at]; at = at + 1; oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_record.symbol_condition = wire[at]; at = at + 1;
+  skip
+}
+
+/* what was read of Oof Symbol Mapping Message is what was written, byte for byte */
+inline equal_oof_symbol_mapping_message(oof_symbol_mapping_message_read, oof_symbol_mapping_message_written) {
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> assert(oof_symbol_mapping_message_read.time_offset[oof_symbol_mapping_message_at] == oof_symbol_mapping_message_written.time_offset[oof_symbol_mapping_message_at]); oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> assert(oof_symbol_mapping_message_read.feed_symbol[oof_symbol_mapping_message_at] == oof_symbol_mapping_message_written.feed_symbol[oof_symbol_mapping_message_at]); oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> assert(oof_symbol_mapping_message_read.futures_product[oof_symbol_mapping_message_at] == oof_symbol_mapping_message_written.futures_product[oof_symbol_mapping_message_at]); oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> assert(oof_symbol_mapping_message_read.futures_expiration[oof_symbol_mapping_message_at] == oof_symbol_mapping_message_written.futures_expiration[oof_symbol_mapping_message_at]); oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 6 -> assert(oof_symbol_mapping_message_read.futures_symbol[oof_symbol_mapping_message_at] == oof_symbol_mapping_message_written.futures_symbol[oof_symbol_mapping_message_at]); oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 8 -> assert(oof_symbol_mapping_message_read.strike_price[oof_symbol_mapping_message_at] == oof_symbol_mapping_message_written.strike_price[oof_symbol_mapping_message_at]); oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  assert(oof_symbol_mapping_message_read.call_put_indicator == oof_symbol_mapping_message_written.call_put_indicator);
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 4 -> assert(oof_symbol_mapping_message_read.options_expiration[oof_symbol_mapping_message_at] == oof_symbol_mapping_message_written.options_expiration[oof_symbol_mapping_message_at]); oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  oof_symbol_mapping_message_at = 0;
+  do
+  :: oof_symbol_mapping_message_at < 16 -> assert(oof_symbol_mapping_message_read.options_on_futures_name[oof_symbol_mapping_message_at] == oof_symbol_mapping_message_written.options_on_futures_name[oof_symbol_mapping_message_at]); oof_symbol_mapping_message_at = oof_symbol_mapping_message_at + 1
+  :: else -> break
+  od;
+  assert(oof_symbol_mapping_message_read.symbol_condition == oof_symbol_mapping_message_written.symbol_condition);
+  skip
+}
+
+/* ---- Trading Status Message: 16 bytes ---------------------------------------- */
+
+/* The Trading Status message is used to indicate the current trading status of a symbol. A Trading Status message will be sent for all symbols as they transition through various trading states. If a Trading Status message has not been received for a symbol, then the Trading Status for the symbol should be assumed to be H = Halted. The following summarizes the Trading Status values for options in the CFE system: H = Halted state. This state is used for Supervisory Halts initiated by the Trade Desk. Orders are not being accepted in this state. Q = Queuing state. This state is used when orders are being accepted for queuing. The Queuing state is used during the pre-open for all symbols. It is also used for spread instruments that may not be tradeable due to Threshold Width. T = Trading state. This state is used when the symbol is available for trading. CFE will send a Trading Status of Q once orders can be accepted for queuing in preparation for the open. At or after the opening time, CFE will send a Trading Status of T as symbols are opened for trading. Once trading is done for the day CFE will send a Trading Status of H indicating the symbol is Halted. */
+typedef TradingStatusMessage {
+  byte time_offset[4];
+  byte symbol[6];
+  byte reserved_2[2];
+  byte trading_status;
+  byte reserved_3[3]
+};
+
+int trading_status_message_at;
+
+/* every byte of Trading Status Message set to one value */
+inline fill_trading_status_message(trading_status_message_record, trading_status_message_value) {
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> trading_status_message_record.time_offset[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 6 -> trading_status_message_record.symbol[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 2 -> trading_status_message_record.reserved_2[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_record.trading_status = trading_status_message_value;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 3 -> trading_status_message_record.reserved_3[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Trading Status Message set to where it lies, so a field read out of place says so */
+inline ramp_trading_status_message(trading_status_message_record, trading_status_message_base) {
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> trading_status_message_record.time_offset[trading_status_message_at] = (trading_status_message_base + 0 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 6 -> trading_status_message_record.symbol[trading_status_message_at] = (trading_status_message_base + 4 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 2 -> trading_status_message_record.reserved_2[trading_status_message_at] = (trading_status_message_base + 10 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_record.trading_status = (trading_status_message_base + 12 + 1) % 256;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 3 -> trading_status_message_record.reserved_3[trading_status_message_at] = (trading_status_message_base + 13 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Trading Status Message to the wire, 16 bytes from where the cursor stands */
+inline encode_trading_status_message(trading_status_message_record) {
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> wire[at] = trading_status_message_record.time_offset[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 6 -> wire[at] = trading_status_message_record.symbol[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 2 -> wire[at] = trading_status_message_record.reserved_2[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = trading_status_message_record.trading_status; at = at + 1;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 3 -> wire[at] = trading_status_message_record.reserved_3[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Trading Status Message off the wire, 16 bytes from where the cursor stands */
+inline decode_trading_status_message(trading_status_message_record) {
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> trading_status_message_record.time_offset[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 6 -> trading_status_message_record.symbol[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 2 -> trading_status_message_record.reserved_2[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_record.trading_status = wire[at]; at = at + 1;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 3 -> trading_status_message_record.reserved_3[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Trading Status Message is what was written, byte for byte */
+inline equal_trading_status_message(trading_status_message_read, trading_status_message_written) {
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 4 -> assert(trading_status_message_read.time_offset[trading_status_message_at] == trading_status_message_written.time_offset[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 6 -> assert(trading_status_message_read.symbol[trading_status_message_at] == trading_status_message_written.symbol[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 2 -> assert(trading_status_message_read.reserved_2[trading_status_message_at] == trading_status_message_written.reserved_2[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  assert(trading_status_message_read.trading_status == trading_status_message_written.trading_status);
+  trading_status_message_at = 0;
+  do
+  :: trading_status_message_at < 3 -> assert(trading_status_message_read.reserved_3[trading_status_message_at] == trading_status_message_written.reserved_3[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Single Side Update Short Message: 15 bytes ------------------------------ */
+
+/* Single Side Update messages provide an updated price and size for a single side of a Symbol. The side is denoted by the Side field. One Single Side Update message may reflect one or more updates to the inside book that were processed at the same time, but will only be done so in a way that can be arbitrated between A/B feeds. Single Side Update messages come in two variants: Single Side Update (Long) message and Single Side Update (Short) message. The Single Side Update (Short) message is used whenever possible, but the Single Side Update (Long) message is used whenever the Price cannot be represented by a Binary Short Price or the Quantity cannot be represented by an unsigned 16-bit integer. */
+typedef SingleSideUpdateShortMessage {
+  byte time_offset[4];
+  byte symbol[6];
+  byte side;
+  byte price_short[2];
+  byte quantity_short[2]
+};
+
+int single_side_update_short_message_at;
+
+/* every byte of Single Side Update Short Message set to one value */
+inline fill_single_side_update_short_message(single_side_update_short_message_record, single_side_update_short_message_value) {
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 4 -> single_side_update_short_message_record.time_offset[single_side_update_short_message_at] = single_side_update_short_message_value; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 6 -> single_side_update_short_message_record.symbol[single_side_update_short_message_at] = single_side_update_short_message_value; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_record.side = single_side_update_short_message_value;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> single_side_update_short_message_record.price_short[single_side_update_short_message_at] = single_side_update_short_message_value; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> single_side_update_short_message_record.quantity_short[single_side_update_short_message_at] = single_side_update_short_message_value; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Single Side Update Short Message set to where it lies, so a field read out of place says so */
+inline ramp_single_side_update_short_message(single_side_update_short_message_record, single_side_update_short_message_base) {
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 4 -> single_side_update_short_message_record.time_offset[single_side_update_short_message_at] = (single_side_update_short_message_base + 0 + single_side_update_short_message_at + 1) % 256; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 6 -> single_side_update_short_message_record.symbol[single_side_update_short_message_at] = (single_side_update_short_message_base + 4 + single_side_update_short_message_at + 1) % 256; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_record.side = (single_side_update_short_message_base + 10 + 1) % 256;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> single_side_update_short_message_record.price_short[single_side_update_short_message_at] = (single_side_update_short_message_base + 11 + single_side_update_short_message_at + 1) % 256; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> single_side_update_short_message_record.quantity_short[single_side_update_short_message_at] = (single_side_update_short_message_base + 13 + single_side_update_short_message_at + 1) % 256; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Single Side Update Short Message to the wire, 15 bytes from where the cursor stands */
+inline encode_single_side_update_short_message(single_side_update_short_message_record) {
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 4 -> wire[at] = single_side_update_short_message_record.time_offset[single_side_update_short_message_at]; at = at + 1; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 6 -> wire[at] = single_side_update_short_message_record.symbol[single_side_update_short_message_at]; at = at + 1; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = single_side_update_short_message_record.side; at = at + 1;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> wire[at] = single_side_update_short_message_record.price_short[single_side_update_short_message_at]; at = at + 1; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> wire[at] = single_side_update_short_message_record.quantity_short[single_side_update_short_message_at]; at = at + 1; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Single Side Update Short Message off the wire, 15 bytes from where the cursor stands */
+inline decode_single_side_update_short_message(single_side_update_short_message_record) {
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 4 -> single_side_update_short_message_record.time_offset[single_side_update_short_message_at] = wire[at]; at = at + 1; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 6 -> single_side_update_short_message_record.symbol[single_side_update_short_message_at] = wire[at]; at = at + 1; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_record.side = wire[at]; at = at + 1;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> single_side_update_short_message_record.price_short[single_side_update_short_message_at] = wire[at]; at = at + 1; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> single_side_update_short_message_record.quantity_short[single_side_update_short_message_at] = wire[at]; at = at + 1; single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Single Side Update Short Message is what was written, byte for byte */
+inline equal_single_side_update_short_message(single_side_update_short_message_read, single_side_update_short_message_written) {
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 4 -> assert(single_side_update_short_message_read.time_offset[single_side_update_short_message_at] == single_side_update_short_message_written.time_offset[single_side_update_short_message_at]); single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 6 -> assert(single_side_update_short_message_read.symbol[single_side_update_short_message_at] == single_side_update_short_message_written.symbol[single_side_update_short_message_at]); single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  assert(single_side_update_short_message_read.side == single_side_update_short_message_written.side);
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> assert(single_side_update_short_message_read.price_short[single_side_update_short_message_at] == single_side_update_short_message_written.price_short[single_side_update_short_message_at]); single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_short_message_at = 0;
+  do
+  :: single_side_update_short_message_at < 2 -> assert(single_side_update_short_message_read.quantity_short[single_side_update_short_message_at] == single_side_update_short_message_written.quantity_short[single_side_update_short_message_at]); single_side_update_short_message_at = single_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Single Side Update Long Message: 23 bytes ------------------------------- */
+
+/* Single Side Update messages provide an updated price and size for a single side of a Symbol. The side is denoted by the Side field. One Single Side Update message may reflect one or more updates to the inside book that were processed at the same time, but will only be done so in a way that can be arbitrated between A/B feeds. Single Side Update messages come in two variants: Single Side Update (Long) message and Single Side Update (Short) message. The Single Side Update (Short) message is used whenever possible, but the Single Side Update (Long) message is used whenever the Price cannot be represented by a Binary Short Price or the Quantity cannot be represented by an unsigned 16-bit integer. */
+typedef SingleSideUpdateLongMessage {
+  byte time_offset[4];
+  byte symbol[6];
+  byte side;
+  byte price_long[8];
+  byte quantity_long[4]
+};
+
+int single_side_update_long_message_at;
+
+/* every byte of Single Side Update Long Message set to one value */
+inline fill_single_side_update_long_message(single_side_update_long_message_record, single_side_update_long_message_value) {
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> single_side_update_long_message_record.time_offset[single_side_update_long_message_at] = single_side_update_long_message_value; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 6 -> single_side_update_long_message_record.symbol[single_side_update_long_message_at] = single_side_update_long_message_value; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_record.side = single_side_update_long_message_value;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 8 -> single_side_update_long_message_record.price_long[single_side_update_long_message_at] = single_side_update_long_message_value; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> single_side_update_long_message_record.quantity_long[single_side_update_long_message_at] = single_side_update_long_message_value; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Single Side Update Long Message set to where it lies, so a field read out of place says so */
+inline ramp_single_side_update_long_message(single_side_update_long_message_record, single_side_update_long_message_base) {
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> single_side_update_long_message_record.time_offset[single_side_update_long_message_at] = (single_side_update_long_message_base + 0 + single_side_update_long_message_at + 1) % 256; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 6 -> single_side_update_long_message_record.symbol[single_side_update_long_message_at] = (single_side_update_long_message_base + 4 + single_side_update_long_message_at + 1) % 256; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_record.side = (single_side_update_long_message_base + 10 + 1) % 256;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 8 -> single_side_update_long_message_record.price_long[single_side_update_long_message_at] = (single_side_update_long_message_base + 11 + single_side_update_long_message_at + 1) % 256; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> single_side_update_long_message_record.quantity_long[single_side_update_long_message_at] = (single_side_update_long_message_base + 19 + single_side_update_long_message_at + 1) % 256; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Single Side Update Long Message to the wire, 23 bytes from where the cursor stands */
+inline encode_single_side_update_long_message(single_side_update_long_message_record) {
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> wire[at] = single_side_update_long_message_record.time_offset[single_side_update_long_message_at]; at = at + 1; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 6 -> wire[at] = single_side_update_long_message_record.symbol[single_side_update_long_message_at]; at = at + 1; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = single_side_update_long_message_record.side; at = at + 1;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 8 -> wire[at] = single_side_update_long_message_record.price_long[single_side_update_long_message_at]; at = at + 1; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> wire[at] = single_side_update_long_message_record.quantity_long[single_side_update_long_message_at]; at = at + 1; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Single Side Update Long Message off the wire, 23 bytes from where the cursor stands */
+inline decode_single_side_update_long_message(single_side_update_long_message_record) {
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> single_side_update_long_message_record.time_offset[single_side_update_long_message_at] = wire[at]; at = at + 1; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 6 -> single_side_update_long_message_record.symbol[single_side_update_long_message_at] = wire[at]; at = at + 1; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_record.side = wire[at]; at = at + 1;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 8 -> single_side_update_long_message_record.price_long[single_side_update_long_message_at] = wire[at]; at = at + 1; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> single_side_update_long_message_record.quantity_long[single_side_update_long_message_at] = wire[at]; at = at + 1; single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Single Side Update Long Message is what was written, byte for byte */
+inline equal_single_side_update_long_message(single_side_update_long_message_read, single_side_update_long_message_written) {
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> assert(single_side_update_long_message_read.time_offset[single_side_update_long_message_at] == single_side_update_long_message_written.time_offset[single_side_update_long_message_at]); single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 6 -> assert(single_side_update_long_message_read.symbol[single_side_update_long_message_at] == single_side_update_long_message_written.symbol[single_side_update_long_message_at]); single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  assert(single_side_update_long_message_read.side == single_side_update_long_message_written.side);
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 8 -> assert(single_side_update_long_message_read.price_long[single_side_update_long_message_at] == single_side_update_long_message_written.price_long[single_side_update_long_message_at]); single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  single_side_update_long_message_at = 0;
+  do
+  :: single_side_update_long_message_at < 4 -> assert(single_side_update_long_message_read.quantity_long[single_side_update_long_message_at] == single_side_update_long_message_written.quantity_long[single_side_update_long_message_at]); single_side_update_long_message_at = single_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Two Side Update Short Message: 18 bytes --------------------------------- */
+
+/* Two Side Update messages provide an updated price and size for both sides of a Symbol. One Two Side Update message may reflect one or more updates to the inside book that were processed at the same time, but will only be done so in a way that can be arbitrated between A/B feeds. Two Side Update messages come in two variants: Two Side Update (Long) message and Two Side Update (Short) message. The Two Side Update (Short) message is used whenever possible, but the Two Side Update (Long) message is used whenever the Price cannot be represented by a Binary Short Price or the Quantity cannot be represented by an unsigned 16-bit integer. */
+typedef TwoSideUpdateShortMessage {
+  byte time_offset[4];
+  byte symbol[6];
+  byte bid_price_short[2];
+  byte bid_quantity_short[2];
+  byte ask_price_short[2];
+  byte ask_quantity_short[2]
+};
+
+int two_side_update_short_message_at;
+
+/* every byte of Two Side Update Short Message set to one value */
+inline fill_two_side_update_short_message(two_side_update_short_message_record, two_side_update_short_message_value) {
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 4 -> two_side_update_short_message_record.time_offset[two_side_update_short_message_at] = two_side_update_short_message_value; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 6 -> two_side_update_short_message_record.symbol[two_side_update_short_message_at] = two_side_update_short_message_value; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.bid_price_short[two_side_update_short_message_at] = two_side_update_short_message_value; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.bid_quantity_short[two_side_update_short_message_at] = two_side_update_short_message_value; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.ask_price_short[two_side_update_short_message_at] = two_side_update_short_message_value; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.ask_quantity_short[two_side_update_short_message_at] = two_side_update_short_message_value; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Two Side Update Short Message set to where it lies, so a field read out of place says so */
+inline ramp_two_side_update_short_message(two_side_update_short_message_record, two_side_update_short_message_base) {
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 4 -> two_side_update_short_message_record.time_offset[two_side_update_short_message_at] = (two_side_update_short_message_base + 0 + two_side_update_short_message_at + 1) % 256; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 6 -> two_side_update_short_message_record.symbol[two_side_update_short_message_at] = (two_side_update_short_message_base + 4 + two_side_update_short_message_at + 1) % 256; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.bid_price_short[two_side_update_short_message_at] = (two_side_update_short_message_base + 10 + two_side_update_short_message_at + 1) % 256; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.bid_quantity_short[two_side_update_short_message_at] = (two_side_update_short_message_base + 12 + two_side_update_short_message_at + 1) % 256; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.ask_price_short[two_side_update_short_message_at] = (two_side_update_short_message_base + 14 + two_side_update_short_message_at + 1) % 256; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.ask_quantity_short[two_side_update_short_message_at] = (two_side_update_short_message_base + 16 + two_side_update_short_message_at + 1) % 256; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Two Side Update Short Message to the wire, 18 bytes from where the cursor stands */
+inline encode_two_side_update_short_message(two_side_update_short_message_record) {
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 4 -> wire[at] = two_side_update_short_message_record.time_offset[two_side_update_short_message_at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 6 -> wire[at] = two_side_update_short_message_record.symbol[two_side_update_short_message_at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> wire[at] = two_side_update_short_message_record.bid_price_short[two_side_update_short_message_at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> wire[at] = two_side_update_short_message_record.bid_quantity_short[two_side_update_short_message_at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> wire[at] = two_side_update_short_message_record.ask_price_short[two_side_update_short_message_at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> wire[at] = two_side_update_short_message_record.ask_quantity_short[two_side_update_short_message_at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Two Side Update Short Message off the wire, 18 bytes from where the cursor stands */
+inline decode_two_side_update_short_message(two_side_update_short_message_record) {
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 4 -> two_side_update_short_message_record.time_offset[two_side_update_short_message_at] = wire[at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 6 -> two_side_update_short_message_record.symbol[two_side_update_short_message_at] = wire[at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.bid_price_short[two_side_update_short_message_at] = wire[at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.bid_quantity_short[two_side_update_short_message_at] = wire[at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.ask_price_short[two_side_update_short_message_at] = wire[at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> two_side_update_short_message_record.ask_quantity_short[two_side_update_short_message_at] = wire[at]; at = at + 1; two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Two Side Update Short Message is what was written, byte for byte */
+inline equal_two_side_update_short_message(two_side_update_short_message_read, two_side_update_short_message_written) {
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 4 -> assert(two_side_update_short_message_read.time_offset[two_side_update_short_message_at] == two_side_update_short_message_written.time_offset[two_side_update_short_message_at]); two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 6 -> assert(two_side_update_short_message_read.symbol[two_side_update_short_message_at] == two_side_update_short_message_written.symbol[two_side_update_short_message_at]); two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> assert(two_side_update_short_message_read.bid_price_short[two_side_update_short_message_at] == two_side_update_short_message_written.bid_price_short[two_side_update_short_message_at]); two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> assert(two_side_update_short_message_read.bid_quantity_short[two_side_update_short_message_at] == two_side_update_short_message_written.bid_quantity_short[two_side_update_short_message_at]); two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> assert(two_side_update_short_message_read.ask_price_short[two_side_update_short_message_at] == two_side_update_short_message_written.ask_price_short[two_side_update_short_message_at]); two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_short_message_at = 0;
+  do
+  :: two_side_update_short_message_at < 2 -> assert(two_side_update_short_message_read.ask_quantity_short[two_side_update_short_message_at] == two_side_update_short_message_written.ask_quantity_short[two_side_update_short_message_at]); two_side_update_short_message_at = two_side_update_short_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Two Side Update Long Message: 34 bytes ---------------------------------- */
+
+/* Two Side Update messages provide an updated price and size for both sides of a Symbol. One Two Side Update message may reflect one or more updates to the inside book that were processed at the same time, but will only be done so in a way that can be arbitrated between A/B feeds. Two Side Update messages come in two variants: Two Side Update (Long) message and Two Side Update (Short) message. The Two Side Update (Short) message is used whenever possible, but the Two Side Update (Long) message is used whenever the Price cannot be represented by a Binary Short Price or the Quantity cannot be represented by an unsigned 16-bit integer. */
+typedef TwoSideUpdateLongMessage {
+  byte time_offset[4];
+  byte symbol[6];
+  byte bid_price_long[8];
+  byte bid_quantity_long[4];
+  byte ask_price_long[8];
+  byte ask_quantity_long[4]
+};
+
+int two_side_update_long_message_at;
+
+/* every byte of Two Side Update Long Message set to one value */
+inline fill_two_side_update_long_message(two_side_update_long_message_record, two_side_update_long_message_value) {
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.time_offset[two_side_update_long_message_at] = two_side_update_long_message_value; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 6 -> two_side_update_long_message_record.symbol[two_side_update_long_message_at] = two_side_update_long_message_value; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> two_side_update_long_message_record.bid_price_long[two_side_update_long_message_at] = two_side_update_long_message_value; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.bid_quantity_long[two_side_update_long_message_at] = two_side_update_long_message_value; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> two_side_update_long_message_record.ask_price_long[two_side_update_long_message_at] = two_side_update_long_message_value; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.ask_quantity_long[two_side_update_long_message_at] = two_side_update_long_message_value; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Two Side Update Long Message set to where it lies, so a field read out of place says so */
+inline ramp_two_side_update_long_message(two_side_update_long_message_record, two_side_update_long_message_base) {
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.time_offset[two_side_update_long_message_at] = (two_side_update_long_message_base + 0 + two_side_update_long_message_at + 1) % 256; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 6 -> two_side_update_long_message_record.symbol[two_side_update_long_message_at] = (two_side_update_long_message_base + 4 + two_side_update_long_message_at + 1) % 256; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> two_side_update_long_message_record.bid_price_long[two_side_update_long_message_at] = (two_side_update_long_message_base + 10 + two_side_update_long_message_at + 1) % 256; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.bid_quantity_long[two_side_update_long_message_at] = (two_side_update_long_message_base + 18 + two_side_update_long_message_at + 1) % 256; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> two_side_update_long_message_record.ask_price_long[two_side_update_long_message_at] = (two_side_update_long_message_base + 22 + two_side_update_long_message_at + 1) % 256; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.ask_quantity_long[two_side_update_long_message_at] = (two_side_update_long_message_base + 30 + two_side_update_long_message_at + 1) % 256; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Two Side Update Long Message to the wire, 34 bytes from where the cursor stands */
+inline encode_two_side_update_long_message(two_side_update_long_message_record) {
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> wire[at] = two_side_update_long_message_record.time_offset[two_side_update_long_message_at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 6 -> wire[at] = two_side_update_long_message_record.symbol[two_side_update_long_message_at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> wire[at] = two_side_update_long_message_record.bid_price_long[two_side_update_long_message_at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> wire[at] = two_side_update_long_message_record.bid_quantity_long[two_side_update_long_message_at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> wire[at] = two_side_update_long_message_record.ask_price_long[two_side_update_long_message_at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> wire[at] = two_side_update_long_message_record.ask_quantity_long[two_side_update_long_message_at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Two Side Update Long Message off the wire, 34 bytes from where the cursor stands */
+inline decode_two_side_update_long_message(two_side_update_long_message_record) {
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.time_offset[two_side_update_long_message_at] = wire[at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 6 -> two_side_update_long_message_record.symbol[two_side_update_long_message_at] = wire[at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> two_side_update_long_message_record.bid_price_long[two_side_update_long_message_at] = wire[at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.bid_quantity_long[two_side_update_long_message_at] = wire[at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> two_side_update_long_message_record.ask_price_long[two_side_update_long_message_at] = wire[at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> two_side_update_long_message_record.ask_quantity_long[two_side_update_long_message_at] = wire[at]; at = at + 1; two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Two Side Update Long Message is what was written, byte for byte */
+inline equal_two_side_update_long_message(two_side_update_long_message_read, two_side_update_long_message_written) {
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> assert(two_side_update_long_message_read.time_offset[two_side_update_long_message_at] == two_side_update_long_message_written.time_offset[two_side_update_long_message_at]); two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 6 -> assert(two_side_update_long_message_read.symbol[two_side_update_long_message_at] == two_side_update_long_message_written.symbol[two_side_update_long_message_at]); two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> assert(two_side_update_long_message_read.bid_price_long[two_side_update_long_message_at] == two_side_update_long_message_written.bid_price_long[two_side_update_long_message_at]); two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> assert(two_side_update_long_message_read.bid_quantity_long[two_side_update_long_message_at] == two_side_update_long_message_written.bid_quantity_long[two_side_update_long_message_at]); two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 8 -> assert(two_side_update_long_message_read.ask_price_long[two_side_update_long_message_at] == two_side_update_long_message_written.ask_price_long[two_side_update_long_message_at]); two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  two_side_update_long_message_at = 0;
+  do
+  :: two_side_update_long_message_at < 4 -> assert(two_side_update_long_message_read.ask_quantity_long[two_side_update_long_message_at] == two_side_update_long_message_written.ask_quantity_long[two_side_update_long_message_at]); two_side_update_long_message_at = two_side_update_long_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Top Trade Message: 35 bytes --------------------------------------------- */
+
+/* The TOP Trade message provides information about executions of orders on the CFE book. TOP Trade messages are necessary to calculate CFE execution-based data. TOP Trade messages do not alter the book. One or more Single Side Update or Two Side Update messages will follow a TOP Trade message to reflect the updated book (for example, an aggressive order may take out one or more price levels and establish a new level on the opposite side). Any order may be executed in parts. A complete view of all CFE executions can be built from all TOP Trade messages. The TOP Trade message sends the trade price, trade quantity, execution id, and trade condition of a trade as well as the cumulative volume for the business day. A TOP Trade message will be sent for each execution, but not every TOP Trade message indicates a trade. The Trade Condition value of X (Trade Break) is sent whenever an execution on CFE is broken. Trade breaks are rare and only affect applications that rely upon CFE execution-based data. Trade breaks will contain the Symbol, Quantity, Price, and Execution Id of the original trade. The Total Volume field will be reduced by the number of shares reported in the Quantity field. */
+typedef TopTradeMessage {
+  byte time_offset[4];
+  byte symbol[6];
+  byte quantity_long[4];
+  byte price_long[8];
+  byte execution_id[8];
+  byte total_volume[4];
+  byte trade_condition
+};
+
+int top_trade_message_at;
+
+/* every byte of Top Trade Message set to one value */
+inline fill_top_trade_message(top_trade_message_record, top_trade_message_value) {
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.time_offset[top_trade_message_at] = top_trade_message_value; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 6 -> top_trade_message_record.symbol[top_trade_message_at] = top_trade_message_value; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.quantity_long[top_trade_message_at] = top_trade_message_value; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> top_trade_message_record.price_long[top_trade_message_at] = top_trade_message_value; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> top_trade_message_record.execution_id[top_trade_message_at] = top_trade_message_value; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.total_volume[top_trade_message_at] = top_trade_message_value; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_record.trade_condition = top_trade_message_value;
+  skip
+}
+
+/* each byte of Top Trade Message set to where it lies, so a field read out of place says so */
+inline ramp_top_trade_message(top_trade_message_record, top_trade_message_base) {
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.time_offset[top_trade_message_at] = (top_trade_message_base + 0 + top_trade_message_at + 1) % 256; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 6 -> top_trade_message_record.symbol[top_trade_message_at] = (top_trade_message_base + 4 + top_trade_message_at + 1) % 256; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.quantity_long[top_trade_message_at] = (top_trade_message_base + 10 + top_trade_message_at + 1) % 256; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> top_trade_message_record.price_long[top_trade_message_at] = (top_trade_message_base + 14 + top_trade_message_at + 1) % 256; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> top_trade_message_record.execution_id[top_trade_message_at] = (top_trade_message_base + 22 + top_trade_message_at + 1) % 256; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.total_volume[top_trade_message_at] = (top_trade_message_base + 30 + top_trade_message_at + 1) % 256; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_record.trade_condition = (top_trade_message_base + 34 + 1) % 256;
+  skip
+}
+
+/* Top Trade Message to the wire, 35 bytes from where the cursor stands */
+inline encode_top_trade_message(top_trade_message_record) {
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> wire[at] = top_trade_message_record.time_offset[top_trade_message_at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 6 -> wire[at] = top_trade_message_record.symbol[top_trade_message_at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> wire[at] = top_trade_message_record.quantity_long[top_trade_message_at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> wire[at] = top_trade_message_record.price_long[top_trade_message_at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> wire[at] = top_trade_message_record.execution_id[top_trade_message_at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> wire[at] = top_trade_message_record.total_volume[top_trade_message_at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = top_trade_message_record.trade_condition; at = at + 1;
+  skip
+}
+
+/* Top Trade Message off the wire, 35 bytes from where the cursor stands */
+inline decode_top_trade_message(top_trade_message_record) {
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.time_offset[top_trade_message_at] = wire[at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 6 -> top_trade_message_record.symbol[top_trade_message_at] = wire[at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.quantity_long[top_trade_message_at] = wire[at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> top_trade_message_record.price_long[top_trade_message_at] = wire[at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> top_trade_message_record.execution_id[top_trade_message_at] = wire[at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> top_trade_message_record.total_volume[top_trade_message_at] = wire[at]; at = at + 1; top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_record.trade_condition = wire[at]; at = at + 1;
+  skip
+}
+
+/* what was read of Top Trade Message is what was written, byte for byte */
+inline equal_top_trade_message(top_trade_message_read, top_trade_message_written) {
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> assert(top_trade_message_read.time_offset[top_trade_message_at] == top_trade_message_written.time_offset[top_trade_message_at]); top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 6 -> assert(top_trade_message_read.symbol[top_trade_message_at] == top_trade_message_written.symbol[top_trade_message_at]); top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> assert(top_trade_message_read.quantity_long[top_trade_message_at] == top_trade_message_written.quantity_long[top_trade_message_at]); top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> assert(top_trade_message_read.price_long[top_trade_message_at] == top_trade_message_written.price_long[top_trade_message_at]); top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 8 -> assert(top_trade_message_read.execution_id[top_trade_message_at] == top_trade_message_written.execution_id[top_trade_message_at]); top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  top_trade_message_at = 0;
+  do
+  :: top_trade_message_at < 4 -> assert(top_trade_message_read.total_volume[top_trade_message_at] == top_trade_message_written.total_volume[top_trade_message_at]); top_trade_message_at = top_trade_message_at + 1
+  :: else -> break
+  od;
+  assert(top_trade_message_read.trade_condition == top_trade_message_written.trade_condition);
+  skip
+}
+
+/* ---- Settlement Message: 23 bytes -------------------------------------------- */
+
+/* Settlement messages are used to provide information concerning indicative, approved, or corrected daily and final settlement prices for CFE products. An indicative daily settlement price (Issue = I) is calculated by the system and sent immediately after an instrument closes trading but before the settlement price is approved. An approved settlement price (Issue = S) is sent once the CFE Trade Desk approves a settlement price for an instrument. If there is an error in the approved settlement price, then it may be re-issued (Issue = R). Settlement messages will be included in a spin response. */
+typedef SettlementMessage {
+  byte time_offset[4];
+  byte symbol[6];
+  byte trade_date[4];
+  byte settlement_price[8];
+  byte issue
+};
+
+int settlement_message_at;
+
+/* every byte of Settlement Message set to one value */
+inline fill_settlement_message(settlement_message_record, settlement_message_value) {
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> settlement_message_record.time_offset[settlement_message_at] = settlement_message_value; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 6 -> settlement_message_record.symbol[settlement_message_at] = settlement_message_value; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> settlement_message_record.trade_date[settlement_message_at] = settlement_message_value; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 8 -> settlement_message_record.settlement_price[settlement_message_at] = settlement_message_value; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_record.issue = settlement_message_value;
+  skip
+}
+
+/* each byte of Settlement Message set to where it lies, so a field read out of place says so */
+inline ramp_settlement_message(settlement_message_record, settlement_message_base) {
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> settlement_message_record.time_offset[settlement_message_at] = (settlement_message_base + 0 + settlement_message_at + 1) % 256; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 6 -> settlement_message_record.symbol[settlement_message_at] = (settlement_message_base + 4 + settlement_message_at + 1) % 256; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> settlement_message_record.trade_date[settlement_message_at] = (settlement_message_base + 10 + settlement_message_at + 1) % 256; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 8 -> settlement_message_record.settlement_price[settlement_message_at] = (settlement_message_base + 14 + settlement_message_at + 1) % 256; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_record.issue = (settlement_message_base + 22 + 1) % 256;
+  skip
+}
+
+/* Settlement Message to the wire, 23 bytes from where the cursor stands */
+inline encode_settlement_message(settlement_message_record) {
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> wire[at] = settlement_message_record.time_offset[settlement_message_at]; at = at + 1; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 6 -> wire[at] = settlement_message_record.symbol[settlement_message_at]; at = at + 1; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> wire[at] = settlement_message_record.trade_date[settlement_message_at]; at = at + 1; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 8 -> wire[at] = settlement_message_record.settlement_price[settlement_message_at]; at = at + 1; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = settlement_message_record.issue; at = at + 1;
+  skip
+}
+
+/* Settlement Message off the wire, 23 bytes from where the cursor stands */
+inline decode_settlement_message(settlement_message_record) {
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> settlement_message_record.time_offset[settlement_message_at] = wire[at]; at = at + 1; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 6 -> settlement_message_record.symbol[settlement_message_at] = wire[at]; at = at + 1; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> settlement_message_record.trade_date[settlement_message_at] = wire[at]; at = at + 1; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 8 -> settlement_message_record.settlement_price[settlement_message_at] = wire[at]; at = at + 1; settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_record.issue = wire[at]; at = at + 1;
+  skip
+}
+
+/* what was read of Settlement Message is what was written, byte for byte */
+inline equal_settlement_message(settlement_message_read, settlement_message_written) {
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> assert(settlement_message_read.time_offset[settlement_message_at] == settlement_message_written.time_offset[settlement_message_at]); settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 6 -> assert(settlement_message_read.symbol[settlement_message_at] == settlement_message_written.symbol[settlement_message_at]); settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 4 -> assert(settlement_message_read.trade_date[settlement_message_at] == settlement_message_written.trade_date[settlement_message_at]); settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  settlement_message_at = 0;
+  do
+  :: settlement_message_at < 8 -> assert(settlement_message_read.settlement_price[settlement_message_at] == settlement_message_written.settlement_price[settlement_message_at]); settlement_message_at = settlement_message_at + 1
+  :: else -> break
+  od;
+  assert(settlement_message_read.issue == settlement_message_written.issue);
+  skip
+}
+
+/* ---- End Of Session Message: 4 bytes ----------------------------------------- */
+
+/* The End of Session message is sent for each unit when the unit shuts down. No more sequenced messages will be delivered for this unit, but heartbeats from the unit may be received. */
+typedef EndOfSessionMessage {
+  byte time_offset[4]
+};
+
+int end_of_session_message_at;
+
+/* every byte of End Of Session Message set to one value */
+inline fill_end_of_session_message(end_of_session_message_record, end_of_session_message_value) {
+  end_of_session_message_at = 0;
+  do
+  :: end_of_session_message_at < 4 -> end_of_session_message_record.time_offset[end_of_session_message_at] = end_of_session_message_value; end_of_session_message_at = end_of_session_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of End Of Session Message set to where it lies, so a field read out of place says so */
+inline ramp_end_of_session_message(end_of_session_message_record, end_of_session_message_base) {
+  end_of_session_message_at = 0;
+  do
+  :: end_of_session_message_at < 4 -> end_of_session_message_record.time_offset[end_of_session_message_at] = (end_of_session_message_base + 0 + end_of_session_message_at + 1) % 256; end_of_session_message_at = end_of_session_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* End Of Session Message to the wire, 4 bytes from where the cursor stands */
+inline encode_end_of_session_message(end_of_session_message_record) {
+  end_of_session_message_at = 0;
+  do
+  :: end_of_session_message_at < 4 -> wire[at] = end_of_session_message_record.time_offset[end_of_session_message_at]; at = at + 1; end_of_session_message_at = end_of_session_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* End Of Session Message off the wire, 4 bytes from where the cursor stands */
+inline decode_end_of_session_message(end_of_session_message_record) {
+  end_of_session_message_at = 0;
+  do
+  :: end_of_session_message_at < 4 -> end_of_session_message_record.time_offset[end_of_session_message_at] = wire[at]; at = at + 1; end_of_session_message_at = end_of_session_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of End Of Session Message is what was written, byte for byte */
+inline equal_end_of_session_message(end_of_session_message_read, end_of_session_message_written) {
+  end_of_session_message_at = 0;
+  do
+  :: end_of_session_message_at < 4 -> assert(end_of_session_message_read.time_offset[end_of_session_message_at] == end_of_session_message_written.time_offset[end_of_session_message_at]); end_of_session_message_at = end_of_session_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- What spin checks -------------------------------------------------------- */
+
+/* Packet Header: encoded, read back, and compared */
+proctype check_packet_header() {
+  PacketHeader packet_header_sent;
+  PacketHeader packet_header_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_packet_header(packet_header_sent, 0)
+  :: pattern == 1 -> fill_packet_header(packet_header_sent, 32)
+  :: pattern == 2 -> fill_packet_header(packet_header_sent, 255)
+  :: else -> ramp_packet_header(packet_header_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_packet_header(packet_header_sent);
+    assert(at == 8);
+    at = 0;
+    decode_packet_header(packet_header_got);
+    assert(at == 8);
+    equal_packet_header(packet_header_got, packet_header_sent)
+  }
+}
+
+/* Message Header: encoded, read back, and compared */
+proctype check_message_header() {
+  MessageHeader message_header_sent;
+  MessageHeader message_header_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_message_header(message_header_sent, 0)
+  :: pattern == 1 -> fill_message_header(message_header_sent, 32)
+  :: pattern == 2 -> fill_message_header(message_header_sent, 255)
+  :: else -> ramp_message_header(message_header_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_message_header(message_header_sent);
+    assert(at == 2);
+    at = 0;
+    decode_message_header(message_header_got);
+    assert(at == 2);
+    equal_message_header(message_header_got, message_header_sent)
+  }
+}
+
+/* Time Reference Message: encoded, read back, and compared */
+proctype check_time_reference_message() {
+  TimeReferenceMessage time_reference_message_sent;
+  TimeReferenceMessage time_reference_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_time_reference_message(time_reference_message_sent, 0)
+  :: pattern == 1 -> fill_time_reference_message(time_reference_message_sent, 32)
+  :: pattern == 2 -> fill_time_reference_message(time_reference_message_sent, 255)
+  :: else -> ramp_time_reference_message(time_reference_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_time_reference_message(time_reference_message_sent);
+    assert(at == 16);
+    at = 0;
+    decode_time_reference_message(time_reference_message_got);
+    assert(at == 16);
+    equal_time_reference_message(time_reference_message_got, time_reference_message_sent)
+  }
+}
+
+/* Time Message: encoded, read back, and compared */
+proctype check_time_message() {
+  TimeMessage time_message_sent;
+  TimeMessage time_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_time_message(time_message_sent, 0)
+  :: pattern == 1 -> fill_time_message(time_message_sent, 32)
+  :: pattern == 2 -> fill_time_message(time_message_sent, 255)
+  :: else -> ramp_time_message(time_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_time_message(time_message_sent);
+    assert(at == 8);
+    at = 0;
+    decode_time_message(time_message_got);
+    assert(at == 8);
+    equal_time_message(time_message_got, time_message_sent)
+  }
+}
+
+/* Unit Clear Message: encoded, read back, and compared */
+proctype check_unit_clear_message() {
+  UnitClearMessage unit_clear_message_sent;
+  UnitClearMessage unit_clear_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_unit_clear_message(unit_clear_message_sent, 0)
+  :: pattern == 1 -> fill_unit_clear_message(unit_clear_message_sent, 32)
+  :: pattern == 2 -> fill_unit_clear_message(unit_clear_message_sent, 255)
+  :: else -> ramp_unit_clear_message(unit_clear_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_unit_clear_message(unit_clear_message_sent);
+    assert(at == 4);
+    at = 0;
+    decode_unit_clear_message(unit_clear_message_got);
+    assert(at == 4);
+    equal_unit_clear_message(unit_clear_message_got, unit_clear_message_sent)
+  }
+}
+
+/* Oof Symbol Mapping Message: encoded, read back, and compared */
+proctype check_oof_symbol_mapping_message() {
+  OofSymbolMappingMessage oof_symbol_mapping_message_sent;
+  OofSymbolMappingMessage oof_symbol_mapping_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_oof_symbol_mapping_message(oof_symbol_mapping_message_sent, 0)
+  :: pattern == 1 -> fill_oof_symbol_mapping_message(oof_symbol_mapping_message_sent, 32)
+  :: pattern == 2 -> fill_oof_symbol_mapping_message(oof_symbol_mapping_message_sent, 255)
+  :: else -> ramp_oof_symbol_mapping_message(oof_symbol_mapping_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_oof_symbol_mapping_message(oof_symbol_mapping_message_sent);
+    assert(at == 58);
+    at = 0;
+    decode_oof_symbol_mapping_message(oof_symbol_mapping_message_got);
+    assert(at == 58);
+    equal_oof_symbol_mapping_message(oof_symbol_mapping_message_got, oof_symbol_mapping_message_sent)
+  }
+}
+
+/* Trading Status Message: encoded, read back, and compared */
+proctype check_trading_status_message() {
+  TradingStatusMessage trading_status_message_sent;
+  TradingStatusMessage trading_status_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_trading_status_message(trading_status_message_sent, 0)
+  :: pattern == 1 -> fill_trading_status_message(trading_status_message_sent, 32)
+  :: pattern == 2 -> fill_trading_status_message(trading_status_message_sent, 255)
+  :: else -> ramp_trading_status_message(trading_status_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_trading_status_message(trading_status_message_sent);
+    assert(at == 16);
+    at = 0;
+    decode_trading_status_message(trading_status_message_got);
+    assert(at == 16);
+    equal_trading_status_message(trading_status_message_got, trading_status_message_sent)
+  }
+}
+
+/* Single Side Update Short Message: encoded, read back, and compared */
+proctype check_single_side_update_short_message() {
+  SingleSideUpdateShortMessage single_side_update_short_message_sent;
+  SingleSideUpdateShortMessage single_side_update_short_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_single_side_update_short_message(single_side_update_short_message_sent, 0)
+  :: pattern == 1 -> fill_single_side_update_short_message(single_side_update_short_message_sent, 32)
+  :: pattern == 2 -> fill_single_side_update_short_message(single_side_update_short_message_sent, 255)
+  :: else -> ramp_single_side_update_short_message(single_side_update_short_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_single_side_update_short_message(single_side_update_short_message_sent);
+    assert(at == 15);
+    at = 0;
+    decode_single_side_update_short_message(single_side_update_short_message_got);
+    assert(at == 15);
+    equal_single_side_update_short_message(single_side_update_short_message_got, single_side_update_short_message_sent)
+  }
+}
+
+/* Single Side Update Long Message: encoded, read back, and compared */
+proctype check_single_side_update_long_message() {
+  SingleSideUpdateLongMessage single_side_update_long_message_sent;
+  SingleSideUpdateLongMessage single_side_update_long_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_single_side_update_long_message(single_side_update_long_message_sent, 0)
+  :: pattern == 1 -> fill_single_side_update_long_message(single_side_update_long_message_sent, 32)
+  :: pattern == 2 -> fill_single_side_update_long_message(single_side_update_long_message_sent, 255)
+  :: else -> ramp_single_side_update_long_message(single_side_update_long_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_single_side_update_long_message(single_side_update_long_message_sent);
+    assert(at == 23);
+    at = 0;
+    decode_single_side_update_long_message(single_side_update_long_message_got);
+    assert(at == 23);
+    equal_single_side_update_long_message(single_side_update_long_message_got, single_side_update_long_message_sent)
+  }
+}
+
+/* Two Side Update Short Message: encoded, read back, and compared */
+proctype check_two_side_update_short_message() {
+  TwoSideUpdateShortMessage two_side_update_short_message_sent;
+  TwoSideUpdateShortMessage two_side_update_short_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_two_side_update_short_message(two_side_update_short_message_sent, 0)
+  :: pattern == 1 -> fill_two_side_update_short_message(two_side_update_short_message_sent, 32)
+  :: pattern == 2 -> fill_two_side_update_short_message(two_side_update_short_message_sent, 255)
+  :: else -> ramp_two_side_update_short_message(two_side_update_short_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_two_side_update_short_message(two_side_update_short_message_sent);
+    assert(at == 18);
+    at = 0;
+    decode_two_side_update_short_message(two_side_update_short_message_got);
+    assert(at == 18);
+    equal_two_side_update_short_message(two_side_update_short_message_got, two_side_update_short_message_sent)
+  }
+}
+
+/* Two Side Update Long Message: encoded, read back, and compared */
+proctype check_two_side_update_long_message() {
+  TwoSideUpdateLongMessage two_side_update_long_message_sent;
+  TwoSideUpdateLongMessage two_side_update_long_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_two_side_update_long_message(two_side_update_long_message_sent, 0)
+  :: pattern == 1 -> fill_two_side_update_long_message(two_side_update_long_message_sent, 32)
+  :: pattern == 2 -> fill_two_side_update_long_message(two_side_update_long_message_sent, 255)
+  :: else -> ramp_two_side_update_long_message(two_side_update_long_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_two_side_update_long_message(two_side_update_long_message_sent);
+    assert(at == 34);
+    at = 0;
+    decode_two_side_update_long_message(two_side_update_long_message_got);
+    assert(at == 34);
+    equal_two_side_update_long_message(two_side_update_long_message_got, two_side_update_long_message_sent)
+  }
+}
+
+/* Top Trade Message: encoded, read back, and compared */
+proctype check_top_trade_message() {
+  TopTradeMessage top_trade_message_sent;
+  TopTradeMessage top_trade_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_top_trade_message(top_trade_message_sent, 0)
+  :: pattern == 1 -> fill_top_trade_message(top_trade_message_sent, 32)
+  :: pattern == 2 -> fill_top_trade_message(top_trade_message_sent, 255)
+  :: else -> ramp_top_trade_message(top_trade_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_top_trade_message(top_trade_message_sent);
+    assert(at == 35);
+    at = 0;
+    decode_top_trade_message(top_trade_message_got);
+    assert(at == 35);
+    equal_top_trade_message(top_trade_message_got, top_trade_message_sent)
+  }
+}
+
+/* Settlement Message: encoded, read back, and compared */
+proctype check_settlement_message() {
+  SettlementMessage settlement_message_sent;
+  SettlementMessage settlement_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_settlement_message(settlement_message_sent, 0)
+  :: pattern == 1 -> fill_settlement_message(settlement_message_sent, 32)
+  :: pattern == 2 -> fill_settlement_message(settlement_message_sent, 255)
+  :: else -> ramp_settlement_message(settlement_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_settlement_message(settlement_message_sent);
+    assert(at == 23);
+    at = 0;
+    decode_settlement_message(settlement_message_got);
+    assert(at == 23);
+    equal_settlement_message(settlement_message_got, settlement_message_sent)
+  }
+}
+
+/* End Of Session Message: encoded, read back, and compared */
+proctype check_end_of_session_message() {
+  EndOfSessionMessage end_of_session_message_sent;
+  EndOfSessionMessage end_of_session_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_end_of_session_message(end_of_session_message_sent, 0)
+  :: pattern == 1 -> fill_end_of_session_message(end_of_session_message_sent, 32)
+  :: pattern == 2 -> fill_end_of_session_message(end_of_session_message_sent, 255)
+  :: else -> ramp_end_of_session_message(end_of_session_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_end_of_session_message(end_of_session_message_sent);
+    assert(at == 4);
+    at = 0;
+    decode_end_of_session_message(end_of_session_message_got);
+    assert(at == 4);
+    equal_end_of_session_message(end_of_session_message_got, end_of_session_message_sent)
+  }
+}
+
+/* one checking process, chosen nondeterministically, so every one of them runs */
+init {
+  if
+  :: run check_packet_header()
+  :: run check_message_header()
+  :: run check_time_reference_message()
+  :: run check_time_message()
+  :: run check_unit_clear_message()
+  :: run check_oof_symbol_mapping_message()
+  :: run check_trading_status_message()
+  :: run check_single_side_update_short_message()
+  :: run check_single_side_update_long_message()
+  :: run check_two_side_update_short_message()
+  :: run check_two_side_update_long_message()
+  :: run check_top_trade_message()
+  :: run check_settlement_message()
+  :: run check_end_of_session_message()
+  fi
+}
