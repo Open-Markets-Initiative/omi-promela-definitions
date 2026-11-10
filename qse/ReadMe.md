@@ -31,5 +31,5 @@
 [QseCash.Exchange]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/tree/main/Organizations/Qse/Protocols/QseCash "Qse QseCash"
 [Qse.QseCash.MarketData]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/Qse/Protocols/QseCash/MarketData.md "Qse Cash Market Data"
 
-[Qse.QseCash.MarketData.Xdp.v2.6.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/qse/qsecash/marketdata/QseCash_MarketData_v2_6.pml "Qse QseCash MarketData Xdp v2.6 Spin Definition"
+[Qse.QseCash.MarketData.Xdp.v2.6.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/qse/qsecash/marketdata/QseCash_MarketData_v2_6.pml "Qse QseCash MarketData Xdp v2.6 Promela Definition"
 [Qse.QseCash.MarketData.Xdp.v2.6.Url]: https://www.qe.com.qa/real-time-data "Qatar Stock Exchange 2.6 Url"

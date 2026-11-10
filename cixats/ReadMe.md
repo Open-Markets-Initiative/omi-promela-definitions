@@ -36,10 +36,10 @@
 [CixAts.CixAspen.Rerequest]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/CixAts/Protocols/CixAspen/Rerequest.md "CIX Udp Rerequest"
 [CixAts.CixAspen.Snapshot]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/CixAts/Protocols/CixAspen/Snapshot.md "CIX Tcp Snapshot"
 
-[CixAts.CixAspen.MarketDataFeed.Aspen.v1.4.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/cixats/marketdatafeed/CixAts_CixAspen_MarketDataFeed_v1_4.pml "CixAts MarketDataFeed Aspen v1.4 Spin Definition"
+[CixAts.CixAspen.MarketDataFeed.Aspen.v1.4.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/cixats/marketdatafeed/CixAts_CixAspen_MarketDataFeed_v1_4.pml "CixAts MarketDataFeed Aspen v1.4 Promela Definition"
 [CixAts.CixAspen.MarketDataFeed.Aspen.v1.4.Url]: https://www.thecix.ca/market-data "CIX Trading Inc. 1.4 Url"
 [CixAts.CixAspen.MarketDataFeed.Aspen.v1.4.Pdf]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/CixAts/Specifications/CixAts.CixAspen.MarketDataFeed.Aspen.v1.4.pdf "CIX Trading Inc. 1.4 Pdf"
-[CixAts.CixAspen.Rerequest.Aspen.v1.1.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/cixats/rerequest/CixAts_CixAspen_Rerequest_v1_1.pml "CixAts Rerequest Aspen v1.1 Spin Definition"
+[CixAts.CixAspen.Rerequest.Aspen.v1.1.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/cixats/rerequest/CixAts_CixAspen_Rerequest_v1_1.pml "CixAts Rerequest Aspen v1.1 Promela Definition"
 [CixAts.CixAspen.Rerequest.Aspen.v1.1.Pdf]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/CixAts/Specifications/CixAts.CixAspen.MarketDataFeed.Recovery.Aspen.v1.1.pdf "CIX Trading Inc. 1.1 Pdf"
-[CixAts.CixAspen.Snapshot.TcpOut.v1.1.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/cixats/snapshot/CixAts_CixAspen_Snapshot_v1_1.pml "CixAts Snapshot TcpOut v1.1 Spin Definition"
+[CixAts.CixAspen.Snapshot.TcpOut.v1.1.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/cixats/snapshot/CixAts_CixAspen_Snapshot_v1_1.pml "CixAts Snapshot TcpOut v1.1 Promela Definition"
 [CixAts.CixAspen.Snapshot.TcpOut.v1.1.Pdf]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/CixAts/Specifications/CixAts.CixAspen.MarketDataFeed.Recovery.Aspen.v1.1.pdf "CIX Trading Inc. 1.1 Pdf"

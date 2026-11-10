@@ -33,8 +33,8 @@
 [TitanDt.Platform]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/tree/main/Organizations/Sgx/Protocols/TitanDt "Sgx TitanDt"
 [Sgx.TitanDt.DepthOfBook]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/Sgx/Protocols/TitanDt/DepthOfBook.md "Depth Of Book"
 
-[Sgx.TitanDt.DepthOfBook.Glimpse.v1.4.Client.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/sgx/titandt/depthofbook/Sgx_TitanDt_DepthOfBook_Glimpse_v1_4_Client.pml "Sgx TitanDt DepthOfBook Glimpse v1.4 Spin Definition"
+[Sgx.TitanDt.DepthOfBook.Glimpse.v1.4.Client.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/sgx/titandt/depthofbook/Sgx_TitanDt_DepthOfBook_Glimpse_v1_4_Client.pml "Sgx TitanDt DepthOfBook Glimpse v1.4 Promela Definition"
 [Sgx.TitanDt.DepthOfBook.Glimpse.v1.4.Url]: https://www.sgx.com/securities/technical-information "Singapore Exchange 1.4 Url"
-[Sgx.TitanDt.DepthOfBook.Glimpse.v1.4.Server.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/sgx/titandt/depthofbook/Sgx_TitanDt_DepthOfBook_Glimpse_v1_4_Server.pml "Sgx TitanDt DepthOfBook Glimpse v1.4 Spin Definition"
-[Sgx.TitanDt.DepthOfBook.Itch.v1.4.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/sgx/titandt/depthofbook/Sgx_TitanDt_DepthOfBook_Itch_v1_4.pml "Sgx TitanDt DepthOfBook Itch v1.4 Spin Definition"
+[Sgx.TitanDt.DepthOfBook.Glimpse.v1.4.Server.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/sgx/titandt/depthofbook/Sgx_TitanDt_DepthOfBook_Glimpse_v1_4_Server.pml "Sgx TitanDt DepthOfBook Glimpse v1.4 Promela Definition"
+[Sgx.TitanDt.DepthOfBook.Itch.v1.4.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/sgx/titandt/depthofbook/Sgx_TitanDt_DepthOfBook_Itch_v1_4.pml "Sgx TitanDt DepthOfBook Itch v1.4 Promela Definition"
 [Sgx.TitanDt.DepthOfBook.Itch.v1.4.Url]: https://www.sgx.com/securities/technical-information "Singapore Exchange 1.4 Url"

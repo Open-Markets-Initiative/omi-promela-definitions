@@ -31,6 +31,6 @@
 [SseSecurities.Exchange]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/tree/main/Organizations/Sse/Protocols/SseSecurities "Sse SseSecurities"
 [Sse.SseSecurities.Mdgw]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/Sse/Protocols/SseSecurities/Mdgw.md "Market Data Gateway"
 
-[Sse.SseSecurities.Mdgw.Is120.v0.63.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/sse/ssesecurities/mdgw/SseSecurities_Mdgw_v0_63.pml "Sse SseSecurities Mdgw Is120 v0.63 Spin Definition"
+[Sse.SseSecurities.Mdgw.Is120.v0.63.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/sse/ssesecurities/mdgw/SseSecurities_Mdgw_v0_63.pml "Sse SseSecurities Mdgw Is120 v0.63 Promela Definition"
 [Sse.SseSecurities.Mdgw.Is120.v0.63.Url]: https://www.sse.com.cn/services/tradingtech/data/ "Shanghai Stock Exchange 0.63 Url"
 [Sse.SseSecurities.Mdgw.Is120.v0.63.Pdf]: https://www.sse.com.cn/services/tradingtech/data/c/10832588/files/03ec823b9825422ba4c74e2f5cb3c42e.pdf "Shanghai Stock Exchange 0.63 Pdf"

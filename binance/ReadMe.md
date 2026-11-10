@@ -31,5 +31,5 @@
 [BinanceSpot.Exchange]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/tree/main/Organizations/Binance/Protocols/BinanceSpot "Binance BinanceSpot"
 [Binance.BinanceSpot.MarketData]: https://github.com/Open-Markets-Initiative/Open-Markets-Initiative/blob/main/Organizations/Binance/Protocols/BinanceSpot/MarketData.md "Market Data"
 
-[Binance.BinanceSpot.MarketData.Sbe.v1.0.Definition]: https://github.com/Open-Markets-Initiative/omi-spin-definitions/blob/main/binance/binancespot/marketdata/BinanceSpot_MarketData_v1_0.pml "Binance BinanceSpot MarketData Sbe v1.0 Spin Definition"
+[Binance.BinanceSpot.MarketData.Sbe.v1.0.Definition]: https://github.com/Open-Markets-Initiative/omi-promela-definitions/blob/main/binance/binancespot/marketdata/BinanceSpot_MarketData_v1_0.pml "Binance BinanceSpot MarketData Sbe v1.0 Promela Definition"
 [Binance.BinanceSpot.MarketData.Sbe.v1.0.Url]: https://developers.binance.com/en/docs/products/spot "Binance 1.0 Url"
