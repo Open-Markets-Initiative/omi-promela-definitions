@@ -175,7 +175,7 @@ inline equal_message_header(message_header_read, message_header_written) {
 /* The Time Reference message is used to provide a midnight reference point for recipients of the feed. */
 typedef TimeReferenceMessage {
   byte midnight_reference[4];
-  byte time_reference[4];
+  byte time[4];
   byte time_offset[4];
   byte trade_date[4]
 };
@@ -191,7 +191,7 @@ inline fill_time_reference_message(time_reference_message_record, time_reference
   od;
   time_reference_message_at = 0;
   do
-  :: time_reference_message_at < 4 -> time_reference_message_record.time_reference[time_reference_message_at] = time_reference_message_value; time_reference_message_at = time_reference_message_at + 1
+  :: time_reference_message_at < 4 -> time_reference_message_record.time[time_reference_message_at] = time_reference_message_value; time_reference_message_at = time_reference_message_at + 1
   :: else -> break
   od;
   time_reference_message_at = 0;
@@ -216,7 +216,7 @@ inline ramp_time_reference_message(time_reference_message_record, time_reference
   od;
   time_reference_message_at = 0;
   do
-  :: time_reference_message_at < 4 -> time_reference_message_record.time_reference[time_reference_message_at] = (time_reference_message_base + 4 + time_reference_message_at + 1) % 256; time_reference_message_at = time_reference_message_at + 1
+  :: time_reference_message_at < 4 -> time_reference_message_record.time[time_reference_message_at] = (time_reference_message_base + 4 + time_reference_message_at + 1) % 256; time_reference_message_at = time_reference_message_at + 1
   :: else -> break
   od;
   time_reference_message_at = 0;
@@ -241,7 +241,7 @@ inline encode_time_reference_message(time_reference_message_record) {
   od;
   time_reference_message_at = 0;
   do
-  :: time_reference_message_at < 4 -> wire[at] = time_reference_message_record.time_reference[time_reference_message_at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: time_reference_message_at < 4 -> wire[at] = time_reference_message_record.time[time_reference_message_at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
   :: else -> break
   od;
   time_reference_message_at = 0;
@@ -266,7 +266,7 @@ inline decode_time_reference_message(time_reference_message_record) {
   od;
   time_reference_message_at = 0;
   do
-  :: time_reference_message_at < 4 -> time_reference_message_record.time_reference[time_reference_message_at] = wire[at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
+  :: time_reference_message_at < 4 -> time_reference_message_record.time[time_reference_message_at] = wire[at]; at = at + 1; time_reference_message_at = time_reference_message_at + 1
   :: else -> break
   od;
   time_reference_message_at = 0;
@@ -291,7 +291,7 @@ inline equal_time_reference_message(time_reference_message_read, time_reference_
   od;
   time_reference_message_at = 0;
   do
-  :: time_reference_message_at < 4 -> assert(time_reference_message_read.time_reference[time_reference_message_at] == time_reference_message_written.time_reference[time_reference_message_at]); time_reference_message_at = time_reference_message_at + 1
+  :: time_reference_message_at < 4 -> assert(time_reference_message_read.time[time_reference_message_at] == time_reference_message_written.time[time_reference_message_at]); time_reference_message_at = time_reference_message_at + 1
   :: else -> break
   od;
   time_reference_message_at = 0;

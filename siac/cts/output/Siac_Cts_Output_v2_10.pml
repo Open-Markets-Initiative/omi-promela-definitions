@@ -2394,7 +2394,7 @@ typedef PriorDayCorrectedTrade {
   byte stop_stock_indicator;
   byte trade_through_exempt_indicator;
   byte short_sale_restriction_indicator;
-  PriorDayTradeDateAndTime prior_day_trade_date_and_time
+  PriorDayTradeDateAndTime prior_day_trade_d_3r4jde
 };
 
 int prior_day_corrected_trade_at;
@@ -2416,7 +2416,7 @@ inline fill_prior_day_corrected_trade(prior_day_corrected_trade_record, prior_da
   prior_day_corrected_trade_record.stop_stock_indicator = prior_day_corrected_trade_value;
   prior_day_corrected_trade_record.trade_through_exempt_indicator = prior_day_corrected_trade_value;
   prior_day_corrected_trade_record.short_sale_restriction_indicator = prior_day_corrected_trade_value;
-  fill_prior_day_trade_date_and_time(prior_day_corrected_trade_record.prior_day_trade_date_and_time, prior_day_corrected_trade_value);
+  fill_prior_day_trade_date_and_time(prior_day_corrected_trade_record.prior_day_trade_d_3r4jde, prior_day_corrected_trade_value);
   skip
 }
 
@@ -2437,7 +2437,7 @@ inline ramp_prior_day_corrected_trade(prior_day_corrected_trade_record, prior_da
   prior_day_corrected_trade_record.stop_stock_indicator = (prior_day_corrected_trade_base + 17 + 1) % 256;
   prior_day_corrected_trade_record.trade_through_exempt_indicator = (prior_day_corrected_trade_base + 18 + 1) % 256;
   prior_day_corrected_trade_record.short_sale_restriction_indicator = (prior_day_corrected_trade_base + 19 + 1) % 256;
-  ramp_prior_day_trade_date_and_time(prior_day_corrected_trade_record.prior_day_trade_date_and_time, prior_day_corrected_trade_base + 20);
+  ramp_prior_day_trade_date_and_time(prior_day_corrected_trade_record.prior_day_trade_d_3r4jde, prior_day_corrected_trade_base + 20);
   skip
 }
 
@@ -2458,7 +2458,7 @@ inline encode_prior_day_corrected_trade(prior_day_corrected_trade_record) {
   wire[at] = prior_day_corrected_trade_record.stop_stock_indicator; at = at + 1;
   wire[at] = prior_day_corrected_trade_record.trade_through_exempt_indicator; at = at + 1;
   wire[at] = prior_day_corrected_trade_record.short_sale_restriction_indicator; at = at + 1;
-  encode_prior_day_trade_date_and_time(prior_day_corrected_trade_record.prior_day_trade_date_and_time);
+  encode_prior_day_trade_date_and_time(prior_day_corrected_trade_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2479,7 +2479,7 @@ inline decode_prior_day_corrected_trade(prior_day_corrected_trade_record) {
   prior_day_corrected_trade_record.stop_stock_indicator = wire[at]; at = at + 1;
   prior_day_corrected_trade_record.trade_through_exempt_indicator = wire[at]; at = at + 1;
   prior_day_corrected_trade_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
-  decode_prior_day_trade_date_and_time(prior_day_corrected_trade_record.prior_day_trade_date_and_time);
+  decode_prior_day_trade_date_and_time(prior_day_corrected_trade_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2500,7 +2500,7 @@ inline equal_prior_day_corrected_trade(prior_day_corrected_trade_read, prior_day
   assert(prior_day_corrected_trade_read.stop_stock_indicator == prior_day_corrected_trade_written.stop_stock_indicator);
   assert(prior_day_corrected_trade_read.trade_through_exempt_indicator == prior_day_corrected_trade_written.trade_through_exempt_indicator);
   assert(prior_day_corrected_trade_read.short_sale_restriction_indicator == prior_day_corrected_trade_written.short_sale_restriction_indicator);
-  equal_prior_day_trade_date_and_time(prior_day_corrected_trade_read.prior_day_trade_date_and_time, prior_day_corrected_trade_written.prior_day_trade_date_and_time);
+  equal_prior_day_trade_date_and_time(prior_day_corrected_trade_read.prior_day_trade_d_3r4jde, prior_day_corrected_trade_written.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2515,7 +2515,7 @@ typedef PriorDayOriginalTrade {
   byte stop_stock_indicator;
   byte trade_through_exempt_indicator;
   byte short_sale_restriction_indicator;
-  PriorDayTradeDateAndTime prior_day_trade_date_and_time
+  PriorDayTradeDateAndTime prior_day_trade_d_3r4jde
 };
 
 int prior_day_original_trade_at;
@@ -2537,7 +2537,7 @@ inline fill_prior_day_original_trade(prior_day_original_trade_record, prior_day_
   prior_day_original_trade_record.stop_stock_indicator = prior_day_original_trade_value;
   prior_day_original_trade_record.trade_through_exempt_indicator = prior_day_original_trade_value;
   prior_day_original_trade_record.short_sale_restriction_indicator = prior_day_original_trade_value;
-  fill_prior_day_trade_date_and_time(prior_day_original_trade_record.prior_day_trade_date_and_time, prior_day_original_trade_value);
+  fill_prior_day_trade_date_and_time(prior_day_original_trade_record.prior_day_trade_d_3r4jde, prior_day_original_trade_value);
   skip
 }
 
@@ -2558,7 +2558,7 @@ inline ramp_prior_day_original_trade(prior_day_original_trade_record, prior_day_
   prior_day_original_trade_record.stop_stock_indicator = (prior_day_original_trade_base + 17 + 1) % 256;
   prior_day_original_trade_record.trade_through_exempt_indicator = (prior_day_original_trade_base + 18 + 1) % 256;
   prior_day_original_trade_record.short_sale_restriction_indicator = (prior_day_original_trade_base + 19 + 1) % 256;
-  ramp_prior_day_trade_date_and_time(prior_day_original_trade_record.prior_day_trade_date_and_time, prior_day_original_trade_base + 20);
+  ramp_prior_day_trade_date_and_time(prior_day_original_trade_record.prior_day_trade_d_3r4jde, prior_day_original_trade_base + 20);
   skip
 }
 
@@ -2579,7 +2579,7 @@ inline encode_prior_day_original_trade(prior_day_original_trade_record) {
   wire[at] = prior_day_original_trade_record.stop_stock_indicator; at = at + 1;
   wire[at] = prior_day_original_trade_record.trade_through_exempt_indicator; at = at + 1;
   wire[at] = prior_day_original_trade_record.short_sale_restriction_indicator; at = at + 1;
-  encode_prior_day_trade_date_and_time(prior_day_original_trade_record.prior_day_trade_date_and_time);
+  encode_prior_day_trade_date_and_time(prior_day_original_trade_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2600,7 +2600,7 @@ inline decode_prior_day_original_trade(prior_day_original_trade_record) {
   prior_day_original_trade_record.stop_stock_indicator = wire[at]; at = at + 1;
   prior_day_original_trade_record.trade_through_exempt_indicator = wire[at]; at = at + 1;
   prior_day_original_trade_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
-  decode_prior_day_trade_date_and_time(prior_day_original_trade_record.prior_day_trade_date_and_time);
+  decode_prior_day_trade_date_and_time(prior_day_original_trade_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2621,7 +2621,7 @@ inline equal_prior_day_original_trade(prior_day_original_trade_read, prior_day_o
   assert(prior_day_original_trade_read.stop_stock_indicator == prior_day_original_trade_written.stop_stock_indicator);
   assert(prior_day_original_trade_read.trade_through_exempt_indicator == prior_day_original_trade_written.trade_through_exempt_indicator);
   assert(prior_day_original_trade_read.short_sale_restriction_indicator == prior_day_original_trade_written.short_sale_restriction_indicator);
-  equal_prior_day_trade_date_and_time(prior_day_original_trade_read.prior_day_trade_date_and_time, prior_day_original_trade_written.prior_day_trade_date_and_time);
+  equal_prior_day_trade_date_and_time(prior_day_original_trade_read.prior_day_trade_d_3r4jde, prior_day_original_trade_written.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2636,7 +2636,7 @@ typedef PriorDayTradeCorrectionMessage {
   byte participant_reference_number[8];
   byte security_symbol[11];
   byte instrument_type;
-  PriorDayCorrectedTrade prior_day_corrected_trade;
+  PriorDayCorrectedTrade prior_day_correct_aknc8r;
   byte trade_reporting_facility_id;
   PriorDayOriginalTrade prior_day_original_trade
 };
@@ -2664,7 +2664,7 @@ inline fill_prior_day_trade_correction_message(prior_day_trade_correction_messag
   :: else -> break
   od;
   prior_day_trade_correction_message_record.instrument_type = prior_day_trade_correction_message_value;
-  fill_prior_day_corrected_trade(prior_day_trade_correction_message_record.prior_day_corrected_trade, prior_day_trade_correction_message_value);
+  fill_prior_day_corrected_trade(prior_day_trade_correction_message_record.prior_day_correct_aknc8r, prior_day_trade_correction_message_value);
   prior_day_trade_correction_message_record.trade_reporting_facility_id = prior_day_trade_correction_message_value;
   fill_prior_day_original_trade(prior_day_trade_correction_message_record.prior_day_original_trade, prior_day_trade_correction_message_value);
   skip
@@ -2691,7 +2691,7 @@ inline ramp_prior_day_trade_correction_message(prior_day_trade_correction_messag
   :: else -> break
   od;
   prior_day_trade_correction_message_record.instrument_type = (prior_day_trade_correction_message_base + 33 + 1) % 256;
-  ramp_prior_day_corrected_trade(prior_day_trade_correction_message_record.prior_day_corrected_trade, prior_day_trade_correction_message_base + 34);
+  ramp_prior_day_corrected_trade(prior_day_trade_correction_message_record.prior_day_correct_aknc8r, prior_day_trade_correction_message_base + 34);
   prior_day_trade_correction_message_record.trade_reporting_facility_id = (prior_day_trade_correction_message_base + 62 + 1) % 256;
   ramp_prior_day_original_trade(prior_day_trade_correction_message_record.prior_day_original_trade, prior_day_trade_correction_message_base + 63);
   skip
@@ -2718,7 +2718,7 @@ inline encode_prior_day_trade_correction_message(prior_day_trade_correction_mess
   :: else -> break
   od;
   wire[at] = prior_day_trade_correction_message_record.instrument_type; at = at + 1;
-  encode_prior_day_corrected_trade(prior_day_trade_correction_message_record.prior_day_corrected_trade);
+  encode_prior_day_corrected_trade(prior_day_trade_correction_message_record.prior_day_correct_aknc8r);
   wire[at] = prior_day_trade_correction_message_record.trade_reporting_facility_id; at = at + 1;
   encode_prior_day_original_trade(prior_day_trade_correction_message_record.prior_day_original_trade);
   skip
@@ -2745,7 +2745,7 @@ inline decode_prior_day_trade_correction_message(prior_day_trade_correction_mess
   :: else -> break
   od;
   prior_day_trade_correction_message_record.instrument_type = wire[at]; at = at + 1;
-  decode_prior_day_corrected_trade(prior_day_trade_correction_message_record.prior_day_corrected_trade);
+  decode_prior_day_corrected_trade(prior_day_trade_correction_message_record.prior_day_correct_aknc8r);
   prior_day_trade_correction_message_record.trade_reporting_facility_id = wire[at]; at = at + 1;
   decode_prior_day_original_trade(prior_day_trade_correction_message_record.prior_day_original_trade);
   skip
@@ -2772,7 +2772,7 @@ inline equal_prior_day_trade_correction_message(prior_day_trade_correction_messa
   :: else -> break
   od;
   assert(prior_day_trade_correction_message_read.instrument_type == prior_day_trade_correction_message_written.instrument_type);
-  equal_prior_day_corrected_trade(prior_day_trade_correction_message_read.prior_day_corrected_trade, prior_day_trade_correction_message_written.prior_day_corrected_trade);
+  equal_prior_day_corrected_trade(prior_day_trade_correction_message_read.prior_day_correct_aknc8r, prior_day_trade_correction_message_written.prior_day_correct_aknc8r);
   assert(prior_day_trade_correction_message_read.trade_reporting_facility_id == prior_day_trade_correction_message_written.trade_reporting_facility_id);
   equal_prior_day_original_trade(prior_day_trade_correction_message_read.prior_day_original_trade, prior_day_trade_correction_message_written.prior_day_original_trade);
   skip
@@ -2789,7 +2789,7 @@ typedef FractionalPriorDayCorrectedTrade {
   byte stop_stock_indicator;
   byte trade_through_exempt_indicator;
   byte short_sale_restriction_indicator;
-  PriorDayTradeDateAndTime prior_day_trade_date_and_time
+  PriorDayTradeDateAndTime prior_day_trade_d_3r4jde
 };
 
 int fractional_prior_day_corrected_trade_at;
@@ -2811,7 +2811,7 @@ inline fill_fractional_prior_day_corrected_trade(fractional_prior_day_corrected_
   fractional_prior_day_corrected_trade_record.stop_stock_indicator = fractional_prior_day_corrected_trade_value;
   fractional_prior_day_corrected_trade_record.trade_through_exempt_indicator = fractional_prior_day_corrected_trade_value;
   fractional_prior_day_corrected_trade_record.short_sale_restriction_indicator = fractional_prior_day_corrected_trade_value;
-  fill_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_record.prior_day_trade_date_and_time, fractional_prior_day_corrected_trade_value);
+  fill_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_record.prior_day_trade_d_3r4jde, fractional_prior_day_corrected_trade_value);
   skip
 }
 
@@ -2832,7 +2832,7 @@ inline ramp_fractional_prior_day_corrected_trade(fractional_prior_day_corrected_
   fractional_prior_day_corrected_trade_record.stop_stock_indicator = (fractional_prior_day_corrected_trade_base + 21 + 1) % 256;
   fractional_prior_day_corrected_trade_record.trade_through_exempt_indicator = (fractional_prior_day_corrected_trade_base + 22 + 1) % 256;
   fractional_prior_day_corrected_trade_record.short_sale_restriction_indicator = (fractional_prior_day_corrected_trade_base + 23 + 1) % 256;
-  ramp_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_record.prior_day_trade_date_and_time, fractional_prior_day_corrected_trade_base + 24);
+  ramp_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_record.prior_day_trade_d_3r4jde, fractional_prior_day_corrected_trade_base + 24);
   skip
 }
 
@@ -2853,7 +2853,7 @@ inline encode_fractional_prior_day_corrected_trade(fractional_prior_day_correcte
   wire[at] = fractional_prior_day_corrected_trade_record.stop_stock_indicator; at = at + 1;
   wire[at] = fractional_prior_day_corrected_trade_record.trade_through_exempt_indicator; at = at + 1;
   wire[at] = fractional_prior_day_corrected_trade_record.short_sale_restriction_indicator; at = at + 1;
-  encode_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_record.prior_day_trade_date_and_time);
+  encode_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2874,7 +2874,7 @@ inline decode_fractional_prior_day_corrected_trade(fractional_prior_day_correcte
   fractional_prior_day_corrected_trade_record.stop_stock_indicator = wire[at]; at = at + 1;
   fractional_prior_day_corrected_trade_record.trade_through_exempt_indicator = wire[at]; at = at + 1;
   fractional_prior_day_corrected_trade_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
-  decode_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_record.prior_day_trade_date_and_time);
+  decode_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2895,7 +2895,7 @@ inline equal_fractional_prior_day_corrected_trade(fractional_prior_day_corrected
   assert(fractional_prior_day_corrected_trade_read.stop_stock_indicator == fractional_prior_day_corrected_trade_written.stop_stock_indicator);
   assert(fractional_prior_day_corrected_trade_read.trade_through_exempt_indicator == fractional_prior_day_corrected_trade_written.trade_through_exempt_indicator);
   assert(fractional_prior_day_corrected_trade_read.short_sale_restriction_indicator == fractional_prior_day_corrected_trade_written.short_sale_restriction_indicator);
-  equal_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_read.prior_day_trade_date_and_time, fractional_prior_day_corrected_trade_written.prior_day_trade_date_and_time);
+  equal_prior_day_trade_date_and_time(fractional_prior_day_corrected_trade_read.prior_day_trade_d_3r4jde, fractional_prior_day_corrected_trade_written.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2910,7 +2910,7 @@ typedef FractionalPriorDayOriginalTrade {
   byte stop_stock_indicator;
   byte trade_through_exempt_indicator;
   byte short_sale_restriction_indicator;
-  PriorDayTradeDateAndTime prior_day_trade_date_and_time
+  PriorDayTradeDateAndTime prior_day_trade_d_3r4jde
 };
 
 int fractional_prior_day_original_trade_at;
@@ -2932,7 +2932,7 @@ inline fill_fractional_prior_day_original_trade(fractional_prior_day_original_tr
   fractional_prior_day_original_trade_record.stop_stock_indicator = fractional_prior_day_original_trade_value;
   fractional_prior_day_original_trade_record.trade_through_exempt_indicator = fractional_prior_day_original_trade_value;
   fractional_prior_day_original_trade_record.short_sale_restriction_indicator = fractional_prior_day_original_trade_value;
-  fill_prior_day_trade_date_and_time(fractional_prior_day_original_trade_record.prior_day_trade_date_and_time, fractional_prior_day_original_trade_value);
+  fill_prior_day_trade_date_and_time(fractional_prior_day_original_trade_record.prior_day_trade_d_3r4jde, fractional_prior_day_original_trade_value);
   skip
 }
 
@@ -2953,7 +2953,7 @@ inline ramp_fractional_prior_day_original_trade(fractional_prior_day_original_tr
   fractional_prior_day_original_trade_record.stop_stock_indicator = (fractional_prior_day_original_trade_base + 21 + 1) % 256;
   fractional_prior_day_original_trade_record.trade_through_exempt_indicator = (fractional_prior_day_original_trade_base + 22 + 1) % 256;
   fractional_prior_day_original_trade_record.short_sale_restriction_indicator = (fractional_prior_day_original_trade_base + 23 + 1) % 256;
-  ramp_prior_day_trade_date_and_time(fractional_prior_day_original_trade_record.prior_day_trade_date_and_time, fractional_prior_day_original_trade_base + 24);
+  ramp_prior_day_trade_date_and_time(fractional_prior_day_original_trade_record.prior_day_trade_d_3r4jde, fractional_prior_day_original_trade_base + 24);
   skip
 }
 
@@ -2974,7 +2974,7 @@ inline encode_fractional_prior_day_original_trade(fractional_prior_day_original_
   wire[at] = fractional_prior_day_original_trade_record.stop_stock_indicator; at = at + 1;
   wire[at] = fractional_prior_day_original_trade_record.trade_through_exempt_indicator; at = at + 1;
   wire[at] = fractional_prior_day_original_trade_record.short_sale_restriction_indicator; at = at + 1;
-  encode_prior_day_trade_date_and_time(fractional_prior_day_original_trade_record.prior_day_trade_date_and_time);
+  encode_prior_day_trade_date_and_time(fractional_prior_day_original_trade_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -2995,7 +2995,7 @@ inline decode_fractional_prior_day_original_trade(fractional_prior_day_original_
   fractional_prior_day_original_trade_record.stop_stock_indicator = wire[at]; at = at + 1;
   fractional_prior_day_original_trade_record.trade_through_exempt_indicator = wire[at]; at = at + 1;
   fractional_prior_day_original_trade_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
-  decode_prior_day_trade_date_and_time(fractional_prior_day_original_trade_record.prior_day_trade_date_and_time);
+  decode_prior_day_trade_date_and_time(fractional_prior_day_original_trade_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -3016,7 +3016,7 @@ inline equal_fractional_prior_day_original_trade(fractional_prior_day_original_t
   assert(fractional_prior_day_original_trade_read.stop_stock_indicator == fractional_prior_day_original_trade_written.stop_stock_indicator);
   assert(fractional_prior_day_original_trade_read.trade_through_exempt_indicator == fractional_prior_day_original_trade_written.trade_through_exempt_indicator);
   assert(fractional_prior_day_original_trade_read.short_sale_restriction_indicator == fractional_prior_day_original_trade_written.short_sale_restriction_indicator);
-  equal_prior_day_trade_date_and_time(fractional_prior_day_original_trade_read.prior_day_trade_date_and_time, fractional_prior_day_original_trade_written.prior_day_trade_date_and_time);
+  equal_prior_day_trade_date_and_time(fractional_prior_day_original_trade_read.prior_day_trade_d_3r4jde, fractional_prior_day_original_trade_written.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -3031,9 +3031,9 @@ typedef FractionalPriorDayTradeCorrectionMessage {
   byte participant_reference_number[8];
   byte security_symbol[11];
   byte instrument_type;
-  FractionalPriorDayCorrectedTrade fractional_prior_day_corrected_trade;
+  FractionalPriorDayCorrectedTrade fractional_prior__efwi19;
   byte trade_reporting_facility_id;
-  FractionalPriorDayOriginalTrade fractional_prior_day_original_trade
+  FractionalPriorDayOriginalTrade fractional_prior__8ev1rj
 };
 
 int fractional_prior_day_trade_correction_message_at;
@@ -3059,9 +3059,9 @@ inline fill_fractional_prior_day_trade_correction_message(fractional_prior_day_t
   :: else -> break
   od;
   fractional_prior_day_trade_correction_message_record.instrument_type = fractional_prior_day_trade_correction_message_value;
-  fill_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_record.fractional_prior_day_corrected_trade, fractional_prior_day_trade_correction_message_value);
+  fill_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_record.fractional_prior__efwi19, fractional_prior_day_trade_correction_message_value);
   fractional_prior_day_trade_correction_message_record.trade_reporting_facility_id = fractional_prior_day_trade_correction_message_value;
-  fill_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_record.fractional_prior_day_original_trade, fractional_prior_day_trade_correction_message_value);
+  fill_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_record.fractional_prior__8ev1rj, fractional_prior_day_trade_correction_message_value);
   skip
 }
 
@@ -3086,9 +3086,9 @@ inline ramp_fractional_prior_day_trade_correction_message(fractional_prior_day_t
   :: else -> break
   od;
   fractional_prior_day_trade_correction_message_record.instrument_type = (fractional_prior_day_trade_correction_message_base + 33 + 1) % 256;
-  ramp_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_record.fractional_prior_day_corrected_trade, fractional_prior_day_trade_correction_message_base + 34);
+  ramp_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_record.fractional_prior__efwi19, fractional_prior_day_trade_correction_message_base + 34);
   fractional_prior_day_trade_correction_message_record.trade_reporting_facility_id = (fractional_prior_day_trade_correction_message_base + 66 + 1) % 256;
-  ramp_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_record.fractional_prior_day_original_trade, fractional_prior_day_trade_correction_message_base + 67);
+  ramp_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_record.fractional_prior__8ev1rj, fractional_prior_day_trade_correction_message_base + 67);
   skip
 }
 
@@ -3113,9 +3113,9 @@ inline encode_fractional_prior_day_trade_correction_message(fractional_prior_day
   :: else -> break
   od;
   wire[at] = fractional_prior_day_trade_correction_message_record.instrument_type; at = at + 1;
-  encode_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_record.fractional_prior_day_corrected_trade);
+  encode_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_record.fractional_prior__efwi19);
   wire[at] = fractional_prior_day_trade_correction_message_record.trade_reporting_facility_id; at = at + 1;
-  encode_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_record.fractional_prior_day_original_trade);
+  encode_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_record.fractional_prior__8ev1rj);
   skip
 }
 
@@ -3140,9 +3140,9 @@ inline decode_fractional_prior_day_trade_correction_message(fractional_prior_day
   :: else -> break
   od;
   fractional_prior_day_trade_correction_message_record.instrument_type = wire[at]; at = at + 1;
-  decode_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_record.fractional_prior_day_corrected_trade);
+  decode_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_record.fractional_prior__efwi19);
   fractional_prior_day_trade_correction_message_record.trade_reporting_facility_id = wire[at]; at = at + 1;
-  decode_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_record.fractional_prior_day_original_trade);
+  decode_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_record.fractional_prior__8ev1rj);
   skip
 }
 
@@ -3167,9 +3167,9 @@ inline equal_fractional_prior_day_trade_correction_message(fractional_prior_day_
   :: else -> break
   od;
   assert(fractional_prior_day_trade_correction_message_read.instrument_type == fractional_prior_day_trade_correction_message_written.instrument_type);
-  equal_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_read.fractional_prior_day_corrected_trade, fractional_prior_day_trade_correction_message_written.fractional_prior_day_corrected_trade);
+  equal_fractional_prior_day_corrected_trade(fractional_prior_day_trade_correction_message_read.fractional_prior__efwi19, fractional_prior_day_trade_correction_message_written.fractional_prior__efwi19);
   assert(fractional_prior_day_trade_correction_message_read.trade_reporting_facility_id == fractional_prior_day_trade_correction_message_written.trade_reporting_facility_id);
-  equal_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_read.fractional_prior_day_original_trade, fractional_prior_day_trade_correction_message_written.fractional_prior_day_original_trade);
+  equal_fractional_prior_day_original_trade(fractional_prior_day_trade_correction_message_read.fractional_prior__8ev1rj, fractional_prior_day_trade_correction_message_written.fractional_prior__8ev1rj);
   skip
 }
 
@@ -3192,7 +3192,7 @@ typedef PriorDayTradeMessage {
   byte trade_through_exempt_indicator;
   byte short_sale_restriction_indicator;
   byte trade_reporting_facility_id;
-  PriorDayTradeDateAndTime prior_day_trade_date_and_time
+  PriorDayTradeDateAndTime prior_day_trade_d_3r4jde
 };
 
 int prior_day_trade_message_at;
@@ -3234,7 +3234,7 @@ inline fill_prior_day_trade_message(prior_day_trade_message_record, prior_day_tr
   prior_day_trade_message_record.trade_through_exempt_indicator = prior_day_trade_message_value;
   prior_day_trade_message_record.short_sale_restriction_indicator = prior_day_trade_message_value;
   prior_day_trade_message_record.trade_reporting_facility_id = prior_day_trade_message_value;
-  fill_prior_day_trade_date_and_time(prior_day_trade_message_record.prior_day_trade_date_and_time, prior_day_trade_message_value);
+  fill_prior_day_trade_date_and_time(prior_day_trade_message_record.prior_day_trade_d_3r4jde, prior_day_trade_message_value);
   skip
 }
 
@@ -3275,7 +3275,7 @@ inline ramp_prior_day_trade_message(prior_day_trade_message_record, prior_day_tr
   prior_day_trade_message_record.trade_through_exempt_indicator = (prior_day_trade_message_base + 52 + 1) % 256;
   prior_day_trade_message_record.short_sale_restriction_indicator = (prior_day_trade_message_base + 53 + 1) % 256;
   prior_day_trade_message_record.trade_reporting_facility_id = (prior_day_trade_message_base + 54 + 1) % 256;
-  ramp_prior_day_trade_date_and_time(prior_day_trade_message_record.prior_day_trade_date_and_time, prior_day_trade_message_base + 55);
+  ramp_prior_day_trade_date_and_time(prior_day_trade_message_record.prior_day_trade_d_3r4jde, prior_day_trade_message_base + 55);
   skip
 }
 
@@ -3316,7 +3316,7 @@ inline encode_prior_day_trade_message(prior_day_trade_message_record) {
   wire[at] = prior_day_trade_message_record.trade_through_exempt_indicator; at = at + 1;
   wire[at] = prior_day_trade_message_record.short_sale_restriction_indicator; at = at + 1;
   wire[at] = prior_day_trade_message_record.trade_reporting_facility_id; at = at + 1;
-  encode_prior_day_trade_date_and_time(prior_day_trade_message_record.prior_day_trade_date_and_time);
+  encode_prior_day_trade_date_and_time(prior_day_trade_message_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -3357,7 +3357,7 @@ inline decode_prior_day_trade_message(prior_day_trade_message_record) {
   prior_day_trade_message_record.trade_through_exempt_indicator = wire[at]; at = at + 1;
   prior_day_trade_message_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
   prior_day_trade_message_record.trade_reporting_facility_id = wire[at]; at = at + 1;
-  decode_prior_day_trade_date_and_time(prior_day_trade_message_record.prior_day_trade_date_and_time);
+  decode_prior_day_trade_date_and_time(prior_day_trade_message_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -3398,7 +3398,7 @@ inline equal_prior_day_trade_message(prior_day_trade_message_read, prior_day_tra
   assert(prior_day_trade_message_read.trade_through_exempt_indicator == prior_day_trade_message_written.trade_through_exempt_indicator);
   assert(prior_day_trade_message_read.short_sale_restriction_indicator == prior_day_trade_message_written.short_sale_restriction_indicator);
   assert(prior_day_trade_message_read.trade_reporting_facility_id == prior_day_trade_message_written.trade_reporting_facility_id);
-  equal_prior_day_trade_date_and_time(prior_day_trade_message_read.prior_day_trade_date_and_time, prior_day_trade_message_written.prior_day_trade_date_and_time);
+  equal_prior_day_trade_date_and_time(prior_day_trade_message_read.prior_day_trade_d_3r4jde, prior_day_trade_message_written.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -3421,7 +3421,7 @@ typedef FractionalPriorDayTradeMessage {
   byte trade_through_exempt_indicator;
   byte short_sale_restriction_indicator;
   byte trade_reporting_facility_id;
-  PriorDayTradeDateAndTime prior_day_trade_date_and_time
+  PriorDayTradeDateAndTime prior_day_trade_d_3r4jde
 };
 
 int fractional_prior_day_trade_message_at;
@@ -3463,7 +3463,7 @@ inline fill_fractional_prior_day_trade_message(fractional_prior_day_trade_messag
   fractional_prior_day_trade_message_record.trade_through_exempt_indicator = fractional_prior_day_trade_message_value;
   fractional_prior_day_trade_message_record.short_sale_restriction_indicator = fractional_prior_day_trade_message_value;
   fractional_prior_day_trade_message_record.trade_reporting_facility_id = fractional_prior_day_trade_message_value;
-  fill_prior_day_trade_date_and_time(fractional_prior_day_trade_message_record.prior_day_trade_date_and_time, fractional_prior_day_trade_message_value);
+  fill_prior_day_trade_date_and_time(fractional_prior_day_trade_message_record.prior_day_trade_d_3r4jde, fractional_prior_day_trade_message_value);
   skip
 }
 
@@ -3504,7 +3504,7 @@ inline ramp_fractional_prior_day_trade_message(fractional_prior_day_trade_messag
   fractional_prior_day_trade_message_record.trade_through_exempt_indicator = (fractional_prior_day_trade_message_base + 56 + 1) % 256;
   fractional_prior_day_trade_message_record.short_sale_restriction_indicator = (fractional_prior_day_trade_message_base + 57 + 1) % 256;
   fractional_prior_day_trade_message_record.trade_reporting_facility_id = (fractional_prior_day_trade_message_base + 58 + 1) % 256;
-  ramp_prior_day_trade_date_and_time(fractional_prior_day_trade_message_record.prior_day_trade_date_and_time, fractional_prior_day_trade_message_base + 59);
+  ramp_prior_day_trade_date_and_time(fractional_prior_day_trade_message_record.prior_day_trade_d_3r4jde, fractional_prior_day_trade_message_base + 59);
   skip
 }
 
@@ -3545,7 +3545,7 @@ inline encode_fractional_prior_day_trade_message(fractional_prior_day_trade_mess
   wire[at] = fractional_prior_day_trade_message_record.trade_through_exempt_indicator; at = at + 1;
   wire[at] = fractional_prior_day_trade_message_record.short_sale_restriction_indicator; at = at + 1;
   wire[at] = fractional_prior_day_trade_message_record.trade_reporting_facility_id; at = at + 1;
-  encode_prior_day_trade_date_and_time(fractional_prior_day_trade_message_record.prior_day_trade_date_and_time);
+  encode_prior_day_trade_date_and_time(fractional_prior_day_trade_message_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -3586,7 +3586,7 @@ inline decode_fractional_prior_day_trade_message(fractional_prior_day_trade_mess
   fractional_prior_day_trade_message_record.trade_through_exempt_indicator = wire[at]; at = at + 1;
   fractional_prior_day_trade_message_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
   fractional_prior_day_trade_message_record.trade_reporting_facility_id = wire[at]; at = at + 1;
-  decode_prior_day_trade_date_and_time(fractional_prior_day_trade_message_record.prior_day_trade_date_and_time);
+  decode_prior_day_trade_date_and_time(fractional_prior_day_trade_message_record.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -3627,7 +3627,7 @@ inline equal_fractional_prior_day_trade_message(fractional_prior_day_trade_messa
   assert(fractional_prior_day_trade_message_read.trade_through_exempt_indicator == fractional_prior_day_trade_message_written.trade_through_exempt_indicator);
   assert(fractional_prior_day_trade_message_read.short_sale_restriction_indicator == fractional_prior_day_trade_message_written.short_sale_restriction_indicator);
   assert(fractional_prior_day_trade_message_read.trade_reporting_facility_id == fractional_prior_day_trade_message_written.trade_reporting_facility_id);
-  equal_prior_day_trade_date_and_time(fractional_prior_day_trade_message_read.prior_day_trade_date_and_time, fractional_prior_day_trade_message_written.prior_day_trade_date_and_time);
+  equal_prior_day_trade_date_and_time(fractional_prior_day_trade_message_read.prior_day_trade_d_3r4jde, fractional_prior_day_trade_message_written.prior_day_trade_d_3r4jde);
   skip
 }
 
@@ -3650,7 +3650,7 @@ typedef PriorDayTradeCancelErrorMessage {
   byte trade_through_exempt_indicator;
   byte short_sale_restriction_indicator;
   byte trade_reporting_facility_id;
-  PriorDayTradeDateAndTime prior_day_trade_date_and_time;
+  PriorDayTradeDateAndTime prior_day_trade_d_3r4jde;
   byte cancel_error_action
 };
 
@@ -3693,7 +3693,7 @@ inline fill_prior_day_trade_cancel_error_message(prior_day_trade_cancel_error_me
   prior_day_trade_cancel_error_message_record.trade_through_exempt_indicator = prior_day_trade_cancel_error_message_value;
   prior_day_trade_cancel_error_message_record.short_sale_restriction_indicator = prior_day_trade_cancel_error_message_value;
   prior_day_trade_cancel_error_message_record.trade_reporting_facility_id = prior_day_trade_cancel_error_message_value;
-  fill_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_record.prior_day_trade_date_and_time, prior_day_trade_cancel_error_message_value);
+  fill_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_record.prior_day_trade_d_3r4jde, prior_day_trade_cancel_error_message_value);
   prior_day_trade_cancel_error_message_record.cancel_error_action = prior_day_trade_cancel_error_message_value;
   skip
 }
@@ -3735,7 +3735,7 @@ inline ramp_prior_day_trade_cancel_error_message(prior_day_trade_cancel_error_me
   prior_day_trade_cancel_error_message_record.trade_through_exempt_indicator = (prior_day_trade_cancel_error_message_base + 52 + 1) % 256;
   prior_day_trade_cancel_error_message_record.short_sale_restriction_indicator = (prior_day_trade_cancel_error_message_base + 53 + 1) % 256;
   prior_day_trade_cancel_error_message_record.trade_reporting_facility_id = (prior_day_trade_cancel_error_message_base + 54 + 1) % 256;
-  ramp_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_record.prior_day_trade_date_and_time, prior_day_trade_cancel_error_message_base + 55);
+  ramp_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_record.prior_day_trade_d_3r4jde, prior_day_trade_cancel_error_message_base + 55);
   prior_day_trade_cancel_error_message_record.cancel_error_action = (prior_day_trade_cancel_error_message_base + 63 + 1) % 256;
   skip
 }
@@ -3777,7 +3777,7 @@ inline encode_prior_day_trade_cancel_error_message(prior_day_trade_cancel_error_
   wire[at] = prior_day_trade_cancel_error_message_record.trade_through_exempt_indicator; at = at + 1;
   wire[at] = prior_day_trade_cancel_error_message_record.short_sale_restriction_indicator; at = at + 1;
   wire[at] = prior_day_trade_cancel_error_message_record.trade_reporting_facility_id; at = at + 1;
-  encode_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_record.prior_day_trade_date_and_time);
+  encode_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_record.prior_day_trade_d_3r4jde);
   wire[at] = prior_day_trade_cancel_error_message_record.cancel_error_action; at = at + 1;
   skip
 }
@@ -3819,7 +3819,7 @@ inline decode_prior_day_trade_cancel_error_message(prior_day_trade_cancel_error_
   prior_day_trade_cancel_error_message_record.trade_through_exempt_indicator = wire[at]; at = at + 1;
   prior_day_trade_cancel_error_message_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
   prior_day_trade_cancel_error_message_record.trade_reporting_facility_id = wire[at]; at = at + 1;
-  decode_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_record.prior_day_trade_date_and_time);
+  decode_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_record.prior_day_trade_d_3r4jde);
   prior_day_trade_cancel_error_message_record.cancel_error_action = wire[at]; at = at + 1;
   skip
 }
@@ -3861,7 +3861,7 @@ inline equal_prior_day_trade_cancel_error_message(prior_day_trade_cancel_error_m
   assert(prior_day_trade_cancel_error_message_read.trade_through_exempt_indicator == prior_day_trade_cancel_error_message_written.trade_through_exempt_indicator);
   assert(prior_day_trade_cancel_error_message_read.short_sale_restriction_indicator == prior_day_trade_cancel_error_message_written.short_sale_restriction_indicator);
   assert(prior_day_trade_cancel_error_message_read.trade_reporting_facility_id == prior_day_trade_cancel_error_message_written.trade_reporting_facility_id);
-  equal_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_read.prior_day_trade_date_and_time, prior_day_trade_cancel_error_message_written.prior_day_trade_date_and_time);
+  equal_prior_day_trade_date_and_time(prior_day_trade_cancel_error_message_read.prior_day_trade_d_3r4jde, prior_day_trade_cancel_error_message_written.prior_day_trade_d_3r4jde);
   assert(prior_day_trade_cancel_error_message_read.cancel_error_action == prior_day_trade_cancel_error_message_written.cancel_error_action);
   skip
 }
@@ -3885,7 +3885,7 @@ typedef FractionalPriorDayTradeCancelErrorMessage {
   byte trade_through_exempt_indicator;
   byte short_sale_restriction_indicator;
   byte trade_reporting_facility_id;
-  PriorDayTradeDateAndTime prior_day_trade_date_and_time;
+  PriorDayTradeDateAndTime prior_day_trade_d_3r4jde;
   byte cancel_error_action
 };
 
@@ -3928,7 +3928,7 @@ inline fill_fractional_prior_day_trade_cancel_error_message(fractional_prior_day
   fractional_prior_day_trade_cancel_error_message_record.trade_through_exempt_indicator = fractional_prior_day_trade_cancel_error_message_value;
   fractional_prior_day_trade_cancel_error_message_record.short_sale_restriction_indicator = fractional_prior_day_trade_cancel_error_message_value;
   fractional_prior_day_trade_cancel_error_message_record.trade_reporting_facility_id = fractional_prior_day_trade_cancel_error_message_value;
-  fill_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_record.prior_day_trade_date_and_time, fractional_prior_day_trade_cancel_error_message_value);
+  fill_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_record.prior_day_trade_d_3r4jde, fractional_prior_day_trade_cancel_error_message_value);
   fractional_prior_day_trade_cancel_error_message_record.cancel_error_action = fractional_prior_day_trade_cancel_error_message_value;
   skip
 }
@@ -3970,7 +3970,7 @@ inline ramp_fractional_prior_day_trade_cancel_error_message(fractional_prior_day
   fractional_prior_day_trade_cancel_error_message_record.trade_through_exempt_indicator = (fractional_prior_day_trade_cancel_error_message_base + 56 + 1) % 256;
   fractional_prior_day_trade_cancel_error_message_record.short_sale_restriction_indicator = (fractional_prior_day_trade_cancel_error_message_base + 57 + 1) % 256;
   fractional_prior_day_trade_cancel_error_message_record.trade_reporting_facility_id = (fractional_prior_day_trade_cancel_error_message_base + 58 + 1) % 256;
-  ramp_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_record.prior_day_trade_date_and_time, fractional_prior_day_trade_cancel_error_message_base + 59);
+  ramp_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_record.prior_day_trade_d_3r4jde, fractional_prior_day_trade_cancel_error_message_base + 59);
   fractional_prior_day_trade_cancel_error_message_record.cancel_error_action = (fractional_prior_day_trade_cancel_error_message_base + 67 + 1) % 256;
   skip
 }
@@ -4012,7 +4012,7 @@ inline encode_fractional_prior_day_trade_cancel_error_message(fractional_prior_d
   wire[at] = fractional_prior_day_trade_cancel_error_message_record.trade_through_exempt_indicator; at = at + 1;
   wire[at] = fractional_prior_day_trade_cancel_error_message_record.short_sale_restriction_indicator; at = at + 1;
   wire[at] = fractional_prior_day_trade_cancel_error_message_record.trade_reporting_facility_id; at = at + 1;
-  encode_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_record.prior_day_trade_date_and_time);
+  encode_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_record.prior_day_trade_d_3r4jde);
   wire[at] = fractional_prior_day_trade_cancel_error_message_record.cancel_error_action; at = at + 1;
   skip
 }
@@ -4054,7 +4054,7 @@ inline decode_fractional_prior_day_trade_cancel_error_message(fractional_prior_d
   fractional_prior_day_trade_cancel_error_message_record.trade_through_exempt_indicator = wire[at]; at = at + 1;
   fractional_prior_day_trade_cancel_error_message_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
   fractional_prior_day_trade_cancel_error_message_record.trade_reporting_facility_id = wire[at]; at = at + 1;
-  decode_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_record.prior_day_trade_date_and_time);
+  decode_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_record.prior_day_trade_d_3r4jde);
   fractional_prior_day_trade_cancel_error_message_record.cancel_error_action = wire[at]; at = at + 1;
   skip
 }
@@ -4096,7 +4096,7 @@ inline equal_fractional_prior_day_trade_cancel_error_message(fractional_prior_da
   assert(fractional_prior_day_trade_cancel_error_message_read.trade_through_exempt_indicator == fractional_prior_day_trade_cancel_error_message_written.trade_through_exempt_indicator);
   assert(fractional_prior_day_trade_cancel_error_message_read.short_sale_restriction_indicator == fractional_prior_day_trade_cancel_error_message_written.short_sale_restriction_indicator);
   assert(fractional_prior_day_trade_cancel_error_message_read.trade_reporting_facility_id == fractional_prior_day_trade_cancel_error_message_written.trade_reporting_facility_id);
-  equal_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_read.prior_day_trade_date_and_time, fractional_prior_day_trade_cancel_error_message_written.prior_day_trade_date_and_time);
+  equal_prior_day_trade_date_and_time(fractional_prior_day_trade_cancel_error_message_read.prior_day_trade_d_3r4jde, fractional_prior_day_trade_cancel_error_message_written.prior_day_trade_d_3r4jde);
   assert(fractional_prior_day_trade_cancel_error_message_read.cancel_error_action == fractional_prior_day_trade_cancel_error_message_written.cancel_error_action);
   skip
 }
@@ -7475,15 +7475,15 @@ typedef FractionalTradeCorrectionMessage {
   byte participant_reference_number[8];
   byte security_symbol[11];
   byte instrument_type;
-  FractionalCorrectedTrade fractional_corrected_trade;
+  FractionalCorrectedTrade fractional_correc_grl2g7;
   byte trade_reporting_facility_id;
   Timestamp2 timestamp_2;
   byte original_participant_reference_number[8];
-  FractionalOriginalTrade fractional_original_trade;
+  FractionalOriginalTrade fractional_origin_exln1l;
   byte primary_listing_market_participant_id;
   byte financial_status_indicator;
-  FractionalConsolidatedData fractional_consolidated_data;
-  FractionalParticipantData fractional_participant_data
+  FractionalConsolidatedData fractional_consol_1ct4u9;
+  FractionalParticipantData fractional_partic_78s5ox
 };
 
 int fractional_trade_correction_message_at;
@@ -7509,7 +7509,7 @@ inline fill_fractional_trade_correction_message(fractional_trade_correction_mess
   :: else -> break
   od;
   fractional_trade_correction_message_record.instrument_type = fractional_trade_correction_message_value;
-  fill_fractional_corrected_trade(fractional_trade_correction_message_record.fractional_corrected_trade, fractional_trade_correction_message_value);
+  fill_fractional_corrected_trade(fractional_trade_correction_message_record.fractional_correc_grl2g7, fractional_trade_correction_message_value);
   fractional_trade_correction_message_record.trade_reporting_facility_id = fractional_trade_correction_message_value;
   fill_timestamp2(fractional_trade_correction_message_record.timestamp_2, fractional_trade_correction_message_value);
   fractional_trade_correction_message_at = 0;
@@ -7517,11 +7517,11 @@ inline fill_fractional_trade_correction_message(fractional_trade_correction_mess
   :: fractional_trade_correction_message_at < 8 -> fractional_trade_correction_message_record.original_participant_reference_number[fractional_trade_correction_message_at] = fractional_trade_correction_message_value; fractional_trade_correction_message_at = fractional_trade_correction_message_at + 1
   :: else -> break
   od;
-  fill_fractional_original_trade(fractional_trade_correction_message_record.fractional_original_trade, fractional_trade_correction_message_value);
+  fill_fractional_original_trade(fractional_trade_correction_message_record.fractional_origin_exln1l, fractional_trade_correction_message_value);
   fractional_trade_correction_message_record.primary_listing_market_participant_id = fractional_trade_correction_message_value;
   fractional_trade_correction_message_record.financial_status_indicator = fractional_trade_correction_message_value;
-  fill_fractional_consolidated_data(fractional_trade_correction_message_record.fractional_consolidated_data, fractional_trade_correction_message_value);
-  fill_fractional_participant_data(fractional_trade_correction_message_record.fractional_participant_data, fractional_trade_correction_message_value);
+  fill_fractional_consolidated_data(fractional_trade_correction_message_record.fractional_consol_1ct4u9, fractional_trade_correction_message_value);
+  fill_fractional_participant_data(fractional_trade_correction_message_record.fractional_partic_78s5ox, fractional_trade_correction_message_value);
   skip
 }
 
@@ -7546,7 +7546,7 @@ inline ramp_fractional_trade_correction_message(fractional_trade_correction_mess
   :: else -> break
   od;
   fractional_trade_correction_message_record.instrument_type = (fractional_trade_correction_message_base + 33 + 1) % 256;
-  ramp_fractional_corrected_trade(fractional_trade_correction_message_record.fractional_corrected_trade, fractional_trade_correction_message_base + 34);
+  ramp_fractional_corrected_trade(fractional_trade_correction_message_record.fractional_correc_grl2g7, fractional_trade_correction_message_base + 34);
   fractional_trade_correction_message_record.trade_reporting_facility_id = (fractional_trade_correction_message_base + 58 + 1) % 256;
   ramp_timestamp2(fractional_trade_correction_message_record.timestamp_2, fractional_trade_correction_message_base + 59);
   fractional_trade_correction_message_at = 0;
@@ -7554,11 +7554,11 @@ inline ramp_fractional_trade_correction_message(fractional_trade_correction_mess
   :: fractional_trade_correction_message_at < 8 -> fractional_trade_correction_message_record.original_participant_reference_number[fractional_trade_correction_message_at] = (fractional_trade_correction_message_base + 67 + fractional_trade_correction_message_at + 1) % 256; fractional_trade_correction_message_at = fractional_trade_correction_message_at + 1
   :: else -> break
   od;
-  ramp_fractional_original_trade(fractional_trade_correction_message_record.fractional_original_trade, fractional_trade_correction_message_base + 75);
+  ramp_fractional_original_trade(fractional_trade_correction_message_record.fractional_origin_exln1l, fractional_trade_correction_message_base + 75);
   fractional_trade_correction_message_record.primary_listing_market_participant_id = (fractional_trade_correction_message_base + 99 + 1) % 256;
   fractional_trade_correction_message_record.financial_status_indicator = (fractional_trade_correction_message_base + 100 + 1) % 256;
-  ramp_fractional_consolidated_data(fractional_trade_correction_message_record.fractional_consolidated_data, fractional_trade_correction_message_base + 101);
-  ramp_fractional_participant_data(fractional_trade_correction_message_record.fractional_participant_data, fractional_trade_correction_message_base + 139);
+  ramp_fractional_consolidated_data(fractional_trade_correction_message_record.fractional_consol_1ct4u9, fractional_trade_correction_message_base + 101);
+  ramp_fractional_participant_data(fractional_trade_correction_message_record.fractional_partic_78s5ox, fractional_trade_correction_message_base + 139);
   skip
 }
 
@@ -7583,7 +7583,7 @@ inline encode_fractional_trade_correction_message(fractional_trade_correction_me
   :: else -> break
   od;
   wire[at] = fractional_trade_correction_message_record.instrument_type; at = at + 1;
-  encode_fractional_corrected_trade(fractional_trade_correction_message_record.fractional_corrected_trade);
+  encode_fractional_corrected_trade(fractional_trade_correction_message_record.fractional_correc_grl2g7);
   wire[at] = fractional_trade_correction_message_record.trade_reporting_facility_id; at = at + 1;
   encode_timestamp2(fractional_trade_correction_message_record.timestamp_2);
   fractional_trade_correction_message_at = 0;
@@ -7591,11 +7591,11 @@ inline encode_fractional_trade_correction_message(fractional_trade_correction_me
   :: fractional_trade_correction_message_at < 8 -> wire[at] = fractional_trade_correction_message_record.original_participant_reference_number[fractional_trade_correction_message_at]; at = at + 1; fractional_trade_correction_message_at = fractional_trade_correction_message_at + 1
   :: else -> break
   od;
-  encode_fractional_original_trade(fractional_trade_correction_message_record.fractional_original_trade);
+  encode_fractional_original_trade(fractional_trade_correction_message_record.fractional_origin_exln1l);
   wire[at] = fractional_trade_correction_message_record.primary_listing_market_participant_id; at = at + 1;
   wire[at] = fractional_trade_correction_message_record.financial_status_indicator; at = at + 1;
-  encode_fractional_consolidated_data(fractional_trade_correction_message_record.fractional_consolidated_data);
-  encode_fractional_participant_data(fractional_trade_correction_message_record.fractional_participant_data);
+  encode_fractional_consolidated_data(fractional_trade_correction_message_record.fractional_consol_1ct4u9);
+  encode_fractional_participant_data(fractional_trade_correction_message_record.fractional_partic_78s5ox);
   skip
 }
 
@@ -7620,7 +7620,7 @@ inline decode_fractional_trade_correction_message(fractional_trade_correction_me
   :: else -> break
   od;
   fractional_trade_correction_message_record.instrument_type = wire[at]; at = at + 1;
-  decode_fractional_corrected_trade(fractional_trade_correction_message_record.fractional_corrected_trade);
+  decode_fractional_corrected_trade(fractional_trade_correction_message_record.fractional_correc_grl2g7);
   fractional_trade_correction_message_record.trade_reporting_facility_id = wire[at]; at = at + 1;
   decode_timestamp2(fractional_trade_correction_message_record.timestamp_2);
   fractional_trade_correction_message_at = 0;
@@ -7628,11 +7628,11 @@ inline decode_fractional_trade_correction_message(fractional_trade_correction_me
   :: fractional_trade_correction_message_at < 8 -> fractional_trade_correction_message_record.original_participant_reference_number[fractional_trade_correction_message_at] = wire[at]; at = at + 1; fractional_trade_correction_message_at = fractional_trade_correction_message_at + 1
   :: else -> break
   od;
-  decode_fractional_original_trade(fractional_trade_correction_message_record.fractional_original_trade);
+  decode_fractional_original_trade(fractional_trade_correction_message_record.fractional_origin_exln1l);
   fractional_trade_correction_message_record.primary_listing_market_participant_id = wire[at]; at = at + 1;
   fractional_trade_correction_message_record.financial_status_indicator = wire[at]; at = at + 1;
-  decode_fractional_consolidated_data(fractional_trade_correction_message_record.fractional_consolidated_data);
-  decode_fractional_participant_data(fractional_trade_correction_message_record.fractional_participant_data);
+  decode_fractional_consolidated_data(fractional_trade_correction_message_record.fractional_consol_1ct4u9);
+  decode_fractional_participant_data(fractional_trade_correction_message_record.fractional_partic_78s5ox);
   skip
 }
 
@@ -7657,7 +7657,7 @@ inline equal_fractional_trade_correction_message(fractional_trade_correction_mes
   :: else -> break
   od;
   assert(fractional_trade_correction_message_read.instrument_type == fractional_trade_correction_message_written.instrument_type);
-  equal_fractional_corrected_trade(fractional_trade_correction_message_read.fractional_corrected_trade, fractional_trade_correction_message_written.fractional_corrected_trade);
+  equal_fractional_corrected_trade(fractional_trade_correction_message_read.fractional_correc_grl2g7, fractional_trade_correction_message_written.fractional_correc_grl2g7);
   assert(fractional_trade_correction_message_read.trade_reporting_facility_id == fractional_trade_correction_message_written.trade_reporting_facility_id);
   equal_timestamp2(fractional_trade_correction_message_read.timestamp_2, fractional_trade_correction_message_written.timestamp_2);
   fractional_trade_correction_message_at = 0;
@@ -7665,11 +7665,11 @@ inline equal_fractional_trade_correction_message(fractional_trade_correction_mes
   :: fractional_trade_correction_message_at < 8 -> assert(fractional_trade_correction_message_read.original_participant_reference_number[fractional_trade_correction_message_at] == fractional_trade_correction_message_written.original_participant_reference_number[fractional_trade_correction_message_at]); fractional_trade_correction_message_at = fractional_trade_correction_message_at + 1
   :: else -> break
   od;
-  equal_fractional_original_trade(fractional_trade_correction_message_read.fractional_original_trade, fractional_trade_correction_message_written.fractional_original_trade);
+  equal_fractional_original_trade(fractional_trade_correction_message_read.fractional_origin_exln1l, fractional_trade_correction_message_written.fractional_origin_exln1l);
   assert(fractional_trade_correction_message_read.primary_listing_market_participant_id == fractional_trade_correction_message_written.primary_listing_market_participant_id);
   assert(fractional_trade_correction_message_read.financial_status_indicator == fractional_trade_correction_message_written.financial_status_indicator);
-  equal_fractional_consolidated_data(fractional_trade_correction_message_read.fractional_consolidated_data, fractional_trade_correction_message_written.fractional_consolidated_data);
-  equal_fractional_participant_data(fractional_trade_correction_message_read.fractional_participant_data, fractional_trade_correction_message_written.fractional_participant_data);
+  equal_fractional_consolidated_data(fractional_trade_correction_message_read.fractional_consol_1ct4u9, fractional_trade_correction_message_written.fractional_consol_1ct4u9);
+  equal_fractional_participant_data(fractional_trade_correction_message_read.fractional_partic_78s5ox, fractional_trade_correction_message_written.fractional_partic_78s5ox);
   skip
 }
 
@@ -9223,8 +9223,8 @@ typedef FractionalTradeCancelErrorMessage {
   byte short_sale_restriction_indicator;
   byte primary_listing_market_participant_id;
   byte financial_status_indicator;
-  FractionalConsolidatedData fractional_consolidated_data;
-  FractionalParticipantData fractional_participant_data
+  FractionalConsolidatedData fractional_consol_1ct4u9;
+  FractionalParticipantData fractional_partic_78s5ox
 };
 
 int fractional_trade_cancel_error_message_at;
@@ -9275,8 +9275,8 @@ inline fill_fractional_trade_cancel_error_message(fractional_trade_cancel_error_
   fractional_trade_cancel_error_message_record.short_sale_restriction_indicator = fractional_trade_cancel_error_message_value;
   fractional_trade_cancel_error_message_record.primary_listing_market_participant_id = fractional_trade_cancel_error_message_value;
   fractional_trade_cancel_error_message_record.financial_status_indicator = fractional_trade_cancel_error_message_value;
-  fill_fractional_consolidated_data(fractional_trade_cancel_error_message_record.fractional_consolidated_data, fractional_trade_cancel_error_message_value);
-  fill_fractional_participant_data(fractional_trade_cancel_error_message_record.fractional_participant_data, fractional_trade_cancel_error_message_value);
+  fill_fractional_consolidated_data(fractional_trade_cancel_error_message_record.fractional_consol_1ct4u9, fractional_trade_cancel_error_message_value);
+  fill_fractional_participant_data(fractional_trade_cancel_error_message_record.fractional_partic_78s5ox, fractional_trade_cancel_error_message_value);
   skip
 }
 
@@ -9326,8 +9326,8 @@ inline ramp_fractional_trade_cancel_error_message(fractional_trade_cancel_error_
   fractional_trade_cancel_error_message_record.short_sale_restriction_indicator = (fractional_trade_cancel_error_message_base + 75 + 1) % 256;
   fractional_trade_cancel_error_message_record.primary_listing_market_participant_id = (fractional_trade_cancel_error_message_base + 76 + 1) % 256;
   fractional_trade_cancel_error_message_record.financial_status_indicator = (fractional_trade_cancel_error_message_base + 77 + 1) % 256;
-  ramp_fractional_consolidated_data(fractional_trade_cancel_error_message_record.fractional_consolidated_data, fractional_trade_cancel_error_message_base + 78);
-  ramp_fractional_participant_data(fractional_trade_cancel_error_message_record.fractional_participant_data, fractional_trade_cancel_error_message_base + 116);
+  ramp_fractional_consolidated_data(fractional_trade_cancel_error_message_record.fractional_consol_1ct4u9, fractional_trade_cancel_error_message_base + 78);
+  ramp_fractional_participant_data(fractional_trade_cancel_error_message_record.fractional_partic_78s5ox, fractional_trade_cancel_error_message_base + 116);
   skip
 }
 
@@ -9377,8 +9377,8 @@ inline encode_fractional_trade_cancel_error_message(fractional_trade_cancel_erro
   wire[at] = fractional_trade_cancel_error_message_record.short_sale_restriction_indicator; at = at + 1;
   wire[at] = fractional_trade_cancel_error_message_record.primary_listing_market_participant_id; at = at + 1;
   wire[at] = fractional_trade_cancel_error_message_record.financial_status_indicator; at = at + 1;
-  encode_fractional_consolidated_data(fractional_trade_cancel_error_message_record.fractional_consolidated_data);
-  encode_fractional_participant_data(fractional_trade_cancel_error_message_record.fractional_participant_data);
+  encode_fractional_consolidated_data(fractional_trade_cancel_error_message_record.fractional_consol_1ct4u9);
+  encode_fractional_participant_data(fractional_trade_cancel_error_message_record.fractional_partic_78s5ox);
   skip
 }
 
@@ -9428,8 +9428,8 @@ inline decode_fractional_trade_cancel_error_message(fractional_trade_cancel_erro
   fractional_trade_cancel_error_message_record.short_sale_restriction_indicator = wire[at]; at = at + 1;
   fractional_trade_cancel_error_message_record.primary_listing_market_participant_id = wire[at]; at = at + 1;
   fractional_trade_cancel_error_message_record.financial_status_indicator = wire[at]; at = at + 1;
-  decode_fractional_consolidated_data(fractional_trade_cancel_error_message_record.fractional_consolidated_data);
-  decode_fractional_participant_data(fractional_trade_cancel_error_message_record.fractional_participant_data);
+  decode_fractional_consolidated_data(fractional_trade_cancel_error_message_record.fractional_consol_1ct4u9);
+  decode_fractional_participant_data(fractional_trade_cancel_error_message_record.fractional_partic_78s5ox);
   skip
 }
 
@@ -9479,8 +9479,8 @@ inline equal_fractional_trade_cancel_error_message(fractional_trade_cancel_error
   assert(fractional_trade_cancel_error_message_read.short_sale_restriction_indicator == fractional_trade_cancel_error_message_written.short_sale_restriction_indicator);
   assert(fractional_trade_cancel_error_message_read.primary_listing_market_participant_id == fractional_trade_cancel_error_message_written.primary_listing_market_participant_id);
   assert(fractional_trade_cancel_error_message_read.financial_status_indicator == fractional_trade_cancel_error_message_written.financial_status_indicator);
-  equal_fractional_consolidated_data(fractional_trade_cancel_error_message_read.fractional_consolidated_data, fractional_trade_cancel_error_message_written.fractional_consolidated_data);
-  equal_fractional_participant_data(fractional_trade_cancel_error_message_read.fractional_participant_data, fractional_trade_cancel_error_message_written.fractional_participant_data);
+  equal_fractional_consolidated_data(fractional_trade_cancel_error_message_read.fractional_consol_1ct4u9, fractional_trade_cancel_error_message_written.fractional_consol_1ct4u9);
+  equal_fractional_participant_data(fractional_trade_cancel_error_message_read.fractional_partic_78s5ox, fractional_trade_cancel_error_message_written.fractional_partic_78s5ox);
   skip
 }
 

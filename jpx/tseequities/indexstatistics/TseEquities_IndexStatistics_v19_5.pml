@@ -554,7 +554,7 @@ typedef MarketValueMessage {
   byte time_c_6_hhmm[6];
   byte issue_classification_code[4];
   TotalMarketValue total_market_value;
-  MarketValueDayOnDayComparison market_value_day_on_day_comparison
+  MarketValueDayOnDayComparison market_value_day__kdpcoh
 };
 
 int market_value_message_at;
@@ -577,7 +577,7 @@ inline fill_market_value_message(market_value_message_record, market_value_messa
   :: else -> break
   od;
   fill_total_market_value(market_value_message_record.total_market_value, market_value_message_value);
-  fill_market_value_day_on_day_comparison(market_value_message_record.market_value_day_on_day_comparison, market_value_message_value);
+  fill_market_value_day_on_day_comparison(market_value_message_record.market_value_day__kdpcoh, market_value_message_value);
   skip
 }
 
@@ -599,7 +599,7 @@ inline ramp_market_value_message(market_value_message_record, market_value_messa
   :: else -> break
   od;
   ramp_total_market_value(market_value_message_record.total_market_value, market_value_message_base + 12);
-  ramp_market_value_day_on_day_comparison(market_value_message_record.market_value_day_on_day_comparison, market_value_message_base + 27);
+  ramp_market_value_day_on_day_comparison(market_value_message_record.market_value_day__kdpcoh, market_value_message_base + 27);
   skip
 }
 
@@ -621,7 +621,7 @@ inline encode_market_value_message(market_value_message_record) {
   :: else -> break
   od;
   encode_total_market_value(market_value_message_record.total_market_value);
-  encode_market_value_day_on_day_comparison(market_value_message_record.market_value_day_on_day_comparison);
+  encode_market_value_day_on_day_comparison(market_value_message_record.market_value_day__kdpcoh);
   skip
 }
 
@@ -643,7 +643,7 @@ inline decode_market_value_message(market_value_message_record) {
   :: else -> break
   od;
   decode_total_market_value(market_value_message_record.total_market_value);
-  decode_market_value_day_on_day_comparison(market_value_message_record.market_value_day_on_day_comparison);
+  decode_market_value_day_on_day_comparison(market_value_message_record.market_value_day__kdpcoh);
   skip
 }
 
@@ -665,7 +665,7 @@ inline equal_market_value_message(market_value_message_read, market_value_messag
   :: else -> break
   od;
   equal_total_market_value(market_value_message_read.total_market_value, market_value_message_written.total_market_value);
-  equal_market_value_day_on_day_comparison(market_value_message_read.market_value_day_on_day_comparison, market_value_message_written.market_value_day_on_day_comparison);
+  equal_market_value_day_on_day_comparison(market_value_message_read.market_value_day__kdpcoh, market_value_message_written.market_value_day__kdpcoh);
   skip
 }
 
@@ -807,7 +807,7 @@ typedef SimpleYieldMessage {
   byte time_c_6_hhmm[6];
   byte issue_classification_code[4];
   SimpleYield simple_yield;
-  YieldDayOnDayComparison yield_day_on_day_comparison
+  YieldDayOnDayComparison yield_day_on_day__7ftsik
 };
 
 int simple_yield_message_at;
@@ -830,7 +830,7 @@ inline fill_simple_yield_message(simple_yield_message_record, simple_yield_messa
   :: else -> break
   od;
   fill_simple_yield(simple_yield_message_record.simple_yield, simple_yield_message_value);
-  fill_yield_day_on_day_comparison(simple_yield_message_record.yield_day_on_day_comparison, simple_yield_message_value);
+  fill_yield_day_on_day_comparison(simple_yield_message_record.yield_day_on_day__7ftsik, simple_yield_message_value);
   skip
 }
 
@@ -852,7 +852,7 @@ inline ramp_simple_yield_message(simple_yield_message_record, simple_yield_messa
   :: else -> break
   od;
   ramp_simple_yield(simple_yield_message_record.simple_yield, simple_yield_message_base + 12);
-  ramp_yield_day_on_day_comparison(simple_yield_message_record.yield_day_on_day_comparison, simple_yield_message_base + 21);
+  ramp_yield_day_on_day_comparison(simple_yield_message_record.yield_day_on_day__7ftsik, simple_yield_message_base + 21);
   skip
 }
 
@@ -874,7 +874,7 @@ inline encode_simple_yield_message(simple_yield_message_record) {
   :: else -> break
   od;
   encode_simple_yield(simple_yield_message_record.simple_yield);
-  encode_yield_day_on_day_comparison(simple_yield_message_record.yield_day_on_day_comparison);
+  encode_yield_day_on_day_comparison(simple_yield_message_record.yield_day_on_day__7ftsik);
   skip
 }
 
@@ -896,7 +896,7 @@ inline decode_simple_yield_message(simple_yield_message_record) {
   :: else -> break
   od;
   decode_simple_yield(simple_yield_message_record.simple_yield);
-  decode_yield_day_on_day_comparison(simple_yield_message_record.yield_day_on_day_comparison);
+  decode_yield_day_on_day_comparison(simple_yield_message_record.yield_day_on_day__7ftsik);
   skip
 }
 
@@ -918,7 +918,7 @@ inline equal_simple_yield_message(simple_yield_message_read, simple_yield_messag
   :: else -> break
   od;
   equal_simple_yield(simple_yield_message_read.simple_yield, simple_yield_message_written.simple_yield);
-  equal_yield_day_on_day_comparison(simple_yield_message_read.yield_day_on_day_comparison, simple_yield_message_written.yield_day_on_day_comparison);
+  equal_yield_day_on_day_comparison(simple_yield_message_read.yield_day_on_day__7ftsik, simple_yield_message_written.yield_day_on_day__7ftsik);
   skip
 }
 
@@ -995,7 +995,7 @@ typedef WeightedYieldMessage {
   byte time_c_6_hhmm[6];
   byte issue_classification_code[4];
   WeightedYield weighted_yield;
-  YieldDayOnDayComparison yield_day_on_day_comparison
+  YieldDayOnDayComparison yield_day_on_day__7ftsik
 };
 
 int weighted_yield_message_at;
@@ -1018,7 +1018,7 @@ inline fill_weighted_yield_message(weighted_yield_message_record, weighted_yield
   :: else -> break
   od;
   fill_weighted_yield(weighted_yield_message_record.weighted_yield, weighted_yield_message_value);
-  fill_yield_day_on_day_comparison(weighted_yield_message_record.yield_day_on_day_comparison, weighted_yield_message_value);
+  fill_yield_day_on_day_comparison(weighted_yield_message_record.yield_day_on_day__7ftsik, weighted_yield_message_value);
   skip
 }
 
@@ -1040,7 +1040,7 @@ inline ramp_weighted_yield_message(weighted_yield_message_record, weighted_yield
   :: else -> break
   od;
   ramp_weighted_yield(weighted_yield_message_record.weighted_yield, weighted_yield_message_base + 12);
-  ramp_yield_day_on_day_comparison(weighted_yield_message_record.yield_day_on_day_comparison, weighted_yield_message_base + 21);
+  ramp_yield_day_on_day_comparison(weighted_yield_message_record.yield_day_on_day__7ftsik, weighted_yield_message_base + 21);
   skip
 }
 
@@ -1062,7 +1062,7 @@ inline encode_weighted_yield_message(weighted_yield_message_record) {
   :: else -> break
   od;
   encode_weighted_yield(weighted_yield_message_record.weighted_yield);
-  encode_yield_day_on_day_comparison(weighted_yield_message_record.yield_day_on_day_comparison);
+  encode_yield_day_on_day_comparison(weighted_yield_message_record.yield_day_on_day__7ftsik);
   skip
 }
 
@@ -1084,7 +1084,7 @@ inline decode_weighted_yield_message(weighted_yield_message_record) {
   :: else -> break
   od;
   decode_weighted_yield(weighted_yield_message_record.weighted_yield);
-  decode_yield_day_on_day_comparison(weighted_yield_message_record.yield_day_on_day_comparison);
+  decode_yield_day_on_day_comparison(weighted_yield_message_record.yield_day_on_day__7ftsik);
   skip
 }
 
@@ -1106,7 +1106,7 @@ inline equal_weighted_yield_message(weighted_yield_message_read, weighted_yield_
   :: else -> break
   od;
   equal_weighted_yield(weighted_yield_message_read.weighted_yield, weighted_yield_message_written.weighted_yield);
-  equal_yield_day_on_day_comparison(weighted_yield_message_read.yield_day_on_day_comparison, weighted_yield_message_written.yield_day_on_day_comparison);
+  equal_yield_day_on_day_comparison(weighted_yield_message_read.yield_day_on_day__7ftsik, weighted_yield_message_written.yield_day_on_day__7ftsik);
   skip
 }
 
@@ -1259,8 +1259,8 @@ typedef SimpleStockPriceAverageMessage {
   byte reserved_2[2];
   byte output_time[6];
   byte issue_classification_code[4];
-  SimpleStockPriceAverage simple_stock_price_average;
-  StockPriceAverageDayOnDayComparison stock_price_average_day_on_day_comparison
+  SimpleStockPriceAverage simple_stock_pric_krit6c;
+  StockPriceAverageDayOnDayComparison stock_price_avera_h6kzit
 };
 
 int simple_stock_price_average_message_at;
@@ -1282,8 +1282,8 @@ inline fill_simple_stock_price_average_message(simple_stock_price_average_messag
   :: simple_stock_price_average_message_at < 4 -> simple_stock_price_average_message_record.issue_classification_code[simple_stock_price_average_message_at] = simple_stock_price_average_message_value; simple_stock_price_average_message_at = simple_stock_price_average_message_at + 1
   :: else -> break
   od;
-  fill_simple_stock_price_average(simple_stock_price_average_message_record.simple_stock_price_average, simple_stock_price_average_message_value);
-  fill_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_record.stock_price_average_day_on_day_comparison, simple_stock_price_average_message_value);
+  fill_simple_stock_price_average(simple_stock_price_average_message_record.simple_stock_pric_krit6c, simple_stock_price_average_message_value);
+  fill_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_record.stock_price_avera_h6kzit, simple_stock_price_average_message_value);
   skip
 }
 
@@ -1304,8 +1304,8 @@ inline ramp_simple_stock_price_average_message(simple_stock_price_average_messag
   :: simple_stock_price_average_message_at < 4 -> simple_stock_price_average_message_record.issue_classification_code[simple_stock_price_average_message_at] = (simple_stock_price_average_message_base + 8 + simple_stock_price_average_message_at + 1) % 256; simple_stock_price_average_message_at = simple_stock_price_average_message_at + 1
   :: else -> break
   od;
-  ramp_simple_stock_price_average(simple_stock_price_average_message_record.simple_stock_price_average, simple_stock_price_average_message_base + 12);
-  ramp_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_record.stock_price_average_day_on_day_comparison, simple_stock_price_average_message_base + 28);
+  ramp_simple_stock_price_average(simple_stock_price_average_message_record.simple_stock_pric_krit6c, simple_stock_price_average_message_base + 12);
+  ramp_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_record.stock_price_avera_h6kzit, simple_stock_price_average_message_base + 28);
   skip
 }
 
@@ -1326,8 +1326,8 @@ inline encode_simple_stock_price_average_message(simple_stock_price_average_mess
   :: simple_stock_price_average_message_at < 4 -> wire[at] = simple_stock_price_average_message_record.issue_classification_code[simple_stock_price_average_message_at]; at = at + 1; simple_stock_price_average_message_at = simple_stock_price_average_message_at + 1
   :: else -> break
   od;
-  encode_simple_stock_price_average(simple_stock_price_average_message_record.simple_stock_price_average);
-  encode_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_record.stock_price_average_day_on_day_comparison);
+  encode_simple_stock_price_average(simple_stock_price_average_message_record.simple_stock_pric_krit6c);
+  encode_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_record.stock_price_avera_h6kzit);
   skip
 }
 
@@ -1348,8 +1348,8 @@ inline decode_simple_stock_price_average_message(simple_stock_price_average_mess
   :: simple_stock_price_average_message_at < 4 -> simple_stock_price_average_message_record.issue_classification_code[simple_stock_price_average_message_at] = wire[at]; at = at + 1; simple_stock_price_average_message_at = simple_stock_price_average_message_at + 1
   :: else -> break
   od;
-  decode_simple_stock_price_average(simple_stock_price_average_message_record.simple_stock_price_average);
-  decode_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_record.stock_price_average_day_on_day_comparison);
+  decode_simple_stock_price_average(simple_stock_price_average_message_record.simple_stock_pric_krit6c);
+  decode_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_record.stock_price_avera_h6kzit);
   skip
 }
 
@@ -1370,8 +1370,8 @@ inline equal_simple_stock_price_average_message(simple_stock_price_average_messa
   :: simple_stock_price_average_message_at < 4 -> assert(simple_stock_price_average_message_read.issue_classification_code[simple_stock_price_average_message_at] == simple_stock_price_average_message_written.issue_classification_code[simple_stock_price_average_message_at]); simple_stock_price_average_message_at = simple_stock_price_average_message_at + 1
   :: else -> break
   od;
-  equal_simple_stock_price_average(simple_stock_price_average_message_read.simple_stock_price_average, simple_stock_price_average_message_written.simple_stock_price_average);
-  equal_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_read.stock_price_average_day_on_day_comparison, simple_stock_price_average_message_written.stock_price_average_day_on_day_comparison);
+  equal_simple_stock_price_average(simple_stock_price_average_message_read.simple_stock_pric_krit6c, simple_stock_price_average_message_written.simple_stock_pric_krit6c);
+  equal_stock_price_average_day_on_day_comparison(simple_stock_price_average_message_read.stock_price_avera_h6kzit, simple_stock_price_average_message_written.stock_price_avera_h6kzit);
   skip
 }
 
@@ -1453,8 +1453,8 @@ typedef WeightedStockPriceAverageMessage {
   byte reserved_2[2];
   byte output_time[6];
   byte issue_classification_code[4];
-  WeightedStockPriceAverage weighted_stock_price_average;
-  StockPriceAverageDayOnDayComparison stock_price_average_day_on_day_comparison
+  WeightedStockPriceAverage weighted_stock_pr_bwnlan;
+  StockPriceAverageDayOnDayComparison stock_price_avera_h6kzit
 };
 
 int weighted_stock_price_average_message_at;
@@ -1476,8 +1476,8 @@ inline fill_weighted_stock_price_average_message(weighted_stock_price_average_me
   :: weighted_stock_price_average_message_at < 4 -> weighted_stock_price_average_message_record.issue_classification_code[weighted_stock_price_average_message_at] = weighted_stock_price_average_message_value; weighted_stock_price_average_message_at = weighted_stock_price_average_message_at + 1
   :: else -> break
   od;
-  fill_weighted_stock_price_average(weighted_stock_price_average_message_record.weighted_stock_price_average, weighted_stock_price_average_message_value);
-  fill_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_record.stock_price_average_day_on_day_comparison, weighted_stock_price_average_message_value);
+  fill_weighted_stock_price_average(weighted_stock_price_average_message_record.weighted_stock_pr_bwnlan, weighted_stock_price_average_message_value);
+  fill_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_record.stock_price_avera_h6kzit, weighted_stock_price_average_message_value);
   skip
 }
 
@@ -1498,8 +1498,8 @@ inline ramp_weighted_stock_price_average_message(weighted_stock_price_average_me
   :: weighted_stock_price_average_message_at < 4 -> weighted_stock_price_average_message_record.issue_classification_code[weighted_stock_price_average_message_at] = (weighted_stock_price_average_message_base + 8 + weighted_stock_price_average_message_at + 1) % 256; weighted_stock_price_average_message_at = weighted_stock_price_average_message_at + 1
   :: else -> break
   od;
-  ramp_weighted_stock_price_average(weighted_stock_price_average_message_record.weighted_stock_price_average, weighted_stock_price_average_message_base + 12);
-  ramp_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_record.stock_price_average_day_on_day_comparison, weighted_stock_price_average_message_base + 28);
+  ramp_weighted_stock_price_average(weighted_stock_price_average_message_record.weighted_stock_pr_bwnlan, weighted_stock_price_average_message_base + 12);
+  ramp_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_record.stock_price_avera_h6kzit, weighted_stock_price_average_message_base + 28);
   skip
 }
 
@@ -1520,8 +1520,8 @@ inline encode_weighted_stock_price_average_message(weighted_stock_price_average_
   :: weighted_stock_price_average_message_at < 4 -> wire[at] = weighted_stock_price_average_message_record.issue_classification_code[weighted_stock_price_average_message_at]; at = at + 1; weighted_stock_price_average_message_at = weighted_stock_price_average_message_at + 1
   :: else -> break
   od;
-  encode_weighted_stock_price_average(weighted_stock_price_average_message_record.weighted_stock_price_average);
-  encode_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_record.stock_price_average_day_on_day_comparison);
+  encode_weighted_stock_price_average(weighted_stock_price_average_message_record.weighted_stock_pr_bwnlan);
+  encode_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_record.stock_price_avera_h6kzit);
   skip
 }
 
@@ -1542,8 +1542,8 @@ inline decode_weighted_stock_price_average_message(weighted_stock_price_average_
   :: weighted_stock_price_average_message_at < 4 -> weighted_stock_price_average_message_record.issue_classification_code[weighted_stock_price_average_message_at] = wire[at]; at = at + 1; weighted_stock_price_average_message_at = weighted_stock_price_average_message_at + 1
   :: else -> break
   od;
-  decode_weighted_stock_price_average(weighted_stock_price_average_message_record.weighted_stock_price_average);
-  decode_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_record.stock_price_average_day_on_day_comparison);
+  decode_weighted_stock_price_average(weighted_stock_price_average_message_record.weighted_stock_pr_bwnlan);
+  decode_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_record.stock_price_avera_h6kzit);
   skip
 }
 
@@ -1564,8 +1564,8 @@ inline equal_weighted_stock_price_average_message(weighted_stock_price_average_m
   :: weighted_stock_price_average_message_at < 4 -> assert(weighted_stock_price_average_message_read.issue_classification_code[weighted_stock_price_average_message_at] == weighted_stock_price_average_message_written.issue_classification_code[weighted_stock_price_average_message_at]); weighted_stock_price_average_message_at = weighted_stock_price_average_message_at + 1
   :: else -> break
   od;
-  equal_weighted_stock_price_average(weighted_stock_price_average_message_read.weighted_stock_price_average, weighted_stock_price_average_message_written.weighted_stock_price_average);
-  equal_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_read.stock_price_average_day_on_day_comparison, weighted_stock_price_average_message_written.stock_price_average_day_on_day_comparison);
+  equal_weighted_stock_price_average(weighted_stock_price_average_message_read.weighted_stock_pr_bwnlan, weighted_stock_price_average_message_written.weighted_stock_pr_bwnlan);
+  equal_stock_price_average_day_on_day_comparison(weighted_stock_price_average_message_read.stock_price_avera_h6kzit, weighted_stock_price_average_message_written.stock_price_avera_h6kzit);
   skip
 }
 
@@ -1576,8 +1576,8 @@ typedef SimpleStockPriceAverageByIndustryMessage {
   byte reserved_2[2];
   byte output_time[6];
   byte industry_code[4];
-  SimpleStockPriceAverage simple_stock_price_average;
-  StockPriceAverageDayOnDayComparison stock_price_average_day_on_day_comparison
+  SimpleStockPriceAverage simple_stock_pric_krit6c;
+  StockPriceAverageDayOnDayComparison stock_price_avera_h6kzit
 };
 
 int simple_stock_price_average_by_industry_message_at;
@@ -1599,8 +1599,8 @@ inline fill_simple_stock_price_average_by_industry_message(simple_stock_price_av
   :: simple_stock_price_average_by_industry_message_at < 4 -> simple_stock_price_average_by_industry_message_record.industry_code[simple_stock_price_average_by_industry_message_at] = simple_stock_price_average_by_industry_message_value; simple_stock_price_average_by_industry_message_at = simple_stock_price_average_by_industry_message_at + 1
   :: else -> break
   od;
-  fill_simple_stock_price_average(simple_stock_price_average_by_industry_message_record.simple_stock_price_average, simple_stock_price_average_by_industry_message_value);
-  fill_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_record.stock_price_average_day_on_day_comparison, simple_stock_price_average_by_industry_message_value);
+  fill_simple_stock_price_average(simple_stock_price_average_by_industry_message_record.simple_stock_pric_krit6c, simple_stock_price_average_by_industry_message_value);
+  fill_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_record.stock_price_avera_h6kzit, simple_stock_price_average_by_industry_message_value);
   skip
 }
 
@@ -1621,8 +1621,8 @@ inline ramp_simple_stock_price_average_by_industry_message(simple_stock_price_av
   :: simple_stock_price_average_by_industry_message_at < 4 -> simple_stock_price_average_by_industry_message_record.industry_code[simple_stock_price_average_by_industry_message_at] = (simple_stock_price_average_by_industry_message_base + 8 + simple_stock_price_average_by_industry_message_at + 1) % 256; simple_stock_price_average_by_industry_message_at = simple_stock_price_average_by_industry_message_at + 1
   :: else -> break
   od;
-  ramp_simple_stock_price_average(simple_stock_price_average_by_industry_message_record.simple_stock_price_average, simple_stock_price_average_by_industry_message_base + 12);
-  ramp_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_record.stock_price_average_day_on_day_comparison, simple_stock_price_average_by_industry_message_base + 28);
+  ramp_simple_stock_price_average(simple_stock_price_average_by_industry_message_record.simple_stock_pric_krit6c, simple_stock_price_average_by_industry_message_base + 12);
+  ramp_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_record.stock_price_avera_h6kzit, simple_stock_price_average_by_industry_message_base + 28);
   skip
 }
 
@@ -1643,8 +1643,8 @@ inline encode_simple_stock_price_average_by_industry_message(simple_stock_price_
   :: simple_stock_price_average_by_industry_message_at < 4 -> wire[at] = simple_stock_price_average_by_industry_message_record.industry_code[simple_stock_price_average_by_industry_message_at]; at = at + 1; simple_stock_price_average_by_industry_message_at = simple_stock_price_average_by_industry_message_at + 1
   :: else -> break
   od;
-  encode_simple_stock_price_average(simple_stock_price_average_by_industry_message_record.simple_stock_price_average);
-  encode_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_record.stock_price_average_day_on_day_comparison);
+  encode_simple_stock_price_average(simple_stock_price_average_by_industry_message_record.simple_stock_pric_krit6c);
+  encode_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_record.stock_price_avera_h6kzit);
   skip
 }
 
@@ -1665,8 +1665,8 @@ inline decode_simple_stock_price_average_by_industry_message(simple_stock_price_
   :: simple_stock_price_average_by_industry_message_at < 4 -> simple_stock_price_average_by_industry_message_record.industry_code[simple_stock_price_average_by_industry_message_at] = wire[at]; at = at + 1; simple_stock_price_average_by_industry_message_at = simple_stock_price_average_by_industry_message_at + 1
   :: else -> break
   od;
-  decode_simple_stock_price_average(simple_stock_price_average_by_industry_message_record.simple_stock_price_average);
-  decode_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_record.stock_price_average_day_on_day_comparison);
+  decode_simple_stock_price_average(simple_stock_price_average_by_industry_message_record.simple_stock_pric_krit6c);
+  decode_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_record.stock_price_avera_h6kzit);
   skip
 }
 
@@ -1687,8 +1687,8 @@ inline equal_simple_stock_price_average_by_industry_message(simple_stock_price_a
   :: simple_stock_price_average_by_industry_message_at < 4 -> assert(simple_stock_price_average_by_industry_message_read.industry_code[simple_stock_price_average_by_industry_message_at] == simple_stock_price_average_by_industry_message_written.industry_code[simple_stock_price_average_by_industry_message_at]); simple_stock_price_average_by_industry_message_at = simple_stock_price_average_by_industry_message_at + 1
   :: else -> break
   od;
-  equal_simple_stock_price_average(simple_stock_price_average_by_industry_message_read.simple_stock_price_average, simple_stock_price_average_by_industry_message_written.simple_stock_price_average);
-  equal_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_read.stock_price_average_day_on_day_comparison, simple_stock_price_average_by_industry_message_written.stock_price_average_day_on_day_comparison);
+  equal_simple_stock_price_average(simple_stock_price_average_by_industry_message_read.simple_stock_pric_krit6c, simple_stock_price_average_by_industry_message_written.simple_stock_pric_krit6c);
+  equal_stock_price_average_day_on_day_comparison(simple_stock_price_average_by_industry_message_read.stock_price_avera_h6kzit, simple_stock_price_average_by_industry_message_written.stock_price_avera_h6kzit);
   skip
 }
 
@@ -2109,53 +2109,53 @@ inline equal_overall_direct_yield_average(overall_direct_yield_average_read, ove
 /* Overall */
 typedef Overall {
   OverallSimpleAverage overall_simple_average;
-  OverallDivergenceAverage overall_divergence_average;
+  OverallDivergenceAverage overall_divergenc_31y0vh;
   OverallParityAverage overall_parity_average;
-  OverallDirectYieldAverage overall_direct_yield_average
+  OverallDirectYieldAverage overall_direct_yi_4onqyg
 };
 
 /* every byte of Overall set to one value */
 inline fill_overall(overall_record, overall_value) {
   fill_overall_simple_average(overall_record.overall_simple_average, overall_value);
-  fill_overall_divergence_average(overall_record.overall_divergence_average, overall_value);
+  fill_overall_divergence_average(overall_record.overall_divergenc_31y0vh, overall_value);
   fill_overall_parity_average(overall_record.overall_parity_average, overall_value);
-  fill_overall_direct_yield_average(overall_record.overall_direct_yield_average, overall_value);
+  fill_overall_direct_yield_average(overall_record.overall_direct_yi_4onqyg, overall_value);
   skip
 }
 
 /* each byte of Overall set to where it lies, so a field read out of place says so */
 inline ramp_overall(overall_record, overall_base) {
   ramp_overall_simple_average(overall_record.overall_simple_average, overall_base + 0);
-  ramp_overall_divergence_average(overall_record.overall_divergence_average, overall_base + 32);
+  ramp_overall_divergence_average(overall_record.overall_divergenc_31y0vh, overall_base + 32);
   ramp_overall_parity_average(overall_record.overall_parity_average, overall_base + 50);
-  ramp_overall_direct_yield_average(overall_record.overall_direct_yield_average, overall_base + 82);
+  ramp_overall_direct_yield_average(overall_record.overall_direct_yi_4onqyg, overall_base + 82);
   skip
 }
 
 /* Overall to the wire, 100 bytes from where the cursor stands */
 inline encode_overall(overall_record) {
   encode_overall_simple_average(overall_record.overall_simple_average);
-  encode_overall_divergence_average(overall_record.overall_divergence_average);
+  encode_overall_divergence_average(overall_record.overall_divergenc_31y0vh);
   encode_overall_parity_average(overall_record.overall_parity_average);
-  encode_overall_direct_yield_average(overall_record.overall_direct_yield_average);
+  encode_overall_direct_yield_average(overall_record.overall_direct_yi_4onqyg);
   skip
 }
 
 /* Overall off the wire, 100 bytes from where the cursor stands */
 inline decode_overall(overall_record) {
   decode_overall_simple_average(overall_record.overall_simple_average);
-  decode_overall_divergence_average(overall_record.overall_divergence_average);
+  decode_overall_divergence_average(overall_record.overall_divergenc_31y0vh);
   decode_overall_parity_average(overall_record.overall_parity_average);
-  decode_overall_direct_yield_average(overall_record.overall_direct_yield_average);
+  decode_overall_direct_yield_average(overall_record.overall_direct_yi_4onqyg);
   skip
 }
 
 /* what was read of Overall is what was written, byte for byte */
 inline equal_overall(overall_read, overall_written) {
   equal_overall_simple_average(overall_read.overall_simple_average, overall_written.overall_simple_average);
-  equal_overall_divergence_average(overall_read.overall_divergence_average, overall_written.overall_divergence_average);
+  equal_overall_divergence_average(overall_read.overall_divergenc_31y0vh, overall_written.overall_divergenc_31y0vh);
   equal_overall_parity_average(overall_read.overall_parity_average, overall_written.overall_parity_average);
-  equal_overall_direct_yield_average(overall_read.overall_direct_yield_average, overall_written.overall_direct_yield_average);
+  equal_overall_direct_yield_average(overall_read.overall_direct_yi_4onqyg, overall_written.overall_direct_yi_4onqyg);
   skip
 }
 
@@ -3166,9 +3166,9 @@ typedef NumberOfGainersDeclinersMessage {
   NumberOfActiveIssues number_of_active_issues;
   NumberOfGainers number_of_gainers;
   NumberOfDecliners number_of_decliners;
-  NumberOfIssuesWithNoChange number_of_issues_with_no_change;
-  NumberOfIssuesWithNoComparison number_of_issues_with_no_comparison;
-  NumberOfInactiveIssues number_of_inactive_issues
+  NumberOfIssuesWithNoChange number_of_issues__tpo1t1;
+  NumberOfIssuesWithNoComparison number_of_issues__tf38sc;
+  NumberOfInactiveIssues number_of_inactiv_vh3vm9
 };
 
 int number_of_gainers_decliners_message_at;
@@ -3203,9 +3203,9 @@ inline fill_number_of_gainers_decliners_message(number_of_gainers_decliners_mess
   fill_number_of_active_issues(number_of_gainers_decliners_message_record.number_of_active_issues, number_of_gainers_decliners_message_value);
   fill_number_of_gainers(number_of_gainers_decliners_message_record.number_of_gainers, number_of_gainers_decliners_message_value);
   fill_number_of_decliners(number_of_gainers_decliners_message_record.number_of_decliners, number_of_gainers_decliners_message_value);
-  fill_number_of_issues_with_no_change(number_of_gainers_decliners_message_record.number_of_issues_with_no_change, number_of_gainers_decliners_message_value);
-  fill_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_record.number_of_issues_with_no_comparison, number_of_gainers_decliners_message_value);
-  fill_number_of_inactive_issues(number_of_gainers_decliners_message_record.number_of_inactive_issues, number_of_gainers_decliners_message_value);
+  fill_number_of_issues_with_no_change(number_of_gainers_decliners_message_record.number_of_issues__tpo1t1, number_of_gainers_decliners_message_value);
+  fill_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_record.number_of_issues__tf38sc, number_of_gainers_decliners_message_value);
+  fill_number_of_inactive_issues(number_of_gainers_decliners_message_record.number_of_inactiv_vh3vm9, number_of_gainers_decliners_message_value);
   skip
 }
 
@@ -3239,9 +3239,9 @@ inline ramp_number_of_gainers_decliners_message(number_of_gainers_decliners_mess
   ramp_number_of_active_issues(number_of_gainers_decliners_message_record.number_of_active_issues, number_of_gainers_decliners_message_base + 22);
   ramp_number_of_gainers(number_of_gainers_decliners_message_record.number_of_gainers, number_of_gainers_decliners_message_base + 32);
   ramp_number_of_decliners(number_of_gainers_decliners_message_record.number_of_decliners, number_of_gainers_decliners_message_base + 42);
-  ramp_number_of_issues_with_no_change(number_of_gainers_decliners_message_record.number_of_issues_with_no_change, number_of_gainers_decliners_message_base + 52);
-  ramp_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_record.number_of_issues_with_no_comparison, number_of_gainers_decliners_message_base + 62);
-  ramp_number_of_inactive_issues(number_of_gainers_decliners_message_record.number_of_inactive_issues, number_of_gainers_decliners_message_base + 72);
+  ramp_number_of_issues_with_no_change(number_of_gainers_decliners_message_record.number_of_issues__tpo1t1, number_of_gainers_decliners_message_base + 52);
+  ramp_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_record.number_of_issues__tf38sc, number_of_gainers_decliners_message_base + 62);
+  ramp_number_of_inactive_issues(number_of_gainers_decliners_message_record.number_of_inactiv_vh3vm9, number_of_gainers_decliners_message_base + 72);
   skip
 }
 
@@ -3275,9 +3275,9 @@ inline encode_number_of_gainers_decliners_message(number_of_gainers_decliners_me
   encode_number_of_active_issues(number_of_gainers_decliners_message_record.number_of_active_issues);
   encode_number_of_gainers(number_of_gainers_decliners_message_record.number_of_gainers);
   encode_number_of_decliners(number_of_gainers_decliners_message_record.number_of_decliners);
-  encode_number_of_issues_with_no_change(number_of_gainers_decliners_message_record.number_of_issues_with_no_change);
-  encode_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_record.number_of_issues_with_no_comparison);
-  encode_number_of_inactive_issues(number_of_gainers_decliners_message_record.number_of_inactive_issues);
+  encode_number_of_issues_with_no_change(number_of_gainers_decliners_message_record.number_of_issues__tpo1t1);
+  encode_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_record.number_of_issues__tf38sc);
+  encode_number_of_inactive_issues(number_of_gainers_decliners_message_record.number_of_inactiv_vh3vm9);
   skip
 }
 
@@ -3311,9 +3311,9 @@ inline decode_number_of_gainers_decliners_message(number_of_gainers_decliners_me
   decode_number_of_active_issues(number_of_gainers_decliners_message_record.number_of_active_issues);
   decode_number_of_gainers(number_of_gainers_decliners_message_record.number_of_gainers);
   decode_number_of_decliners(number_of_gainers_decliners_message_record.number_of_decliners);
-  decode_number_of_issues_with_no_change(number_of_gainers_decliners_message_record.number_of_issues_with_no_change);
-  decode_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_record.number_of_issues_with_no_comparison);
-  decode_number_of_inactive_issues(number_of_gainers_decliners_message_record.number_of_inactive_issues);
+  decode_number_of_issues_with_no_change(number_of_gainers_decliners_message_record.number_of_issues__tpo1t1);
+  decode_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_record.number_of_issues__tf38sc);
+  decode_number_of_inactive_issues(number_of_gainers_decliners_message_record.number_of_inactiv_vh3vm9);
   skip
 }
 
@@ -3347,9 +3347,9 @@ inline equal_number_of_gainers_decliners_message(number_of_gainers_decliners_mes
   equal_number_of_active_issues(number_of_gainers_decliners_message_read.number_of_active_issues, number_of_gainers_decliners_message_written.number_of_active_issues);
   equal_number_of_gainers(number_of_gainers_decliners_message_read.number_of_gainers, number_of_gainers_decliners_message_written.number_of_gainers);
   equal_number_of_decliners(number_of_gainers_decliners_message_read.number_of_decliners, number_of_gainers_decliners_message_written.number_of_decliners);
-  equal_number_of_issues_with_no_change(number_of_gainers_decliners_message_read.number_of_issues_with_no_change, number_of_gainers_decliners_message_written.number_of_issues_with_no_change);
-  equal_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_read.number_of_issues_with_no_comparison, number_of_gainers_decliners_message_written.number_of_issues_with_no_comparison);
-  equal_number_of_inactive_issues(number_of_gainers_decliners_message_read.number_of_inactive_issues, number_of_gainers_decliners_message_written.number_of_inactive_issues);
+  equal_number_of_issues_with_no_change(number_of_gainers_decliners_message_read.number_of_issues__tpo1t1, number_of_gainers_decliners_message_written.number_of_issues__tpo1t1);
+  equal_number_of_issues_with_no_comparison(number_of_gainers_decliners_message_read.number_of_issues__tf38sc, number_of_gainers_decliners_message_written.number_of_issues__tf38sc);
+  equal_number_of_inactive_issues(number_of_gainers_decliners_message_read.number_of_inactiv_vh3vm9, number_of_gainers_decliners_message_written.number_of_inactiv_vh3vm9);
   skip
 }
 
@@ -3426,7 +3426,7 @@ typedef EstimatedTotalTradingVolumeMessage {
   byte output_time[6];
   byte issue_classification_code[4];
   byte other_classification_code[2];
-  EstimatedTotalTradingVolume estimated_total_trading_volume
+  EstimatedTotalTradingVolume estimated_total_t_g4gdrp
 };
 
 int estimated_total_trading_volume_message_at;
@@ -3453,7 +3453,7 @@ inline fill_estimated_total_trading_volume_message(estimated_total_trading_volum
   :: estimated_total_trading_volume_message_at < 2 -> estimated_total_trading_volume_message_record.other_classification_code[estimated_total_trading_volume_message_at] = estimated_total_trading_volume_message_value; estimated_total_trading_volume_message_at = estimated_total_trading_volume_message_at + 1
   :: else -> break
   od;
-  fill_estimated_total_trading_volume(estimated_total_trading_volume_message_record.estimated_total_trading_volume, estimated_total_trading_volume_message_value);
+  fill_estimated_total_trading_volume(estimated_total_trading_volume_message_record.estimated_total_t_g4gdrp, estimated_total_trading_volume_message_value);
   skip
 }
 
@@ -3479,7 +3479,7 @@ inline ramp_estimated_total_trading_volume_message(estimated_total_trading_volum
   :: estimated_total_trading_volume_message_at < 2 -> estimated_total_trading_volume_message_record.other_classification_code[estimated_total_trading_volume_message_at] = (estimated_total_trading_volume_message_base + 12 + estimated_total_trading_volume_message_at + 1) % 256; estimated_total_trading_volume_message_at = estimated_total_trading_volume_message_at + 1
   :: else -> break
   od;
-  ramp_estimated_total_trading_volume(estimated_total_trading_volume_message_record.estimated_total_trading_volume, estimated_total_trading_volume_message_base + 14);
+  ramp_estimated_total_trading_volume(estimated_total_trading_volume_message_record.estimated_total_t_g4gdrp, estimated_total_trading_volume_message_base + 14);
   skip
 }
 
@@ -3505,7 +3505,7 @@ inline encode_estimated_total_trading_volume_message(estimated_total_trading_vol
   :: estimated_total_trading_volume_message_at < 2 -> wire[at] = estimated_total_trading_volume_message_record.other_classification_code[estimated_total_trading_volume_message_at]; at = at + 1; estimated_total_trading_volume_message_at = estimated_total_trading_volume_message_at + 1
   :: else -> break
   od;
-  encode_estimated_total_trading_volume(estimated_total_trading_volume_message_record.estimated_total_trading_volume);
+  encode_estimated_total_trading_volume(estimated_total_trading_volume_message_record.estimated_total_t_g4gdrp);
   skip
 }
 
@@ -3531,7 +3531,7 @@ inline decode_estimated_total_trading_volume_message(estimated_total_trading_vol
   :: estimated_total_trading_volume_message_at < 2 -> estimated_total_trading_volume_message_record.other_classification_code[estimated_total_trading_volume_message_at] = wire[at]; at = at + 1; estimated_total_trading_volume_message_at = estimated_total_trading_volume_message_at + 1
   :: else -> break
   od;
-  decode_estimated_total_trading_volume(estimated_total_trading_volume_message_record.estimated_total_trading_volume);
+  decode_estimated_total_trading_volume(estimated_total_trading_volume_message_record.estimated_total_t_g4gdrp);
   skip
 }
 
@@ -3557,7 +3557,7 @@ inline equal_estimated_total_trading_volume_message(estimated_total_trading_volu
   :: estimated_total_trading_volume_message_at < 2 -> assert(estimated_total_trading_volume_message_read.other_classification_code[estimated_total_trading_volume_message_at] == estimated_total_trading_volume_message_written.other_classification_code[estimated_total_trading_volume_message_at]); estimated_total_trading_volume_message_at = estimated_total_trading_volume_message_at + 1
   :: else -> break
   od;
-  equal_estimated_total_trading_volume(estimated_total_trading_volume_message_read.estimated_total_trading_volume, estimated_total_trading_volume_message_written.estimated_total_trading_volume);
+  equal_estimated_total_trading_volume(estimated_total_trading_volume_message_read.estimated_total_t_g4gdrp, estimated_total_trading_volume_message_written.estimated_total_t_g4gdrp);
   skip
 }
 
@@ -5068,7 +5068,7 @@ typedef IndexOpenHighLowAndClosingPricesMessage {
   Highest highest;
   Lowest lowest;
   CurrentPrice current_price;
-  IndexDayOnDayComparison index_day_on_day_comparison
+  IndexDayOnDayComparison index_day_on_day__ijtyvt
 };
 
 int index_open_high_low_and_closing_prices_message_at;
@@ -5089,7 +5089,7 @@ inline fill_index_open_high_low_and_closing_prices_message(index_open_high_low_a
   fill_highest(index_open_high_low_and_closing_prices_message_record.highest, index_open_high_low_and_closing_prices_message_value);
   fill_lowest(index_open_high_low_and_closing_prices_message_record.lowest, index_open_high_low_and_closing_prices_message_value);
   fill_current_price(index_open_high_low_and_closing_prices_message_record.current_price, index_open_high_low_and_closing_prices_message_value);
-  fill_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_record.index_day_on_day_comparison, index_open_high_low_and_closing_prices_message_value);
+  fill_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_record.index_day_on_day__ijtyvt, index_open_high_low_and_closing_prices_message_value);
   skip
 }
 
@@ -5109,7 +5109,7 @@ inline ramp_index_open_high_low_and_closing_prices_message(index_open_high_low_a
   ramp_highest(index_open_high_low_and_closing_prices_message_record.highest, index_open_high_low_and_closing_prices_message_base + 29);
   ramp_lowest(index_open_high_low_and_closing_prices_message_record.lowest, index_open_high_low_and_closing_prices_message_base + 52);
   ramp_current_price(index_open_high_low_and_closing_prices_message_record.current_price, index_open_high_low_and_closing_prices_message_base + 75);
-  ramp_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_record.index_day_on_day_comparison, index_open_high_low_and_closing_prices_message_base + 98);
+  ramp_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_record.index_day_on_day__ijtyvt, index_open_high_low_and_closing_prices_message_base + 98);
   skip
 }
 
@@ -5129,7 +5129,7 @@ inline encode_index_open_high_low_and_closing_prices_message(index_open_high_low
   encode_highest(index_open_high_low_and_closing_prices_message_record.highest);
   encode_lowest(index_open_high_low_and_closing_prices_message_record.lowest);
   encode_current_price(index_open_high_low_and_closing_prices_message_record.current_price);
-  encode_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_record.index_day_on_day_comparison);
+  encode_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_record.index_day_on_day__ijtyvt);
   skip
 }
 
@@ -5149,7 +5149,7 @@ inline decode_index_open_high_low_and_closing_prices_message(index_open_high_low
   decode_highest(index_open_high_low_and_closing_prices_message_record.highest);
   decode_lowest(index_open_high_low_and_closing_prices_message_record.lowest);
   decode_current_price(index_open_high_low_and_closing_prices_message_record.current_price);
-  decode_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_record.index_day_on_day_comparison);
+  decode_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_record.index_day_on_day__ijtyvt);
   skip
 }
 
@@ -5169,7 +5169,7 @@ inline equal_index_open_high_low_and_closing_prices_message(index_open_high_low_
   equal_highest(index_open_high_low_and_closing_prices_message_read.highest, index_open_high_low_and_closing_prices_message_written.highest);
   equal_lowest(index_open_high_low_and_closing_prices_message_read.lowest, index_open_high_low_and_closing_prices_message_written.lowest);
   equal_current_price(index_open_high_low_and_closing_prices_message_read.current_price, index_open_high_low_and_closing_prices_message_written.current_price);
-  equal_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_read.index_day_on_day_comparison, index_open_high_low_and_closing_prices_message_written.index_day_on_day_comparison);
+  equal_index_day_on_day_comparison(index_open_high_low_and_closing_prices_message_read.index_day_on_day__ijtyvt, index_open_high_low_and_closing_prices_message_written.index_day_on_day__ijtyvt);
   skip
 }
 

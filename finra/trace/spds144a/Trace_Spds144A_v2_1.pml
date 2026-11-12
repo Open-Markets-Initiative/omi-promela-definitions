@@ -1230,7 +1230,7 @@ inline equal_trade_information(trade_information_read, trade_information_written
 typedef TradeReportMessage {
   MessageHeader message_header;
   Label label;
-  OriginalDisseminationDate original_dissemination_date;
+  OriginalDisseminationDate original_dissemin_b2ojs1;
   TradeInformation trade_information;
   byte change_indicator
 };
@@ -1239,7 +1239,7 @@ typedef TradeReportMessage {
 inline fill_trade_report_message(trade_report_message_record, trade_report_message_value) {
   fill_message_header(trade_report_message_record.message_header, trade_report_message_value);
   fill_label(trade_report_message_record.label, trade_report_message_value);
-  fill_original_dissemination_date(trade_report_message_record.original_dissemination_date, trade_report_message_value);
+  fill_original_dissemination_date(trade_report_message_record.original_dissemin_b2ojs1, trade_report_message_value);
   fill_trade_information(trade_report_message_record.trade_information, trade_report_message_value);
   trade_report_message_record.change_indicator = trade_report_message_value;
   skip
@@ -1249,7 +1249,7 @@ inline fill_trade_report_message(trade_report_message_record, trade_report_messa
 inline ramp_trade_report_message(trade_report_message_record, trade_report_message_base) {
   ramp_message_header(trade_report_message_record.message_header, trade_report_message_base + 0);
   ramp_label(trade_report_message_record.label, trade_report_message_base + 22);
-  ramp_original_dissemination_date(trade_report_message_record.original_dissemination_date, trade_report_message_base + 62);
+  ramp_original_dissemination_date(trade_report_message_record.original_dissemin_b2ojs1, trade_report_message_base + 62);
   ramp_trade_information(trade_report_message_record.trade_information, trade_report_message_base + 70);
   trade_report_message_record.change_indicator = (trade_report_message_base + 141 + 1) % 256;
   skip
@@ -1259,7 +1259,7 @@ inline ramp_trade_report_message(trade_report_message_record, trade_report_messa
 inline encode_trade_report_message(trade_report_message_record) {
   encode_message_header(trade_report_message_record.message_header);
   encode_label(trade_report_message_record.label);
-  encode_original_dissemination_date(trade_report_message_record.original_dissemination_date);
+  encode_original_dissemination_date(trade_report_message_record.original_dissemin_b2ojs1);
   encode_trade_information(trade_report_message_record.trade_information);
   wire[at] = trade_report_message_record.change_indicator; at = at + 1;
   skip
@@ -1269,7 +1269,7 @@ inline encode_trade_report_message(trade_report_message_record) {
 inline decode_trade_report_message(trade_report_message_record) {
   decode_message_header(trade_report_message_record.message_header);
   decode_label(trade_report_message_record.label);
-  decode_original_dissemination_date(trade_report_message_record.original_dissemination_date);
+  decode_original_dissemination_date(trade_report_message_record.original_dissemin_b2ojs1);
   decode_trade_information(trade_report_message_record.trade_information);
   trade_report_message_record.change_indicator = wire[at]; at = at + 1;
   skip
@@ -1279,7 +1279,7 @@ inline decode_trade_report_message(trade_report_message_record) {
 inline equal_trade_report_message(trade_report_message_read, trade_report_message_written) {
   equal_message_header(trade_report_message_read.message_header, trade_report_message_written.message_header);
   equal_label(trade_report_message_read.label, trade_report_message_written.label);
-  equal_original_dissemination_date(trade_report_message_read.original_dissemination_date, trade_report_message_written.original_dissemination_date);
+  equal_original_dissemination_date(trade_report_message_read.original_dissemin_b2ojs1, trade_report_message_written.original_dissemin_b2ojs1);
   equal_trade_information(trade_report_message_read.trade_information, trade_report_message_written.trade_information);
   assert(trade_report_message_read.change_indicator == trade_report_message_written.change_indicator);
   skip
@@ -1617,11 +1617,11 @@ inline equal_trade_summary_information(trade_summary_information_read, trade_sum
 typedef TradeCancelMessage {
   MessageHeader message_header;
   Label label;
-  OriginalDisseminationDate original_dissemination_date;
+  OriginalDisseminationDate original_dissemin_b2ojs1;
   byte original_trade_identifier[7];
   byte report_function;
-  OriginalTradeInformation original_trade_information;
-  TradeSummaryInformation trade_summary_information
+  OriginalTradeInformation original_trade_in_rg56l6;
+  TradeSummaryInformation trade_summary_inf_v7d12v
 };
 
 int trade_cancel_message_at;
@@ -1630,15 +1630,15 @@ int trade_cancel_message_at;
 inline fill_trade_cancel_message(trade_cancel_message_record, trade_cancel_message_value) {
   fill_message_header(trade_cancel_message_record.message_header, trade_cancel_message_value);
   fill_label(trade_cancel_message_record.label, trade_cancel_message_value);
-  fill_original_dissemination_date(trade_cancel_message_record.original_dissemination_date, trade_cancel_message_value);
+  fill_original_dissemination_date(trade_cancel_message_record.original_dissemin_b2ojs1, trade_cancel_message_value);
   trade_cancel_message_at = 0;
   do
   :: trade_cancel_message_at < 7 -> trade_cancel_message_record.original_trade_identifier[trade_cancel_message_at] = trade_cancel_message_value; trade_cancel_message_at = trade_cancel_message_at + 1
   :: else -> break
   od;
   trade_cancel_message_record.report_function = trade_cancel_message_value;
-  fill_original_trade_information(trade_cancel_message_record.original_trade_information, trade_cancel_message_value);
-  fill_trade_summary_information(trade_cancel_message_record.trade_summary_information, trade_cancel_message_value);
+  fill_original_trade_information(trade_cancel_message_record.original_trade_in_rg56l6, trade_cancel_message_value);
+  fill_trade_summary_information(trade_cancel_message_record.trade_summary_inf_v7d12v, trade_cancel_message_value);
   skip
 }
 
@@ -1646,15 +1646,15 @@ inline fill_trade_cancel_message(trade_cancel_message_record, trade_cancel_messa
 inline ramp_trade_cancel_message(trade_cancel_message_record, trade_cancel_message_base) {
   ramp_message_header(trade_cancel_message_record.message_header, trade_cancel_message_base + 0);
   ramp_label(trade_cancel_message_record.label, trade_cancel_message_base + 22);
-  ramp_original_dissemination_date(trade_cancel_message_record.original_dissemination_date, trade_cancel_message_base + 62);
+  ramp_original_dissemination_date(trade_cancel_message_record.original_dissemin_b2ojs1, trade_cancel_message_base + 62);
   trade_cancel_message_at = 0;
   do
   :: trade_cancel_message_at < 7 -> trade_cancel_message_record.original_trade_identifier[trade_cancel_message_at] = (trade_cancel_message_base + 70 + trade_cancel_message_at + 1) % 256; trade_cancel_message_at = trade_cancel_message_at + 1
   :: else -> break
   od;
   trade_cancel_message_record.report_function = (trade_cancel_message_base + 77 + 1) % 256;
-  ramp_original_trade_information(trade_cancel_message_record.original_trade_information, trade_cancel_message_base + 78);
-  ramp_trade_summary_information(trade_cancel_message_record.trade_summary_information, trade_cancel_message_base + 149);
+  ramp_original_trade_information(trade_cancel_message_record.original_trade_in_rg56l6, trade_cancel_message_base + 78);
+  ramp_trade_summary_information(trade_cancel_message_record.trade_summary_inf_v7d12v, trade_cancel_message_base + 149);
   skip
 }
 
@@ -1662,15 +1662,15 @@ inline ramp_trade_cancel_message(trade_cancel_message_record, trade_cancel_messa
 inline encode_trade_cancel_message(trade_cancel_message_record) {
   encode_message_header(trade_cancel_message_record.message_header);
   encode_label(trade_cancel_message_record.label);
-  encode_original_dissemination_date(trade_cancel_message_record.original_dissemination_date);
+  encode_original_dissemination_date(trade_cancel_message_record.original_dissemin_b2ojs1);
   trade_cancel_message_at = 0;
   do
   :: trade_cancel_message_at < 7 -> wire[at] = trade_cancel_message_record.original_trade_identifier[trade_cancel_message_at]; at = at + 1; trade_cancel_message_at = trade_cancel_message_at + 1
   :: else -> break
   od;
   wire[at] = trade_cancel_message_record.report_function; at = at + 1;
-  encode_original_trade_information(trade_cancel_message_record.original_trade_information);
-  encode_trade_summary_information(trade_cancel_message_record.trade_summary_information);
+  encode_original_trade_information(trade_cancel_message_record.original_trade_in_rg56l6);
+  encode_trade_summary_information(trade_cancel_message_record.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1678,15 +1678,15 @@ inline encode_trade_cancel_message(trade_cancel_message_record) {
 inline decode_trade_cancel_message(trade_cancel_message_record) {
   decode_message_header(trade_cancel_message_record.message_header);
   decode_label(trade_cancel_message_record.label);
-  decode_original_dissemination_date(trade_cancel_message_record.original_dissemination_date);
+  decode_original_dissemination_date(trade_cancel_message_record.original_dissemin_b2ojs1);
   trade_cancel_message_at = 0;
   do
   :: trade_cancel_message_at < 7 -> trade_cancel_message_record.original_trade_identifier[trade_cancel_message_at] = wire[at]; at = at + 1; trade_cancel_message_at = trade_cancel_message_at + 1
   :: else -> break
   od;
   trade_cancel_message_record.report_function = wire[at]; at = at + 1;
-  decode_original_trade_information(trade_cancel_message_record.original_trade_information);
-  decode_trade_summary_information(trade_cancel_message_record.trade_summary_information);
+  decode_original_trade_information(trade_cancel_message_record.original_trade_in_rg56l6);
+  decode_trade_summary_information(trade_cancel_message_record.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1694,15 +1694,15 @@ inline decode_trade_cancel_message(trade_cancel_message_record) {
 inline equal_trade_cancel_message(trade_cancel_message_read, trade_cancel_message_written) {
   equal_message_header(trade_cancel_message_read.message_header, trade_cancel_message_written.message_header);
   equal_label(trade_cancel_message_read.label, trade_cancel_message_written.label);
-  equal_original_dissemination_date(trade_cancel_message_read.original_dissemination_date, trade_cancel_message_written.original_dissemination_date);
+  equal_original_dissemination_date(trade_cancel_message_read.original_dissemin_b2ojs1, trade_cancel_message_written.original_dissemin_b2ojs1);
   trade_cancel_message_at = 0;
   do
   :: trade_cancel_message_at < 7 -> assert(trade_cancel_message_read.original_trade_identifier[trade_cancel_message_at] == trade_cancel_message_written.original_trade_identifier[trade_cancel_message_at]); trade_cancel_message_at = trade_cancel_message_at + 1
   :: else -> break
   od;
   assert(trade_cancel_message_read.report_function == trade_cancel_message_written.report_function);
-  equal_original_trade_information(trade_cancel_message_read.original_trade_information, trade_cancel_message_written.original_trade_information);
-  equal_trade_summary_information(trade_cancel_message_read.trade_summary_information, trade_cancel_message_written.trade_summary_information);
+  equal_original_trade_information(trade_cancel_message_read.original_trade_in_rg56l6, trade_cancel_message_written.original_trade_in_rg56l6);
+  equal_trade_summary_information(trade_cancel_message_read.trade_summary_inf_v7d12v, trade_cancel_message_written.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1921,12 +1921,12 @@ inline equal_correction_trade_information(correction_trade_information_read, cor
 typedef TradeCorrectionMessage {
   MessageHeader message_header;
   Label label;
-  OriginalDisseminationDate original_dissemination_date;
+  OriginalDisseminationDate original_dissemin_b2ojs1;
   byte original_trade_identifier[7];
   byte report_function;
-  OriginalTradeInformation original_trade_information;
-  CorrectionTradeInformation correction_trade_information;
-  TradeSummaryInformation trade_summary_information
+  OriginalTradeInformation original_trade_in_rg56l6;
+  CorrectionTradeInformation correction_trade__yipk6t;
+  TradeSummaryInformation trade_summary_inf_v7d12v
 };
 
 int trade_correction_message_at;
@@ -1935,16 +1935,16 @@ int trade_correction_message_at;
 inline fill_trade_correction_message(trade_correction_message_record, trade_correction_message_value) {
   fill_message_header(trade_correction_message_record.message_header, trade_correction_message_value);
   fill_label(trade_correction_message_record.label, trade_correction_message_value);
-  fill_original_dissemination_date(trade_correction_message_record.original_dissemination_date, trade_correction_message_value);
+  fill_original_dissemination_date(trade_correction_message_record.original_dissemin_b2ojs1, trade_correction_message_value);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 7 -> trade_correction_message_record.original_trade_identifier[trade_correction_message_at] = trade_correction_message_value; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   trade_correction_message_record.report_function = trade_correction_message_value;
-  fill_original_trade_information(trade_correction_message_record.original_trade_information, trade_correction_message_value);
-  fill_correction_trade_information(trade_correction_message_record.correction_trade_information, trade_correction_message_value);
-  fill_trade_summary_information(trade_correction_message_record.trade_summary_information, trade_correction_message_value);
+  fill_original_trade_information(trade_correction_message_record.original_trade_in_rg56l6, trade_correction_message_value);
+  fill_correction_trade_information(trade_correction_message_record.correction_trade__yipk6t, trade_correction_message_value);
+  fill_trade_summary_information(trade_correction_message_record.trade_summary_inf_v7d12v, trade_correction_message_value);
   skip
 }
 
@@ -1952,16 +1952,16 @@ inline fill_trade_correction_message(trade_correction_message_record, trade_corr
 inline ramp_trade_correction_message(trade_correction_message_record, trade_correction_message_base) {
   ramp_message_header(trade_correction_message_record.message_header, trade_correction_message_base + 0);
   ramp_label(trade_correction_message_record.label, trade_correction_message_base + 22);
-  ramp_original_dissemination_date(trade_correction_message_record.original_dissemination_date, trade_correction_message_base + 62);
+  ramp_original_dissemination_date(trade_correction_message_record.original_dissemin_b2ojs1, trade_correction_message_base + 62);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 7 -> trade_correction_message_record.original_trade_identifier[trade_correction_message_at] = (trade_correction_message_base + 70 + trade_correction_message_at + 1) % 256; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   trade_correction_message_record.report_function = (trade_correction_message_base + 77 + 1) % 256;
-  ramp_original_trade_information(trade_correction_message_record.original_trade_information, trade_correction_message_base + 78);
-  ramp_correction_trade_information(trade_correction_message_record.correction_trade_information, trade_correction_message_base + 149);
-  ramp_trade_summary_information(trade_correction_message_record.trade_summary_information, trade_correction_message_base + 220);
+  ramp_original_trade_information(trade_correction_message_record.original_trade_in_rg56l6, trade_correction_message_base + 78);
+  ramp_correction_trade_information(trade_correction_message_record.correction_trade__yipk6t, trade_correction_message_base + 149);
+  ramp_trade_summary_information(trade_correction_message_record.trade_summary_inf_v7d12v, trade_correction_message_base + 220);
   skip
 }
 
@@ -1969,16 +1969,16 @@ inline ramp_trade_correction_message(trade_correction_message_record, trade_corr
 inline encode_trade_correction_message(trade_correction_message_record) {
   encode_message_header(trade_correction_message_record.message_header);
   encode_label(trade_correction_message_record.label);
-  encode_original_dissemination_date(trade_correction_message_record.original_dissemination_date);
+  encode_original_dissemination_date(trade_correction_message_record.original_dissemin_b2ojs1);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 7 -> wire[at] = trade_correction_message_record.original_trade_identifier[trade_correction_message_at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   wire[at] = trade_correction_message_record.report_function; at = at + 1;
-  encode_original_trade_information(trade_correction_message_record.original_trade_information);
-  encode_correction_trade_information(trade_correction_message_record.correction_trade_information);
-  encode_trade_summary_information(trade_correction_message_record.trade_summary_information);
+  encode_original_trade_information(trade_correction_message_record.original_trade_in_rg56l6);
+  encode_correction_trade_information(trade_correction_message_record.correction_trade__yipk6t);
+  encode_trade_summary_information(trade_correction_message_record.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1986,16 +1986,16 @@ inline encode_trade_correction_message(trade_correction_message_record) {
 inline decode_trade_correction_message(trade_correction_message_record) {
   decode_message_header(trade_correction_message_record.message_header);
   decode_label(trade_correction_message_record.label);
-  decode_original_dissemination_date(trade_correction_message_record.original_dissemination_date);
+  decode_original_dissemination_date(trade_correction_message_record.original_dissemin_b2ojs1);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 7 -> trade_correction_message_record.original_trade_identifier[trade_correction_message_at] = wire[at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   trade_correction_message_record.report_function = wire[at]; at = at + 1;
-  decode_original_trade_information(trade_correction_message_record.original_trade_information);
-  decode_correction_trade_information(trade_correction_message_record.correction_trade_information);
-  decode_trade_summary_information(trade_correction_message_record.trade_summary_information);
+  decode_original_trade_information(trade_correction_message_record.original_trade_in_rg56l6);
+  decode_correction_trade_information(trade_correction_message_record.correction_trade__yipk6t);
+  decode_trade_summary_information(trade_correction_message_record.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -2003,16 +2003,16 @@ inline decode_trade_correction_message(trade_correction_message_record) {
 inline equal_trade_correction_message(trade_correction_message_read, trade_correction_message_written) {
   equal_message_header(trade_correction_message_read.message_header, trade_correction_message_written.message_header);
   equal_label(trade_correction_message_read.label, trade_correction_message_written.label);
-  equal_original_dissemination_date(trade_correction_message_read.original_dissemination_date, trade_correction_message_written.original_dissemination_date);
+  equal_original_dissemination_date(trade_correction_message_read.original_dissemin_b2ojs1, trade_correction_message_written.original_dissemin_b2ojs1);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 7 -> assert(trade_correction_message_read.original_trade_identifier[trade_correction_message_at] == trade_correction_message_written.original_trade_identifier[trade_correction_message_at]); trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   assert(trade_correction_message_read.report_function == trade_correction_message_written.report_function);
-  equal_original_trade_information(trade_correction_message_read.original_trade_information, trade_correction_message_written.original_trade_information);
-  equal_correction_trade_information(trade_correction_message_read.correction_trade_information, trade_correction_message_written.correction_trade_information);
-  equal_trade_summary_information(trade_correction_message_read.trade_summary_information, trade_correction_message_written.trade_summary_information);
+  equal_original_trade_information(trade_correction_message_read.original_trade_in_rg56l6, trade_correction_message_written.original_trade_in_rg56l6);
+  equal_correction_trade_information(trade_correction_message_read.correction_trade__yipk6t, trade_correction_message_written.correction_trade__yipk6t);
+  equal_trade_summary_information(trade_correction_message_read.trade_summary_inf_v7d12v, trade_correction_message_written.trade_summary_inf_v7d12v);
   skip
 }
 

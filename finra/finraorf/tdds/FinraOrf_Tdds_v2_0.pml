@@ -1022,7 +1022,7 @@ inline equal_trade_information(trade_information_read, trade_information_written
 typedef TradeReportLongFormMessage {
   MessageHeader message_header;
   byte security_symbol[14];
-  OriginalDisseminationDate original_dissemination_date;
+  OriginalDisseminationDate original_dissemin_b2ojs1;
   TradeInformation trade_information
 };
 
@@ -1036,7 +1036,7 @@ inline fill_trade_report_long_form_message(trade_report_long_form_message_record
   :: trade_report_long_form_message_at < 14 -> trade_report_long_form_message_record.security_symbol[trade_report_long_form_message_at] = trade_report_long_form_message_value; trade_report_long_form_message_at = trade_report_long_form_message_at + 1
   :: else -> break
   od;
-  fill_original_dissemination_date(trade_report_long_form_message_record.original_dissemination_date, trade_report_long_form_message_value);
+  fill_original_dissemination_date(trade_report_long_form_message_record.original_dissemin_b2ojs1, trade_report_long_form_message_value);
   fill_trade_information(trade_report_long_form_message_record.trade_information, trade_report_long_form_message_value);
   skip
 }
@@ -1049,7 +1049,7 @@ inline ramp_trade_report_long_form_message(trade_report_long_form_message_record
   :: trade_report_long_form_message_at < 14 -> trade_report_long_form_message_record.security_symbol[trade_report_long_form_message_at] = (trade_report_long_form_message_base + 30 + trade_report_long_form_message_at + 1) % 256; trade_report_long_form_message_at = trade_report_long_form_message_at + 1
   :: else -> break
   od;
-  ramp_original_dissemination_date(trade_report_long_form_message_record.original_dissemination_date, trade_report_long_form_message_base + 44);
+  ramp_original_dissemination_date(trade_report_long_form_message_record.original_dissemin_b2ojs1, trade_report_long_form_message_base + 44);
   ramp_trade_information(trade_report_long_form_message_record.trade_information, trade_report_long_form_message_base + 52);
   skip
 }
@@ -1062,7 +1062,7 @@ inline encode_trade_report_long_form_message(trade_report_long_form_message_reco
   :: trade_report_long_form_message_at < 14 -> wire[at] = trade_report_long_form_message_record.security_symbol[trade_report_long_form_message_at]; at = at + 1; trade_report_long_form_message_at = trade_report_long_form_message_at + 1
   :: else -> break
   od;
-  encode_original_dissemination_date(trade_report_long_form_message_record.original_dissemination_date);
+  encode_original_dissemination_date(trade_report_long_form_message_record.original_dissemin_b2ojs1);
   encode_trade_information(trade_report_long_form_message_record.trade_information);
   skip
 }
@@ -1075,7 +1075,7 @@ inline decode_trade_report_long_form_message(trade_report_long_form_message_reco
   :: trade_report_long_form_message_at < 14 -> trade_report_long_form_message_record.security_symbol[trade_report_long_form_message_at] = wire[at]; at = at + 1; trade_report_long_form_message_at = trade_report_long_form_message_at + 1
   :: else -> break
   od;
-  decode_original_dissemination_date(trade_report_long_form_message_record.original_dissemination_date);
+  decode_original_dissemination_date(trade_report_long_form_message_record.original_dissemin_b2ojs1);
   decode_trade_information(trade_report_long_form_message_record.trade_information);
   skip
 }
@@ -1088,7 +1088,7 @@ inline equal_trade_report_long_form_message(trade_report_long_form_message_read,
   :: trade_report_long_form_message_at < 14 -> assert(trade_report_long_form_message_read.security_symbol[trade_report_long_form_message_at] == trade_report_long_form_message_written.security_symbol[trade_report_long_form_message_at]); trade_report_long_form_message_at = trade_report_long_form_message_at + 1
   :: else -> break
   od;
-  equal_original_dissemination_date(trade_report_long_form_message_read.original_dissemination_date, trade_report_long_form_message_written.original_dissemination_date);
+  equal_original_dissemination_date(trade_report_long_form_message_read.original_dissemin_b2ojs1, trade_report_long_form_message_written.original_dissemin_b2ojs1);
   equal_trade_information(trade_report_long_form_message_read.trade_information, trade_report_long_form_message_written.trade_information);
   skip
 }
@@ -1445,11 +1445,11 @@ inline equal_trade_summary_information(trade_summary_information_read, trade_sum
 typedef TradeCancelErrorMessage {
   MessageHeader message_header;
   byte security_symbol[14];
-  OriginalDisseminationDate original_dissemination_date;
+  OriginalDisseminationDate original_dissemin_b2ojs1;
   byte original_message_sequence_number[8];
   byte report_function;
-  OriginalTradeInformation original_trade_information;
-  TradeSummaryInformation trade_summary_information
+  OriginalTradeInformation original_trade_in_rg56l6;
+  TradeSummaryInformation trade_summary_inf_v7d12v
 };
 
 int trade_cancel_error_message_at;
@@ -1462,15 +1462,15 @@ inline fill_trade_cancel_error_message(trade_cancel_error_message_record, trade_
   :: trade_cancel_error_message_at < 14 -> trade_cancel_error_message_record.security_symbol[trade_cancel_error_message_at] = trade_cancel_error_message_value; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  fill_original_dissemination_date(trade_cancel_error_message_record.original_dissemination_date, trade_cancel_error_message_value);
+  fill_original_dissemination_date(trade_cancel_error_message_record.original_dissemin_b2ojs1, trade_cancel_error_message_value);
   trade_cancel_error_message_at = 0;
   do
   :: trade_cancel_error_message_at < 8 -> trade_cancel_error_message_record.original_message_sequence_number[trade_cancel_error_message_at] = trade_cancel_error_message_value; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
   trade_cancel_error_message_record.report_function = trade_cancel_error_message_value;
-  fill_original_trade_information(trade_cancel_error_message_record.original_trade_information, trade_cancel_error_message_value);
-  fill_trade_summary_information(trade_cancel_error_message_record.trade_summary_information, trade_cancel_error_message_value);
+  fill_original_trade_information(trade_cancel_error_message_record.original_trade_in_rg56l6, trade_cancel_error_message_value);
+  fill_trade_summary_information(trade_cancel_error_message_record.trade_summary_inf_v7d12v, trade_cancel_error_message_value);
   skip
 }
 
@@ -1482,15 +1482,15 @@ inline ramp_trade_cancel_error_message(trade_cancel_error_message_record, trade_
   :: trade_cancel_error_message_at < 14 -> trade_cancel_error_message_record.security_symbol[trade_cancel_error_message_at] = (trade_cancel_error_message_base + 30 + trade_cancel_error_message_at + 1) % 256; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  ramp_original_dissemination_date(trade_cancel_error_message_record.original_dissemination_date, trade_cancel_error_message_base + 44);
+  ramp_original_dissemination_date(trade_cancel_error_message_record.original_dissemin_b2ojs1, trade_cancel_error_message_base + 44);
   trade_cancel_error_message_at = 0;
   do
   :: trade_cancel_error_message_at < 8 -> trade_cancel_error_message_record.original_message_sequence_number[trade_cancel_error_message_at] = (trade_cancel_error_message_base + 52 + trade_cancel_error_message_at + 1) % 256; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
   trade_cancel_error_message_record.report_function = (trade_cancel_error_message_base + 60 + 1) % 256;
-  ramp_original_trade_information(trade_cancel_error_message_record.original_trade_information, trade_cancel_error_message_base + 61);
-  ramp_trade_summary_information(trade_cancel_error_message_record.trade_summary_information, trade_cancel_error_message_base + 109);
+  ramp_original_trade_information(trade_cancel_error_message_record.original_trade_in_rg56l6, trade_cancel_error_message_base + 61);
+  ramp_trade_summary_information(trade_cancel_error_message_record.trade_summary_inf_v7d12v, trade_cancel_error_message_base + 109);
   skip
 }
 
@@ -1502,15 +1502,15 @@ inline encode_trade_cancel_error_message(trade_cancel_error_message_record) {
   :: trade_cancel_error_message_at < 14 -> wire[at] = trade_cancel_error_message_record.security_symbol[trade_cancel_error_message_at]; at = at + 1; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  encode_original_dissemination_date(trade_cancel_error_message_record.original_dissemination_date);
+  encode_original_dissemination_date(trade_cancel_error_message_record.original_dissemin_b2ojs1);
   trade_cancel_error_message_at = 0;
   do
   :: trade_cancel_error_message_at < 8 -> wire[at] = trade_cancel_error_message_record.original_message_sequence_number[trade_cancel_error_message_at]; at = at + 1; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
   wire[at] = trade_cancel_error_message_record.report_function; at = at + 1;
-  encode_original_trade_information(trade_cancel_error_message_record.original_trade_information);
-  encode_trade_summary_information(trade_cancel_error_message_record.trade_summary_information);
+  encode_original_trade_information(trade_cancel_error_message_record.original_trade_in_rg56l6);
+  encode_trade_summary_information(trade_cancel_error_message_record.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1522,15 +1522,15 @@ inline decode_trade_cancel_error_message(trade_cancel_error_message_record) {
   :: trade_cancel_error_message_at < 14 -> trade_cancel_error_message_record.security_symbol[trade_cancel_error_message_at] = wire[at]; at = at + 1; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  decode_original_dissemination_date(trade_cancel_error_message_record.original_dissemination_date);
+  decode_original_dissemination_date(trade_cancel_error_message_record.original_dissemin_b2ojs1);
   trade_cancel_error_message_at = 0;
   do
   :: trade_cancel_error_message_at < 8 -> trade_cancel_error_message_record.original_message_sequence_number[trade_cancel_error_message_at] = wire[at]; at = at + 1; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
   trade_cancel_error_message_record.report_function = wire[at]; at = at + 1;
-  decode_original_trade_information(trade_cancel_error_message_record.original_trade_information);
-  decode_trade_summary_information(trade_cancel_error_message_record.trade_summary_information);
+  decode_original_trade_information(trade_cancel_error_message_record.original_trade_in_rg56l6);
+  decode_trade_summary_information(trade_cancel_error_message_record.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1542,15 +1542,15 @@ inline equal_trade_cancel_error_message(trade_cancel_error_message_read, trade_c
   :: trade_cancel_error_message_at < 14 -> assert(trade_cancel_error_message_read.security_symbol[trade_cancel_error_message_at] == trade_cancel_error_message_written.security_symbol[trade_cancel_error_message_at]); trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  equal_original_dissemination_date(trade_cancel_error_message_read.original_dissemination_date, trade_cancel_error_message_written.original_dissemination_date);
+  equal_original_dissemination_date(trade_cancel_error_message_read.original_dissemin_b2ojs1, trade_cancel_error_message_written.original_dissemin_b2ojs1);
   trade_cancel_error_message_at = 0;
   do
   :: trade_cancel_error_message_at < 8 -> assert(trade_cancel_error_message_read.original_message_sequence_number[trade_cancel_error_message_at] == trade_cancel_error_message_written.original_message_sequence_number[trade_cancel_error_message_at]); trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
   assert(trade_cancel_error_message_read.report_function == trade_cancel_error_message_written.report_function);
-  equal_original_trade_information(trade_cancel_error_message_read.original_trade_information, trade_cancel_error_message_written.original_trade_information);
-  equal_trade_summary_information(trade_cancel_error_message_read.trade_summary_information, trade_cancel_error_message_written.trade_summary_information);
+  equal_original_trade_information(trade_cancel_error_message_read.original_trade_in_rg56l6, trade_cancel_error_message_written.original_trade_in_rg56l6);
+  equal_trade_summary_information(trade_cancel_error_message_read.trade_summary_inf_v7d12v, trade_cancel_error_message_written.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1739,12 +1739,12 @@ inline equal_corrected_trade_information(corrected_trade_information_read, corre
 typedef TradeCorrectionMessage {
   MessageHeader message_header;
   byte security_symbol[14];
-  OriginalDisseminationDate original_dissemination_date;
+  OriginalDisseminationDate original_dissemin_b2ojs1;
   byte original_message_sequence_number[8];
   byte report_function;
-  OriginalTradeInformation original_trade_information;
-  CorrectedTradeInformation corrected_trade_information;
-  TradeSummaryInformation trade_summary_information
+  OriginalTradeInformation original_trade_in_rg56l6;
+  CorrectedTradeInformation corrected_trade_i_o02vhw;
+  TradeSummaryInformation trade_summary_inf_v7d12v
 };
 
 int trade_correction_message_at;
@@ -1757,16 +1757,16 @@ inline fill_trade_correction_message(trade_correction_message_record, trade_corr
   :: trade_correction_message_at < 14 -> trade_correction_message_record.security_symbol[trade_correction_message_at] = trade_correction_message_value; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  fill_original_dissemination_date(trade_correction_message_record.original_dissemination_date, trade_correction_message_value);
+  fill_original_dissemination_date(trade_correction_message_record.original_dissemin_b2ojs1, trade_correction_message_value);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 8 -> trade_correction_message_record.original_message_sequence_number[trade_correction_message_at] = trade_correction_message_value; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   trade_correction_message_record.report_function = trade_correction_message_value;
-  fill_original_trade_information(trade_correction_message_record.original_trade_information, trade_correction_message_value);
-  fill_corrected_trade_information(trade_correction_message_record.corrected_trade_information, trade_correction_message_value);
-  fill_trade_summary_information(trade_correction_message_record.trade_summary_information, trade_correction_message_value);
+  fill_original_trade_information(trade_correction_message_record.original_trade_in_rg56l6, trade_correction_message_value);
+  fill_corrected_trade_information(trade_correction_message_record.corrected_trade_i_o02vhw, trade_correction_message_value);
+  fill_trade_summary_information(trade_correction_message_record.trade_summary_inf_v7d12v, trade_correction_message_value);
   skip
 }
 
@@ -1778,16 +1778,16 @@ inline ramp_trade_correction_message(trade_correction_message_record, trade_corr
   :: trade_correction_message_at < 14 -> trade_correction_message_record.security_symbol[trade_correction_message_at] = (trade_correction_message_base + 30 + trade_correction_message_at + 1) % 256; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  ramp_original_dissemination_date(trade_correction_message_record.original_dissemination_date, trade_correction_message_base + 44);
+  ramp_original_dissemination_date(trade_correction_message_record.original_dissemin_b2ojs1, trade_correction_message_base + 44);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 8 -> trade_correction_message_record.original_message_sequence_number[trade_correction_message_at] = (trade_correction_message_base + 52 + trade_correction_message_at + 1) % 256; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   trade_correction_message_record.report_function = (trade_correction_message_base + 60 + 1) % 256;
-  ramp_original_trade_information(trade_correction_message_record.original_trade_information, trade_correction_message_base + 61);
-  ramp_corrected_trade_information(trade_correction_message_record.corrected_trade_information, trade_correction_message_base + 109);
-  ramp_trade_summary_information(trade_correction_message_record.trade_summary_information, trade_correction_message_base + 157);
+  ramp_original_trade_information(trade_correction_message_record.original_trade_in_rg56l6, trade_correction_message_base + 61);
+  ramp_corrected_trade_information(trade_correction_message_record.corrected_trade_i_o02vhw, trade_correction_message_base + 109);
+  ramp_trade_summary_information(trade_correction_message_record.trade_summary_inf_v7d12v, trade_correction_message_base + 157);
   skip
 }
 
@@ -1799,16 +1799,16 @@ inline encode_trade_correction_message(trade_correction_message_record) {
   :: trade_correction_message_at < 14 -> wire[at] = trade_correction_message_record.security_symbol[trade_correction_message_at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  encode_original_dissemination_date(trade_correction_message_record.original_dissemination_date);
+  encode_original_dissemination_date(trade_correction_message_record.original_dissemin_b2ojs1);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 8 -> wire[at] = trade_correction_message_record.original_message_sequence_number[trade_correction_message_at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   wire[at] = trade_correction_message_record.report_function; at = at + 1;
-  encode_original_trade_information(trade_correction_message_record.original_trade_information);
-  encode_corrected_trade_information(trade_correction_message_record.corrected_trade_information);
-  encode_trade_summary_information(trade_correction_message_record.trade_summary_information);
+  encode_original_trade_information(trade_correction_message_record.original_trade_in_rg56l6);
+  encode_corrected_trade_information(trade_correction_message_record.corrected_trade_i_o02vhw);
+  encode_trade_summary_information(trade_correction_message_record.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1820,16 +1820,16 @@ inline decode_trade_correction_message(trade_correction_message_record) {
   :: trade_correction_message_at < 14 -> trade_correction_message_record.security_symbol[trade_correction_message_at] = wire[at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  decode_original_dissemination_date(trade_correction_message_record.original_dissemination_date);
+  decode_original_dissemination_date(trade_correction_message_record.original_dissemin_b2ojs1);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 8 -> trade_correction_message_record.original_message_sequence_number[trade_correction_message_at] = wire[at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   trade_correction_message_record.report_function = wire[at]; at = at + 1;
-  decode_original_trade_information(trade_correction_message_record.original_trade_information);
-  decode_corrected_trade_information(trade_correction_message_record.corrected_trade_information);
-  decode_trade_summary_information(trade_correction_message_record.trade_summary_information);
+  decode_original_trade_information(trade_correction_message_record.original_trade_in_rg56l6);
+  decode_corrected_trade_information(trade_correction_message_record.corrected_trade_i_o02vhw);
+  decode_trade_summary_information(trade_correction_message_record.trade_summary_inf_v7d12v);
   skip
 }
 
@@ -1841,16 +1841,16 @@ inline equal_trade_correction_message(trade_correction_message_read, trade_corre
   :: trade_correction_message_at < 14 -> assert(trade_correction_message_read.security_symbol[trade_correction_message_at] == trade_correction_message_written.security_symbol[trade_correction_message_at]); trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  equal_original_dissemination_date(trade_correction_message_read.original_dissemination_date, trade_correction_message_written.original_dissemination_date);
+  equal_original_dissemination_date(trade_correction_message_read.original_dissemin_b2ojs1, trade_correction_message_written.original_dissemin_b2ojs1);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 8 -> assert(trade_correction_message_read.original_message_sequence_number[trade_correction_message_at] == trade_correction_message_written.original_message_sequence_number[trade_correction_message_at]); trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
   assert(trade_correction_message_read.report_function == trade_correction_message_written.report_function);
-  equal_original_trade_information(trade_correction_message_read.original_trade_information, trade_correction_message_written.original_trade_information);
-  equal_corrected_trade_information(trade_correction_message_read.corrected_trade_information, trade_correction_message_written.corrected_trade_information);
-  equal_trade_summary_information(trade_correction_message_read.trade_summary_information, trade_correction_message_written.trade_summary_information);
+  equal_original_trade_information(trade_correction_message_read.original_trade_in_rg56l6, trade_correction_message_written.original_trade_in_rg56l6);
+  equal_corrected_trade_information(trade_correction_message_read.corrected_trade_i_o02vhw, trade_correction_message_written.corrected_trade_i_o02vhw);
+  equal_trade_summary_information(trade_correction_message_read.trade_summary_inf_v7d12v, trade_correction_message_written.trade_summary_inf_v7d12v);
   skip
 }
 

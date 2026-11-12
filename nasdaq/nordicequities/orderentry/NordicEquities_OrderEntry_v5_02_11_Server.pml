@@ -2852,8 +2852,8 @@ inline equal_account_query_response_message(account_query_response_message_read,
 /* A Gtc order could not be restated in the morning */
 typedef GtcCancelledMessage {
   byte timestamp[8];
-  OriginalOrderEntryDate original_order_entry_date;
-  OriginalOrderReferenceNumber original_order_reference_number;
+  OriginalOrderEntryDate original_order_en_hm6cdn;
+  OriginalOrderReferenceNumber original_order_re_6m9v7t;
   byte reason[2]
 };
 
@@ -2866,8 +2866,8 @@ inline fill_gtc_cancelled_message(gtc_cancelled_message_record, gtc_cancelled_me
   :: gtc_cancelled_message_at < 8 -> gtc_cancelled_message_record.timestamp[gtc_cancelled_message_at] = gtc_cancelled_message_value; gtc_cancelled_message_at = gtc_cancelled_message_at + 1
   :: else -> break
   od;
-  fill_original_order_entry_date(gtc_cancelled_message_record.original_order_entry_date, gtc_cancelled_message_value);
-  fill_original_order_reference_number(gtc_cancelled_message_record.original_order_reference_number, gtc_cancelled_message_value);
+  fill_original_order_entry_date(gtc_cancelled_message_record.original_order_en_hm6cdn, gtc_cancelled_message_value);
+  fill_original_order_reference_number(gtc_cancelled_message_record.original_order_re_6m9v7t, gtc_cancelled_message_value);
   gtc_cancelled_message_at = 0;
   do
   :: gtc_cancelled_message_at < 2 -> gtc_cancelled_message_record.reason[gtc_cancelled_message_at] = gtc_cancelled_message_value; gtc_cancelled_message_at = gtc_cancelled_message_at + 1
@@ -2883,8 +2883,8 @@ inline ramp_gtc_cancelled_message(gtc_cancelled_message_record, gtc_cancelled_me
   :: gtc_cancelled_message_at < 8 -> gtc_cancelled_message_record.timestamp[gtc_cancelled_message_at] = (gtc_cancelled_message_base + 0 + gtc_cancelled_message_at + 1) % 256; gtc_cancelled_message_at = gtc_cancelled_message_at + 1
   :: else -> break
   od;
-  ramp_original_order_entry_date(gtc_cancelled_message_record.original_order_entry_date, gtc_cancelled_message_base + 8);
-  ramp_original_order_reference_number(gtc_cancelled_message_record.original_order_reference_number, gtc_cancelled_message_base + 12);
+  ramp_original_order_entry_date(gtc_cancelled_message_record.original_order_en_hm6cdn, gtc_cancelled_message_base + 8);
+  ramp_original_order_reference_number(gtc_cancelled_message_record.original_order_re_6m9v7t, gtc_cancelled_message_base + 12);
   gtc_cancelled_message_at = 0;
   do
   :: gtc_cancelled_message_at < 2 -> gtc_cancelled_message_record.reason[gtc_cancelled_message_at] = (gtc_cancelled_message_base + 20 + gtc_cancelled_message_at + 1) % 256; gtc_cancelled_message_at = gtc_cancelled_message_at + 1
@@ -2900,8 +2900,8 @@ inline encode_gtc_cancelled_message(gtc_cancelled_message_record) {
   :: gtc_cancelled_message_at < 8 -> wire[at] = gtc_cancelled_message_record.timestamp[gtc_cancelled_message_at]; at = at + 1; gtc_cancelled_message_at = gtc_cancelled_message_at + 1
   :: else -> break
   od;
-  encode_original_order_entry_date(gtc_cancelled_message_record.original_order_entry_date);
-  encode_original_order_reference_number(gtc_cancelled_message_record.original_order_reference_number);
+  encode_original_order_entry_date(gtc_cancelled_message_record.original_order_en_hm6cdn);
+  encode_original_order_reference_number(gtc_cancelled_message_record.original_order_re_6m9v7t);
   gtc_cancelled_message_at = 0;
   do
   :: gtc_cancelled_message_at < 2 -> wire[at] = gtc_cancelled_message_record.reason[gtc_cancelled_message_at]; at = at + 1; gtc_cancelled_message_at = gtc_cancelled_message_at + 1
@@ -2917,8 +2917,8 @@ inline decode_gtc_cancelled_message(gtc_cancelled_message_record) {
   :: gtc_cancelled_message_at < 8 -> gtc_cancelled_message_record.timestamp[gtc_cancelled_message_at] = wire[at]; at = at + 1; gtc_cancelled_message_at = gtc_cancelled_message_at + 1
   :: else -> break
   od;
-  decode_original_order_entry_date(gtc_cancelled_message_record.original_order_entry_date);
-  decode_original_order_reference_number(gtc_cancelled_message_record.original_order_reference_number);
+  decode_original_order_entry_date(gtc_cancelled_message_record.original_order_en_hm6cdn);
+  decode_original_order_reference_number(gtc_cancelled_message_record.original_order_re_6m9v7t);
   gtc_cancelled_message_at = 0;
   do
   :: gtc_cancelled_message_at < 2 -> gtc_cancelled_message_record.reason[gtc_cancelled_message_at] = wire[at]; at = at + 1; gtc_cancelled_message_at = gtc_cancelled_message_at + 1
@@ -2934,8 +2934,8 @@ inline equal_gtc_cancelled_message(gtc_cancelled_message_read, gtc_cancelled_mes
   :: gtc_cancelled_message_at < 8 -> assert(gtc_cancelled_message_read.timestamp[gtc_cancelled_message_at] == gtc_cancelled_message_written.timestamp[gtc_cancelled_message_at]); gtc_cancelled_message_at = gtc_cancelled_message_at + 1
   :: else -> break
   od;
-  equal_original_order_entry_date(gtc_cancelled_message_read.original_order_entry_date, gtc_cancelled_message_written.original_order_entry_date);
-  equal_original_order_reference_number(gtc_cancelled_message_read.original_order_reference_number, gtc_cancelled_message_written.original_order_reference_number);
+  equal_original_order_entry_date(gtc_cancelled_message_read.original_order_en_hm6cdn, gtc_cancelled_message_written.original_order_en_hm6cdn);
+  equal_original_order_reference_number(gtc_cancelled_message_read.original_order_re_6m9v7t, gtc_cancelled_message_written.original_order_re_6m9v7t);
   gtc_cancelled_message_at = 0;
   do
   :: gtc_cancelled_message_at < 2 -> assert(gtc_cancelled_message_read.reason[gtc_cancelled_message_at] == gtc_cancelled_message_written.reason[gtc_cancelled_message_at]); gtc_cancelled_message_at = gtc_cancelled_message_at + 1

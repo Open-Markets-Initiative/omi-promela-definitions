@@ -1040,7 +1040,7 @@ inline equal_canceled_message(canceled_message_read, canceled_message_written) {
   skip
 }
 
-/* ---- Aiq Canceled Message: 36 bytes ------------------------------------------ */
+/* ---- Aiq Canceled Message: 37 bytes ------------------------------------------ */
 
 typedef AiqCanceledMessage {
   byte timestamp[8];
@@ -1049,7 +1049,8 @@ typedef AiqCanceledMessage {
   byte aiq_canceled_reason;
   byte quantity_prevented_from_trading[4];
   byte execution_price[4];
-  byte liquidity_flag
+  byte liquidity_flag;
+  byte aiq_strategy
 };
 
 int aiq_canceled_message_at;
@@ -1083,6 +1084,7 @@ inline fill_aiq_canceled_message(aiq_canceled_message_record, aiq_canceled_messa
   :: else -> break
   od;
   aiq_canceled_message_record.liquidity_flag = aiq_canceled_message_value;
+  aiq_canceled_message_record.aiq_strategy = aiq_canceled_message_value;
   skip
 }
 
@@ -1115,10 +1117,11 @@ inline ramp_aiq_canceled_message(aiq_canceled_message_record, aiq_canceled_messa
   :: else -> break
   od;
   aiq_canceled_message_record.liquidity_flag = (aiq_canceled_message_base + 35 + 1) % 256;
+  aiq_canceled_message_record.aiq_strategy = (aiq_canceled_message_base + 36 + 1) % 256;
   skip
 }
 
-/* Aiq Canceled Message to the wire, 36 bytes from where the cursor stands */
+/* Aiq Canceled Message to the wire, 37 bytes from where the cursor stands */
 inline encode_aiq_canceled_message(aiq_canceled_message_record) {
   aiq_canceled_message_at = 0;
   do
@@ -1147,10 +1150,11 @@ inline encode_aiq_canceled_message(aiq_canceled_message_record) {
   :: else -> break
   od;
   wire[at] = aiq_canceled_message_record.liquidity_flag; at = at + 1;
+  wire[at] = aiq_canceled_message_record.aiq_strategy; at = at + 1;
   skip
 }
 
-/* Aiq Canceled Message off the wire, 36 bytes from where the cursor stands */
+/* Aiq Canceled Message off the wire, 37 bytes from where the cursor stands */
 inline decode_aiq_canceled_message(aiq_canceled_message_record) {
   aiq_canceled_message_at = 0;
   do
@@ -1179,6 +1183,7 @@ inline decode_aiq_canceled_message(aiq_canceled_message_record) {
   :: else -> break
   od;
   aiq_canceled_message_record.liquidity_flag = wire[at]; at = at + 1;
+  aiq_canceled_message_record.aiq_strategy = wire[at]; at = at + 1;
   skip
 }
 
@@ -1211,6 +1216,7 @@ inline equal_aiq_canceled_message(aiq_canceled_message_read, aiq_canceled_messag
   :: else -> break
   od;
   assert(aiq_canceled_message_read.liquidity_flag == aiq_canceled_message_written.liquidity_flag);
+  assert(aiq_canceled_message_read.aiq_strategy == aiq_canceled_message_written.aiq_strategy);
   skip
 }
 
@@ -2256,10 +2262,10 @@ proctype check_aiq_canceled_message() {
   atomic {
     at = 0;
     encode_aiq_canceled_message(aiq_canceled_message_sent);
-    assert(at == 36);
+    assert(at == 37);
     at = 0;
     decode_aiq_canceled_message(aiq_canceled_message_got);
-    assert(at == 36);
+    assert(at == 37);
     equal_aiq_canceled_message(aiq_canceled_message_got, aiq_canceled_message_sent)
   }
 }

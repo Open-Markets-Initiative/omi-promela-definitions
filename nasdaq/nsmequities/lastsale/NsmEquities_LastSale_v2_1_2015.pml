@@ -751,7 +751,7 @@ typedef TradeCancelErrorMessage {
   byte original_trade_control_number[10];
   byte original_trade_price[4];
   byte original_trade_size[4];
-  OriginalSaleConditionModifier original_sale_condition_modifier
+  OriginalSaleConditionModifier original_sale_con_5dv852
 };
 
 int trade_cancel_error_message_at;
@@ -780,7 +780,7 @@ inline fill_trade_cancel_error_message(trade_cancel_error_message_record, trade_
   :: trade_cancel_error_message_at < 4 -> trade_cancel_error_message_record.original_trade_size[trade_cancel_error_message_at] = trade_cancel_error_message_value; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  fill_original_sale_condition_modifier(trade_cancel_error_message_record.original_sale_condition_modifier, trade_cancel_error_message_value);
+  fill_original_sale_condition_modifier(trade_cancel_error_message_record.original_sale_con_5dv852, trade_cancel_error_message_value);
   skip
 }
 
@@ -808,7 +808,7 @@ inline ramp_trade_cancel_error_message(trade_cancel_error_message_record, trade_
   :: trade_cancel_error_message_at < 4 -> trade_cancel_error_message_record.original_trade_size[trade_cancel_error_message_at] = (trade_cancel_error_message_base + 24 + trade_cancel_error_message_at + 1) % 256; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  ramp_original_sale_condition_modifier(trade_cancel_error_message_record.original_sale_condition_modifier, trade_cancel_error_message_base + 28);
+  ramp_original_sale_condition_modifier(trade_cancel_error_message_record.original_sale_con_5dv852, trade_cancel_error_message_base + 28);
   skip
 }
 
@@ -836,7 +836,7 @@ inline encode_trade_cancel_error_message(trade_cancel_error_message_record) {
   :: trade_cancel_error_message_at < 4 -> wire[at] = trade_cancel_error_message_record.original_trade_size[trade_cancel_error_message_at]; at = at + 1; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  encode_original_sale_condition_modifier(trade_cancel_error_message_record.original_sale_condition_modifier);
+  encode_original_sale_condition_modifier(trade_cancel_error_message_record.original_sale_con_5dv852);
   skip
 }
 
@@ -864,7 +864,7 @@ inline decode_trade_cancel_error_message(trade_cancel_error_message_record) {
   :: trade_cancel_error_message_at < 4 -> trade_cancel_error_message_record.original_trade_size[trade_cancel_error_message_at] = wire[at]; at = at + 1; trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  decode_original_sale_condition_modifier(trade_cancel_error_message_record.original_sale_condition_modifier);
+  decode_original_sale_condition_modifier(trade_cancel_error_message_record.original_sale_con_5dv852);
   skip
 }
 
@@ -892,7 +892,7 @@ inline equal_trade_cancel_error_message(trade_cancel_error_message_read, trade_c
   :: trade_cancel_error_message_at < 4 -> assert(trade_cancel_error_message_read.original_trade_size[trade_cancel_error_message_at] == trade_cancel_error_message_written.original_trade_size[trade_cancel_error_message_at]); trade_cancel_error_message_at = trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  equal_original_sale_condition_modifier(trade_cancel_error_message_read.original_sale_condition_modifier, trade_cancel_error_message_written.original_sale_condition_modifier);
+  equal_original_sale_condition_modifier(trade_cancel_error_message_read.original_sale_con_5dv852, trade_cancel_error_message_written.original_sale_con_5dv852);
   skip
 }
 
@@ -907,7 +907,7 @@ typedef EtmfTradeCancelErrorMessage {
   byte original_trade_price[4];
   byte original_nav_premium_discount_amount[4];
   byte original_trade_size[4];
-  OriginalSaleConditionModifier original_sale_condition_modifier
+  OriginalSaleConditionModifier original_sale_con_5dv852
 };
 
 int etmf_trade_cancel_error_message_at;
@@ -941,7 +941,7 @@ inline fill_etmf_trade_cancel_error_message(etmf_trade_cancel_error_message_reco
   :: etmf_trade_cancel_error_message_at < 4 -> etmf_trade_cancel_error_message_record.original_trade_size[etmf_trade_cancel_error_message_at] = etmf_trade_cancel_error_message_value; etmf_trade_cancel_error_message_at = etmf_trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  fill_original_sale_condition_modifier(etmf_trade_cancel_error_message_record.original_sale_condition_modifier, etmf_trade_cancel_error_message_value);
+  fill_original_sale_condition_modifier(etmf_trade_cancel_error_message_record.original_sale_con_5dv852, etmf_trade_cancel_error_message_value);
   skip
 }
 
@@ -974,7 +974,7 @@ inline ramp_etmf_trade_cancel_error_message(etmf_trade_cancel_error_message_reco
   :: etmf_trade_cancel_error_message_at < 4 -> etmf_trade_cancel_error_message_record.original_trade_size[etmf_trade_cancel_error_message_at] = (etmf_trade_cancel_error_message_base + 28 + etmf_trade_cancel_error_message_at + 1) % 256; etmf_trade_cancel_error_message_at = etmf_trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  ramp_original_sale_condition_modifier(etmf_trade_cancel_error_message_record.original_sale_condition_modifier, etmf_trade_cancel_error_message_base + 32);
+  ramp_original_sale_condition_modifier(etmf_trade_cancel_error_message_record.original_sale_con_5dv852, etmf_trade_cancel_error_message_base + 32);
   skip
 }
 
@@ -1007,7 +1007,7 @@ inline encode_etmf_trade_cancel_error_message(etmf_trade_cancel_error_message_re
   :: etmf_trade_cancel_error_message_at < 4 -> wire[at] = etmf_trade_cancel_error_message_record.original_trade_size[etmf_trade_cancel_error_message_at]; at = at + 1; etmf_trade_cancel_error_message_at = etmf_trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  encode_original_sale_condition_modifier(etmf_trade_cancel_error_message_record.original_sale_condition_modifier);
+  encode_original_sale_condition_modifier(etmf_trade_cancel_error_message_record.original_sale_con_5dv852);
   skip
 }
 
@@ -1040,7 +1040,7 @@ inline decode_etmf_trade_cancel_error_message(etmf_trade_cancel_error_message_re
   :: etmf_trade_cancel_error_message_at < 4 -> etmf_trade_cancel_error_message_record.original_trade_size[etmf_trade_cancel_error_message_at] = wire[at]; at = at + 1; etmf_trade_cancel_error_message_at = etmf_trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  decode_original_sale_condition_modifier(etmf_trade_cancel_error_message_record.original_sale_condition_modifier);
+  decode_original_sale_condition_modifier(etmf_trade_cancel_error_message_record.original_sale_con_5dv852);
   skip
 }
 
@@ -1073,7 +1073,7 @@ inline equal_etmf_trade_cancel_error_message(etmf_trade_cancel_error_message_rea
   :: etmf_trade_cancel_error_message_at < 4 -> assert(etmf_trade_cancel_error_message_read.original_trade_size[etmf_trade_cancel_error_message_at] == etmf_trade_cancel_error_message_written.original_trade_size[etmf_trade_cancel_error_message_at]); etmf_trade_cancel_error_message_at = etmf_trade_cancel_error_message_at + 1
   :: else -> break
   od;
-  equal_original_sale_condition_modifier(etmf_trade_cancel_error_message_read.original_sale_condition_modifier, etmf_trade_cancel_error_message_written.original_sale_condition_modifier);
+  equal_original_sale_condition_modifier(etmf_trade_cancel_error_message_read.original_sale_con_5dv852, etmf_trade_cancel_error_message_written.original_sale_con_5dv852);
   skip
 }
 
@@ -1142,11 +1142,11 @@ typedef TradeCorrectionMessage {
   byte original_trade_control_number[10];
   byte original_trade_price[4];
   byte original_trade_size[4];
-  OriginalSaleConditionModifier original_sale_condition_modifier;
+  OriginalSaleConditionModifier original_sale_con_5dv852;
   byte corrected_trade_control_number[10];
   byte corrected_trade_price[4];
   byte corrected_trade_size[4];
-  CorrectedSaleConditionModifier corrected_sale_condition_modifier
+  CorrectedSaleConditionModifier corrected_sale_co_w2lix0
 };
 
 int trade_correction_message_at;
@@ -1175,7 +1175,7 @@ inline fill_trade_correction_message(trade_correction_message_record, trade_corr
   :: trade_correction_message_at < 4 -> trade_correction_message_record.original_trade_size[trade_correction_message_at] = trade_correction_message_value; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  fill_original_sale_condition_modifier(trade_correction_message_record.original_sale_condition_modifier, trade_correction_message_value);
+  fill_original_sale_condition_modifier(trade_correction_message_record.original_sale_con_5dv852, trade_correction_message_value);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 10 -> trade_correction_message_record.corrected_trade_control_number[trade_correction_message_at] = trade_correction_message_value; trade_correction_message_at = trade_correction_message_at + 1
@@ -1191,7 +1191,7 @@ inline fill_trade_correction_message(trade_correction_message_record, trade_corr
   :: trade_correction_message_at < 4 -> trade_correction_message_record.corrected_trade_size[trade_correction_message_at] = trade_correction_message_value; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  fill_corrected_sale_condition_modifier(trade_correction_message_record.corrected_sale_condition_modifier, trade_correction_message_value);
+  fill_corrected_sale_condition_modifier(trade_correction_message_record.corrected_sale_co_w2lix0, trade_correction_message_value);
   skip
 }
 
@@ -1219,7 +1219,7 @@ inline ramp_trade_correction_message(trade_correction_message_record, trade_corr
   :: trade_correction_message_at < 4 -> trade_correction_message_record.original_trade_size[trade_correction_message_at] = (trade_correction_message_base + 24 + trade_correction_message_at + 1) % 256; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  ramp_original_sale_condition_modifier(trade_correction_message_record.original_sale_condition_modifier, trade_correction_message_base + 28);
+  ramp_original_sale_condition_modifier(trade_correction_message_record.original_sale_con_5dv852, trade_correction_message_base + 28);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 10 -> trade_correction_message_record.corrected_trade_control_number[trade_correction_message_at] = (trade_correction_message_base + 32 + trade_correction_message_at + 1) % 256; trade_correction_message_at = trade_correction_message_at + 1
@@ -1235,7 +1235,7 @@ inline ramp_trade_correction_message(trade_correction_message_record, trade_corr
   :: trade_correction_message_at < 4 -> trade_correction_message_record.corrected_trade_size[trade_correction_message_at] = (trade_correction_message_base + 46 + trade_correction_message_at + 1) % 256; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  ramp_corrected_sale_condition_modifier(trade_correction_message_record.corrected_sale_condition_modifier, trade_correction_message_base + 50);
+  ramp_corrected_sale_condition_modifier(trade_correction_message_record.corrected_sale_co_w2lix0, trade_correction_message_base + 50);
   skip
 }
 
@@ -1263,7 +1263,7 @@ inline encode_trade_correction_message(trade_correction_message_record) {
   :: trade_correction_message_at < 4 -> wire[at] = trade_correction_message_record.original_trade_size[trade_correction_message_at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  encode_original_sale_condition_modifier(trade_correction_message_record.original_sale_condition_modifier);
+  encode_original_sale_condition_modifier(trade_correction_message_record.original_sale_con_5dv852);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 10 -> wire[at] = trade_correction_message_record.corrected_trade_control_number[trade_correction_message_at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
@@ -1279,7 +1279,7 @@ inline encode_trade_correction_message(trade_correction_message_record) {
   :: trade_correction_message_at < 4 -> wire[at] = trade_correction_message_record.corrected_trade_size[trade_correction_message_at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  encode_corrected_sale_condition_modifier(trade_correction_message_record.corrected_sale_condition_modifier);
+  encode_corrected_sale_condition_modifier(trade_correction_message_record.corrected_sale_co_w2lix0);
   skip
 }
 
@@ -1307,7 +1307,7 @@ inline decode_trade_correction_message(trade_correction_message_record) {
   :: trade_correction_message_at < 4 -> trade_correction_message_record.original_trade_size[trade_correction_message_at] = wire[at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  decode_original_sale_condition_modifier(trade_correction_message_record.original_sale_condition_modifier);
+  decode_original_sale_condition_modifier(trade_correction_message_record.original_sale_con_5dv852);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 10 -> trade_correction_message_record.corrected_trade_control_number[trade_correction_message_at] = wire[at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
@@ -1323,7 +1323,7 @@ inline decode_trade_correction_message(trade_correction_message_record) {
   :: trade_correction_message_at < 4 -> trade_correction_message_record.corrected_trade_size[trade_correction_message_at] = wire[at]; at = at + 1; trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  decode_corrected_sale_condition_modifier(trade_correction_message_record.corrected_sale_condition_modifier);
+  decode_corrected_sale_condition_modifier(trade_correction_message_record.corrected_sale_co_w2lix0);
   skip
 }
 
@@ -1351,7 +1351,7 @@ inline equal_trade_correction_message(trade_correction_message_read, trade_corre
   :: trade_correction_message_at < 4 -> assert(trade_correction_message_read.original_trade_size[trade_correction_message_at] == trade_correction_message_written.original_trade_size[trade_correction_message_at]); trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  equal_original_sale_condition_modifier(trade_correction_message_read.original_sale_condition_modifier, trade_correction_message_written.original_sale_condition_modifier);
+  equal_original_sale_condition_modifier(trade_correction_message_read.original_sale_con_5dv852, trade_correction_message_written.original_sale_con_5dv852);
   trade_correction_message_at = 0;
   do
   :: trade_correction_message_at < 10 -> assert(trade_correction_message_read.corrected_trade_control_number[trade_correction_message_at] == trade_correction_message_written.corrected_trade_control_number[trade_correction_message_at]); trade_correction_message_at = trade_correction_message_at + 1
@@ -1367,7 +1367,7 @@ inline equal_trade_correction_message(trade_correction_message_read, trade_corre
   :: trade_correction_message_at < 4 -> assert(trade_correction_message_read.corrected_trade_size[trade_correction_message_at] == trade_correction_message_written.corrected_trade_size[trade_correction_message_at]); trade_correction_message_at = trade_correction_message_at + 1
   :: else -> break
   od;
-  equal_corrected_sale_condition_modifier(trade_correction_message_read.corrected_sale_condition_modifier, trade_correction_message_written.corrected_sale_condition_modifier);
+  equal_corrected_sale_condition_modifier(trade_correction_message_read.corrected_sale_co_w2lix0, trade_correction_message_written.corrected_sale_co_w2lix0);
   skip
 }
 
@@ -1382,12 +1382,12 @@ typedef EtmfTradeCorrectionMessage {
   byte original_trade_price[4];
   byte original_nav_premium_discount_amount[4];
   byte original_trade_size[4];
-  OriginalSaleConditionModifier original_sale_condition_modifier;
+  OriginalSaleConditionModifier original_sale_con_5dv852;
   byte corrected_trade_control_number[10];
   byte corrected_trade_price[4];
   byte corrected_nav_premium_discount_amount[4];
   byte corrected_trade_size[4];
-  CorrectedSaleConditionModifier corrected_sale_condition_modifier
+  CorrectedSaleConditionModifier corrected_sale_co_w2lix0
 };
 
 int etmf_trade_correction_message_at;
@@ -1421,7 +1421,7 @@ inline fill_etmf_trade_correction_message(etmf_trade_correction_message_record, 
   :: etmf_trade_correction_message_at < 4 -> etmf_trade_correction_message_record.original_trade_size[etmf_trade_correction_message_at] = etmf_trade_correction_message_value; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  fill_original_sale_condition_modifier(etmf_trade_correction_message_record.original_sale_condition_modifier, etmf_trade_correction_message_value);
+  fill_original_sale_condition_modifier(etmf_trade_correction_message_record.original_sale_con_5dv852, etmf_trade_correction_message_value);
   etmf_trade_correction_message_at = 0;
   do
   :: etmf_trade_correction_message_at < 10 -> etmf_trade_correction_message_record.corrected_trade_control_number[etmf_trade_correction_message_at] = etmf_trade_correction_message_value; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
@@ -1442,7 +1442,7 @@ inline fill_etmf_trade_correction_message(etmf_trade_correction_message_record, 
   :: etmf_trade_correction_message_at < 4 -> etmf_trade_correction_message_record.corrected_trade_size[etmf_trade_correction_message_at] = etmf_trade_correction_message_value; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  fill_corrected_sale_condition_modifier(etmf_trade_correction_message_record.corrected_sale_condition_modifier, etmf_trade_correction_message_value);
+  fill_corrected_sale_condition_modifier(etmf_trade_correction_message_record.corrected_sale_co_w2lix0, etmf_trade_correction_message_value);
   skip
 }
 
@@ -1475,7 +1475,7 @@ inline ramp_etmf_trade_correction_message(etmf_trade_correction_message_record, 
   :: etmf_trade_correction_message_at < 4 -> etmf_trade_correction_message_record.original_trade_size[etmf_trade_correction_message_at] = (etmf_trade_correction_message_base + 28 + etmf_trade_correction_message_at + 1) % 256; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  ramp_original_sale_condition_modifier(etmf_trade_correction_message_record.original_sale_condition_modifier, etmf_trade_correction_message_base + 32);
+  ramp_original_sale_condition_modifier(etmf_trade_correction_message_record.original_sale_con_5dv852, etmf_trade_correction_message_base + 32);
   etmf_trade_correction_message_at = 0;
   do
   :: etmf_trade_correction_message_at < 10 -> etmf_trade_correction_message_record.corrected_trade_control_number[etmf_trade_correction_message_at] = (etmf_trade_correction_message_base + 36 + etmf_trade_correction_message_at + 1) % 256; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
@@ -1496,7 +1496,7 @@ inline ramp_etmf_trade_correction_message(etmf_trade_correction_message_record, 
   :: etmf_trade_correction_message_at < 4 -> etmf_trade_correction_message_record.corrected_trade_size[etmf_trade_correction_message_at] = (etmf_trade_correction_message_base + 54 + etmf_trade_correction_message_at + 1) % 256; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  ramp_corrected_sale_condition_modifier(etmf_trade_correction_message_record.corrected_sale_condition_modifier, etmf_trade_correction_message_base + 58);
+  ramp_corrected_sale_condition_modifier(etmf_trade_correction_message_record.corrected_sale_co_w2lix0, etmf_trade_correction_message_base + 58);
   skip
 }
 
@@ -1529,7 +1529,7 @@ inline encode_etmf_trade_correction_message(etmf_trade_correction_message_record
   :: etmf_trade_correction_message_at < 4 -> wire[at] = etmf_trade_correction_message_record.original_trade_size[etmf_trade_correction_message_at]; at = at + 1; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  encode_original_sale_condition_modifier(etmf_trade_correction_message_record.original_sale_condition_modifier);
+  encode_original_sale_condition_modifier(etmf_trade_correction_message_record.original_sale_con_5dv852);
   etmf_trade_correction_message_at = 0;
   do
   :: etmf_trade_correction_message_at < 10 -> wire[at] = etmf_trade_correction_message_record.corrected_trade_control_number[etmf_trade_correction_message_at]; at = at + 1; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
@@ -1550,7 +1550,7 @@ inline encode_etmf_trade_correction_message(etmf_trade_correction_message_record
   :: etmf_trade_correction_message_at < 4 -> wire[at] = etmf_trade_correction_message_record.corrected_trade_size[etmf_trade_correction_message_at]; at = at + 1; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  encode_corrected_sale_condition_modifier(etmf_trade_correction_message_record.corrected_sale_condition_modifier);
+  encode_corrected_sale_condition_modifier(etmf_trade_correction_message_record.corrected_sale_co_w2lix0);
   skip
 }
 
@@ -1583,7 +1583,7 @@ inline decode_etmf_trade_correction_message(etmf_trade_correction_message_record
   :: etmf_trade_correction_message_at < 4 -> etmf_trade_correction_message_record.original_trade_size[etmf_trade_correction_message_at] = wire[at]; at = at + 1; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  decode_original_sale_condition_modifier(etmf_trade_correction_message_record.original_sale_condition_modifier);
+  decode_original_sale_condition_modifier(etmf_trade_correction_message_record.original_sale_con_5dv852);
   etmf_trade_correction_message_at = 0;
   do
   :: etmf_trade_correction_message_at < 10 -> etmf_trade_correction_message_record.corrected_trade_control_number[etmf_trade_correction_message_at] = wire[at]; at = at + 1; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
@@ -1604,7 +1604,7 @@ inline decode_etmf_trade_correction_message(etmf_trade_correction_message_record
   :: etmf_trade_correction_message_at < 4 -> etmf_trade_correction_message_record.corrected_trade_size[etmf_trade_correction_message_at] = wire[at]; at = at + 1; etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  decode_corrected_sale_condition_modifier(etmf_trade_correction_message_record.corrected_sale_condition_modifier);
+  decode_corrected_sale_condition_modifier(etmf_trade_correction_message_record.corrected_sale_co_w2lix0);
   skip
 }
 
@@ -1637,7 +1637,7 @@ inline equal_etmf_trade_correction_message(etmf_trade_correction_message_read, e
   :: etmf_trade_correction_message_at < 4 -> assert(etmf_trade_correction_message_read.original_trade_size[etmf_trade_correction_message_at] == etmf_trade_correction_message_written.original_trade_size[etmf_trade_correction_message_at]); etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  equal_original_sale_condition_modifier(etmf_trade_correction_message_read.original_sale_condition_modifier, etmf_trade_correction_message_written.original_sale_condition_modifier);
+  equal_original_sale_condition_modifier(etmf_trade_correction_message_read.original_sale_con_5dv852, etmf_trade_correction_message_written.original_sale_con_5dv852);
   etmf_trade_correction_message_at = 0;
   do
   :: etmf_trade_correction_message_at < 10 -> assert(etmf_trade_correction_message_read.corrected_trade_control_number[etmf_trade_correction_message_at] == etmf_trade_correction_message_written.corrected_trade_control_number[etmf_trade_correction_message_at]); etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
@@ -1658,7 +1658,7 @@ inline equal_etmf_trade_correction_message(etmf_trade_correction_message_read, e
   :: etmf_trade_correction_message_at < 4 -> assert(etmf_trade_correction_message_read.corrected_trade_size[etmf_trade_correction_message_at] == etmf_trade_correction_message_written.corrected_trade_size[etmf_trade_correction_message_at]); etmf_trade_correction_message_at = etmf_trade_correction_message_at + 1
   :: else -> break
   od;
-  equal_corrected_sale_condition_modifier(etmf_trade_correction_message_read.corrected_sale_condition_modifier, etmf_trade_correction_message_written.corrected_sale_condition_modifier);
+  equal_corrected_sale_condition_modifier(etmf_trade_correction_message_read.corrected_sale_co_w2lix0, etmf_trade_correction_message_written.corrected_sale_co_w2lix0);
   skip
 }
 

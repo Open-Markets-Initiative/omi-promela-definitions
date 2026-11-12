@@ -175,7 +175,7 @@ inline equal_message_header(message_header_read, message_header_written) {
 /* The Time Reference message is used to provide a midnight reference point for recipients of the feed. It is sent whenever the system starts up and when the system crosses a midnight boundary. */
 typedef OxTimeReferenceMessage {
   byte midnight_reference[4];
-  byte time_reference[4];
+  byte time[4];
   byte time_offset[4];
   byte trade_date[4]
 };
@@ -191,7 +191,7 @@ inline fill_ox_time_reference_message(ox_time_reference_message_record, ox_time_
   od;
   ox_time_reference_message_at = 0;
   do
-  :: ox_time_reference_message_at < 4 -> ox_time_reference_message_record.time_reference[ox_time_reference_message_at] = ox_time_reference_message_value; ox_time_reference_message_at = ox_time_reference_message_at + 1
+  :: ox_time_reference_message_at < 4 -> ox_time_reference_message_record.time[ox_time_reference_message_at] = ox_time_reference_message_value; ox_time_reference_message_at = ox_time_reference_message_at + 1
   :: else -> break
   od;
   ox_time_reference_message_at = 0;
@@ -216,7 +216,7 @@ inline ramp_ox_time_reference_message(ox_time_reference_message_record, ox_time_
   od;
   ox_time_reference_message_at = 0;
   do
-  :: ox_time_reference_message_at < 4 -> ox_time_reference_message_record.time_reference[ox_time_reference_message_at] = (ox_time_reference_message_base + 4 + ox_time_reference_message_at + 1) % 256; ox_time_reference_message_at = ox_time_reference_message_at + 1
+  :: ox_time_reference_message_at < 4 -> ox_time_reference_message_record.time[ox_time_reference_message_at] = (ox_time_reference_message_base + 4 + ox_time_reference_message_at + 1) % 256; ox_time_reference_message_at = ox_time_reference_message_at + 1
   :: else -> break
   od;
   ox_time_reference_message_at = 0;
@@ -241,7 +241,7 @@ inline encode_ox_time_reference_message(ox_time_reference_message_record) {
   od;
   ox_time_reference_message_at = 0;
   do
-  :: ox_time_reference_message_at < 4 -> wire[at] = ox_time_reference_message_record.time_reference[ox_time_reference_message_at]; at = at + 1; ox_time_reference_message_at = ox_time_reference_message_at + 1
+  :: ox_time_reference_message_at < 4 -> wire[at] = ox_time_reference_message_record.time[ox_time_reference_message_at]; at = at + 1; ox_time_reference_message_at = ox_time_reference_message_at + 1
   :: else -> break
   od;
   ox_time_reference_message_at = 0;
@@ -266,7 +266,7 @@ inline decode_ox_time_reference_message(ox_time_reference_message_record) {
   od;
   ox_time_reference_message_at = 0;
   do
-  :: ox_time_reference_message_at < 4 -> ox_time_reference_message_record.time_reference[ox_time_reference_message_at] = wire[at]; at = at + 1; ox_time_reference_message_at = ox_time_reference_message_at + 1
+  :: ox_time_reference_message_at < 4 -> ox_time_reference_message_record.time[ox_time_reference_message_at] = wire[at]; at = at + 1; ox_time_reference_message_at = ox_time_reference_message_at + 1
   :: else -> break
   od;
   ox_time_reference_message_at = 0;
@@ -291,7 +291,7 @@ inline equal_ox_time_reference_message(ox_time_reference_message_read, ox_time_r
   od;
   ox_time_reference_message_at = 0;
   do
-  :: ox_time_reference_message_at < 4 -> assert(ox_time_reference_message_read.time_reference[ox_time_reference_message_at] == ox_time_reference_message_written.time_reference[ox_time_reference_message_at]); ox_time_reference_message_at = ox_time_reference_message_at + 1
+  :: ox_time_reference_message_at < 4 -> assert(ox_time_reference_message_read.time[ox_time_reference_message_at] == ox_time_reference_message_written.time[ox_time_reference_message_at]); ox_time_reference_message_at = ox_time_reference_message_at + 1
   :: else -> break
   od;
   ox_time_reference_message_at = 0;

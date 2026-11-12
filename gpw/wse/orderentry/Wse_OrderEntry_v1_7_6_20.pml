@@ -993,14 +993,14 @@ inline equal_investment_decision_maker(investment_decision_maker_read, investmen
 typedef MifidFields {
   Client client;
   ExecutingTrader executing_trader;
-  InvestmentDecisionMaker investment_decision_maker
+  InvestmentDecisionMaker investment_decisi_p8x1q8
 };
 
 /* every byte of Mifid Fields set to one value */
 inline fill_mifid_fields(mifid_fields_record, mifid_fields_value) {
   fill_client(mifid_fields_record.client, mifid_fields_value);
   fill_executing_trader(mifid_fields_record.executing_trader, mifid_fields_value);
-  fill_investment_decision_maker(mifid_fields_record.investment_decision_maker, mifid_fields_value);
+  fill_investment_decision_maker(mifid_fields_record.investment_decisi_p8x1q8, mifid_fields_value);
   skip
 }
 
@@ -1008,7 +1008,7 @@ inline fill_mifid_fields(mifid_fields_record, mifid_fields_value) {
 inline ramp_mifid_fields(mifid_fields_record, mifid_fields_base) {
   ramp_client(mifid_fields_record.client, mifid_fields_base + 0);
   ramp_executing_trader(mifid_fields_record.executing_trader, mifid_fields_base + 5);
-  ramp_investment_decision_maker(mifid_fields_record.investment_decision_maker, mifid_fields_base + 10);
+  ramp_investment_decision_maker(mifid_fields_record.investment_decisi_p8x1q8, mifid_fields_base + 10);
   skip
 }
 
@@ -1016,7 +1016,7 @@ inline ramp_mifid_fields(mifid_fields_record, mifid_fields_base) {
 inline encode_mifid_fields(mifid_fields_record) {
   encode_client(mifid_fields_record.client);
   encode_executing_trader(mifid_fields_record.executing_trader);
-  encode_investment_decision_maker(mifid_fields_record.investment_decision_maker);
+  encode_investment_decision_maker(mifid_fields_record.investment_decisi_p8x1q8);
   skip
 }
 
@@ -1024,7 +1024,7 @@ inline encode_mifid_fields(mifid_fields_record) {
 inline decode_mifid_fields(mifid_fields_record) {
   decode_client(mifid_fields_record.client);
   decode_executing_trader(mifid_fields_record.executing_trader);
-  decode_investment_decision_maker(mifid_fields_record.investment_decision_maker);
+  decode_investment_decision_maker(mifid_fields_record.investment_decisi_p8x1q8);
   skip
 }
 
@@ -1032,7 +1032,7 @@ inline decode_mifid_fields(mifid_fields_record) {
 inline equal_mifid_fields(mifid_fields_read, mifid_fields_written) {
   equal_client(mifid_fields_read.client, mifid_fields_written.client);
   equal_executing_trader(mifid_fields_read.executing_trader, mifid_fields_written.executing_trader);
-  equal_investment_decision_maker(mifid_fields_read.investment_decision_maker, mifid_fields_written.investment_decision_maker);
+  equal_investment_decision_maker(mifid_fields_read.investment_decisi_p8x1q8, mifid_fields_written.investment_decisi_p8x1q8);
   skip
 }
 

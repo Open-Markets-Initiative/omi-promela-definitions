@@ -845,7 +845,7 @@ inline equal_to_s_t_ne_t_by_issue_information_message(to_s_t_ne_t_by_issue_infor
 /* ---- State: 8 bytes ---------------------------------------------------------- */
 
 /* State */
-typedef State {
+typedef State_ {
   byte market_state_flag[2];
   byte time_c_6[6]
 };
@@ -933,7 +933,7 @@ inline equal_state(state_read, state_written) {
 typedef ToSTNeTMarketInformationMessage {
   byte reserved_2[2];
   byte market_identification_flag;
-  State state
+  State_ state
 };
 
 int to_s_t_ne_t_market_information_message_at;
@@ -1378,8 +1378,8 @@ proctype check_to_s_t_ne_t_by_issue_information_message() {
 
 /* State: encoded, read back, and compared */
 proctype check_state() {
-  State state_sent;
-  State state_got;
+  State_ state_sent;
+  State_ state_got;
   int pattern;
 
   if

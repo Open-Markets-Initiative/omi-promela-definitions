@@ -495,6 +495,65 @@ inline equal_snapshot_response_message(snapshot_response_message_read, snapshot_
   skip
 }
 
+/* ---- Time Message: 4 bytes --------------------------------------------------- */
+
+/* Sent by the server for every second for which at least one application message is generated. */
+typedef TimeMessage {
+  byte seconds[4]
+};
+
+int time_message_at;
+
+/* every byte of Time Message set to one value */
+inline fill_time_message(time_message_record, time_message_value) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.seconds[time_message_at] = time_message_value; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Time Message set to where it lies, so a field read out of place says so */
+inline ramp_time_message(time_message_record, time_message_base) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.seconds[time_message_at] = (time_message_base + 0 + time_message_at + 1) % 256; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Time Message to the wire, 4 bytes from where the cursor stands */
+inline encode_time_message(time_message_record) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> wire[at] = time_message_record.seconds[time_message_at]; at = at + 1; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Time Message off the wire, 4 bytes from where the cursor stands */
+inline decode_time_message(time_message_record) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> time_message_record.seconds[time_message_at] = wire[at]; at = at + 1; time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Time Message is what was written, byte for byte */
+inline equal_time_message(time_message_read, time_message_written) {
+  time_message_at = 0;
+  do
+  :: time_message_at < 4 -> assert(time_message_read.seconds[time_message_at] == time_message_written.seconds[time_message_at]); time_message_at = time_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
 /* ---- What spin checks -------------------------------------------------------- */
 
 /* Unit Header: encoded, read back, and compared */
@@ -683,6 +742,37 @@ proctype check_snapshot_response_message() {
   }
 }
 
+/* Time Message: encoded, read back, and compared */
+proctype check_time_message() {
+  TimeMessage time_message_sent;
+  TimeMessage time_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_time_message(time_message_sent, 0)
+  :: pattern == 1 -> fill_time_message(time_message_sent, 32)
+  :: pattern == 2 -> fill_time_message(time_message_sent, 255)
+  :: else -> ramp_time_message(time_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_time_message(time_message_sent);
+    assert(at == 4);
+    at = 0;
+    decode_time_message(time_message_got);
+    assert(at == 4);
+    equal_time_message(time_message_got, time_message_sent)
+  }
+}
+
 /* one checking process, chosen nondeterministically, so every one of them runs */
 init {
   if
@@ -692,5 +782,6 @@ init {
   :: run check_login_response_message()
   :: run check_snapshot_request_message()
   :: run check_snapshot_response_message()
+  :: run check_time_message()
   fi
 }

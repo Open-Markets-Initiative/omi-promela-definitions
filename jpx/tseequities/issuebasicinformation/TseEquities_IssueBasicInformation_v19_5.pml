@@ -732,16 +732,16 @@ inline equal_short_selling_prohibition(short_selling_prohibition_read, short_sel
 /* Order Prohibition Status (at the regular distribution) */
 typedef OrderProhibitionStatusAtTheRegularDistribution {
   NewOrdersProhibition new_orders_prohibition;
-  MarginTransactionsProhibition margin_transactions_prohibition;
-  ShortSellingProhibition short_selling_prohibition;
+  MarginTransactionsProhibition margin_transactio_7m8zf1;
+  ShortSellingProhibition short_selling_pro_45r7wy;
   byte all_orders_prohibition
 };
 
 /* every byte of Order Prohibition Status At The Regular Distribution set to one value */
 inline fill_order_prohibition_status_at_the_regular_distribution(order_prohibition_status_at_the_regular_distribution_record, order_prohibition_status_at_the_regular_distribution_value) {
   fill_new_orders_prohibition(order_prohibition_status_at_the_regular_distribution_record.new_orders_prohibition, order_prohibition_status_at_the_regular_distribution_value);
-  fill_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_record.margin_transactions_prohibition, order_prohibition_status_at_the_regular_distribution_value);
-  fill_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_record.short_selling_prohibition, order_prohibition_status_at_the_regular_distribution_value);
+  fill_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_record.margin_transactio_7m8zf1, order_prohibition_status_at_the_regular_distribution_value);
+  fill_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_record.short_selling_pro_45r7wy, order_prohibition_status_at_the_regular_distribution_value);
   order_prohibition_status_at_the_regular_distribution_record.all_orders_prohibition = order_prohibition_status_at_the_regular_distribution_value;
   skip
 }
@@ -749,8 +749,8 @@ inline fill_order_prohibition_status_at_the_regular_distribution(order_prohibiti
 /* each byte of Order Prohibition Status At The Regular Distribution set to where it lies, so a field read out of place says so */
 inline ramp_order_prohibition_status_at_the_regular_distribution(order_prohibition_status_at_the_regular_distribution_record, order_prohibition_status_at_the_regular_distribution_base) {
   ramp_new_orders_prohibition(order_prohibition_status_at_the_regular_distribution_record.new_orders_prohibition, order_prohibition_status_at_the_regular_distribution_base + 0);
-  ramp_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_record.margin_transactions_prohibition, order_prohibition_status_at_the_regular_distribution_base + 4);
-  ramp_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_record.short_selling_prohibition, order_prohibition_status_at_the_regular_distribution_base + 7);
+  ramp_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_record.margin_transactio_7m8zf1, order_prohibition_status_at_the_regular_distribution_base + 4);
+  ramp_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_record.short_selling_pro_45r7wy, order_prohibition_status_at_the_regular_distribution_base + 7);
   order_prohibition_status_at_the_regular_distribution_record.all_orders_prohibition = (order_prohibition_status_at_the_regular_distribution_base + 9 + 1) % 256;
   skip
 }
@@ -758,8 +758,8 @@ inline ramp_order_prohibition_status_at_the_regular_distribution(order_prohibiti
 /* Order Prohibition Status At The Regular Distribution to the wire, 10 bytes from where the cursor stands */
 inline encode_order_prohibition_status_at_the_regular_distribution(order_prohibition_status_at_the_regular_distribution_record) {
   encode_new_orders_prohibition(order_prohibition_status_at_the_regular_distribution_record.new_orders_prohibition);
-  encode_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_record.margin_transactions_prohibition);
-  encode_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_record.short_selling_prohibition);
+  encode_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_record.margin_transactio_7m8zf1);
+  encode_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_record.short_selling_pro_45r7wy);
   wire[at] = order_prohibition_status_at_the_regular_distribution_record.all_orders_prohibition; at = at + 1;
   skip
 }
@@ -767,8 +767,8 @@ inline encode_order_prohibition_status_at_the_regular_distribution(order_prohibi
 /* Order Prohibition Status At The Regular Distribution off the wire, 10 bytes from where the cursor stands */
 inline decode_order_prohibition_status_at_the_regular_distribution(order_prohibition_status_at_the_regular_distribution_record) {
   decode_new_orders_prohibition(order_prohibition_status_at_the_regular_distribution_record.new_orders_prohibition);
-  decode_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_record.margin_transactions_prohibition);
-  decode_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_record.short_selling_prohibition);
+  decode_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_record.margin_transactio_7m8zf1);
+  decode_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_record.short_selling_pro_45r7wy);
   order_prohibition_status_at_the_regular_distribution_record.all_orders_prohibition = wire[at]; at = at + 1;
   skip
 }
@@ -776,8 +776,8 @@ inline decode_order_prohibition_status_at_the_regular_distribution(order_prohibi
 /* what was read of Order Prohibition Status At The Regular Distribution is what was written, byte for byte */
 inline equal_order_prohibition_status_at_the_regular_distribution(order_prohibition_status_at_the_regular_distribution_read, order_prohibition_status_at_the_regular_distribution_written) {
   equal_new_orders_prohibition(order_prohibition_status_at_the_regular_distribution_read.new_orders_prohibition, order_prohibition_status_at_the_regular_distribution_written.new_orders_prohibition);
-  equal_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_read.margin_transactions_prohibition, order_prohibition_status_at_the_regular_distribution_written.margin_transactions_prohibition);
-  equal_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_read.short_selling_prohibition, order_prohibition_status_at_the_regular_distribution_written.short_selling_prohibition);
+  equal_margin_transactions_prohibition(order_prohibition_status_at_the_regular_distribution_read.margin_transactio_7m8zf1, order_prohibition_status_at_the_regular_distribution_written.margin_transactio_7m8zf1);
+  equal_short_selling_prohibition(order_prohibition_status_at_the_regular_distribution_read.short_selling_pro_45r7wy, order_prohibition_status_at_the_regular_distribution_written.short_selling_pro_45r7wy);
   assert(order_prohibition_status_at_the_regular_distribution_read.all_orders_prohibition == order_prohibition_status_at_the_regular_distribution_written.all_orders_prohibition);
   skip
 }
@@ -804,7 +804,7 @@ typedef IssueInformationMessage {
   byte reserved_5[5];
   byte unit_of_trading[14];
   IndexConstituentIssue index_constituent_issue;
-  OrderProhibitionStatusAtTheRegularDistribution order_prohibition_status_at_the_regular_distribution;
+  OrderProhibitionStatusAtTheRegularDistribution order_prohibition_wvshew;
   byte reserved_11[11]
 };
 
@@ -870,7 +870,7 @@ inline fill_issue_information_message(issue_information_message_record, issue_in
   :: else -> break
   od;
   fill_index_constituent_issue(issue_information_message_record.index_constituent_issue, issue_information_message_value);
-  fill_order_prohibition_status_at_the_regular_distribution(issue_information_message_record.order_prohibition_status_at_the_regular_distribution, issue_information_message_value);
+  fill_order_prohibition_status_at_the_regular_distribution(issue_information_message_record.order_prohibition_wvshew, issue_information_message_value);
   issue_information_message_at = 0;
   do
   :: issue_information_message_at < 11 -> issue_information_message_record.reserved_11[issue_information_message_at] = issue_information_message_value; issue_information_message_at = issue_information_message_at + 1
@@ -939,7 +939,7 @@ inline ramp_issue_information_message(issue_information_message_record, issue_in
   :: else -> break
   od;
   ramp_index_constituent_issue(issue_information_message_record.index_constituent_issue, issue_information_message_base + 82);
-  ramp_order_prohibition_status_at_the_regular_distribution(issue_information_message_record.order_prohibition_status_at_the_regular_distribution, issue_information_message_base + 102);
+  ramp_order_prohibition_status_at_the_regular_distribution(issue_information_message_record.order_prohibition_wvshew, issue_information_message_base + 102);
   issue_information_message_at = 0;
   do
   :: issue_information_message_at < 11 -> issue_information_message_record.reserved_11[issue_information_message_at] = (issue_information_message_base + 112 + issue_information_message_at + 1) % 256; issue_information_message_at = issue_information_message_at + 1
@@ -1008,7 +1008,7 @@ inline encode_issue_information_message(issue_information_message_record) {
   :: else -> break
   od;
   encode_index_constituent_issue(issue_information_message_record.index_constituent_issue);
-  encode_order_prohibition_status_at_the_regular_distribution(issue_information_message_record.order_prohibition_status_at_the_regular_distribution);
+  encode_order_prohibition_status_at_the_regular_distribution(issue_information_message_record.order_prohibition_wvshew);
   issue_information_message_at = 0;
   do
   :: issue_information_message_at < 11 -> wire[at] = issue_information_message_record.reserved_11[issue_information_message_at]; at = at + 1; issue_information_message_at = issue_information_message_at + 1
@@ -1077,7 +1077,7 @@ inline decode_issue_information_message(issue_information_message_record) {
   :: else -> break
   od;
   decode_index_constituent_issue(issue_information_message_record.index_constituent_issue);
-  decode_order_prohibition_status_at_the_regular_distribution(issue_information_message_record.order_prohibition_status_at_the_regular_distribution);
+  decode_order_prohibition_status_at_the_regular_distribution(issue_information_message_record.order_prohibition_wvshew);
   issue_information_message_at = 0;
   do
   :: issue_information_message_at < 11 -> issue_information_message_record.reserved_11[issue_information_message_at] = wire[at]; at = at + 1; issue_information_message_at = issue_information_message_at + 1
@@ -1146,7 +1146,7 @@ inline equal_issue_information_message(issue_information_message_read, issue_inf
   :: else -> break
   od;
   equal_index_constituent_issue(issue_information_message_read.index_constituent_issue, issue_information_message_written.index_constituent_issue);
-  equal_order_prohibition_status_at_the_regular_distribution(issue_information_message_read.order_prohibition_status_at_the_regular_distribution, issue_information_message_written.order_prohibition_status_at_the_regular_distribution);
+  equal_order_prohibition_status_at_the_regular_distribution(issue_information_message_read.order_prohibition_wvshew, issue_information_message_written.order_prohibition_wvshew);
   issue_information_message_at = 0;
   do
   :: issue_information_message_at < 11 -> assert(issue_information_message_read.reserved_11[issue_information_message_at] == issue_information_message_written.reserved_11[issue_information_message_at]); issue_information_message_at = issue_information_message_at + 1

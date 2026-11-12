@@ -1743,7 +1743,7 @@ inline equal_ox_trade_break_message(ox_trade_break_message_read, ox_trade_break_
 
 /* The End of Session message is sent for each unit when the unit shuts down */
 typedef OxEndOfSession {
-  byte timestamp[4]
+  byte time_offset[4]
 };
 
 int ox_end_of_session_at;
@@ -1752,7 +1752,7 @@ int ox_end_of_session_at;
 inline fill_ox_end_of_session(ox_end_of_session_record, ox_end_of_session_value) {
   ox_end_of_session_at = 0;
   do
-  :: ox_end_of_session_at < 4 -> ox_end_of_session_record.timestamp[ox_end_of_session_at] = ox_end_of_session_value; ox_end_of_session_at = ox_end_of_session_at + 1
+  :: ox_end_of_session_at < 4 -> ox_end_of_session_record.time_offset[ox_end_of_session_at] = ox_end_of_session_value; ox_end_of_session_at = ox_end_of_session_at + 1
   :: else -> break
   od;
   skip
@@ -1762,7 +1762,7 @@ inline fill_ox_end_of_session(ox_end_of_session_record, ox_end_of_session_value)
 inline ramp_ox_end_of_session(ox_end_of_session_record, ox_end_of_session_base) {
   ox_end_of_session_at = 0;
   do
-  :: ox_end_of_session_at < 4 -> ox_end_of_session_record.timestamp[ox_end_of_session_at] = (ox_end_of_session_base + 0 + ox_end_of_session_at + 1) % 256; ox_end_of_session_at = ox_end_of_session_at + 1
+  :: ox_end_of_session_at < 4 -> ox_end_of_session_record.time_offset[ox_end_of_session_at] = (ox_end_of_session_base + 0 + ox_end_of_session_at + 1) % 256; ox_end_of_session_at = ox_end_of_session_at + 1
   :: else -> break
   od;
   skip
@@ -1772,7 +1772,7 @@ inline ramp_ox_end_of_session(ox_end_of_session_record, ox_end_of_session_base) 
 inline encode_ox_end_of_session(ox_end_of_session_record) {
   ox_end_of_session_at = 0;
   do
-  :: ox_end_of_session_at < 4 -> wire[at] = ox_end_of_session_record.timestamp[ox_end_of_session_at]; at = at + 1; ox_end_of_session_at = ox_end_of_session_at + 1
+  :: ox_end_of_session_at < 4 -> wire[at] = ox_end_of_session_record.time_offset[ox_end_of_session_at]; at = at + 1; ox_end_of_session_at = ox_end_of_session_at + 1
   :: else -> break
   od;
   skip
@@ -1782,7 +1782,7 @@ inline encode_ox_end_of_session(ox_end_of_session_record) {
 inline decode_ox_end_of_session(ox_end_of_session_record) {
   ox_end_of_session_at = 0;
   do
-  :: ox_end_of_session_at < 4 -> ox_end_of_session_record.timestamp[ox_end_of_session_at] = wire[at]; at = at + 1; ox_end_of_session_at = ox_end_of_session_at + 1
+  :: ox_end_of_session_at < 4 -> ox_end_of_session_record.time_offset[ox_end_of_session_at] = wire[at]; at = at + 1; ox_end_of_session_at = ox_end_of_session_at + 1
   :: else -> break
   od;
   skip
@@ -1792,7 +1792,7 @@ inline decode_ox_end_of_session(ox_end_of_session_record) {
 inline equal_ox_end_of_session(ox_end_of_session_read, ox_end_of_session_written) {
   ox_end_of_session_at = 0;
   do
-  :: ox_end_of_session_at < 4 -> assert(ox_end_of_session_read.timestamp[ox_end_of_session_at] == ox_end_of_session_written.timestamp[ox_end_of_session_at]); ox_end_of_session_at = ox_end_of_session_at + 1
+  :: ox_end_of_session_at < 4 -> assert(ox_end_of_session_read.time_offset[ox_end_of_session_at] == ox_end_of_session_written.time_offset[ox_end_of_session_at]); ox_end_of_session_at = ox_end_of_session_at + 1
   :: else -> break
   od;
   skip

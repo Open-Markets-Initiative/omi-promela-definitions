@@ -3533,7 +3533,7 @@ inline equal_auction_summary_message(auction_summary_message_read, auction_summa
 
 /* The End of Session message is sent for each unit when the unit shuts down. No more sequenced messages will be delivered for this unit, but heartbeats from the unit may be received. */
 typedef EndOfSessionMessage {
-  byte timestamp[4]
+  byte time_offset[4]
 };
 
 int end_of_session_message_at;
@@ -3542,7 +3542,7 @@ int end_of_session_message_at;
 inline fill_end_of_session_message(end_of_session_message_record, end_of_session_message_value) {
   end_of_session_message_at = 0;
   do
-  :: end_of_session_message_at < 4 -> end_of_session_message_record.timestamp[end_of_session_message_at] = end_of_session_message_value; end_of_session_message_at = end_of_session_message_at + 1
+  :: end_of_session_message_at < 4 -> end_of_session_message_record.time_offset[end_of_session_message_at] = end_of_session_message_value; end_of_session_message_at = end_of_session_message_at + 1
   :: else -> break
   od;
   skip
@@ -3552,7 +3552,7 @@ inline fill_end_of_session_message(end_of_session_message_record, end_of_session
 inline ramp_end_of_session_message(end_of_session_message_record, end_of_session_message_base) {
   end_of_session_message_at = 0;
   do
-  :: end_of_session_message_at < 4 -> end_of_session_message_record.timestamp[end_of_session_message_at] = (end_of_session_message_base + 0 + end_of_session_message_at + 1) % 256; end_of_session_message_at = end_of_session_message_at + 1
+  :: end_of_session_message_at < 4 -> end_of_session_message_record.time_offset[end_of_session_message_at] = (end_of_session_message_base + 0 + end_of_session_message_at + 1) % 256; end_of_session_message_at = end_of_session_message_at + 1
   :: else -> break
   od;
   skip
@@ -3562,7 +3562,7 @@ inline ramp_end_of_session_message(end_of_session_message_record, end_of_session
 inline encode_end_of_session_message(end_of_session_message_record) {
   end_of_session_message_at = 0;
   do
-  :: end_of_session_message_at < 4 -> wire[at] = end_of_session_message_record.timestamp[end_of_session_message_at]; at = at + 1; end_of_session_message_at = end_of_session_message_at + 1
+  :: end_of_session_message_at < 4 -> wire[at] = end_of_session_message_record.time_offset[end_of_session_message_at]; at = at + 1; end_of_session_message_at = end_of_session_message_at + 1
   :: else -> break
   od;
   skip
@@ -3572,7 +3572,7 @@ inline encode_end_of_session_message(end_of_session_message_record) {
 inline decode_end_of_session_message(end_of_session_message_record) {
   end_of_session_message_at = 0;
   do
-  :: end_of_session_message_at < 4 -> end_of_session_message_record.timestamp[end_of_session_message_at] = wire[at]; at = at + 1; end_of_session_message_at = end_of_session_message_at + 1
+  :: end_of_session_message_at < 4 -> end_of_session_message_record.time_offset[end_of_session_message_at] = wire[at]; at = at + 1; end_of_session_message_at = end_of_session_message_at + 1
   :: else -> break
   od;
   skip
@@ -3582,7 +3582,7 @@ inline decode_end_of_session_message(end_of_session_message_record) {
 inline equal_end_of_session_message(end_of_session_message_read, end_of_session_message_written) {
   end_of_session_message_at = 0;
   do
-  :: end_of_session_message_at < 4 -> assert(end_of_session_message_read.timestamp[end_of_session_message_at] == end_of_session_message_written.timestamp[end_of_session_message_at]); end_of_session_message_at = end_of_session_message_at + 1
+  :: end_of_session_message_at < 4 -> assert(end_of_session_message_read.time_offset[end_of_session_message_at] == end_of_session_message_written.time_offset[end_of_session_message_at]); end_of_session_message_at = end_of_session_message_at + 1
   :: else -> break
   od;
   skip

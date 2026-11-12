@@ -3122,41 +3122,41 @@ inline equal_product_identification_public_product_identification(product_identi
 
 /* IndexUnderlying */
 typedef IndexUnderlying {
-  ProductIdentificationPublicProductIdentification product_identification_public_product_identification;
+  ProductIdentificationPublicProductIdentification product_identific_1g714k;
   byte index_underlying_type
 };
 
 /* every byte of Index Underlying set to one value */
 inline fill_index_underlying(index_underlying_record, index_underlying_value) {
-  fill_product_identification_public_product_identification(index_underlying_record.product_identification_public_product_identification, index_underlying_value);
+  fill_product_identification_public_product_identification(index_underlying_record.product_identific_1g714k, index_underlying_value);
   index_underlying_record.index_underlying_type = index_underlying_value;
   skip
 }
 
 /* each byte of Index Underlying set to where it lies, so a field read out of place says so */
 inline ramp_index_underlying(index_underlying_record, index_underlying_base) {
-  ramp_product_identification_public_product_identification(index_underlying_record.product_identification_public_product_identification, index_underlying_base + 0);
+  ramp_product_identification_public_product_identification(index_underlying_record.product_identific_1g714k, index_underlying_base + 0);
   index_underlying_record.index_underlying_type = (index_underlying_base + 31 + 1) % 256;
   skip
 }
 
 /* Index Underlying to the wire, 32 bytes from where the cursor stands */
 inline encode_index_underlying(index_underlying_record) {
-  encode_product_identification_public_product_identification(index_underlying_record.product_identification_public_product_identification);
+  encode_product_identification_public_product_identification(index_underlying_record.product_identific_1g714k);
   wire[at] = index_underlying_record.index_underlying_type; at = at + 1;
   skip
 }
 
 /* Index Underlying off the wire, 32 bytes from where the cursor stands */
 inline decode_index_underlying(index_underlying_record) {
-  decode_product_identification_public_product_identification(index_underlying_record.product_identification_public_product_identification);
+  decode_product_identification_public_product_identification(index_underlying_record.product_identific_1g714k);
   index_underlying_record.index_underlying_type = wire[at]; at = at + 1;
   skip
 }
 
 /* what was read of Index Underlying is what was written, byte for byte */
 inline equal_index_underlying(index_underlying_read, index_underlying_written) {
-  equal_product_identification_public_product_identification(index_underlying_read.product_identification_public_product_identification, index_underlying_written.product_identification_public_product_identification);
+  equal_product_identification_public_product_identification(index_underlying_read.product_identific_1g714k, index_underlying_written.product_identific_1g714k);
   assert(index_underlying_read.index_underlying_type == index_underlying_written.index_underlying_type);
   skip
 }
@@ -3930,7 +3930,7 @@ typedef Trade {
   byte settlement_value_value[8];
   byte settlement_date[4];
   byte trading_timestamp[8];
-  PublicProductIdentification public_product_identification;
+  PublicProductIdentification public_product_id_aqo3ef;
   byte price[8];
   byte price_currency[2];
   byte price_notation;
@@ -3988,7 +3988,7 @@ inline fill_trade(trade_record, trade_value) {
   :: trade_at < 8 -> trade_record.trading_timestamp[trade_at] = trade_value; trade_at = trade_at + 1
   :: else -> break
   od;
-  fill_public_product_identification(trade_record.public_product_identification, trade_value);
+  fill_public_product_identification(trade_record.public_product_id_aqo3ef, trade_value);
   trade_at = 0;
   do
   :: trade_at < 8 -> trade_record.price[trade_at] = trade_value; trade_at = trade_at + 1
@@ -4109,7 +4109,7 @@ inline ramp_trade(trade_record, trade_base) {
   :: trade_at < 8 -> trade_record.trading_timestamp[trade_at] = (trade_base + 16 + trade_at + 1) % 256; trade_at = trade_at + 1
   :: else -> break
   od;
-  ramp_public_product_identification(trade_record.public_product_identification, trade_base + 24);
+  ramp_public_product_identification(trade_record.public_product_id_aqo3ef, trade_base + 24);
   trade_at = 0;
   do
   :: trade_at < 8 -> trade_record.price[trade_at] = (trade_base + 55 + trade_at + 1) % 256; trade_at = trade_at + 1
@@ -4230,7 +4230,7 @@ inline encode_trade(trade_record) {
   :: trade_at < 8 -> wire[at] = trade_record.trading_timestamp[trade_at]; at = at + 1; trade_at = trade_at + 1
   :: else -> break
   od;
-  encode_public_product_identification(trade_record.public_product_identification);
+  encode_public_product_identification(trade_record.public_product_id_aqo3ef);
   trade_at = 0;
   do
   :: trade_at < 8 -> wire[at] = trade_record.price[trade_at]; at = at + 1; trade_at = trade_at + 1
@@ -4351,7 +4351,7 @@ inline decode_trade(trade_record) {
   :: trade_at < 8 -> trade_record.trading_timestamp[trade_at] = wire[at]; at = at + 1; trade_at = trade_at + 1
   :: else -> break
   od;
-  decode_public_product_identification(trade_record.public_product_identification);
+  decode_public_product_identification(trade_record.public_product_id_aqo3ef);
   trade_at = 0;
   do
   :: trade_at < 8 -> trade_record.price[trade_at] = wire[at]; at = at + 1; trade_at = trade_at + 1
@@ -4472,7 +4472,7 @@ inline equal_trade(trade_read, trade_written) {
   :: trade_at < 8 -> assert(trade_read.trading_timestamp[trade_at] == trade_written.trading_timestamp[trade_at]); trade_at = trade_at + 1
   :: else -> break
   od;
-  equal_public_product_identification(trade_read.public_product_identification, trade_written.public_product_identification);
+  equal_public_product_identification(trade_read.public_product_id_aqo3ef, trade_written.public_product_id_aqo3ef);
   trade_at = 0;
   do
   :: trade_at < 8 -> assert(trade_read.price[trade_at] == trade_written.price[trade_at]); trade_at = trade_at + 1
@@ -4575,7 +4575,7 @@ inline equal_trade(trade_read, trade_written) {
 
 /* Report of open positions */
 typedef PositionReport {
-  PublicProductIdentification public_product_identification;
+  PublicProductIdentification public_product_id_aqo3ef;
   byte pos_type;
   byte open_positions[4];
   byte trade_id[4]
@@ -4585,7 +4585,7 @@ int position_report_at;
 
 /* every byte of Position Report set to one value */
 inline fill_position_report(position_report_record, position_report_value) {
-  fill_public_product_identification(position_report_record.public_product_identification, position_report_value);
+  fill_public_product_identification(position_report_record.public_product_id_aqo3ef, position_report_value);
   position_report_record.pos_type = position_report_value;
   position_report_at = 0;
   do
@@ -4602,7 +4602,7 @@ inline fill_position_report(position_report_record, position_report_value) {
 
 /* each byte of Position Report set to where it lies, so a field read out of place says so */
 inline ramp_position_report(position_report_record, position_report_base) {
-  ramp_public_product_identification(position_report_record.public_product_identification, position_report_base + 0);
+  ramp_public_product_identification(position_report_record.public_product_id_aqo3ef, position_report_base + 0);
   position_report_record.pos_type = (position_report_base + 31 + 1) % 256;
   position_report_at = 0;
   do
@@ -4619,7 +4619,7 @@ inline ramp_position_report(position_report_record, position_report_base) {
 
 /* Position Report to the wire, 40 bytes from where the cursor stands */
 inline encode_position_report(position_report_record) {
-  encode_public_product_identification(position_report_record.public_product_identification);
+  encode_public_product_identification(position_report_record.public_product_id_aqo3ef);
   wire[at] = position_report_record.pos_type; at = at + 1;
   position_report_at = 0;
   do
@@ -4636,7 +4636,7 @@ inline encode_position_report(position_report_record) {
 
 /* Position Report off the wire, 40 bytes from where the cursor stands */
 inline decode_position_report(position_report_record) {
-  decode_public_product_identification(position_report_record.public_product_identification);
+  decode_public_product_identification(position_report_record.public_product_id_aqo3ef);
   position_report_record.pos_type = wire[at]; at = at + 1;
   position_report_at = 0;
   do
@@ -4653,7 +4653,7 @@ inline decode_position_report(position_report_record) {
 
 /* what was read of Position Report is what was written, byte for byte */
 inline equal_position_report(position_report_read, position_report_written) {
-  equal_public_product_identification(position_report_read.public_product_identification, position_report_written.public_product_identification);
+  equal_public_product_identification(position_report_read.public_product_id_aqo3ef, position_report_written.public_product_id_aqo3ef);
   assert(position_report_read.pos_type == position_report_written.pos_type);
   position_report_at = 0;
   do

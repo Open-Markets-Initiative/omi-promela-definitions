@@ -1595,7 +1595,7 @@ inline equal_eq_trade_break_message(eq_trade_break_message_read, eq_trade_break_
 
 /* The End of Session message is sent for each unit when the unit shuts down */
 typedef EqEndOfSession {
-  byte timestamp[4]
+  byte time_offset[4]
 };
 
 int eq_end_of_session_at;
@@ -1604,7 +1604,7 @@ int eq_end_of_session_at;
 inline fill_eq_end_of_session(eq_end_of_session_record, eq_end_of_session_value) {
   eq_end_of_session_at = 0;
   do
-  :: eq_end_of_session_at < 4 -> eq_end_of_session_record.timestamp[eq_end_of_session_at] = eq_end_of_session_value; eq_end_of_session_at = eq_end_of_session_at + 1
+  :: eq_end_of_session_at < 4 -> eq_end_of_session_record.time_offset[eq_end_of_session_at] = eq_end_of_session_value; eq_end_of_session_at = eq_end_of_session_at + 1
   :: else -> break
   od;
   skip
@@ -1614,7 +1614,7 @@ inline fill_eq_end_of_session(eq_end_of_session_record, eq_end_of_session_value)
 inline ramp_eq_end_of_session(eq_end_of_session_record, eq_end_of_session_base) {
   eq_end_of_session_at = 0;
   do
-  :: eq_end_of_session_at < 4 -> eq_end_of_session_record.timestamp[eq_end_of_session_at] = (eq_end_of_session_base + 0 + eq_end_of_session_at + 1) % 256; eq_end_of_session_at = eq_end_of_session_at + 1
+  :: eq_end_of_session_at < 4 -> eq_end_of_session_record.time_offset[eq_end_of_session_at] = (eq_end_of_session_base + 0 + eq_end_of_session_at + 1) % 256; eq_end_of_session_at = eq_end_of_session_at + 1
   :: else -> break
   od;
   skip
@@ -1624,7 +1624,7 @@ inline ramp_eq_end_of_session(eq_end_of_session_record, eq_end_of_session_base) 
 inline encode_eq_end_of_session(eq_end_of_session_record) {
   eq_end_of_session_at = 0;
   do
-  :: eq_end_of_session_at < 4 -> wire[at] = eq_end_of_session_record.timestamp[eq_end_of_session_at]; at = at + 1; eq_end_of_session_at = eq_end_of_session_at + 1
+  :: eq_end_of_session_at < 4 -> wire[at] = eq_end_of_session_record.time_offset[eq_end_of_session_at]; at = at + 1; eq_end_of_session_at = eq_end_of_session_at + 1
   :: else -> break
   od;
   skip
@@ -1634,7 +1634,7 @@ inline encode_eq_end_of_session(eq_end_of_session_record) {
 inline decode_eq_end_of_session(eq_end_of_session_record) {
   eq_end_of_session_at = 0;
   do
-  :: eq_end_of_session_at < 4 -> eq_end_of_session_record.timestamp[eq_end_of_session_at] = wire[at]; at = at + 1; eq_end_of_session_at = eq_end_of_session_at + 1
+  :: eq_end_of_session_at < 4 -> eq_end_of_session_record.time_offset[eq_end_of_session_at] = wire[at]; at = at + 1; eq_end_of_session_at = eq_end_of_session_at + 1
   :: else -> break
   od;
   skip
@@ -1644,7 +1644,7 @@ inline decode_eq_end_of_session(eq_end_of_session_record) {
 inline equal_eq_end_of_session(eq_end_of_session_read, eq_end_of_session_written) {
   eq_end_of_session_at = 0;
   do
-  :: eq_end_of_session_at < 4 -> assert(eq_end_of_session_read.timestamp[eq_end_of_session_at] == eq_end_of_session_written.timestamp[eq_end_of_session_at]); eq_end_of_session_at = eq_end_of_session_at + 1
+  :: eq_end_of_session_at < 4 -> assert(eq_end_of_session_read.time_offset[eq_end_of_session_at] == eq_end_of_session_written.time_offset[eq_end_of_session_at]); eq_end_of_session_at = eq_end_of_session_at + 1
   :: else -> break
   od;
   skip

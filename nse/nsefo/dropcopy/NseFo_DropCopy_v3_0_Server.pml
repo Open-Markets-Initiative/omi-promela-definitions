@@ -441,7 +441,7 @@ inline equal_ip_details_partition_wise(ip_details_partition_wise_read, ip_detail
 typedef GrResponseMessage {
   byte message_indicator[2];
   byte partition_count[2];
-  IpDetailsPartitionWise ip_details_partition_wise;
+  IpDetailsPartitionWise ip_details_partit_c9vwhp;
   byte session_key[8];
   byte cryptographic_key[32];
   byte static_cryptographic_iv[8];
@@ -463,7 +463,7 @@ inline fill_gr_response_message(gr_response_message_record, gr_response_message_
   :: gr_response_message_at < 2 -> gr_response_message_record.partition_count[gr_response_message_at] = gr_response_message_value; gr_response_message_at = gr_response_message_at + 1
   :: else -> break
   od;
-  fill_ip_details_partition_wise(gr_response_message_record.ip_details_partition_wise, gr_response_message_value);
+  fill_ip_details_partition_wise(gr_response_message_record.ip_details_partit_c9vwhp, gr_response_message_value);
   gr_response_message_at = 0;
   do
   :: gr_response_message_at < 8 -> gr_response_message_record.session_key[gr_response_message_at] = gr_response_message_value; gr_response_message_at = gr_response_message_at + 1
@@ -504,7 +504,7 @@ inline ramp_gr_response_message(gr_response_message_record, gr_response_message_
   :: gr_response_message_at < 2 -> gr_response_message_record.partition_count[gr_response_message_at] = (gr_response_message_base + 2 + gr_response_message_at + 1) % 256; gr_response_message_at = gr_response_message_at + 1
   :: else -> break
   od;
-  ramp_ip_details_partition_wise(gr_response_message_record.ip_details_partition_wise, gr_response_message_base + 4);
+  ramp_ip_details_partition_wise(gr_response_message_record.ip_details_partit_c9vwhp, gr_response_message_base + 4);
   gr_response_message_at = 0;
   do
   :: gr_response_message_at < 8 -> gr_response_message_record.session_key[gr_response_message_at] = (gr_response_message_base + 30 + gr_response_message_at + 1) % 256; gr_response_message_at = gr_response_message_at + 1
@@ -545,7 +545,7 @@ inline encode_gr_response_message(gr_response_message_record) {
   :: gr_response_message_at < 2 -> wire[at] = gr_response_message_record.partition_count[gr_response_message_at]; at = at + 1; gr_response_message_at = gr_response_message_at + 1
   :: else -> break
   od;
-  encode_ip_details_partition_wise(gr_response_message_record.ip_details_partition_wise);
+  encode_ip_details_partition_wise(gr_response_message_record.ip_details_partit_c9vwhp);
   gr_response_message_at = 0;
   do
   :: gr_response_message_at < 8 -> wire[at] = gr_response_message_record.session_key[gr_response_message_at]; at = at + 1; gr_response_message_at = gr_response_message_at + 1
@@ -586,7 +586,7 @@ inline decode_gr_response_message(gr_response_message_record) {
   :: gr_response_message_at < 2 -> gr_response_message_record.partition_count[gr_response_message_at] = wire[at]; at = at + 1; gr_response_message_at = gr_response_message_at + 1
   :: else -> break
   od;
-  decode_ip_details_partition_wise(gr_response_message_record.ip_details_partition_wise);
+  decode_ip_details_partition_wise(gr_response_message_record.ip_details_partit_c9vwhp);
   gr_response_message_at = 0;
   do
   :: gr_response_message_at < 8 -> gr_response_message_record.session_key[gr_response_message_at] = wire[at]; at = at + 1; gr_response_message_at = gr_response_message_at + 1
@@ -627,7 +627,7 @@ inline equal_gr_response_message(gr_response_message_read, gr_response_message_w
   :: gr_response_message_at < 2 -> assert(gr_response_message_read.partition_count[gr_response_message_at] == gr_response_message_written.partition_count[gr_response_message_at]); gr_response_message_at = gr_response_message_at + 1
   :: else -> break
   od;
-  equal_ip_details_partition_wise(gr_response_message_read.ip_details_partition_wise, gr_response_message_written.ip_details_partition_wise);
+  equal_ip_details_partition_wise(gr_response_message_read.ip_details_partit_c9vwhp, gr_response_message_written.ip_details_partit_c9vwhp);
   gr_response_message_at = 0;
   do
   :: gr_response_message_at < 8 -> assert(gr_response_message_read.session_key[gr_response_message_at] == gr_response_message_written.session_key[gr_response_message_at]); gr_response_message_at = gr_response_message_at + 1

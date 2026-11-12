@@ -725,7 +725,7 @@ typedef AddScaledSimpleInstrument {
   byte pad1;
   byte quantity_scaling_factor[2];
   byte pad4[4];
-  RelatedInstrumentGrpComp related_instrument_grp_comp
+  RelatedInstrumentGrpComp related_instrumen_bbu17y
 };
 
 int add_scaled_simple_instrument_at;
@@ -759,7 +759,7 @@ inline fill_add_scaled_simple_instrument(add_scaled_simple_instrument_record, ad
   :: add_scaled_simple_instrument_at < 4 -> add_scaled_simple_instrument_record.pad4[add_scaled_simple_instrument_at] = add_scaled_simple_instrument_value; add_scaled_simple_instrument_at = add_scaled_simple_instrument_at + 1
   :: else -> break
   od;
-  fill_related_instrument_grp_comp(add_scaled_simple_instrument_record.related_instrument_grp_comp, add_scaled_simple_instrument_value);
+  fill_related_instrument_grp_comp(add_scaled_simple_instrument_record.related_instrumen_bbu17y, add_scaled_simple_instrument_value);
   skip
 }
 
@@ -792,7 +792,7 @@ inline ramp_add_scaled_simple_instrument(add_scaled_simple_instrument_record, ad
   :: add_scaled_simple_instrument_at < 4 -> add_scaled_simple_instrument_record.pad4[add_scaled_simple_instrument_at] = (add_scaled_simple_instrument_base + 60 + add_scaled_simple_instrument_at + 1) % 256; add_scaled_simple_instrument_at = add_scaled_simple_instrument_at + 1
   :: else -> break
   od;
-  ramp_related_instrument_grp_comp(add_scaled_simple_instrument_record.related_instrument_grp_comp, add_scaled_simple_instrument_base + 64);
+  ramp_related_instrument_grp_comp(add_scaled_simple_instrument_record.related_instrumen_bbu17y, add_scaled_simple_instrument_base + 64);
   skip
 }
 
@@ -825,7 +825,7 @@ inline encode_add_scaled_simple_instrument(add_scaled_simple_instrument_record) 
   :: add_scaled_simple_instrument_at < 4 -> wire[at] = add_scaled_simple_instrument_record.pad4[add_scaled_simple_instrument_at]; at = at + 1; add_scaled_simple_instrument_at = add_scaled_simple_instrument_at + 1
   :: else -> break
   od;
-  encode_related_instrument_grp_comp(add_scaled_simple_instrument_record.related_instrument_grp_comp);
+  encode_related_instrument_grp_comp(add_scaled_simple_instrument_record.related_instrumen_bbu17y);
   skip
 }
 
@@ -858,7 +858,7 @@ inline decode_add_scaled_simple_instrument(add_scaled_simple_instrument_record) 
   :: add_scaled_simple_instrument_at < 4 -> add_scaled_simple_instrument_record.pad4[add_scaled_simple_instrument_at] = wire[at]; at = at + 1; add_scaled_simple_instrument_at = add_scaled_simple_instrument_at + 1
   :: else -> break
   od;
-  decode_related_instrument_grp_comp(add_scaled_simple_instrument_record.related_instrument_grp_comp);
+  decode_related_instrument_grp_comp(add_scaled_simple_instrument_record.related_instrumen_bbu17y);
   skip
 }
 
@@ -891,7 +891,7 @@ inline equal_add_scaled_simple_instrument(add_scaled_simple_instrument_read, add
   :: add_scaled_simple_instrument_at < 4 -> assert(add_scaled_simple_instrument_read.pad4[add_scaled_simple_instrument_at] == add_scaled_simple_instrument_written.pad4[add_scaled_simple_instrument_at]); add_scaled_simple_instrument_at = add_scaled_simple_instrument_at + 1
   :: else -> break
   od;
-  equal_related_instrument_grp_comp(add_scaled_simple_instrument_read.related_instrument_grp_comp, add_scaled_simple_instrument_written.related_instrument_grp_comp);
+  equal_related_instrument_grp_comp(add_scaled_simple_instrument_read.related_instrumen_bbu17y, add_scaled_simple_instrument_written.related_instrumen_bbu17y);
   skip
 }
 
@@ -1630,7 +1630,7 @@ typedef ExecutionSummary {
   byte trading_hhi_indicator;
   byte pad3[3];
   byte last_px[8];
-  RemainingOrderDetailsComp remaining_order_details_comp;
+  RemainingOrderDetailsComp remaining_order_d_w11cih;
   byte resting_hidden_qty[8];
   byte resting_cxl_qty[8];
   byte aggressor_time[8]
@@ -1678,7 +1678,7 @@ inline fill_execution_summary(execution_summary_record, execution_summary_value)
   :: execution_summary_at < 8 -> execution_summary_record.last_px[execution_summary_at] = execution_summary_value; execution_summary_at = execution_summary_at + 1
   :: else -> break
   od;
-  fill_remaining_order_details_comp(execution_summary_record.remaining_order_details_comp, execution_summary_value);
+  fill_remaining_order_details_comp(execution_summary_record.remaining_order_d_w11cih, execution_summary_value);
   execution_summary_at = 0;
   do
   :: execution_summary_at < 8 -> execution_summary_record.resting_hidden_qty[execution_summary_at] = execution_summary_value; execution_summary_at = execution_summary_at + 1
@@ -1737,7 +1737,7 @@ inline ramp_execution_summary(execution_summary_record, execution_summary_base) 
   :: execution_summary_at < 8 -> execution_summary_record.last_px[execution_summary_at] = (execution_summary_base + 40 + execution_summary_at + 1) % 256; execution_summary_at = execution_summary_at + 1
   :: else -> break
   od;
-  ramp_remaining_order_details_comp(execution_summary_record.remaining_order_details_comp, execution_summary_base + 48);
+  ramp_remaining_order_details_comp(execution_summary_record.remaining_order_d_w11cih, execution_summary_base + 48);
   execution_summary_at = 0;
   do
   :: execution_summary_at < 8 -> execution_summary_record.resting_hidden_qty[execution_summary_at] = (execution_summary_base + 72 + execution_summary_at + 1) % 256; execution_summary_at = execution_summary_at + 1
@@ -1796,7 +1796,7 @@ inline encode_execution_summary(execution_summary_record) {
   :: execution_summary_at < 8 -> wire[at] = execution_summary_record.last_px[execution_summary_at]; at = at + 1; execution_summary_at = execution_summary_at + 1
   :: else -> break
   od;
-  encode_remaining_order_details_comp(execution_summary_record.remaining_order_details_comp);
+  encode_remaining_order_details_comp(execution_summary_record.remaining_order_d_w11cih);
   execution_summary_at = 0;
   do
   :: execution_summary_at < 8 -> wire[at] = execution_summary_record.resting_hidden_qty[execution_summary_at]; at = at + 1; execution_summary_at = execution_summary_at + 1
@@ -1855,7 +1855,7 @@ inline decode_execution_summary(execution_summary_record) {
   :: execution_summary_at < 8 -> execution_summary_record.last_px[execution_summary_at] = wire[at]; at = at + 1; execution_summary_at = execution_summary_at + 1
   :: else -> break
   od;
-  decode_remaining_order_details_comp(execution_summary_record.remaining_order_details_comp);
+  decode_remaining_order_details_comp(execution_summary_record.remaining_order_d_w11cih);
   execution_summary_at = 0;
   do
   :: execution_summary_at < 8 -> execution_summary_record.resting_hidden_qty[execution_summary_at] = wire[at]; at = at + 1; execution_summary_at = execution_summary_at + 1
@@ -1914,7 +1914,7 @@ inline equal_execution_summary(execution_summary_read, execution_summary_written
   :: execution_summary_at < 8 -> assert(execution_summary_read.last_px[execution_summary_at] == execution_summary_written.last_px[execution_summary_at]); execution_summary_at = execution_summary_at + 1
   :: else -> break
   od;
-  equal_remaining_order_details_comp(execution_summary_read.remaining_order_details_comp, execution_summary_written.remaining_order_details_comp);
+  equal_remaining_order_details_comp(execution_summary_read.remaining_order_d_w11cih, execution_summary_written.remaining_order_d_w11cih);
   execution_summary_at = 0;
   do
   :: execution_summary_at < 8 -> assert(execution_summary_read.resting_hidden_qty[execution_summary_at] == execution_summary_written.resting_hidden_qty[execution_summary_at]); execution_summary_at = execution_summary_at + 1
