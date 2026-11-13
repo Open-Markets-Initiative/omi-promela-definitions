@@ -1030,8 +1030,8 @@ typedef SecurityDefinitionRejectMessage {
   byte security_req_id[4];
   byte security_response_type;
   byte security_request_type;
-  byte market_type_i_d_int_32[4];
-  byte security_type_security_type_enum_null;
+  byte market_type_id[4];
+  byte security_type_optional;
   byte exchange_code[4];
   byte text[100]
 };
@@ -1049,10 +1049,10 @@ inline fill_security_definition_reject_message(security_definition_reject_messag
   security_definition_reject_message_record.security_request_type = security_definition_reject_message_value;
   security_definition_reject_message_at = 0;
   do
-  :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.market_type_i_d_int_32[security_definition_reject_message_at] = security_definition_reject_message_value; security_definition_reject_message_at = security_definition_reject_message_at + 1
+  :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.market_type_id[security_definition_reject_message_at] = security_definition_reject_message_value; security_definition_reject_message_at = security_definition_reject_message_at + 1
   :: else -> break
   od;
-  security_definition_reject_message_record.security_type_security_type_enum_null = security_definition_reject_message_value;
+  security_definition_reject_message_record.security_type_optional = security_definition_reject_message_value;
   security_definition_reject_message_at = 0;
   do
   :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.exchange_code[security_definition_reject_message_at] = security_definition_reject_message_value; security_definition_reject_message_at = security_definition_reject_message_at + 1
@@ -1077,10 +1077,10 @@ inline ramp_security_definition_reject_message(security_definition_reject_messag
   security_definition_reject_message_record.security_request_type = (security_definition_reject_message_base + 5 + 1) % 256;
   security_definition_reject_message_at = 0;
   do
-  :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.market_type_i_d_int_32[security_definition_reject_message_at] = (security_definition_reject_message_base + 6 + security_definition_reject_message_at + 1) % 256; security_definition_reject_message_at = security_definition_reject_message_at + 1
+  :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.market_type_id[security_definition_reject_message_at] = (security_definition_reject_message_base + 6 + security_definition_reject_message_at + 1) % 256; security_definition_reject_message_at = security_definition_reject_message_at + 1
   :: else -> break
   od;
-  security_definition_reject_message_record.security_type_security_type_enum_null = (security_definition_reject_message_base + 10 + 1) % 256;
+  security_definition_reject_message_record.security_type_optional = (security_definition_reject_message_base + 10 + 1) % 256;
   security_definition_reject_message_at = 0;
   do
   :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.exchange_code[security_definition_reject_message_at] = (security_definition_reject_message_base + 11 + security_definition_reject_message_at + 1) % 256; security_definition_reject_message_at = security_definition_reject_message_at + 1
@@ -1105,10 +1105,10 @@ inline encode_security_definition_reject_message(security_definition_reject_mess
   wire[at] = security_definition_reject_message_record.security_request_type; at = at + 1;
   security_definition_reject_message_at = 0;
   do
-  :: security_definition_reject_message_at < 4 -> wire[at] = security_definition_reject_message_record.market_type_i_d_int_32[security_definition_reject_message_at]; at = at + 1; security_definition_reject_message_at = security_definition_reject_message_at + 1
+  :: security_definition_reject_message_at < 4 -> wire[at] = security_definition_reject_message_record.market_type_id[security_definition_reject_message_at]; at = at + 1; security_definition_reject_message_at = security_definition_reject_message_at + 1
   :: else -> break
   od;
-  wire[at] = security_definition_reject_message_record.security_type_security_type_enum_null; at = at + 1;
+  wire[at] = security_definition_reject_message_record.security_type_optional; at = at + 1;
   security_definition_reject_message_at = 0;
   do
   :: security_definition_reject_message_at < 4 -> wire[at] = security_definition_reject_message_record.exchange_code[security_definition_reject_message_at]; at = at + 1; security_definition_reject_message_at = security_definition_reject_message_at + 1
@@ -1133,10 +1133,10 @@ inline decode_security_definition_reject_message(security_definition_reject_mess
   security_definition_reject_message_record.security_request_type = wire[at]; at = at + 1;
   security_definition_reject_message_at = 0;
   do
-  :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.market_type_i_d_int_32[security_definition_reject_message_at] = wire[at]; at = at + 1; security_definition_reject_message_at = security_definition_reject_message_at + 1
+  :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.market_type_id[security_definition_reject_message_at] = wire[at]; at = at + 1; security_definition_reject_message_at = security_definition_reject_message_at + 1
   :: else -> break
   od;
-  security_definition_reject_message_record.security_type_security_type_enum_null = wire[at]; at = at + 1;
+  security_definition_reject_message_record.security_type_optional = wire[at]; at = at + 1;
   security_definition_reject_message_at = 0;
   do
   :: security_definition_reject_message_at < 4 -> security_definition_reject_message_record.exchange_code[security_definition_reject_message_at] = wire[at]; at = at + 1; security_definition_reject_message_at = security_definition_reject_message_at + 1
@@ -1161,10 +1161,10 @@ inline equal_security_definition_reject_message(security_definition_reject_messa
   assert(security_definition_reject_message_read.security_request_type == security_definition_reject_message_written.security_request_type);
   security_definition_reject_message_at = 0;
   do
-  :: security_definition_reject_message_at < 4 -> assert(security_definition_reject_message_read.market_type_i_d_int_32[security_definition_reject_message_at] == security_definition_reject_message_written.market_type_i_d_int_32[security_definition_reject_message_at]); security_definition_reject_message_at = security_definition_reject_message_at + 1
+  :: security_definition_reject_message_at < 4 -> assert(security_definition_reject_message_read.market_type_id[security_definition_reject_message_at] == security_definition_reject_message_written.market_type_id[security_definition_reject_message_at]); security_definition_reject_message_at = security_definition_reject_message_at + 1
   :: else -> break
   od;
-  assert(security_definition_reject_message_read.security_type_security_type_enum_null == security_definition_reject_message_written.security_type_security_type_enum_null);
+  assert(security_definition_reject_message_read.security_type_optional == security_definition_reject_message_written.security_type_optional);
   security_definition_reject_message_at = 0;
   do
   :: security_definition_reject_message_at < 4 -> assert(security_definition_reject_message_read.exchange_code[security_definition_reject_message_at] == security_definition_reject_message_written.exchange_code[security_definition_reject_message_at]); security_definition_reject_message_at = security_definition_reject_message_at + 1
@@ -1184,7 +1184,7 @@ inline equal_security_definition_reject_message(security_definition_reject_messa
 typedef SecurityDefinitionRequestMessage {
   byte security_req_id[4];
   byte security_request_type;
-  byte market_type_i_d_int_32[4]
+  byte market_type_id[4]
 };
 
 int security_definition_request_message_at;
@@ -1199,7 +1199,7 @@ inline fill_security_definition_request_message(security_definition_request_mess
   security_definition_request_message_record.security_request_type = security_definition_request_message_value;
   security_definition_request_message_at = 0;
   do
-  :: security_definition_request_message_at < 4 -> security_definition_request_message_record.market_type_i_d_int_32[security_definition_request_message_at] = security_definition_request_message_value; security_definition_request_message_at = security_definition_request_message_at + 1
+  :: security_definition_request_message_at < 4 -> security_definition_request_message_record.market_type_id[security_definition_request_message_at] = security_definition_request_message_value; security_definition_request_message_at = security_definition_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1215,7 +1215,7 @@ inline ramp_security_definition_request_message(security_definition_request_mess
   security_definition_request_message_record.security_request_type = (security_definition_request_message_base + 4 + 1) % 256;
   security_definition_request_message_at = 0;
   do
-  :: security_definition_request_message_at < 4 -> security_definition_request_message_record.market_type_i_d_int_32[security_definition_request_message_at] = (security_definition_request_message_base + 5 + security_definition_request_message_at + 1) % 256; security_definition_request_message_at = security_definition_request_message_at + 1
+  :: security_definition_request_message_at < 4 -> security_definition_request_message_record.market_type_id[security_definition_request_message_at] = (security_definition_request_message_base + 5 + security_definition_request_message_at + 1) % 256; security_definition_request_message_at = security_definition_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1231,7 +1231,7 @@ inline encode_security_definition_request_message(security_definition_request_me
   wire[at] = security_definition_request_message_record.security_request_type; at = at + 1;
   security_definition_request_message_at = 0;
   do
-  :: security_definition_request_message_at < 4 -> wire[at] = security_definition_request_message_record.market_type_i_d_int_32[security_definition_request_message_at]; at = at + 1; security_definition_request_message_at = security_definition_request_message_at + 1
+  :: security_definition_request_message_at < 4 -> wire[at] = security_definition_request_message_record.market_type_id[security_definition_request_message_at]; at = at + 1; security_definition_request_message_at = security_definition_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1247,7 +1247,7 @@ inline decode_security_definition_request_message(security_definition_request_me
   security_definition_request_message_record.security_request_type = wire[at]; at = at + 1;
   security_definition_request_message_at = 0;
   do
-  :: security_definition_request_message_at < 4 -> security_definition_request_message_record.market_type_i_d_int_32[security_definition_request_message_at] = wire[at]; at = at + 1; security_definition_request_message_at = security_definition_request_message_at + 1
+  :: security_definition_request_message_at < 4 -> security_definition_request_message_record.market_type_id[security_definition_request_message_at] = wire[at]; at = at + 1; security_definition_request_message_at = security_definition_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1263,7 +1263,7 @@ inline equal_security_definition_request_message(security_definition_request_mes
   assert(security_definition_request_message_read.security_request_type == security_definition_request_message_written.security_request_type);
   security_definition_request_message_at = 0;
   do
-  :: security_definition_request_message_at < 4 -> assert(security_definition_request_message_read.market_type_i_d_int_32[security_definition_request_message_at] == security_definition_request_message_written.market_type_i_d_int_32[security_definition_request_message_at]); security_definition_request_message_at = security_definition_request_message_at + 1
+  :: security_definition_request_message_at < 4 -> assert(security_definition_request_message_read.market_type_id[security_definition_request_message_at] == security_definition_request_message_written.market_type_id[security_definition_request_message_at]); security_definition_request_message_at = security_definition_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1793,19 +1793,19 @@ inline equal_trader_logout_report_message(trader_logout_report_message_read, tra
 
 /* NewOrderRequestMessage */
 typedef NewOrderRequestMessage {
-  byte price_decimal_9_null[8];
-  byte order_qty_decimal_9[8];
-  byte symbol_int_32[4];
-  byte time_in_force_time_in_force_enum;
-  byte side_side_enum;
+  byte price_optional[8];
+  byte order_qty[8];
+  byte symbol[4];
+  byte time_in_force;
+  byte side;
   byte originator_user_id[20];
-  byte ord_type_order_type_enum;
+  byte ord_type;
   byte manual_order_indicator;
   byte cl_ord_id[8];
   byte max_show[8];
   byte stop_px[8];
   byte give_up_clearing_firm[4];
-  byte clearing_firm_int_32[4];
+  byte clearing_firm[4];
   byte self_match_prevention_id[8];
   byte expire_date[2];
   byte self_match_prevention_instruction;
@@ -1822,13 +1822,13 @@ typedef NewOrderRequestMessage {
   byte position_effect;
   byte alloc_handl_inst;
   byte price_type;
-  byte clearing_account_string_14[14];
+  byte clearing_account[14];
   byte customer_account_ref_id[12];
   byte memo[30];
   byte allocation_account[20];
   byte on_behalf_of_comp_id[41];
-  byte on_behalf_of_sub_i_d_string_41[41];
-  byte on_behalf_of_location_i_d_string_41[41]
+  byte on_behalf_of_sub_id[41];
+  byte on_behalf_of_location_id[41]
 };
 
 int new_order_request_message_at;
@@ -1837,27 +1837,27 @@ int new_order_request_message_at;
 inline fill_new_order_request_message(new_order_request_message_record, new_order_request_message_value) {
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> new_order_request_message_record.price_decimal_9_null[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> new_order_request_message_record.price_optional[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> new_order_request_message_record.order_qty_decimal_9[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> new_order_request_message_record.order_qty[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> new_order_request_message_record.symbol_int_32[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> new_order_request_message_record.symbol[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  new_order_request_message_record.time_in_force_time_in_force_enum = new_order_request_message_value;
-  new_order_request_message_record.side_side_enum = new_order_request_message_value;
+  new_order_request_message_record.time_in_force = new_order_request_message_value;
+  new_order_request_message_record.side = new_order_request_message_value;
   new_order_request_message_at = 0;
   do
   :: new_order_request_message_at < 20 -> new_order_request_message_record.originator_user_id[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  new_order_request_message_record.ord_type_order_type_enum = new_order_request_message_value;
+  new_order_request_message_record.ord_type = new_order_request_message_value;
   new_order_request_message_record.manual_order_indicator = new_order_request_message_value;
   new_order_request_message_at = 0;
   do
@@ -1881,7 +1881,7 @@ inline fill_new_order_request_message(new_order_request_message_record, new_orde
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> new_order_request_message_record.clearing_firm_int_32[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> new_order_request_message_record.clearing_firm[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -1926,7 +1926,7 @@ inline fill_new_order_request_message(new_order_request_message_record, new_orde
   new_order_request_message_record.price_type = new_order_request_message_value;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 14 -> new_order_request_message_record.clearing_account_string_14[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 14 -> new_order_request_message_record.clearing_account[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -1951,12 +1951,12 @@ inline fill_new_order_request_message(new_order_request_message_record, new_orde
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_sub_i_d_string_41[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_sub_id[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_location_i_d_string_41[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_location_id[new_order_request_message_at] = new_order_request_message_value; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1966,27 +1966,27 @@ inline fill_new_order_request_message(new_order_request_message_record, new_orde
 inline ramp_new_order_request_message(new_order_request_message_record, new_order_request_message_base) {
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> new_order_request_message_record.price_decimal_9_null[new_order_request_message_at] = (new_order_request_message_base + 0 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> new_order_request_message_record.price_optional[new_order_request_message_at] = (new_order_request_message_base + 0 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> new_order_request_message_record.order_qty_decimal_9[new_order_request_message_at] = (new_order_request_message_base + 8 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> new_order_request_message_record.order_qty[new_order_request_message_at] = (new_order_request_message_base + 8 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> new_order_request_message_record.symbol_int_32[new_order_request_message_at] = (new_order_request_message_base + 16 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> new_order_request_message_record.symbol[new_order_request_message_at] = (new_order_request_message_base + 16 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  new_order_request_message_record.time_in_force_time_in_force_enum = (new_order_request_message_base + 20 + 1) % 256;
-  new_order_request_message_record.side_side_enum = (new_order_request_message_base + 21 + 1) % 256;
+  new_order_request_message_record.time_in_force = (new_order_request_message_base + 20 + 1) % 256;
+  new_order_request_message_record.side = (new_order_request_message_base + 21 + 1) % 256;
   new_order_request_message_at = 0;
   do
   :: new_order_request_message_at < 20 -> new_order_request_message_record.originator_user_id[new_order_request_message_at] = (new_order_request_message_base + 22 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  new_order_request_message_record.ord_type_order_type_enum = (new_order_request_message_base + 42 + 1) % 256;
+  new_order_request_message_record.ord_type = (new_order_request_message_base + 42 + 1) % 256;
   new_order_request_message_record.manual_order_indicator = (new_order_request_message_base + 43 + 1) % 256;
   new_order_request_message_at = 0;
   do
@@ -2010,7 +2010,7 @@ inline ramp_new_order_request_message(new_order_request_message_record, new_orde
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> new_order_request_message_record.clearing_firm_int_32[new_order_request_message_at] = (new_order_request_message_base + 72 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> new_order_request_message_record.clearing_firm[new_order_request_message_at] = (new_order_request_message_base + 72 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -2055,7 +2055,7 @@ inline ramp_new_order_request_message(new_order_request_message_record, new_orde
   new_order_request_message_record.price_type = (new_order_request_message_base + 127 + 1) % 256;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 14 -> new_order_request_message_record.clearing_account_string_14[new_order_request_message_at] = (new_order_request_message_base + 128 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 14 -> new_order_request_message_record.clearing_account[new_order_request_message_at] = (new_order_request_message_base + 128 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -2080,12 +2080,12 @@ inline ramp_new_order_request_message(new_order_request_message_record, new_orde
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_sub_i_d_string_41[new_order_request_message_at] = (new_order_request_message_base + 245 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_sub_id[new_order_request_message_at] = (new_order_request_message_base + 245 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_location_i_d_string_41[new_order_request_message_at] = (new_order_request_message_base + 286 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_location_id[new_order_request_message_at] = (new_order_request_message_base + 286 + new_order_request_message_at + 1) % 256; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -2095,27 +2095,27 @@ inline ramp_new_order_request_message(new_order_request_message_record, new_orde
 inline encode_new_order_request_message(new_order_request_message_record) {
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> wire[at] = new_order_request_message_record.price_decimal_9_null[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> wire[at] = new_order_request_message_record.price_optional[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> wire[at] = new_order_request_message_record.order_qty_decimal_9[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> wire[at] = new_order_request_message_record.order_qty[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> wire[at] = new_order_request_message_record.symbol_int_32[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> wire[at] = new_order_request_message_record.symbol[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_request_message_record.time_in_force_time_in_force_enum; at = at + 1;
-  wire[at] = new_order_request_message_record.side_side_enum; at = at + 1;
+  wire[at] = new_order_request_message_record.time_in_force; at = at + 1;
+  wire[at] = new_order_request_message_record.side; at = at + 1;
   new_order_request_message_at = 0;
   do
   :: new_order_request_message_at < 20 -> wire[at] = new_order_request_message_record.originator_user_id[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_request_message_record.ord_type_order_type_enum; at = at + 1;
+  wire[at] = new_order_request_message_record.ord_type; at = at + 1;
   wire[at] = new_order_request_message_record.manual_order_indicator; at = at + 1;
   new_order_request_message_at = 0;
   do
@@ -2139,7 +2139,7 @@ inline encode_new_order_request_message(new_order_request_message_record) {
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> wire[at] = new_order_request_message_record.clearing_firm_int_32[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> wire[at] = new_order_request_message_record.clearing_firm[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -2184,7 +2184,7 @@ inline encode_new_order_request_message(new_order_request_message_record) {
   wire[at] = new_order_request_message_record.price_type; at = at + 1;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 14 -> wire[at] = new_order_request_message_record.clearing_account_string_14[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 14 -> wire[at] = new_order_request_message_record.clearing_account[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -2209,12 +2209,12 @@ inline encode_new_order_request_message(new_order_request_message_record) {
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> wire[at] = new_order_request_message_record.on_behalf_of_sub_i_d_string_41[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> wire[at] = new_order_request_message_record.on_behalf_of_sub_id[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> wire[at] = new_order_request_message_record.on_behalf_of_location_i_d_string_41[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> wire[at] = new_order_request_message_record.on_behalf_of_location_id[new_order_request_message_at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -2224,27 +2224,27 @@ inline encode_new_order_request_message(new_order_request_message_record) {
 inline decode_new_order_request_message(new_order_request_message_record) {
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> new_order_request_message_record.price_decimal_9_null[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> new_order_request_message_record.price_optional[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> new_order_request_message_record.order_qty_decimal_9[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> new_order_request_message_record.order_qty[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> new_order_request_message_record.symbol_int_32[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> new_order_request_message_record.symbol[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  new_order_request_message_record.time_in_force_time_in_force_enum = wire[at]; at = at + 1;
-  new_order_request_message_record.side_side_enum = wire[at]; at = at + 1;
+  new_order_request_message_record.time_in_force = wire[at]; at = at + 1;
+  new_order_request_message_record.side = wire[at]; at = at + 1;
   new_order_request_message_at = 0;
   do
   :: new_order_request_message_at < 20 -> new_order_request_message_record.originator_user_id[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  new_order_request_message_record.ord_type_order_type_enum = wire[at]; at = at + 1;
+  new_order_request_message_record.ord_type = wire[at]; at = at + 1;
   new_order_request_message_record.manual_order_indicator = wire[at]; at = at + 1;
   new_order_request_message_at = 0;
   do
@@ -2268,7 +2268,7 @@ inline decode_new_order_request_message(new_order_request_message_record) {
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> new_order_request_message_record.clearing_firm_int_32[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> new_order_request_message_record.clearing_firm[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -2313,7 +2313,7 @@ inline decode_new_order_request_message(new_order_request_message_record) {
   new_order_request_message_record.price_type = wire[at]; at = at + 1;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 14 -> new_order_request_message_record.clearing_account_string_14[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 14 -> new_order_request_message_record.clearing_account[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -2338,12 +2338,12 @@ inline decode_new_order_request_message(new_order_request_message_record) {
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_sub_i_d_string_41[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_sub_id[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_location_i_d_string_41[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> new_order_request_message_record.on_behalf_of_location_id[new_order_request_message_at] = wire[at]; at = at + 1; new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -2353,27 +2353,27 @@ inline decode_new_order_request_message(new_order_request_message_record) {
 inline equal_new_order_request_message(new_order_request_message_read, new_order_request_message_written) {
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> assert(new_order_request_message_read.price_decimal_9_null[new_order_request_message_at] == new_order_request_message_written.price_decimal_9_null[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> assert(new_order_request_message_read.price_optional[new_order_request_message_at] == new_order_request_message_written.price_optional[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 8 -> assert(new_order_request_message_read.order_qty_decimal_9[new_order_request_message_at] == new_order_request_message_written.order_qty_decimal_9[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 8 -> assert(new_order_request_message_read.order_qty[new_order_request_message_at] == new_order_request_message_written.order_qty[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> assert(new_order_request_message_read.symbol_int_32[new_order_request_message_at] == new_order_request_message_written.symbol_int_32[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> assert(new_order_request_message_read.symbol[new_order_request_message_at] == new_order_request_message_written.symbol[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  assert(new_order_request_message_read.time_in_force_time_in_force_enum == new_order_request_message_written.time_in_force_time_in_force_enum);
-  assert(new_order_request_message_read.side_side_enum == new_order_request_message_written.side_side_enum);
+  assert(new_order_request_message_read.time_in_force == new_order_request_message_written.time_in_force);
+  assert(new_order_request_message_read.side == new_order_request_message_written.side);
   new_order_request_message_at = 0;
   do
   :: new_order_request_message_at < 20 -> assert(new_order_request_message_read.originator_user_id[new_order_request_message_at] == new_order_request_message_written.originator_user_id[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
-  assert(new_order_request_message_read.ord_type_order_type_enum == new_order_request_message_written.ord_type_order_type_enum);
+  assert(new_order_request_message_read.ord_type == new_order_request_message_written.ord_type);
   assert(new_order_request_message_read.manual_order_indicator == new_order_request_message_written.manual_order_indicator);
   new_order_request_message_at = 0;
   do
@@ -2397,7 +2397,7 @@ inline equal_new_order_request_message(new_order_request_message_read, new_order
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 4 -> assert(new_order_request_message_read.clearing_firm_int_32[new_order_request_message_at] == new_order_request_message_written.clearing_firm_int_32[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 4 -> assert(new_order_request_message_read.clearing_firm[new_order_request_message_at] == new_order_request_message_written.clearing_firm[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -2442,7 +2442,7 @@ inline equal_new_order_request_message(new_order_request_message_read, new_order
   assert(new_order_request_message_read.price_type == new_order_request_message_written.price_type);
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 14 -> assert(new_order_request_message_read.clearing_account_string_14[new_order_request_message_at] == new_order_request_message_written.clearing_account_string_14[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 14 -> assert(new_order_request_message_read.clearing_account[new_order_request_message_at] == new_order_request_message_written.clearing_account[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
@@ -2467,12 +2467,12 @@ inline equal_new_order_request_message(new_order_request_message_read, new_order
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> assert(new_order_request_message_read.on_behalf_of_sub_i_d_string_41[new_order_request_message_at] == new_order_request_message_written.on_behalf_of_sub_i_d_string_41[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> assert(new_order_request_message_read.on_behalf_of_sub_id[new_order_request_message_at] == new_order_request_message_written.on_behalf_of_sub_id[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   new_order_request_message_at = 0;
   do
-  :: new_order_request_message_at < 41 -> assert(new_order_request_message_read.on_behalf_of_location_i_d_string_41[new_order_request_message_at] == new_order_request_message_written.on_behalf_of_location_i_d_string_41[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
+  :: new_order_request_message_at < 41 -> assert(new_order_request_message_read.on_behalf_of_location_id[new_order_request_message_at] == new_order_request_message_written.on_behalf_of_location_id[new_order_request_message_at]); new_order_request_message_at = new_order_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -2482,20 +2482,20 @@ inline equal_new_order_request_message(new_order_request_message_read, new_order
 
 /* CancelReplaceRequestMessage */
 typedef CancelReplaceRequestMessage {
-  byte price_decimal_9_null[8];
-  byte order_qty_decimal_9[8];
-  byte symbol_int_32[4];
-  byte time_in_force_time_in_force_enum;
-  byte side_side_enum;
+  byte price_optional[8];
+  byte order_qty[8];
+  byte symbol[4];
+  byte time_in_force;
+  byte side;
   byte originator_user_id[20];
-  byte ord_type_order_type_enum;
+  byte ord_type;
   byte manual_order_indicator;
   byte cl_ord_id[8];
-  byte orig_cl_ord_i_d_int_64[8];
+  byte orig_cl_ord_id[8];
   byte max_show[8];
   byte stop_px[8];
   byte give_up_clearing_firm[4];
-  byte clearing_firm_int_32[4];
+  byte clearing_firm[4];
   byte self_match_prevention_id[8];
   byte expire_date[2];
   byte self_match_prevention_instruction;
@@ -2510,13 +2510,13 @@ typedef CancelReplaceRequestMessage {
   byte mifid_id[8];
   byte alloc_handl_inst;
   byte price_type;
-  byte clearing_account_string_14[14];
+  byte clearing_account[14];
   byte customer_account_ref_id[12];
   byte memo[30];
   byte allocation_account[20];
   byte on_behalf_of_comp_id[41];
-  byte on_behalf_of_sub_i_d_string_41[41];
-  byte on_behalf_of_location_i_d_string_41[41]
+  byte on_behalf_of_sub_id[41];
+  byte on_behalf_of_location_id[41]
 };
 
 int cancel_replace_request_message_at;
@@ -2525,27 +2525,27 @@ int cancel_replace_request_message_at;
 inline fill_cancel_replace_request_message(cancel_replace_request_message_record, cancel_replace_request_message_value) {
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.price_decimal_9_null[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.price_optional[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.order_qty_decimal_9[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.order_qty[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.symbol_int_32[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.symbol[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  cancel_replace_request_message_record.time_in_force_time_in_force_enum = cancel_replace_request_message_value;
-  cancel_replace_request_message_record.side_side_enum = cancel_replace_request_message_value;
+  cancel_replace_request_message_record.time_in_force = cancel_replace_request_message_value;
+  cancel_replace_request_message_record.side = cancel_replace_request_message_value;
   cancel_replace_request_message_at = 0;
   do
   :: cancel_replace_request_message_at < 20 -> cancel_replace_request_message_record.originator_user_id[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  cancel_replace_request_message_record.ord_type_order_type_enum = cancel_replace_request_message_value;
+  cancel_replace_request_message_record.ord_type = cancel_replace_request_message_value;
   cancel_replace_request_message_record.manual_order_indicator = cancel_replace_request_message_value;
   cancel_replace_request_message_at = 0;
   do
@@ -2554,7 +2554,7 @@ inline fill_cancel_replace_request_message(cancel_replace_request_message_record
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.orig_cl_ord_i_d_int_64[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.orig_cl_ord_id[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2574,7 +2574,7 @@ inline fill_cancel_replace_request_message(cancel_replace_request_message_record
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.clearing_firm_int_32[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.clearing_firm[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2617,7 +2617,7 @@ inline fill_cancel_replace_request_message(cancel_replace_request_message_record
   cancel_replace_request_message_record.price_type = cancel_replace_request_message_value;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 14 -> cancel_replace_request_message_record.clearing_account_string_14[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 14 -> cancel_replace_request_message_record.clearing_account[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2642,12 +2642,12 @@ inline fill_cancel_replace_request_message(cancel_replace_request_message_record
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_sub_i_d_string_41[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_sub_id[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_location_i_d_string_41[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_location_id[cancel_replace_request_message_at] = cancel_replace_request_message_value; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -2657,27 +2657,27 @@ inline fill_cancel_replace_request_message(cancel_replace_request_message_record
 inline ramp_cancel_replace_request_message(cancel_replace_request_message_record, cancel_replace_request_message_base) {
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.price_decimal_9_null[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 0 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.price_optional[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 0 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.order_qty_decimal_9[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 8 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.order_qty[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 8 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.symbol_int_32[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 16 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.symbol[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 16 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  cancel_replace_request_message_record.time_in_force_time_in_force_enum = (cancel_replace_request_message_base + 20 + 1) % 256;
-  cancel_replace_request_message_record.side_side_enum = (cancel_replace_request_message_base + 21 + 1) % 256;
+  cancel_replace_request_message_record.time_in_force = (cancel_replace_request_message_base + 20 + 1) % 256;
+  cancel_replace_request_message_record.side = (cancel_replace_request_message_base + 21 + 1) % 256;
   cancel_replace_request_message_at = 0;
   do
   :: cancel_replace_request_message_at < 20 -> cancel_replace_request_message_record.originator_user_id[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 22 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  cancel_replace_request_message_record.ord_type_order_type_enum = (cancel_replace_request_message_base + 42 + 1) % 256;
+  cancel_replace_request_message_record.ord_type = (cancel_replace_request_message_base + 42 + 1) % 256;
   cancel_replace_request_message_record.manual_order_indicator = (cancel_replace_request_message_base + 43 + 1) % 256;
   cancel_replace_request_message_at = 0;
   do
@@ -2686,7 +2686,7 @@ inline ramp_cancel_replace_request_message(cancel_replace_request_message_record
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.orig_cl_ord_i_d_int_64[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 52 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.orig_cl_ord_id[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 52 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2706,7 +2706,7 @@ inline ramp_cancel_replace_request_message(cancel_replace_request_message_record
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.clearing_firm_int_32[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 80 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.clearing_firm[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 80 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2749,7 +2749,7 @@ inline ramp_cancel_replace_request_message(cancel_replace_request_message_record
   cancel_replace_request_message_record.price_type = (cancel_replace_request_message_base + 133 + 1) % 256;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 14 -> cancel_replace_request_message_record.clearing_account_string_14[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 134 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 14 -> cancel_replace_request_message_record.clearing_account[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 134 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2774,12 +2774,12 @@ inline ramp_cancel_replace_request_message(cancel_replace_request_message_record
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_sub_i_d_string_41[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 251 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_sub_id[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 251 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_location_i_d_string_41[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 292 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_location_id[cancel_replace_request_message_at] = (cancel_replace_request_message_base + 292 + cancel_replace_request_message_at + 1) % 256; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -2789,27 +2789,27 @@ inline ramp_cancel_replace_request_message(cancel_replace_request_message_record
 inline encode_cancel_replace_request_message(cancel_replace_request_message_record) {
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> wire[at] = cancel_replace_request_message_record.price_decimal_9_null[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> wire[at] = cancel_replace_request_message_record.price_optional[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> wire[at] = cancel_replace_request_message_record.order_qty_decimal_9[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> wire[at] = cancel_replace_request_message_record.order_qty[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> wire[at] = cancel_replace_request_message_record.symbol_int_32[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> wire[at] = cancel_replace_request_message_record.symbol[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  wire[at] = cancel_replace_request_message_record.time_in_force_time_in_force_enum; at = at + 1;
-  wire[at] = cancel_replace_request_message_record.side_side_enum; at = at + 1;
+  wire[at] = cancel_replace_request_message_record.time_in_force; at = at + 1;
+  wire[at] = cancel_replace_request_message_record.side; at = at + 1;
   cancel_replace_request_message_at = 0;
   do
   :: cancel_replace_request_message_at < 20 -> wire[at] = cancel_replace_request_message_record.originator_user_id[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  wire[at] = cancel_replace_request_message_record.ord_type_order_type_enum; at = at + 1;
+  wire[at] = cancel_replace_request_message_record.ord_type; at = at + 1;
   wire[at] = cancel_replace_request_message_record.manual_order_indicator; at = at + 1;
   cancel_replace_request_message_at = 0;
   do
@@ -2818,7 +2818,7 @@ inline encode_cancel_replace_request_message(cancel_replace_request_message_reco
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> wire[at] = cancel_replace_request_message_record.orig_cl_ord_i_d_int_64[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> wire[at] = cancel_replace_request_message_record.orig_cl_ord_id[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2838,7 +2838,7 @@ inline encode_cancel_replace_request_message(cancel_replace_request_message_reco
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> wire[at] = cancel_replace_request_message_record.clearing_firm_int_32[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> wire[at] = cancel_replace_request_message_record.clearing_firm[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2881,7 +2881,7 @@ inline encode_cancel_replace_request_message(cancel_replace_request_message_reco
   wire[at] = cancel_replace_request_message_record.price_type; at = at + 1;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 14 -> wire[at] = cancel_replace_request_message_record.clearing_account_string_14[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 14 -> wire[at] = cancel_replace_request_message_record.clearing_account[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2906,12 +2906,12 @@ inline encode_cancel_replace_request_message(cancel_replace_request_message_reco
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> wire[at] = cancel_replace_request_message_record.on_behalf_of_sub_i_d_string_41[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> wire[at] = cancel_replace_request_message_record.on_behalf_of_sub_id[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> wire[at] = cancel_replace_request_message_record.on_behalf_of_location_i_d_string_41[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> wire[at] = cancel_replace_request_message_record.on_behalf_of_location_id[cancel_replace_request_message_at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -2921,27 +2921,27 @@ inline encode_cancel_replace_request_message(cancel_replace_request_message_reco
 inline decode_cancel_replace_request_message(cancel_replace_request_message_record) {
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.price_decimal_9_null[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.price_optional[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.order_qty_decimal_9[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.order_qty[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.symbol_int_32[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.symbol[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  cancel_replace_request_message_record.time_in_force_time_in_force_enum = wire[at]; at = at + 1;
-  cancel_replace_request_message_record.side_side_enum = wire[at]; at = at + 1;
+  cancel_replace_request_message_record.time_in_force = wire[at]; at = at + 1;
+  cancel_replace_request_message_record.side = wire[at]; at = at + 1;
   cancel_replace_request_message_at = 0;
   do
   :: cancel_replace_request_message_at < 20 -> cancel_replace_request_message_record.originator_user_id[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  cancel_replace_request_message_record.ord_type_order_type_enum = wire[at]; at = at + 1;
+  cancel_replace_request_message_record.ord_type = wire[at]; at = at + 1;
   cancel_replace_request_message_record.manual_order_indicator = wire[at]; at = at + 1;
   cancel_replace_request_message_at = 0;
   do
@@ -2950,7 +2950,7 @@ inline decode_cancel_replace_request_message(cancel_replace_request_message_reco
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.orig_cl_ord_i_d_int_64[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> cancel_replace_request_message_record.orig_cl_ord_id[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -2970,7 +2970,7 @@ inline decode_cancel_replace_request_message(cancel_replace_request_message_reco
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.clearing_firm_int_32[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> cancel_replace_request_message_record.clearing_firm[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -3013,7 +3013,7 @@ inline decode_cancel_replace_request_message(cancel_replace_request_message_reco
   cancel_replace_request_message_record.price_type = wire[at]; at = at + 1;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 14 -> cancel_replace_request_message_record.clearing_account_string_14[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 14 -> cancel_replace_request_message_record.clearing_account[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -3038,12 +3038,12 @@ inline decode_cancel_replace_request_message(cancel_replace_request_message_reco
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_sub_i_d_string_41[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_sub_id[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_location_i_d_string_41[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> cancel_replace_request_message_record.on_behalf_of_location_id[cancel_replace_request_message_at] = wire[at]; at = at + 1; cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3053,27 +3053,27 @@ inline decode_cancel_replace_request_message(cancel_replace_request_message_reco
 inline equal_cancel_replace_request_message(cancel_replace_request_message_read, cancel_replace_request_message_written) {
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> assert(cancel_replace_request_message_read.price_decimal_9_null[cancel_replace_request_message_at] == cancel_replace_request_message_written.price_decimal_9_null[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> assert(cancel_replace_request_message_read.price_optional[cancel_replace_request_message_at] == cancel_replace_request_message_written.price_optional[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> assert(cancel_replace_request_message_read.order_qty_decimal_9[cancel_replace_request_message_at] == cancel_replace_request_message_written.order_qty_decimal_9[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> assert(cancel_replace_request_message_read.order_qty[cancel_replace_request_message_at] == cancel_replace_request_message_written.order_qty[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> assert(cancel_replace_request_message_read.symbol_int_32[cancel_replace_request_message_at] == cancel_replace_request_message_written.symbol_int_32[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> assert(cancel_replace_request_message_read.symbol[cancel_replace_request_message_at] == cancel_replace_request_message_written.symbol[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  assert(cancel_replace_request_message_read.time_in_force_time_in_force_enum == cancel_replace_request_message_written.time_in_force_time_in_force_enum);
-  assert(cancel_replace_request_message_read.side_side_enum == cancel_replace_request_message_written.side_side_enum);
+  assert(cancel_replace_request_message_read.time_in_force == cancel_replace_request_message_written.time_in_force);
+  assert(cancel_replace_request_message_read.side == cancel_replace_request_message_written.side);
   cancel_replace_request_message_at = 0;
   do
   :: cancel_replace_request_message_at < 20 -> assert(cancel_replace_request_message_read.originator_user_id[cancel_replace_request_message_at] == cancel_replace_request_message_written.originator_user_id[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
-  assert(cancel_replace_request_message_read.ord_type_order_type_enum == cancel_replace_request_message_written.ord_type_order_type_enum);
+  assert(cancel_replace_request_message_read.ord_type == cancel_replace_request_message_written.ord_type);
   assert(cancel_replace_request_message_read.manual_order_indicator == cancel_replace_request_message_written.manual_order_indicator);
   cancel_replace_request_message_at = 0;
   do
@@ -3082,7 +3082,7 @@ inline equal_cancel_replace_request_message(cancel_replace_request_message_read,
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 8 -> assert(cancel_replace_request_message_read.orig_cl_ord_i_d_int_64[cancel_replace_request_message_at] == cancel_replace_request_message_written.orig_cl_ord_i_d_int_64[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 8 -> assert(cancel_replace_request_message_read.orig_cl_ord_id[cancel_replace_request_message_at] == cancel_replace_request_message_written.orig_cl_ord_id[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -3102,7 +3102,7 @@ inline equal_cancel_replace_request_message(cancel_replace_request_message_read,
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 4 -> assert(cancel_replace_request_message_read.clearing_firm_int_32[cancel_replace_request_message_at] == cancel_replace_request_message_written.clearing_firm_int_32[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 4 -> assert(cancel_replace_request_message_read.clearing_firm[cancel_replace_request_message_at] == cancel_replace_request_message_written.clearing_firm[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -3145,7 +3145,7 @@ inline equal_cancel_replace_request_message(cancel_replace_request_message_read,
   assert(cancel_replace_request_message_read.price_type == cancel_replace_request_message_written.price_type);
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 14 -> assert(cancel_replace_request_message_read.clearing_account_string_14[cancel_replace_request_message_at] == cancel_replace_request_message_written.clearing_account_string_14[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 14 -> assert(cancel_replace_request_message_read.clearing_account[cancel_replace_request_message_at] == cancel_replace_request_message_written.clearing_account[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
@@ -3170,12 +3170,12 @@ inline equal_cancel_replace_request_message(cancel_replace_request_message_read,
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> assert(cancel_replace_request_message_read.on_behalf_of_sub_i_d_string_41[cancel_replace_request_message_at] == cancel_replace_request_message_written.on_behalf_of_sub_i_d_string_41[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> assert(cancel_replace_request_message_read.on_behalf_of_sub_id[cancel_replace_request_message_at] == cancel_replace_request_message_written.on_behalf_of_sub_id[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   cancel_replace_request_message_at = 0;
   do
-  :: cancel_replace_request_message_at < 41 -> assert(cancel_replace_request_message_read.on_behalf_of_location_i_d_string_41[cancel_replace_request_message_at] == cancel_replace_request_message_written.on_behalf_of_location_i_d_string_41[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
+  :: cancel_replace_request_message_at < 41 -> assert(cancel_replace_request_message_read.on_behalf_of_location_id[cancel_replace_request_message_at] == cancel_replace_request_message_written.on_behalf_of_location_id[cancel_replace_request_message_at]); cancel_replace_request_message_at = cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3185,11 +3185,11 @@ inline equal_cancel_replace_request_message(cancel_replace_request_message_read,
 
 /* CancelRequestMessage */
 typedef CancelRequestMessage {
-  byte symbol_int_32[4];
+  byte symbol[4];
   byte originator_user_id[20];
   byte cl_ord_id[8];
-  byte orig_cl_ord_i_d_int_64[8];
-  byte side_side_enum
+  byte orig_cl_ord_id[8];
+  byte side
 };
 
 int cancel_request_message_at;
@@ -3198,7 +3198,7 @@ int cancel_request_message_at;
 inline fill_cancel_request_message(cancel_request_message_record, cancel_request_message_value) {
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 4 -> cancel_request_message_record.symbol_int_32[cancel_request_message_at] = cancel_request_message_value; cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 4 -> cancel_request_message_record.symbol[cancel_request_message_at] = cancel_request_message_value; cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
   cancel_request_message_at = 0;
@@ -3213,10 +3213,10 @@ inline fill_cancel_request_message(cancel_request_message_record, cancel_request
   od;
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 8 -> cancel_request_message_record.orig_cl_ord_i_d_int_64[cancel_request_message_at] = cancel_request_message_value; cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 8 -> cancel_request_message_record.orig_cl_ord_id[cancel_request_message_at] = cancel_request_message_value; cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
-  cancel_request_message_record.side_side_enum = cancel_request_message_value;
+  cancel_request_message_record.side = cancel_request_message_value;
   skip
 }
 
@@ -3224,7 +3224,7 @@ inline fill_cancel_request_message(cancel_request_message_record, cancel_request
 inline ramp_cancel_request_message(cancel_request_message_record, cancel_request_message_base) {
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 4 -> cancel_request_message_record.symbol_int_32[cancel_request_message_at] = (cancel_request_message_base + 0 + cancel_request_message_at + 1) % 256; cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 4 -> cancel_request_message_record.symbol[cancel_request_message_at] = (cancel_request_message_base + 0 + cancel_request_message_at + 1) % 256; cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
   cancel_request_message_at = 0;
@@ -3239,10 +3239,10 @@ inline ramp_cancel_request_message(cancel_request_message_record, cancel_request
   od;
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 8 -> cancel_request_message_record.orig_cl_ord_i_d_int_64[cancel_request_message_at] = (cancel_request_message_base + 32 + cancel_request_message_at + 1) % 256; cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 8 -> cancel_request_message_record.orig_cl_ord_id[cancel_request_message_at] = (cancel_request_message_base + 32 + cancel_request_message_at + 1) % 256; cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
-  cancel_request_message_record.side_side_enum = (cancel_request_message_base + 40 + 1) % 256;
+  cancel_request_message_record.side = (cancel_request_message_base + 40 + 1) % 256;
   skip
 }
 
@@ -3250,7 +3250,7 @@ inline ramp_cancel_request_message(cancel_request_message_record, cancel_request
 inline encode_cancel_request_message(cancel_request_message_record) {
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 4 -> wire[at] = cancel_request_message_record.symbol_int_32[cancel_request_message_at]; at = at + 1; cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 4 -> wire[at] = cancel_request_message_record.symbol[cancel_request_message_at]; at = at + 1; cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
   cancel_request_message_at = 0;
@@ -3265,10 +3265,10 @@ inline encode_cancel_request_message(cancel_request_message_record) {
   od;
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 8 -> wire[at] = cancel_request_message_record.orig_cl_ord_i_d_int_64[cancel_request_message_at]; at = at + 1; cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 8 -> wire[at] = cancel_request_message_record.orig_cl_ord_id[cancel_request_message_at]; at = at + 1; cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
-  wire[at] = cancel_request_message_record.side_side_enum; at = at + 1;
+  wire[at] = cancel_request_message_record.side; at = at + 1;
   skip
 }
 
@@ -3276,7 +3276,7 @@ inline encode_cancel_request_message(cancel_request_message_record) {
 inline decode_cancel_request_message(cancel_request_message_record) {
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 4 -> cancel_request_message_record.symbol_int_32[cancel_request_message_at] = wire[at]; at = at + 1; cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 4 -> cancel_request_message_record.symbol[cancel_request_message_at] = wire[at]; at = at + 1; cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
   cancel_request_message_at = 0;
@@ -3291,10 +3291,10 @@ inline decode_cancel_request_message(cancel_request_message_record) {
   od;
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 8 -> cancel_request_message_record.orig_cl_ord_i_d_int_64[cancel_request_message_at] = wire[at]; at = at + 1; cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 8 -> cancel_request_message_record.orig_cl_ord_id[cancel_request_message_at] = wire[at]; at = at + 1; cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
-  cancel_request_message_record.side_side_enum = wire[at]; at = at + 1;
+  cancel_request_message_record.side = wire[at]; at = at + 1;
   skip
 }
 
@@ -3302,7 +3302,7 @@ inline decode_cancel_request_message(cancel_request_message_record) {
 inline equal_cancel_request_message(cancel_request_message_read, cancel_request_message_written) {
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 4 -> assert(cancel_request_message_read.symbol_int_32[cancel_request_message_at] == cancel_request_message_written.symbol_int_32[cancel_request_message_at]); cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 4 -> assert(cancel_request_message_read.symbol[cancel_request_message_at] == cancel_request_message_written.symbol[cancel_request_message_at]); cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
   cancel_request_message_at = 0;
@@ -3317,10 +3317,10 @@ inline equal_cancel_request_message(cancel_request_message_read, cancel_request_
   od;
   cancel_request_message_at = 0;
   do
-  :: cancel_request_message_at < 8 -> assert(cancel_request_message_read.orig_cl_ord_i_d_int_64[cancel_request_message_at] == cancel_request_message_written.orig_cl_ord_i_d_int_64[cancel_request_message_at]); cancel_request_message_at = cancel_request_message_at + 1
+  :: cancel_request_message_at < 8 -> assert(cancel_request_message_read.orig_cl_ord_id[cancel_request_message_at] == cancel_request_message_written.orig_cl_ord_id[cancel_request_message_at]); cancel_request_message_at = cancel_request_message_at + 1
   :: else -> break
   od;
-  assert(cancel_request_message_read.side_side_enum == cancel_request_message_written.side_side_enum);
+  assert(cancel_request_message_read.side == cancel_request_message_written.side);
   skip
 }
 
@@ -3329,15 +3329,15 @@ inline equal_cancel_request_message(cancel_request_message_read, cancel_request_
 /* QuoteRequestMessage */
 typedef QuoteRequestMessage {
   byte originator_user_id[20];
-  byte side_side_enum_null;
-  byte order_qty_decimal_9_null[8];
+  byte side_optional;
+  byte order_qty_optional[8];
   byte rfq_req_id[8];
-  byte symbol_int_32[4];
-  byte clearing_firm_int_32_null[4];
-  byte clearing_account_string_14_null[14];
+  byte symbol[4];
+  byte clearing_firm_optional[4];
+  byte clearing_account_optional[14];
   byte on_behalf_of_comp_id[41];
-  byte on_behalf_of_sub_i_d_string_41[41];
-  byte on_behalf_of_location_i_d_string_41[41]
+  byte on_behalf_of_sub_id[41];
+  byte on_behalf_of_location_id[41]
 };
 
 int quote_request_message_at;
@@ -3349,10 +3349,10 @@ inline fill_quote_request_message(quote_request_message_record, quote_request_me
   :: quote_request_message_at < 20 -> quote_request_message_record.originator_user_id[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
-  quote_request_message_record.side_side_enum_null = quote_request_message_value;
+  quote_request_message_record.side_optional = quote_request_message_value;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 8 -> quote_request_message_record.order_qty_decimal_9_null[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 8 -> quote_request_message_record.order_qty_optional[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3362,17 +3362,17 @@ inline fill_quote_request_message(quote_request_message_record, quote_request_me
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> quote_request_message_record.symbol_int_32[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> quote_request_message_record.symbol[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> quote_request_message_record.clearing_firm_int_32_null[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> quote_request_message_record.clearing_firm_optional[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 14 -> quote_request_message_record.clearing_account_string_14_null[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 14 -> quote_request_message_record.clearing_account_optional[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3382,12 +3382,12 @@ inline fill_quote_request_message(quote_request_message_record, quote_request_me
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_sub_i_d_string_41[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_sub_id[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_location_i_d_string_41[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_location_id[quote_request_message_at] = quote_request_message_value; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3400,10 +3400,10 @@ inline ramp_quote_request_message(quote_request_message_record, quote_request_me
   :: quote_request_message_at < 20 -> quote_request_message_record.originator_user_id[quote_request_message_at] = (quote_request_message_base + 0 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
-  quote_request_message_record.side_side_enum_null = (quote_request_message_base + 20 + 1) % 256;
+  quote_request_message_record.side_optional = (quote_request_message_base + 20 + 1) % 256;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 8 -> quote_request_message_record.order_qty_decimal_9_null[quote_request_message_at] = (quote_request_message_base + 21 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 8 -> quote_request_message_record.order_qty_optional[quote_request_message_at] = (quote_request_message_base + 21 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3413,17 +3413,17 @@ inline ramp_quote_request_message(quote_request_message_record, quote_request_me
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> quote_request_message_record.symbol_int_32[quote_request_message_at] = (quote_request_message_base + 37 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> quote_request_message_record.symbol[quote_request_message_at] = (quote_request_message_base + 37 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> quote_request_message_record.clearing_firm_int_32_null[quote_request_message_at] = (quote_request_message_base + 41 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> quote_request_message_record.clearing_firm_optional[quote_request_message_at] = (quote_request_message_base + 41 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 14 -> quote_request_message_record.clearing_account_string_14_null[quote_request_message_at] = (quote_request_message_base + 45 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 14 -> quote_request_message_record.clearing_account_optional[quote_request_message_at] = (quote_request_message_base + 45 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3433,12 +3433,12 @@ inline ramp_quote_request_message(quote_request_message_record, quote_request_me
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_sub_i_d_string_41[quote_request_message_at] = (quote_request_message_base + 100 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_sub_id[quote_request_message_at] = (quote_request_message_base + 100 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_location_i_d_string_41[quote_request_message_at] = (quote_request_message_base + 141 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_location_id[quote_request_message_at] = (quote_request_message_base + 141 + quote_request_message_at + 1) % 256; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3451,10 +3451,10 @@ inline encode_quote_request_message(quote_request_message_record) {
   :: quote_request_message_at < 20 -> wire[at] = quote_request_message_record.originator_user_id[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
-  wire[at] = quote_request_message_record.side_side_enum_null; at = at + 1;
+  wire[at] = quote_request_message_record.side_optional; at = at + 1;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 8 -> wire[at] = quote_request_message_record.order_qty_decimal_9_null[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 8 -> wire[at] = quote_request_message_record.order_qty_optional[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3464,17 +3464,17 @@ inline encode_quote_request_message(quote_request_message_record) {
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> wire[at] = quote_request_message_record.symbol_int_32[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> wire[at] = quote_request_message_record.symbol[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> wire[at] = quote_request_message_record.clearing_firm_int_32_null[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> wire[at] = quote_request_message_record.clearing_firm_optional[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 14 -> wire[at] = quote_request_message_record.clearing_account_string_14_null[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 14 -> wire[at] = quote_request_message_record.clearing_account_optional[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3484,12 +3484,12 @@ inline encode_quote_request_message(quote_request_message_record) {
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> wire[at] = quote_request_message_record.on_behalf_of_sub_i_d_string_41[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> wire[at] = quote_request_message_record.on_behalf_of_sub_id[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> wire[at] = quote_request_message_record.on_behalf_of_location_i_d_string_41[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> wire[at] = quote_request_message_record.on_behalf_of_location_id[quote_request_message_at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3502,10 +3502,10 @@ inline decode_quote_request_message(quote_request_message_record) {
   :: quote_request_message_at < 20 -> quote_request_message_record.originator_user_id[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
-  quote_request_message_record.side_side_enum_null = wire[at]; at = at + 1;
+  quote_request_message_record.side_optional = wire[at]; at = at + 1;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 8 -> quote_request_message_record.order_qty_decimal_9_null[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 8 -> quote_request_message_record.order_qty_optional[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3515,17 +3515,17 @@ inline decode_quote_request_message(quote_request_message_record) {
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> quote_request_message_record.symbol_int_32[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> quote_request_message_record.symbol[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> quote_request_message_record.clearing_firm_int_32_null[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> quote_request_message_record.clearing_firm_optional[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 14 -> quote_request_message_record.clearing_account_string_14_null[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 14 -> quote_request_message_record.clearing_account_optional[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3535,12 +3535,12 @@ inline decode_quote_request_message(quote_request_message_record) {
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_sub_i_d_string_41[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_sub_id[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_location_i_d_string_41[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> quote_request_message_record.on_behalf_of_location_id[quote_request_message_at] = wire[at]; at = at + 1; quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3553,10 +3553,10 @@ inline equal_quote_request_message(quote_request_message_read, quote_request_mes
   :: quote_request_message_at < 20 -> assert(quote_request_message_read.originator_user_id[quote_request_message_at] == quote_request_message_written.originator_user_id[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
-  assert(quote_request_message_read.side_side_enum_null == quote_request_message_written.side_side_enum_null);
+  assert(quote_request_message_read.side_optional == quote_request_message_written.side_optional);
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 8 -> assert(quote_request_message_read.order_qty_decimal_9_null[quote_request_message_at] == quote_request_message_written.order_qty_decimal_9_null[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 8 -> assert(quote_request_message_read.order_qty_optional[quote_request_message_at] == quote_request_message_written.order_qty_optional[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3566,17 +3566,17 @@ inline equal_quote_request_message(quote_request_message_read, quote_request_mes
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> assert(quote_request_message_read.symbol_int_32[quote_request_message_at] == quote_request_message_written.symbol_int_32[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> assert(quote_request_message_read.symbol[quote_request_message_at] == quote_request_message_written.symbol[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 4 -> assert(quote_request_message_read.clearing_firm_int_32_null[quote_request_message_at] == quote_request_message_written.clearing_firm_int_32_null[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 4 -> assert(quote_request_message_read.clearing_firm_optional[quote_request_message_at] == quote_request_message_written.clearing_firm_optional[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 14 -> assert(quote_request_message_read.clearing_account_string_14_null[quote_request_message_at] == quote_request_message_written.clearing_account_string_14_null[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 14 -> assert(quote_request_message_read.clearing_account_optional[quote_request_message_at] == quote_request_message_written.clearing_account_optional[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
@@ -3586,12 +3586,12 @@ inline equal_quote_request_message(quote_request_message_read, quote_request_mes
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> assert(quote_request_message_read.on_behalf_of_sub_i_d_string_41[quote_request_message_at] == quote_request_message_written.on_behalf_of_sub_i_d_string_41[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> assert(quote_request_message_read.on_behalf_of_sub_id[quote_request_message_at] == quote_request_message_written.on_behalf_of_sub_id[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   quote_request_message_at = 0;
   do
-  :: quote_request_message_at < 41 -> assert(quote_request_message_read.on_behalf_of_location_i_d_string_41[quote_request_message_at] == quote_request_message_written.on_behalf_of_location_i_d_string_41[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
+  :: quote_request_message_at < 41 -> assert(quote_request_message_read.on_behalf_of_location_id[quote_request_message_at] == quote_request_message_written.on_behalf_of_location_id[quote_request_message_at]); quote_request_message_at = quote_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3602,15 +3602,15 @@ inline equal_quote_request_message(quote_request_message_read, quote_request_mes
 /* OrderMassCancelRequestMessage */
 typedef OrderMassCancelRequestMessage {
   byte originator_user_id[20];
-  byte ord_type_order_type_enum_null;
-  byte side_side_enum_null;
-  byte symbol_int_32_null[4];
+  byte ord_type_optional;
+  byte side_optional;
+  byte symbol_optional[4];
   byte cl_ord_id[8];
-  byte market_type_i_d_int_32_null[4];
-  byte price_decimal_9_null[8];
+  byte market_type_i_d_optional[4];
+  byte price_optional[8];
   byte mass_cancel_request_type;
-  byte time_in_force_time_in_force_enum_null;
-  byte on_behalf_of_sub_i_d_string_41_null[41]
+  byte time_in_force_optional;
+  byte on_behalf_of_sub_i_d_optional[41]
 };
 
 int order_mass_cancel_request_message_at;
@@ -3622,11 +3622,11 @@ inline fill_order_mass_cancel_request_message(order_mass_cancel_request_message_
   :: order_mass_cancel_request_message_at < 20 -> order_mass_cancel_request_message_record.originator_user_id[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
-  order_mass_cancel_request_message_record.ord_type_order_type_enum_null = order_mass_cancel_request_message_value;
-  order_mass_cancel_request_message_record.side_side_enum_null = order_mass_cancel_request_message_value;
+  order_mass_cancel_request_message_record.ord_type_optional = order_mass_cancel_request_message_value;
+  order_mass_cancel_request_message_record.side_optional = order_mass_cancel_request_message_value;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.symbol_int_32_null[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.symbol_optional[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
@@ -3636,19 +3636,19 @@ inline fill_order_mass_cancel_request_message(order_mass_cancel_request_message_
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.market_type_i_d_int_32_null[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.market_type_i_d_optional[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 8 -> order_mass_cancel_request_message_record.price_decimal_9_null[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 8 -> order_mass_cancel_request_message_record.price_optional[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_record.mass_cancel_request_type = order_mass_cancel_request_message_value;
-  order_mass_cancel_request_message_record.time_in_force_time_in_force_enum_null = order_mass_cancel_request_message_value;
+  order_mass_cancel_request_message_record.time_in_force_optional = order_mass_cancel_request_message_value;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 41 -> order_mass_cancel_request_message_record.on_behalf_of_sub_i_d_string_41_null[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 41 -> order_mass_cancel_request_message_record.on_behalf_of_sub_i_d_optional[order_mass_cancel_request_message_at] = order_mass_cancel_request_message_value; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3661,11 +3661,11 @@ inline ramp_order_mass_cancel_request_message(order_mass_cancel_request_message_
   :: order_mass_cancel_request_message_at < 20 -> order_mass_cancel_request_message_record.originator_user_id[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 0 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
-  order_mass_cancel_request_message_record.ord_type_order_type_enum_null = (order_mass_cancel_request_message_base + 20 + 1) % 256;
-  order_mass_cancel_request_message_record.side_side_enum_null = (order_mass_cancel_request_message_base + 21 + 1) % 256;
+  order_mass_cancel_request_message_record.ord_type_optional = (order_mass_cancel_request_message_base + 20 + 1) % 256;
+  order_mass_cancel_request_message_record.side_optional = (order_mass_cancel_request_message_base + 21 + 1) % 256;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.symbol_int_32_null[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 22 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.symbol_optional[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 22 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
@@ -3675,19 +3675,19 @@ inline ramp_order_mass_cancel_request_message(order_mass_cancel_request_message_
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.market_type_i_d_int_32_null[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 34 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.market_type_i_d_optional[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 34 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 8 -> order_mass_cancel_request_message_record.price_decimal_9_null[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 38 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 8 -> order_mass_cancel_request_message_record.price_optional[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 38 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_record.mass_cancel_request_type = (order_mass_cancel_request_message_base + 46 + 1) % 256;
-  order_mass_cancel_request_message_record.time_in_force_time_in_force_enum_null = (order_mass_cancel_request_message_base + 47 + 1) % 256;
+  order_mass_cancel_request_message_record.time_in_force_optional = (order_mass_cancel_request_message_base + 47 + 1) % 256;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 41 -> order_mass_cancel_request_message_record.on_behalf_of_sub_i_d_string_41_null[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 48 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 41 -> order_mass_cancel_request_message_record.on_behalf_of_sub_i_d_optional[order_mass_cancel_request_message_at] = (order_mass_cancel_request_message_base + 48 + order_mass_cancel_request_message_at + 1) % 256; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3700,11 +3700,11 @@ inline encode_order_mass_cancel_request_message(order_mass_cancel_request_messag
   :: order_mass_cancel_request_message_at < 20 -> wire[at] = order_mass_cancel_request_message_record.originator_user_id[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
-  wire[at] = order_mass_cancel_request_message_record.ord_type_order_type_enum_null; at = at + 1;
-  wire[at] = order_mass_cancel_request_message_record.side_side_enum_null; at = at + 1;
+  wire[at] = order_mass_cancel_request_message_record.ord_type_optional; at = at + 1;
+  wire[at] = order_mass_cancel_request_message_record.side_optional; at = at + 1;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> wire[at] = order_mass_cancel_request_message_record.symbol_int_32_null[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> wire[at] = order_mass_cancel_request_message_record.symbol_optional[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
@@ -3714,19 +3714,19 @@ inline encode_order_mass_cancel_request_message(order_mass_cancel_request_messag
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> wire[at] = order_mass_cancel_request_message_record.market_type_i_d_int_32_null[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> wire[at] = order_mass_cancel_request_message_record.market_type_i_d_optional[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 8 -> wire[at] = order_mass_cancel_request_message_record.price_decimal_9_null[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 8 -> wire[at] = order_mass_cancel_request_message_record.price_optional[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   wire[at] = order_mass_cancel_request_message_record.mass_cancel_request_type; at = at + 1;
-  wire[at] = order_mass_cancel_request_message_record.time_in_force_time_in_force_enum_null; at = at + 1;
+  wire[at] = order_mass_cancel_request_message_record.time_in_force_optional; at = at + 1;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 41 -> wire[at] = order_mass_cancel_request_message_record.on_behalf_of_sub_i_d_string_41_null[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 41 -> wire[at] = order_mass_cancel_request_message_record.on_behalf_of_sub_i_d_optional[order_mass_cancel_request_message_at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3739,11 +3739,11 @@ inline decode_order_mass_cancel_request_message(order_mass_cancel_request_messag
   :: order_mass_cancel_request_message_at < 20 -> order_mass_cancel_request_message_record.originator_user_id[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
-  order_mass_cancel_request_message_record.ord_type_order_type_enum_null = wire[at]; at = at + 1;
-  order_mass_cancel_request_message_record.side_side_enum_null = wire[at]; at = at + 1;
+  order_mass_cancel_request_message_record.ord_type_optional = wire[at]; at = at + 1;
+  order_mass_cancel_request_message_record.side_optional = wire[at]; at = at + 1;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.symbol_int_32_null[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.symbol_optional[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
@@ -3753,19 +3753,19 @@ inline decode_order_mass_cancel_request_message(order_mass_cancel_request_messag
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.market_type_i_d_int_32_null[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> order_mass_cancel_request_message_record.market_type_i_d_optional[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 8 -> order_mass_cancel_request_message_record.price_decimal_9_null[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 8 -> order_mass_cancel_request_message_record.price_optional[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_record.mass_cancel_request_type = wire[at]; at = at + 1;
-  order_mass_cancel_request_message_record.time_in_force_time_in_force_enum_null = wire[at]; at = at + 1;
+  order_mass_cancel_request_message_record.time_in_force_optional = wire[at]; at = at + 1;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 41 -> order_mass_cancel_request_message_record.on_behalf_of_sub_i_d_string_41_null[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 41 -> order_mass_cancel_request_message_record.on_behalf_of_sub_i_d_optional[order_mass_cancel_request_message_at] = wire[at]; at = at + 1; order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3778,11 +3778,11 @@ inline equal_order_mass_cancel_request_message(order_mass_cancel_request_message
   :: order_mass_cancel_request_message_at < 20 -> assert(order_mass_cancel_request_message_read.originator_user_id[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.originator_user_id[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
-  assert(order_mass_cancel_request_message_read.ord_type_order_type_enum_null == order_mass_cancel_request_message_written.ord_type_order_type_enum_null);
-  assert(order_mass_cancel_request_message_read.side_side_enum_null == order_mass_cancel_request_message_written.side_side_enum_null);
+  assert(order_mass_cancel_request_message_read.ord_type_optional == order_mass_cancel_request_message_written.ord_type_optional);
+  assert(order_mass_cancel_request_message_read.side_optional == order_mass_cancel_request_message_written.side_optional);
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> assert(order_mass_cancel_request_message_read.symbol_int_32_null[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.symbol_int_32_null[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> assert(order_mass_cancel_request_message_read.symbol_optional[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.symbol_optional[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
@@ -3792,19 +3792,19 @@ inline equal_order_mass_cancel_request_message(order_mass_cancel_request_message
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 4 -> assert(order_mass_cancel_request_message_read.market_type_i_d_int_32_null[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.market_type_i_d_int_32_null[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 4 -> assert(order_mass_cancel_request_message_read.market_type_i_d_optional[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.market_type_i_d_optional[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 8 -> assert(order_mass_cancel_request_message_read.price_decimal_9_null[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.price_decimal_9_null[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 8 -> assert(order_mass_cancel_request_message_read.price_optional[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.price_optional[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   assert(order_mass_cancel_request_message_read.mass_cancel_request_type == order_mass_cancel_request_message_written.mass_cancel_request_type);
-  assert(order_mass_cancel_request_message_read.time_in_force_time_in_force_enum_null == order_mass_cancel_request_message_written.time_in_force_time_in_force_enum_null);
+  assert(order_mass_cancel_request_message_read.time_in_force_optional == order_mass_cancel_request_message_written.time_in_force_optional);
   order_mass_cancel_request_message_at = 0;
   do
-  :: order_mass_cancel_request_message_at < 41 -> assert(order_mass_cancel_request_message_read.on_behalf_of_sub_i_d_string_41_null[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.on_behalf_of_sub_i_d_string_41_null[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
+  :: order_mass_cancel_request_message_at < 41 -> assert(order_mass_cancel_request_message_read.on_behalf_of_sub_i_d_optional[order_mass_cancel_request_message_at] == order_mass_cancel_request_message_written.on_behalf_of_sub_i_d_optional[order_mass_cancel_request_message_at]); order_mass_cancel_request_message_at = order_mass_cancel_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3816,11 +3816,11 @@ inline equal_order_mass_cancel_request_message(order_mass_cancel_request_message
 typedef SecurityDefinitionRequestCreateFlexMessage {
   byte security_req_id[4];
   byte security_request_type;
-  byte market_type_i_d_int_32[4];
-  byte security_type_security_type_enum;
+  byte market_type_id[4];
+  byte security_type;
   byte maturity_date[2];
-  byte product_i_d_int_32_null[4];
-  byte symbol_int_32_null[4];
+  byte product_i_d_optional[4];
+  byte symbol_optional[4];
   byte strike_price[8]
 };
 
@@ -3836,10 +3836,10 @@ inline fill_security_definition_request_create_flex_message(security_definition_
   security_definition_request_create_flex_message_record.security_request_type = security_definition_request_create_flex_message_value;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.market_type_i_d_int_32[security_definition_request_create_flex_message_at] = security_definition_request_create_flex_message_value; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.market_type_id[security_definition_request_create_flex_message_at] = security_definition_request_create_flex_message_value; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
-  security_definition_request_create_flex_message_record.security_type_security_type_enum = security_definition_request_create_flex_message_value;
+  security_definition_request_create_flex_message_record.security_type = security_definition_request_create_flex_message_value;
   security_definition_request_create_flex_message_at = 0;
   do
   :: security_definition_request_create_flex_message_at < 2 -> security_definition_request_create_flex_message_record.maturity_date[security_definition_request_create_flex_message_at] = security_definition_request_create_flex_message_value; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
@@ -3847,12 +3847,12 @@ inline fill_security_definition_request_create_flex_message(security_definition_
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.product_i_d_int_32_null[security_definition_request_create_flex_message_at] = security_definition_request_create_flex_message_value; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.product_i_d_optional[security_definition_request_create_flex_message_at] = security_definition_request_create_flex_message_value; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.symbol_int_32_null[security_definition_request_create_flex_message_at] = security_definition_request_create_flex_message_value; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.symbol_optional[security_definition_request_create_flex_message_at] = security_definition_request_create_flex_message_value; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
@@ -3873,10 +3873,10 @@ inline ramp_security_definition_request_create_flex_message(security_definition_
   security_definition_request_create_flex_message_record.security_request_type = (security_definition_request_create_flex_message_base + 4 + 1) % 256;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.market_type_i_d_int_32[security_definition_request_create_flex_message_at] = (security_definition_request_create_flex_message_base + 5 + security_definition_request_create_flex_message_at + 1) % 256; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.market_type_id[security_definition_request_create_flex_message_at] = (security_definition_request_create_flex_message_base + 5 + security_definition_request_create_flex_message_at + 1) % 256; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
-  security_definition_request_create_flex_message_record.security_type_security_type_enum = (security_definition_request_create_flex_message_base + 9 + 1) % 256;
+  security_definition_request_create_flex_message_record.security_type = (security_definition_request_create_flex_message_base + 9 + 1) % 256;
   security_definition_request_create_flex_message_at = 0;
   do
   :: security_definition_request_create_flex_message_at < 2 -> security_definition_request_create_flex_message_record.maturity_date[security_definition_request_create_flex_message_at] = (security_definition_request_create_flex_message_base + 10 + security_definition_request_create_flex_message_at + 1) % 256; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
@@ -3884,12 +3884,12 @@ inline ramp_security_definition_request_create_flex_message(security_definition_
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.product_i_d_int_32_null[security_definition_request_create_flex_message_at] = (security_definition_request_create_flex_message_base + 12 + security_definition_request_create_flex_message_at + 1) % 256; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.product_i_d_optional[security_definition_request_create_flex_message_at] = (security_definition_request_create_flex_message_base + 12 + security_definition_request_create_flex_message_at + 1) % 256; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.symbol_int_32_null[security_definition_request_create_flex_message_at] = (security_definition_request_create_flex_message_base + 16 + security_definition_request_create_flex_message_at + 1) % 256; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.symbol_optional[security_definition_request_create_flex_message_at] = (security_definition_request_create_flex_message_base + 16 + security_definition_request_create_flex_message_at + 1) % 256; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
@@ -3910,10 +3910,10 @@ inline encode_security_definition_request_create_flex_message(security_definitio
   wire[at] = security_definition_request_create_flex_message_record.security_request_type; at = at + 1;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> wire[at] = security_definition_request_create_flex_message_record.market_type_i_d_int_32[security_definition_request_create_flex_message_at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> wire[at] = security_definition_request_create_flex_message_record.market_type_id[security_definition_request_create_flex_message_at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
-  wire[at] = security_definition_request_create_flex_message_record.security_type_security_type_enum; at = at + 1;
+  wire[at] = security_definition_request_create_flex_message_record.security_type; at = at + 1;
   security_definition_request_create_flex_message_at = 0;
   do
   :: security_definition_request_create_flex_message_at < 2 -> wire[at] = security_definition_request_create_flex_message_record.maturity_date[security_definition_request_create_flex_message_at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
@@ -3921,12 +3921,12 @@ inline encode_security_definition_request_create_flex_message(security_definitio
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> wire[at] = security_definition_request_create_flex_message_record.product_i_d_int_32_null[security_definition_request_create_flex_message_at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> wire[at] = security_definition_request_create_flex_message_record.product_i_d_optional[security_definition_request_create_flex_message_at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> wire[at] = security_definition_request_create_flex_message_record.symbol_int_32_null[security_definition_request_create_flex_message_at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> wire[at] = security_definition_request_create_flex_message_record.symbol_optional[security_definition_request_create_flex_message_at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
@@ -3947,10 +3947,10 @@ inline decode_security_definition_request_create_flex_message(security_definitio
   security_definition_request_create_flex_message_record.security_request_type = wire[at]; at = at + 1;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.market_type_i_d_int_32[security_definition_request_create_flex_message_at] = wire[at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.market_type_id[security_definition_request_create_flex_message_at] = wire[at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
-  security_definition_request_create_flex_message_record.security_type_security_type_enum = wire[at]; at = at + 1;
+  security_definition_request_create_flex_message_record.security_type = wire[at]; at = at + 1;
   security_definition_request_create_flex_message_at = 0;
   do
   :: security_definition_request_create_flex_message_at < 2 -> security_definition_request_create_flex_message_record.maturity_date[security_definition_request_create_flex_message_at] = wire[at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
@@ -3958,12 +3958,12 @@ inline decode_security_definition_request_create_flex_message(security_definitio
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.product_i_d_int_32_null[security_definition_request_create_flex_message_at] = wire[at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.product_i_d_optional[security_definition_request_create_flex_message_at] = wire[at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.symbol_int_32_null[security_definition_request_create_flex_message_at] = wire[at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> security_definition_request_create_flex_message_record.symbol_optional[security_definition_request_create_flex_message_at] = wire[at]; at = at + 1; security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
@@ -3984,10 +3984,10 @@ inline equal_security_definition_request_create_flex_message(security_definition
   assert(security_definition_request_create_flex_message_read.security_request_type == security_definition_request_create_flex_message_written.security_request_type);
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> assert(security_definition_request_create_flex_message_read.market_type_i_d_int_32[security_definition_request_create_flex_message_at] == security_definition_request_create_flex_message_written.market_type_i_d_int_32[security_definition_request_create_flex_message_at]); security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> assert(security_definition_request_create_flex_message_read.market_type_id[security_definition_request_create_flex_message_at] == security_definition_request_create_flex_message_written.market_type_id[security_definition_request_create_flex_message_at]); security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
-  assert(security_definition_request_create_flex_message_read.security_type_security_type_enum == security_definition_request_create_flex_message_written.security_type_security_type_enum);
+  assert(security_definition_request_create_flex_message_read.security_type == security_definition_request_create_flex_message_written.security_type);
   security_definition_request_create_flex_message_at = 0;
   do
   :: security_definition_request_create_flex_message_at < 2 -> assert(security_definition_request_create_flex_message_read.maturity_date[security_definition_request_create_flex_message_at] == security_definition_request_create_flex_message_written.maturity_date[security_definition_request_create_flex_message_at]); security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
@@ -3995,12 +3995,12 @@ inline equal_security_definition_request_create_flex_message(security_definition
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> assert(security_definition_request_create_flex_message_read.product_i_d_int_32_null[security_definition_request_create_flex_message_at] == security_definition_request_create_flex_message_written.product_i_d_int_32_null[security_definition_request_create_flex_message_at]); security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> assert(security_definition_request_create_flex_message_read.product_i_d_optional[security_definition_request_create_flex_message_at] == security_definition_request_create_flex_message_written.product_i_d_optional[security_definition_request_create_flex_message_at]); security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
   do
-  :: security_definition_request_create_flex_message_at < 4 -> assert(security_definition_request_create_flex_message_read.symbol_int_32_null[security_definition_request_create_flex_message_at] == security_definition_request_create_flex_message_written.symbol_int_32_null[security_definition_request_create_flex_message_at]); security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
+  :: security_definition_request_create_flex_message_at < 4 -> assert(security_definition_request_create_flex_message_read.symbol_optional[security_definition_request_create_flex_message_at] == security_definition_request_create_flex_message_written.symbol_optional[security_definition_request_create_flex_message_at]); security_definition_request_create_flex_message_at = security_definition_request_create_flex_message_at + 1
   :: else -> break
   od;
   security_definition_request_create_flex_message_at = 0;
@@ -4214,13 +4214,13 @@ typedef ExecutionReportNewMessage {
   byte originator_user_id[20];
   ExecIDOrderExecId exec_i_d_order_exec_id;
   byte cl_ord_id[8];
-  byte symbol_int_32[4];
-  byte ord_type_order_type_enum;
-  byte side_side_enum;
+  byte symbol[4];
+  byte ord_type;
+  byte side;
   OrigOrderId orig_order_id;
   byte leaves_qty[8];
-  byte price_decimal_9_null[8];
-  byte me_acceptance_time_utc_timestamp[8];
+  byte price_optional[8];
+  byte me_acceptance_time[8];
   byte time_priority[8];
   byte order_status;
   byte memo[30]
@@ -4243,11 +4243,11 @@ inline fill_execution_report_new_message(execution_report_new_message_record, ex
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 4 -> execution_report_new_message_record.symbol_int_32[execution_report_new_message_at] = execution_report_new_message_value; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 4 -> execution_report_new_message_record.symbol[execution_report_new_message_at] = execution_report_new_message_value; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
-  execution_report_new_message_record.ord_type_order_type_enum = execution_report_new_message_value;
-  execution_report_new_message_record.side_side_enum = execution_report_new_message_value;
+  execution_report_new_message_record.ord_type = execution_report_new_message_value;
+  execution_report_new_message_record.side = execution_report_new_message_value;
   fill_orig_order_id(execution_report_new_message_record.orig_order_id, execution_report_new_message_value);
   execution_report_new_message_at = 0;
   do
@@ -4256,12 +4256,12 @@ inline fill_execution_report_new_message(execution_report_new_message_record, ex
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.price_decimal_9_null[execution_report_new_message_at] = execution_report_new_message_value; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.price_optional[execution_report_new_message_at] = execution_report_new_message_value; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.me_acceptance_time_utc_timestamp[execution_report_new_message_at] = execution_report_new_message_value; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.me_acceptance_time[execution_report_new_message_at] = execution_report_new_message_value; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
@@ -4293,11 +4293,11 @@ inline ramp_execution_report_new_message(execution_report_new_message_record, ex
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 4 -> execution_report_new_message_record.symbol_int_32[execution_report_new_message_at] = (execution_report_new_message_base + 48 + execution_report_new_message_at + 1) % 256; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 4 -> execution_report_new_message_record.symbol[execution_report_new_message_at] = (execution_report_new_message_base + 48 + execution_report_new_message_at + 1) % 256; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
-  execution_report_new_message_record.ord_type_order_type_enum = (execution_report_new_message_base + 52 + 1) % 256;
-  execution_report_new_message_record.side_side_enum = (execution_report_new_message_base + 53 + 1) % 256;
+  execution_report_new_message_record.ord_type = (execution_report_new_message_base + 52 + 1) % 256;
+  execution_report_new_message_record.side = (execution_report_new_message_base + 53 + 1) % 256;
   ramp_orig_order_id(execution_report_new_message_record.orig_order_id, execution_report_new_message_base + 54);
   execution_report_new_message_at = 0;
   do
@@ -4306,12 +4306,12 @@ inline ramp_execution_report_new_message(execution_report_new_message_record, ex
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.price_decimal_9_null[execution_report_new_message_at] = (execution_report_new_message_base + 78 + execution_report_new_message_at + 1) % 256; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.price_optional[execution_report_new_message_at] = (execution_report_new_message_base + 78 + execution_report_new_message_at + 1) % 256; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.me_acceptance_time_utc_timestamp[execution_report_new_message_at] = (execution_report_new_message_base + 86 + execution_report_new_message_at + 1) % 256; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.me_acceptance_time[execution_report_new_message_at] = (execution_report_new_message_base + 86 + execution_report_new_message_at + 1) % 256; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
@@ -4343,11 +4343,11 @@ inline encode_execution_report_new_message(execution_report_new_message_record) 
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 4 -> wire[at] = execution_report_new_message_record.symbol_int_32[execution_report_new_message_at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 4 -> wire[at] = execution_report_new_message_record.symbol[execution_report_new_message_at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
-  wire[at] = execution_report_new_message_record.ord_type_order_type_enum; at = at + 1;
-  wire[at] = execution_report_new_message_record.side_side_enum; at = at + 1;
+  wire[at] = execution_report_new_message_record.ord_type; at = at + 1;
+  wire[at] = execution_report_new_message_record.side; at = at + 1;
   encode_orig_order_id(execution_report_new_message_record.orig_order_id);
   execution_report_new_message_at = 0;
   do
@@ -4356,12 +4356,12 @@ inline encode_execution_report_new_message(execution_report_new_message_record) 
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> wire[at] = execution_report_new_message_record.price_decimal_9_null[execution_report_new_message_at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> wire[at] = execution_report_new_message_record.price_optional[execution_report_new_message_at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> wire[at] = execution_report_new_message_record.me_acceptance_time_utc_timestamp[execution_report_new_message_at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> wire[at] = execution_report_new_message_record.me_acceptance_time[execution_report_new_message_at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
@@ -4393,11 +4393,11 @@ inline decode_execution_report_new_message(execution_report_new_message_record) 
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 4 -> execution_report_new_message_record.symbol_int_32[execution_report_new_message_at] = wire[at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 4 -> execution_report_new_message_record.symbol[execution_report_new_message_at] = wire[at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
-  execution_report_new_message_record.ord_type_order_type_enum = wire[at]; at = at + 1;
-  execution_report_new_message_record.side_side_enum = wire[at]; at = at + 1;
+  execution_report_new_message_record.ord_type = wire[at]; at = at + 1;
+  execution_report_new_message_record.side = wire[at]; at = at + 1;
   decode_orig_order_id(execution_report_new_message_record.orig_order_id);
   execution_report_new_message_at = 0;
   do
@@ -4406,12 +4406,12 @@ inline decode_execution_report_new_message(execution_report_new_message_record) 
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.price_decimal_9_null[execution_report_new_message_at] = wire[at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.price_optional[execution_report_new_message_at] = wire[at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.me_acceptance_time_utc_timestamp[execution_report_new_message_at] = wire[at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> execution_report_new_message_record.me_acceptance_time[execution_report_new_message_at] = wire[at]; at = at + 1; execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
@@ -4443,11 +4443,11 @@ inline equal_execution_report_new_message(execution_report_new_message_read, exe
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 4 -> assert(execution_report_new_message_read.symbol_int_32[execution_report_new_message_at] == execution_report_new_message_written.symbol_int_32[execution_report_new_message_at]); execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 4 -> assert(execution_report_new_message_read.symbol[execution_report_new_message_at] == execution_report_new_message_written.symbol[execution_report_new_message_at]); execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
-  assert(execution_report_new_message_read.ord_type_order_type_enum == execution_report_new_message_written.ord_type_order_type_enum);
-  assert(execution_report_new_message_read.side_side_enum == execution_report_new_message_written.side_side_enum);
+  assert(execution_report_new_message_read.ord_type == execution_report_new_message_written.ord_type);
+  assert(execution_report_new_message_read.side == execution_report_new_message_written.side);
   equal_orig_order_id(execution_report_new_message_read.orig_order_id, execution_report_new_message_written.orig_order_id);
   execution_report_new_message_at = 0;
   do
@@ -4456,12 +4456,12 @@ inline equal_execution_report_new_message(execution_report_new_message_read, exe
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> assert(execution_report_new_message_read.price_decimal_9_null[execution_report_new_message_at] == execution_report_new_message_written.price_decimal_9_null[execution_report_new_message_at]); execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> assert(execution_report_new_message_read.price_optional[execution_report_new_message_at] == execution_report_new_message_written.price_optional[execution_report_new_message_at]); execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
   do
-  :: execution_report_new_message_at < 8 -> assert(execution_report_new_message_read.me_acceptance_time_utc_timestamp[execution_report_new_message_at] == execution_report_new_message_written.me_acceptance_time_utc_timestamp[execution_report_new_message_at]); execution_report_new_message_at = execution_report_new_message_at + 1
+  :: execution_report_new_message_at < 8 -> assert(execution_report_new_message_read.me_acceptance_time[execution_report_new_message_at] == execution_report_new_message_written.me_acceptance_time[execution_report_new_message_at]); execution_report_new_message_at = execution_report_new_message_at + 1
   :: else -> break
   od;
   execution_report_new_message_at = 0;
@@ -4485,15 +4485,15 @@ typedef ExecutionReportCancelMessage {
   byte originator_user_id[20];
   ExecIDOrderExecId exec_i_d_order_exec_id;
   byte cl_ord_id[8];
-  byte symbol_int_32[4];
-  byte ord_type_order_type_enum;
-  byte side_side_enum;
+  byte symbol[4];
+  byte ord_type;
+  byte side;
   OrigOrderId orig_order_id;
-  byte orig_cl_ord_i_d_int_64_null[8];
-  byte me_acceptance_time_utc_timestamp[8];
+  byte orig_cl_ord_i_d_optional[8];
+  byte me_acceptance_time[8];
   byte exchange_code[4];
   byte cancel_reason;
-  byte cross_i_d_int_64_null[8];
+  byte cross_i_d_optional[8];
   byte text[100]
 };
 
@@ -4514,20 +4514,20 @@ inline fill_execution_report_cancel_message(execution_report_cancel_message_reco
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 4 -> execution_report_cancel_message_record.symbol_int_32[execution_report_cancel_message_at] = execution_report_cancel_message_value; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 4 -> execution_report_cancel_message_record.symbol[execution_report_cancel_message_at] = execution_report_cancel_message_value; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
-  execution_report_cancel_message_record.ord_type_order_type_enum = execution_report_cancel_message_value;
-  execution_report_cancel_message_record.side_side_enum = execution_report_cancel_message_value;
+  execution_report_cancel_message_record.ord_type = execution_report_cancel_message_value;
+  execution_report_cancel_message_record.side = execution_report_cancel_message_value;
   fill_orig_order_id(execution_report_cancel_message_record.orig_order_id, execution_report_cancel_message_value);
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.orig_cl_ord_i_d_int_64_null[execution_report_cancel_message_at] = execution_report_cancel_message_value; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.orig_cl_ord_i_d_optional[execution_report_cancel_message_at] = execution_report_cancel_message_value; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.me_acceptance_time_utc_timestamp[execution_report_cancel_message_at] = execution_report_cancel_message_value; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.me_acceptance_time[execution_report_cancel_message_at] = execution_report_cancel_message_value; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4538,7 +4538,7 @@ inline fill_execution_report_cancel_message(execution_report_cancel_message_reco
   execution_report_cancel_message_record.cancel_reason = execution_report_cancel_message_value;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.cross_i_d_int_64_null[execution_report_cancel_message_at] = execution_report_cancel_message_value; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.cross_i_d_optional[execution_report_cancel_message_at] = execution_report_cancel_message_value; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4564,20 +4564,20 @@ inline ramp_execution_report_cancel_message(execution_report_cancel_message_reco
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 4 -> execution_report_cancel_message_record.symbol_int_32[execution_report_cancel_message_at] = (execution_report_cancel_message_base + 48 + execution_report_cancel_message_at + 1) % 256; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 4 -> execution_report_cancel_message_record.symbol[execution_report_cancel_message_at] = (execution_report_cancel_message_base + 48 + execution_report_cancel_message_at + 1) % 256; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
-  execution_report_cancel_message_record.ord_type_order_type_enum = (execution_report_cancel_message_base + 52 + 1) % 256;
-  execution_report_cancel_message_record.side_side_enum = (execution_report_cancel_message_base + 53 + 1) % 256;
+  execution_report_cancel_message_record.ord_type = (execution_report_cancel_message_base + 52 + 1) % 256;
+  execution_report_cancel_message_record.side = (execution_report_cancel_message_base + 53 + 1) % 256;
   ramp_orig_order_id(execution_report_cancel_message_record.orig_order_id, execution_report_cancel_message_base + 54);
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.orig_cl_ord_i_d_int_64_null[execution_report_cancel_message_at] = (execution_report_cancel_message_base + 70 + execution_report_cancel_message_at + 1) % 256; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.orig_cl_ord_i_d_optional[execution_report_cancel_message_at] = (execution_report_cancel_message_base + 70 + execution_report_cancel_message_at + 1) % 256; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.me_acceptance_time_utc_timestamp[execution_report_cancel_message_at] = (execution_report_cancel_message_base + 78 + execution_report_cancel_message_at + 1) % 256; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.me_acceptance_time[execution_report_cancel_message_at] = (execution_report_cancel_message_base + 78 + execution_report_cancel_message_at + 1) % 256; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4588,7 +4588,7 @@ inline ramp_execution_report_cancel_message(execution_report_cancel_message_reco
   execution_report_cancel_message_record.cancel_reason = (execution_report_cancel_message_base + 90 + 1) % 256;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.cross_i_d_int_64_null[execution_report_cancel_message_at] = (execution_report_cancel_message_base + 91 + execution_report_cancel_message_at + 1) % 256; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.cross_i_d_optional[execution_report_cancel_message_at] = (execution_report_cancel_message_base + 91 + execution_report_cancel_message_at + 1) % 256; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4614,20 +4614,20 @@ inline encode_execution_report_cancel_message(execution_report_cancel_message_re
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 4 -> wire[at] = execution_report_cancel_message_record.symbol_int_32[execution_report_cancel_message_at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 4 -> wire[at] = execution_report_cancel_message_record.symbol[execution_report_cancel_message_at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
-  wire[at] = execution_report_cancel_message_record.ord_type_order_type_enum; at = at + 1;
-  wire[at] = execution_report_cancel_message_record.side_side_enum; at = at + 1;
+  wire[at] = execution_report_cancel_message_record.ord_type; at = at + 1;
+  wire[at] = execution_report_cancel_message_record.side; at = at + 1;
   encode_orig_order_id(execution_report_cancel_message_record.orig_order_id);
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> wire[at] = execution_report_cancel_message_record.orig_cl_ord_i_d_int_64_null[execution_report_cancel_message_at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> wire[at] = execution_report_cancel_message_record.orig_cl_ord_i_d_optional[execution_report_cancel_message_at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> wire[at] = execution_report_cancel_message_record.me_acceptance_time_utc_timestamp[execution_report_cancel_message_at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> wire[at] = execution_report_cancel_message_record.me_acceptance_time[execution_report_cancel_message_at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4638,7 +4638,7 @@ inline encode_execution_report_cancel_message(execution_report_cancel_message_re
   wire[at] = execution_report_cancel_message_record.cancel_reason; at = at + 1;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> wire[at] = execution_report_cancel_message_record.cross_i_d_int_64_null[execution_report_cancel_message_at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> wire[at] = execution_report_cancel_message_record.cross_i_d_optional[execution_report_cancel_message_at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4664,20 +4664,20 @@ inline decode_execution_report_cancel_message(execution_report_cancel_message_re
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 4 -> execution_report_cancel_message_record.symbol_int_32[execution_report_cancel_message_at] = wire[at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 4 -> execution_report_cancel_message_record.symbol[execution_report_cancel_message_at] = wire[at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
-  execution_report_cancel_message_record.ord_type_order_type_enum = wire[at]; at = at + 1;
-  execution_report_cancel_message_record.side_side_enum = wire[at]; at = at + 1;
+  execution_report_cancel_message_record.ord_type = wire[at]; at = at + 1;
+  execution_report_cancel_message_record.side = wire[at]; at = at + 1;
   decode_orig_order_id(execution_report_cancel_message_record.orig_order_id);
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.orig_cl_ord_i_d_int_64_null[execution_report_cancel_message_at] = wire[at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.orig_cl_ord_i_d_optional[execution_report_cancel_message_at] = wire[at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.me_acceptance_time_utc_timestamp[execution_report_cancel_message_at] = wire[at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.me_acceptance_time[execution_report_cancel_message_at] = wire[at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4688,7 +4688,7 @@ inline decode_execution_report_cancel_message(execution_report_cancel_message_re
   execution_report_cancel_message_record.cancel_reason = wire[at]; at = at + 1;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.cross_i_d_int_64_null[execution_report_cancel_message_at] = wire[at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> execution_report_cancel_message_record.cross_i_d_optional[execution_report_cancel_message_at] = wire[at]; at = at + 1; execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4714,20 +4714,20 @@ inline equal_execution_report_cancel_message(execution_report_cancel_message_rea
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 4 -> assert(execution_report_cancel_message_read.symbol_int_32[execution_report_cancel_message_at] == execution_report_cancel_message_written.symbol_int_32[execution_report_cancel_message_at]); execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 4 -> assert(execution_report_cancel_message_read.symbol[execution_report_cancel_message_at] == execution_report_cancel_message_written.symbol[execution_report_cancel_message_at]); execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
-  assert(execution_report_cancel_message_read.ord_type_order_type_enum == execution_report_cancel_message_written.ord_type_order_type_enum);
-  assert(execution_report_cancel_message_read.side_side_enum == execution_report_cancel_message_written.side_side_enum);
+  assert(execution_report_cancel_message_read.ord_type == execution_report_cancel_message_written.ord_type);
+  assert(execution_report_cancel_message_read.side == execution_report_cancel_message_written.side);
   equal_orig_order_id(execution_report_cancel_message_read.orig_order_id, execution_report_cancel_message_written.orig_order_id);
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> assert(execution_report_cancel_message_read.orig_cl_ord_i_d_int_64_null[execution_report_cancel_message_at] == execution_report_cancel_message_written.orig_cl_ord_i_d_int_64_null[execution_report_cancel_message_at]); execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> assert(execution_report_cancel_message_read.orig_cl_ord_i_d_optional[execution_report_cancel_message_at] == execution_report_cancel_message_written.orig_cl_ord_i_d_optional[execution_report_cancel_message_at]); execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> assert(execution_report_cancel_message_read.me_acceptance_time_utc_timestamp[execution_report_cancel_message_at] == execution_report_cancel_message_written.me_acceptance_time_utc_timestamp[execution_report_cancel_message_at]); execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> assert(execution_report_cancel_message_read.me_acceptance_time[execution_report_cancel_message_at] == execution_report_cancel_message_written.me_acceptance_time[execution_report_cancel_message_at]); execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4738,7 +4738,7 @@ inline equal_execution_report_cancel_message(execution_report_cancel_message_rea
   assert(execution_report_cancel_message_read.cancel_reason == execution_report_cancel_message_written.cancel_reason);
   execution_report_cancel_message_at = 0;
   do
-  :: execution_report_cancel_message_at < 8 -> assert(execution_report_cancel_message_read.cross_i_d_int_64_null[execution_report_cancel_message_at] == execution_report_cancel_message_written.cross_i_d_int_64_null[execution_report_cancel_message_at]); execution_report_cancel_message_at = execution_report_cancel_message_at + 1
+  :: execution_report_cancel_message_at < 8 -> assert(execution_report_cancel_message_read.cross_i_d_optional[execution_report_cancel_message_at] == execution_report_cancel_message_written.cross_i_d_optional[execution_report_cancel_message_at]); execution_report_cancel_message_at = execution_report_cancel_message_at + 1
   :: else -> break
   od;
   execution_report_cancel_message_at = 0;
@@ -4756,11 +4756,11 @@ typedef ExecutionReportRejectMessage {
   byte originator_user_id[20];
   ExecIDOrderExecId exec_i_d_order_exec_id;
   byte cl_ord_id[8];
-  byte symbol_int_32[4];
-  byte ord_type_order_type_enum_null;
-  byte side_side_enum;
+  byte symbol[4];
+  byte ord_type_optional;
+  byte side;
   OrigOrderId orig_order_id;
-  byte orig_cl_ord_i_d_int_64_null[8];
+  byte orig_cl_ord_i_d_optional[8];
   byte order_status;
   byte reject_response_to;
   byte reject_reason;
@@ -4786,15 +4786,15 @@ inline fill_execution_report_reject_message(execution_report_reject_message_reco
   od;
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 4 -> execution_report_reject_message_record.symbol_int_32[execution_report_reject_message_at] = execution_report_reject_message_value; execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 4 -> execution_report_reject_message_record.symbol[execution_report_reject_message_at] = execution_report_reject_message_value; execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
-  execution_report_reject_message_record.ord_type_order_type_enum_null = execution_report_reject_message_value;
-  execution_report_reject_message_record.side_side_enum = execution_report_reject_message_value;
+  execution_report_reject_message_record.ord_type_optional = execution_report_reject_message_value;
+  execution_report_reject_message_record.side = execution_report_reject_message_value;
   fill_orig_order_id(execution_report_reject_message_record.orig_order_id, execution_report_reject_message_value);
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 8 -> execution_report_reject_message_record.orig_cl_ord_i_d_int_64_null[execution_report_reject_message_at] = execution_report_reject_message_value; execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 8 -> execution_report_reject_message_record.orig_cl_ord_i_d_optional[execution_report_reject_message_at] = execution_report_reject_message_value; execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
   execution_report_reject_message_record.order_status = execution_report_reject_message_value;
@@ -4833,15 +4833,15 @@ inline ramp_execution_report_reject_message(execution_report_reject_message_reco
   od;
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 4 -> execution_report_reject_message_record.symbol_int_32[execution_report_reject_message_at] = (execution_report_reject_message_base + 48 + execution_report_reject_message_at + 1) % 256; execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 4 -> execution_report_reject_message_record.symbol[execution_report_reject_message_at] = (execution_report_reject_message_base + 48 + execution_report_reject_message_at + 1) % 256; execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
-  execution_report_reject_message_record.ord_type_order_type_enum_null = (execution_report_reject_message_base + 52 + 1) % 256;
-  execution_report_reject_message_record.side_side_enum = (execution_report_reject_message_base + 53 + 1) % 256;
+  execution_report_reject_message_record.ord_type_optional = (execution_report_reject_message_base + 52 + 1) % 256;
+  execution_report_reject_message_record.side = (execution_report_reject_message_base + 53 + 1) % 256;
   ramp_orig_order_id(execution_report_reject_message_record.orig_order_id, execution_report_reject_message_base + 54);
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 8 -> execution_report_reject_message_record.orig_cl_ord_i_d_int_64_null[execution_report_reject_message_at] = (execution_report_reject_message_base + 70 + execution_report_reject_message_at + 1) % 256; execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 8 -> execution_report_reject_message_record.orig_cl_ord_i_d_optional[execution_report_reject_message_at] = (execution_report_reject_message_base + 70 + execution_report_reject_message_at + 1) % 256; execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
   execution_report_reject_message_record.order_status = (execution_report_reject_message_base + 78 + 1) % 256;
@@ -4880,15 +4880,15 @@ inline encode_execution_report_reject_message(execution_report_reject_message_re
   od;
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 4 -> wire[at] = execution_report_reject_message_record.symbol_int_32[execution_report_reject_message_at]; at = at + 1; execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 4 -> wire[at] = execution_report_reject_message_record.symbol[execution_report_reject_message_at]; at = at + 1; execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
-  wire[at] = execution_report_reject_message_record.ord_type_order_type_enum_null; at = at + 1;
-  wire[at] = execution_report_reject_message_record.side_side_enum; at = at + 1;
+  wire[at] = execution_report_reject_message_record.ord_type_optional; at = at + 1;
+  wire[at] = execution_report_reject_message_record.side; at = at + 1;
   encode_orig_order_id(execution_report_reject_message_record.orig_order_id);
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 8 -> wire[at] = execution_report_reject_message_record.orig_cl_ord_i_d_int_64_null[execution_report_reject_message_at]; at = at + 1; execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 8 -> wire[at] = execution_report_reject_message_record.orig_cl_ord_i_d_optional[execution_report_reject_message_at]; at = at + 1; execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
   wire[at] = execution_report_reject_message_record.order_status; at = at + 1;
@@ -4927,15 +4927,15 @@ inline decode_execution_report_reject_message(execution_report_reject_message_re
   od;
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 4 -> execution_report_reject_message_record.symbol_int_32[execution_report_reject_message_at] = wire[at]; at = at + 1; execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 4 -> execution_report_reject_message_record.symbol[execution_report_reject_message_at] = wire[at]; at = at + 1; execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
-  execution_report_reject_message_record.ord_type_order_type_enum_null = wire[at]; at = at + 1;
-  execution_report_reject_message_record.side_side_enum = wire[at]; at = at + 1;
+  execution_report_reject_message_record.ord_type_optional = wire[at]; at = at + 1;
+  execution_report_reject_message_record.side = wire[at]; at = at + 1;
   decode_orig_order_id(execution_report_reject_message_record.orig_order_id);
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 8 -> execution_report_reject_message_record.orig_cl_ord_i_d_int_64_null[execution_report_reject_message_at] = wire[at]; at = at + 1; execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 8 -> execution_report_reject_message_record.orig_cl_ord_i_d_optional[execution_report_reject_message_at] = wire[at]; at = at + 1; execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
   execution_report_reject_message_record.order_status = wire[at]; at = at + 1;
@@ -4974,15 +4974,15 @@ inline equal_execution_report_reject_message(execution_report_reject_message_rea
   od;
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 4 -> assert(execution_report_reject_message_read.symbol_int_32[execution_report_reject_message_at] == execution_report_reject_message_written.symbol_int_32[execution_report_reject_message_at]); execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 4 -> assert(execution_report_reject_message_read.symbol[execution_report_reject_message_at] == execution_report_reject_message_written.symbol[execution_report_reject_message_at]); execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
-  assert(execution_report_reject_message_read.ord_type_order_type_enum_null == execution_report_reject_message_written.ord_type_order_type_enum_null);
-  assert(execution_report_reject_message_read.side_side_enum == execution_report_reject_message_written.side_side_enum);
+  assert(execution_report_reject_message_read.ord_type_optional == execution_report_reject_message_written.ord_type_optional);
+  assert(execution_report_reject_message_read.side == execution_report_reject_message_written.side);
   equal_orig_order_id(execution_report_reject_message_read.orig_order_id, execution_report_reject_message_written.orig_order_id);
   execution_report_reject_message_at = 0;
   do
-  :: execution_report_reject_message_at < 8 -> assert(execution_report_reject_message_read.orig_cl_ord_i_d_int_64_null[execution_report_reject_message_at] == execution_report_reject_message_written.orig_cl_ord_i_d_int_64_null[execution_report_reject_message_at]); execution_report_reject_message_at = execution_report_reject_message_at + 1
+  :: execution_report_reject_message_at < 8 -> assert(execution_report_reject_message_read.orig_cl_ord_i_d_optional[execution_report_reject_message_at] == execution_report_reject_message_written.orig_cl_ord_i_d_optional[execution_report_reject_message_at]); execution_report_reject_message_at = execution_report_reject_message_at + 1
   :: else -> break
   od;
   assert(execution_report_reject_message_read.order_status == execution_report_reject_message_written.order_status);
@@ -5013,22 +5013,22 @@ typedef ExecutionReportSnapshotMessage {
   byte originator_user_id[20];
   ExecIDOrderExecId exec_i_d_order_exec_id;
   byte cl_ord_id[8];
-  byte symbol_int_32[4];
-  byte ord_type_order_type_enum;
-  byte side_side_enum;
+  byte symbol[4];
+  byte ord_type;
+  byte side;
   OrigOrderId orig_order_id;
   byte max_show[8];
   byte leaves_qty[8];
   byte cum_qty[8];
-  byte price_decimal_9_null[8];
+  byte price_optional[8];
   byte stop_px[8];
   byte expire_date[2];
   byte time_priority[8];
-  byte time_in_force_time_in_force_enum;
+  byte time_in_force;
   byte order_status;
   byte order_state;
   byte give_up_clearing_firm[4];
-  byte clearing_firm_int_32_null[4];
+  byte clearing_firm_optional[4];
   byte direct_electronic_access;
   byte trading_capacity;
   byte liquidity_provision;
@@ -5044,13 +5044,13 @@ typedef ExecutionReportSnapshotMessage {
   byte cust_order_handling_inst;
   byte position_effect;
   byte alloc_handl_inst;
-  byte clearing_account_string_14_null[14];
+  byte clearing_account_optional[14];
   byte customer_account_ref_id[12];
   byte memo[30];
   byte allocation_account[20];
   byte on_behalf_of_comp_id[41];
-  byte on_behalf_of_sub_i_d_string_41_null[41];
-  byte on_behalf_of_location_i_d_string_41_null[41]
+  byte on_behalf_of_sub_i_d_optional[41];
+  byte on_behalf_of_location_i_d_optional[41]
 };
 
 int execution_report_snapshot_message_at;
@@ -5070,11 +5070,11 @@ inline fill_execution_report_snapshot_message(execution_report_snapshot_message_
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.symbol_int_32[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.symbol[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  execution_report_snapshot_message_record.ord_type_order_type_enum = execution_report_snapshot_message_value;
-  execution_report_snapshot_message_record.side_side_enum = execution_report_snapshot_message_value;
+  execution_report_snapshot_message_record.ord_type = execution_report_snapshot_message_value;
+  execution_report_snapshot_message_record.side = execution_report_snapshot_message_value;
   fill_orig_order_id(execution_report_snapshot_message_record.orig_order_id, execution_report_snapshot_message_value);
   execution_report_snapshot_message_at = 0;
   do
@@ -5093,7 +5093,7 @@ inline fill_execution_report_snapshot_message(execution_report_snapshot_message_
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.price_decimal_9_null[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.price_optional[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5111,7 +5111,7 @@ inline fill_execution_report_snapshot_message(execution_report_snapshot_message_
   :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.time_priority[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  execution_report_snapshot_message_record.time_in_force_time_in_force_enum = execution_report_snapshot_message_value;
+  execution_report_snapshot_message_record.time_in_force = execution_report_snapshot_message_value;
   execution_report_snapshot_message_record.order_status = execution_report_snapshot_message_value;
   execution_report_snapshot_message_record.order_state = execution_report_snapshot_message_value;
   execution_report_snapshot_message_at = 0;
@@ -5121,7 +5121,7 @@ inline fill_execution_report_snapshot_message(execution_report_snapshot_message_
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.clearing_firm_int_32_null[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.clearing_firm_optional[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_record.direct_electronic_access = execution_report_snapshot_message_value;
@@ -5161,7 +5161,7 @@ inline fill_execution_report_snapshot_message(execution_report_snapshot_message_
   execution_report_snapshot_message_record.alloc_handl_inst = execution_report_snapshot_message_value;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 14 -> execution_report_snapshot_message_record.clearing_account_string_14_null[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 14 -> execution_report_snapshot_message_record.clearing_account_optional[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5186,12 +5186,12 @@ inline fill_execution_report_snapshot_message(execution_report_snapshot_message_
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_sub_i_d_string_41_null[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_sub_i_d_optional[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_location_i_d_string_41_null[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_location_i_d_optional[execution_report_snapshot_message_at] = execution_report_snapshot_message_value; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   skip
@@ -5212,11 +5212,11 @@ inline ramp_execution_report_snapshot_message(execution_report_snapshot_message_
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.symbol_int_32[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 48 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.symbol[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 48 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  execution_report_snapshot_message_record.ord_type_order_type_enum = (execution_report_snapshot_message_base + 52 + 1) % 256;
-  execution_report_snapshot_message_record.side_side_enum = (execution_report_snapshot_message_base + 53 + 1) % 256;
+  execution_report_snapshot_message_record.ord_type = (execution_report_snapshot_message_base + 52 + 1) % 256;
+  execution_report_snapshot_message_record.side = (execution_report_snapshot_message_base + 53 + 1) % 256;
   ramp_orig_order_id(execution_report_snapshot_message_record.orig_order_id, execution_report_snapshot_message_base + 54);
   execution_report_snapshot_message_at = 0;
   do
@@ -5235,7 +5235,7 @@ inline ramp_execution_report_snapshot_message(execution_report_snapshot_message_
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.price_decimal_9_null[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 94 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.price_optional[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 94 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5253,7 +5253,7 @@ inline ramp_execution_report_snapshot_message(execution_report_snapshot_message_
   :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.time_priority[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 112 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  execution_report_snapshot_message_record.time_in_force_time_in_force_enum = (execution_report_snapshot_message_base + 120 + 1) % 256;
+  execution_report_snapshot_message_record.time_in_force = (execution_report_snapshot_message_base + 120 + 1) % 256;
   execution_report_snapshot_message_record.order_status = (execution_report_snapshot_message_base + 121 + 1) % 256;
   execution_report_snapshot_message_record.order_state = (execution_report_snapshot_message_base + 122 + 1) % 256;
   execution_report_snapshot_message_at = 0;
@@ -5263,7 +5263,7 @@ inline ramp_execution_report_snapshot_message(execution_report_snapshot_message_
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.clearing_firm_int_32_null[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 127 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.clearing_firm_optional[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 127 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_record.direct_electronic_access = (execution_report_snapshot_message_base + 131 + 1) % 256;
@@ -5303,7 +5303,7 @@ inline ramp_execution_report_snapshot_message(execution_report_snapshot_message_
   execution_report_snapshot_message_record.alloc_handl_inst = (execution_report_snapshot_message_base + 180 + 1) % 256;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 14 -> execution_report_snapshot_message_record.clearing_account_string_14_null[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 181 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 14 -> execution_report_snapshot_message_record.clearing_account_optional[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 181 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5328,12 +5328,12 @@ inline ramp_execution_report_snapshot_message(execution_report_snapshot_message_
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_sub_i_d_string_41_null[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 298 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_sub_i_d_optional[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 298 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_location_i_d_string_41_null[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 339 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_location_i_d_optional[execution_report_snapshot_message_at] = (execution_report_snapshot_message_base + 339 + execution_report_snapshot_message_at + 1) % 256; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   skip
@@ -5354,11 +5354,11 @@ inline encode_execution_report_snapshot_message(execution_report_snapshot_messag
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> wire[at] = execution_report_snapshot_message_record.symbol_int_32[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> wire[at] = execution_report_snapshot_message_record.symbol[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  wire[at] = execution_report_snapshot_message_record.ord_type_order_type_enum; at = at + 1;
-  wire[at] = execution_report_snapshot_message_record.side_side_enum; at = at + 1;
+  wire[at] = execution_report_snapshot_message_record.ord_type; at = at + 1;
+  wire[at] = execution_report_snapshot_message_record.side; at = at + 1;
   encode_orig_order_id(execution_report_snapshot_message_record.orig_order_id);
   execution_report_snapshot_message_at = 0;
   do
@@ -5377,7 +5377,7 @@ inline encode_execution_report_snapshot_message(execution_report_snapshot_messag
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 8 -> wire[at] = execution_report_snapshot_message_record.price_decimal_9_null[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 8 -> wire[at] = execution_report_snapshot_message_record.price_optional[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5395,7 +5395,7 @@ inline encode_execution_report_snapshot_message(execution_report_snapshot_messag
   :: execution_report_snapshot_message_at < 8 -> wire[at] = execution_report_snapshot_message_record.time_priority[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  wire[at] = execution_report_snapshot_message_record.time_in_force_time_in_force_enum; at = at + 1;
+  wire[at] = execution_report_snapshot_message_record.time_in_force; at = at + 1;
   wire[at] = execution_report_snapshot_message_record.order_status; at = at + 1;
   wire[at] = execution_report_snapshot_message_record.order_state; at = at + 1;
   execution_report_snapshot_message_at = 0;
@@ -5405,7 +5405,7 @@ inline encode_execution_report_snapshot_message(execution_report_snapshot_messag
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> wire[at] = execution_report_snapshot_message_record.clearing_firm_int_32_null[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> wire[at] = execution_report_snapshot_message_record.clearing_firm_optional[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   wire[at] = execution_report_snapshot_message_record.direct_electronic_access; at = at + 1;
@@ -5445,7 +5445,7 @@ inline encode_execution_report_snapshot_message(execution_report_snapshot_messag
   wire[at] = execution_report_snapshot_message_record.alloc_handl_inst; at = at + 1;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 14 -> wire[at] = execution_report_snapshot_message_record.clearing_account_string_14_null[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 14 -> wire[at] = execution_report_snapshot_message_record.clearing_account_optional[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5470,12 +5470,12 @@ inline encode_execution_report_snapshot_message(execution_report_snapshot_messag
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> wire[at] = execution_report_snapshot_message_record.on_behalf_of_sub_i_d_string_41_null[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> wire[at] = execution_report_snapshot_message_record.on_behalf_of_sub_i_d_optional[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> wire[at] = execution_report_snapshot_message_record.on_behalf_of_location_i_d_string_41_null[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> wire[at] = execution_report_snapshot_message_record.on_behalf_of_location_i_d_optional[execution_report_snapshot_message_at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   skip
@@ -5496,11 +5496,11 @@ inline decode_execution_report_snapshot_message(execution_report_snapshot_messag
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.symbol_int_32[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.symbol[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  execution_report_snapshot_message_record.ord_type_order_type_enum = wire[at]; at = at + 1;
-  execution_report_snapshot_message_record.side_side_enum = wire[at]; at = at + 1;
+  execution_report_snapshot_message_record.ord_type = wire[at]; at = at + 1;
+  execution_report_snapshot_message_record.side = wire[at]; at = at + 1;
   decode_orig_order_id(execution_report_snapshot_message_record.orig_order_id);
   execution_report_snapshot_message_at = 0;
   do
@@ -5519,7 +5519,7 @@ inline decode_execution_report_snapshot_message(execution_report_snapshot_messag
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.price_decimal_9_null[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.price_optional[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5537,7 +5537,7 @@ inline decode_execution_report_snapshot_message(execution_report_snapshot_messag
   :: execution_report_snapshot_message_at < 8 -> execution_report_snapshot_message_record.time_priority[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  execution_report_snapshot_message_record.time_in_force_time_in_force_enum = wire[at]; at = at + 1;
+  execution_report_snapshot_message_record.time_in_force = wire[at]; at = at + 1;
   execution_report_snapshot_message_record.order_status = wire[at]; at = at + 1;
   execution_report_snapshot_message_record.order_state = wire[at]; at = at + 1;
   execution_report_snapshot_message_at = 0;
@@ -5547,7 +5547,7 @@ inline decode_execution_report_snapshot_message(execution_report_snapshot_messag
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.clearing_firm_int_32_null[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> execution_report_snapshot_message_record.clearing_firm_optional[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_record.direct_electronic_access = wire[at]; at = at + 1;
@@ -5587,7 +5587,7 @@ inline decode_execution_report_snapshot_message(execution_report_snapshot_messag
   execution_report_snapshot_message_record.alloc_handl_inst = wire[at]; at = at + 1;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 14 -> execution_report_snapshot_message_record.clearing_account_string_14_null[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 14 -> execution_report_snapshot_message_record.clearing_account_optional[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5612,12 +5612,12 @@ inline decode_execution_report_snapshot_message(execution_report_snapshot_messag
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_sub_i_d_string_41_null[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_sub_i_d_optional[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_location_i_d_string_41_null[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> execution_report_snapshot_message_record.on_behalf_of_location_i_d_optional[execution_report_snapshot_message_at] = wire[at]; at = at + 1; execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   skip
@@ -5638,11 +5638,11 @@ inline equal_execution_report_snapshot_message(execution_report_snapshot_message
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> assert(execution_report_snapshot_message_read.symbol_int_32[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.symbol_int_32[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> assert(execution_report_snapshot_message_read.symbol[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.symbol[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  assert(execution_report_snapshot_message_read.ord_type_order_type_enum == execution_report_snapshot_message_written.ord_type_order_type_enum);
-  assert(execution_report_snapshot_message_read.side_side_enum == execution_report_snapshot_message_written.side_side_enum);
+  assert(execution_report_snapshot_message_read.ord_type == execution_report_snapshot_message_written.ord_type);
+  assert(execution_report_snapshot_message_read.side == execution_report_snapshot_message_written.side);
   equal_orig_order_id(execution_report_snapshot_message_read.orig_order_id, execution_report_snapshot_message_written.orig_order_id);
   execution_report_snapshot_message_at = 0;
   do
@@ -5661,7 +5661,7 @@ inline equal_execution_report_snapshot_message(execution_report_snapshot_message
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 8 -> assert(execution_report_snapshot_message_read.price_decimal_9_null[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.price_decimal_9_null[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 8 -> assert(execution_report_snapshot_message_read.price_optional[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.price_optional[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5679,7 +5679,7 @@ inline equal_execution_report_snapshot_message(execution_report_snapshot_message
   :: execution_report_snapshot_message_at < 8 -> assert(execution_report_snapshot_message_read.time_priority[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.time_priority[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
-  assert(execution_report_snapshot_message_read.time_in_force_time_in_force_enum == execution_report_snapshot_message_written.time_in_force_time_in_force_enum);
+  assert(execution_report_snapshot_message_read.time_in_force == execution_report_snapshot_message_written.time_in_force);
   assert(execution_report_snapshot_message_read.order_status == execution_report_snapshot_message_written.order_status);
   assert(execution_report_snapshot_message_read.order_state == execution_report_snapshot_message_written.order_state);
   execution_report_snapshot_message_at = 0;
@@ -5689,7 +5689,7 @@ inline equal_execution_report_snapshot_message(execution_report_snapshot_message
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 4 -> assert(execution_report_snapshot_message_read.clearing_firm_int_32_null[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.clearing_firm_int_32_null[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 4 -> assert(execution_report_snapshot_message_read.clearing_firm_optional[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.clearing_firm_optional[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   assert(execution_report_snapshot_message_read.direct_electronic_access == execution_report_snapshot_message_written.direct_electronic_access);
@@ -5729,7 +5729,7 @@ inline equal_execution_report_snapshot_message(execution_report_snapshot_message
   assert(execution_report_snapshot_message_read.alloc_handl_inst == execution_report_snapshot_message_written.alloc_handl_inst);
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 14 -> assert(execution_report_snapshot_message_read.clearing_account_string_14_null[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.clearing_account_string_14_null[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 14 -> assert(execution_report_snapshot_message_read.clearing_account_optional[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.clearing_account_optional[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
@@ -5754,12 +5754,12 @@ inline equal_execution_report_snapshot_message(execution_report_snapshot_message
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> assert(execution_report_snapshot_message_read.on_behalf_of_sub_i_d_string_41_null[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.on_behalf_of_sub_i_d_string_41_null[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> assert(execution_report_snapshot_message_read.on_behalf_of_sub_i_d_optional[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.on_behalf_of_sub_i_d_optional[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   execution_report_snapshot_message_at = 0;
   do
-  :: execution_report_snapshot_message_at < 41 -> assert(execution_report_snapshot_message_read.on_behalf_of_location_i_d_string_41_null[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.on_behalf_of_location_i_d_string_41_null[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
+  :: execution_report_snapshot_message_at < 41 -> assert(execution_report_snapshot_message_read.on_behalf_of_location_i_d_optional[execution_report_snapshot_message_at] == execution_report_snapshot_message_written.on_behalf_of_location_i_d_optional[execution_report_snapshot_message_at]); execution_report_snapshot_message_at = execution_report_snapshot_message_at + 1
   :: else -> break
   od;
   skip
@@ -5770,12 +5770,12 @@ inline equal_execution_report_snapshot_message(execution_report_snapshot_message
 /* QuoteReportMessage */
 typedef QuoteReportMessage {
   byte originator_user_id[20];
-  byte side_side_enum_null;
-  byte symbol_int_32[4];
+  byte side_optional;
+  byte symbol[4];
   byte rfq_req_id[8];
   byte rfq_system_id[8];
-  byte transact_time_utc_timestamp[8];
-  byte order_qty_decimal_9_null[8];
+  byte transact_time[8];
+  byte order_qty_optional[8];
   byte quote_ack_status[2];
   byte quote_reject_reason
 };
@@ -5789,10 +5789,10 @@ inline fill_quote_report_message(quote_report_message_record, quote_report_messa
   :: quote_report_message_at < 20 -> quote_report_message_record.originator_user_id[quote_report_message_at] = quote_report_message_value; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
-  quote_report_message_record.side_side_enum_null = quote_report_message_value;
+  quote_report_message_record.side_optional = quote_report_message_value;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 4 -> quote_report_message_record.symbol_int_32[quote_report_message_at] = quote_report_message_value; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 4 -> quote_report_message_record.symbol[quote_report_message_at] = quote_report_message_value; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5807,12 +5807,12 @@ inline fill_quote_report_message(quote_report_message_record, quote_report_messa
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> quote_report_message_record.transact_time_utc_timestamp[quote_report_message_at] = quote_report_message_value; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> quote_report_message_record.transact_time[quote_report_message_at] = quote_report_message_value; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> quote_report_message_record.order_qty_decimal_9_null[quote_report_message_at] = quote_report_message_value; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> quote_report_message_record.order_qty_optional[quote_report_message_at] = quote_report_message_value; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5831,10 +5831,10 @@ inline ramp_quote_report_message(quote_report_message_record, quote_report_messa
   :: quote_report_message_at < 20 -> quote_report_message_record.originator_user_id[quote_report_message_at] = (quote_report_message_base + 0 + quote_report_message_at + 1) % 256; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
-  quote_report_message_record.side_side_enum_null = (quote_report_message_base + 20 + 1) % 256;
+  quote_report_message_record.side_optional = (quote_report_message_base + 20 + 1) % 256;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 4 -> quote_report_message_record.symbol_int_32[quote_report_message_at] = (quote_report_message_base + 21 + quote_report_message_at + 1) % 256; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 4 -> quote_report_message_record.symbol[quote_report_message_at] = (quote_report_message_base + 21 + quote_report_message_at + 1) % 256; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5849,12 +5849,12 @@ inline ramp_quote_report_message(quote_report_message_record, quote_report_messa
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> quote_report_message_record.transact_time_utc_timestamp[quote_report_message_at] = (quote_report_message_base + 41 + quote_report_message_at + 1) % 256; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> quote_report_message_record.transact_time[quote_report_message_at] = (quote_report_message_base + 41 + quote_report_message_at + 1) % 256; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> quote_report_message_record.order_qty_decimal_9_null[quote_report_message_at] = (quote_report_message_base + 49 + quote_report_message_at + 1) % 256; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> quote_report_message_record.order_qty_optional[quote_report_message_at] = (quote_report_message_base + 49 + quote_report_message_at + 1) % 256; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5873,10 +5873,10 @@ inline encode_quote_report_message(quote_report_message_record) {
   :: quote_report_message_at < 20 -> wire[at] = quote_report_message_record.originator_user_id[quote_report_message_at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
-  wire[at] = quote_report_message_record.side_side_enum_null; at = at + 1;
+  wire[at] = quote_report_message_record.side_optional; at = at + 1;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 4 -> wire[at] = quote_report_message_record.symbol_int_32[quote_report_message_at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 4 -> wire[at] = quote_report_message_record.symbol[quote_report_message_at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5891,12 +5891,12 @@ inline encode_quote_report_message(quote_report_message_record) {
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> wire[at] = quote_report_message_record.transact_time_utc_timestamp[quote_report_message_at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> wire[at] = quote_report_message_record.transact_time[quote_report_message_at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> wire[at] = quote_report_message_record.order_qty_decimal_9_null[quote_report_message_at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> wire[at] = quote_report_message_record.order_qty_optional[quote_report_message_at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5915,10 +5915,10 @@ inline decode_quote_report_message(quote_report_message_record) {
   :: quote_report_message_at < 20 -> quote_report_message_record.originator_user_id[quote_report_message_at] = wire[at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
-  quote_report_message_record.side_side_enum_null = wire[at]; at = at + 1;
+  quote_report_message_record.side_optional = wire[at]; at = at + 1;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 4 -> quote_report_message_record.symbol_int_32[quote_report_message_at] = wire[at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 4 -> quote_report_message_record.symbol[quote_report_message_at] = wire[at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5933,12 +5933,12 @@ inline decode_quote_report_message(quote_report_message_record) {
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> quote_report_message_record.transact_time_utc_timestamp[quote_report_message_at] = wire[at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> quote_report_message_record.transact_time[quote_report_message_at] = wire[at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> quote_report_message_record.order_qty_decimal_9_null[quote_report_message_at] = wire[at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> quote_report_message_record.order_qty_optional[quote_report_message_at] = wire[at]; at = at + 1; quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5957,10 +5957,10 @@ inline equal_quote_report_message(quote_report_message_read, quote_report_messag
   :: quote_report_message_at < 20 -> assert(quote_report_message_read.originator_user_id[quote_report_message_at] == quote_report_message_written.originator_user_id[quote_report_message_at]); quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
-  assert(quote_report_message_read.side_side_enum_null == quote_report_message_written.side_side_enum_null);
+  assert(quote_report_message_read.side_optional == quote_report_message_written.side_optional);
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 4 -> assert(quote_report_message_read.symbol_int_32[quote_report_message_at] == quote_report_message_written.symbol_int_32[quote_report_message_at]); quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 4 -> assert(quote_report_message_read.symbol[quote_report_message_at] == quote_report_message_written.symbol[quote_report_message_at]); quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5975,12 +5975,12 @@ inline equal_quote_report_message(quote_report_message_read, quote_report_messag
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> assert(quote_report_message_read.transact_time_utc_timestamp[quote_report_message_at] == quote_report_message_written.transact_time_utc_timestamp[quote_report_message_at]); quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> assert(quote_report_message_read.transact_time[quote_report_message_at] == quote_report_message_written.transact_time[quote_report_message_at]); quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
   do
-  :: quote_report_message_at < 8 -> assert(quote_report_message_read.order_qty_decimal_9_null[quote_report_message_at] == quote_report_message_written.order_qty_decimal_9_null[quote_report_message_at]); quote_report_message_at = quote_report_message_at + 1
+  :: quote_report_message_at < 8 -> assert(quote_report_message_read.order_qty_optional[quote_report_message_at] == quote_report_message_written.order_qty_optional[quote_report_message_at]); quote_report_message_at = quote_report_message_at + 1
   :: else -> break
   od;
   quote_report_message_at = 0;
@@ -5997,9 +5997,9 @@ inline equal_quote_report_message(quote_report_message_read, quote_report_messag
 /* NewOrderCrossReportMessage */
 typedef NewOrderCrossReportMessage {
   byte originator_user_id[20];
-  byte symbol_int_32[4];
-  byte cross_i_d_int_64[8];
-  byte transact_time_utc_timestamp[8];
+  byte symbol[4];
+  byte cross_id[8];
+  byte transact_time[8];
   byte rfc_status;
   byte exchange_code[4];
   byte text[100]
@@ -6016,17 +6016,17 @@ inline fill_new_order_cross_report_message(new_order_cross_report_message_record
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 4 -> new_order_cross_report_message_record.symbol_int_32[new_order_cross_report_message_at] = new_order_cross_report_message_value; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 4 -> new_order_cross_report_message_record.symbol[new_order_cross_report_message_at] = new_order_cross_report_message_value; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.cross_i_d_int_64[new_order_cross_report_message_at] = new_order_cross_report_message_value; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.cross_id[new_order_cross_report_message_at] = new_order_cross_report_message_value; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.transact_time_utc_timestamp[new_order_cross_report_message_at] = new_order_cross_report_message_value; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.transact_time[new_order_cross_report_message_at] = new_order_cross_report_message_value; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_record.rfc_status = new_order_cross_report_message_value;
@@ -6052,17 +6052,17 @@ inline ramp_new_order_cross_report_message(new_order_cross_report_message_record
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 4 -> new_order_cross_report_message_record.symbol_int_32[new_order_cross_report_message_at] = (new_order_cross_report_message_base + 20 + new_order_cross_report_message_at + 1) % 256; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 4 -> new_order_cross_report_message_record.symbol[new_order_cross_report_message_at] = (new_order_cross_report_message_base + 20 + new_order_cross_report_message_at + 1) % 256; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.cross_i_d_int_64[new_order_cross_report_message_at] = (new_order_cross_report_message_base + 24 + new_order_cross_report_message_at + 1) % 256; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.cross_id[new_order_cross_report_message_at] = (new_order_cross_report_message_base + 24 + new_order_cross_report_message_at + 1) % 256; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.transact_time_utc_timestamp[new_order_cross_report_message_at] = (new_order_cross_report_message_base + 32 + new_order_cross_report_message_at + 1) % 256; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.transact_time[new_order_cross_report_message_at] = (new_order_cross_report_message_base + 32 + new_order_cross_report_message_at + 1) % 256; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_record.rfc_status = (new_order_cross_report_message_base + 40 + 1) % 256;
@@ -6088,17 +6088,17 @@ inline encode_new_order_cross_report_message(new_order_cross_report_message_reco
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 4 -> wire[at] = new_order_cross_report_message_record.symbol_int_32[new_order_cross_report_message_at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 4 -> wire[at] = new_order_cross_report_message_record.symbol[new_order_cross_report_message_at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> wire[at] = new_order_cross_report_message_record.cross_i_d_int_64[new_order_cross_report_message_at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> wire[at] = new_order_cross_report_message_record.cross_id[new_order_cross_report_message_at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> wire[at] = new_order_cross_report_message_record.transact_time_utc_timestamp[new_order_cross_report_message_at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> wire[at] = new_order_cross_report_message_record.transact_time[new_order_cross_report_message_at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   wire[at] = new_order_cross_report_message_record.rfc_status; at = at + 1;
@@ -6124,17 +6124,17 @@ inline decode_new_order_cross_report_message(new_order_cross_report_message_reco
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 4 -> new_order_cross_report_message_record.symbol_int_32[new_order_cross_report_message_at] = wire[at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 4 -> new_order_cross_report_message_record.symbol[new_order_cross_report_message_at] = wire[at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.cross_i_d_int_64[new_order_cross_report_message_at] = wire[at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.cross_id[new_order_cross_report_message_at] = wire[at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.transact_time_utc_timestamp[new_order_cross_report_message_at] = wire[at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> new_order_cross_report_message_record.transact_time[new_order_cross_report_message_at] = wire[at]; at = at + 1; new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_record.rfc_status = wire[at]; at = at + 1;
@@ -6160,17 +6160,17 @@ inline equal_new_order_cross_report_message(new_order_cross_report_message_read,
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 4 -> assert(new_order_cross_report_message_read.symbol_int_32[new_order_cross_report_message_at] == new_order_cross_report_message_written.symbol_int_32[new_order_cross_report_message_at]); new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 4 -> assert(new_order_cross_report_message_read.symbol[new_order_cross_report_message_at] == new_order_cross_report_message_written.symbol[new_order_cross_report_message_at]); new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> assert(new_order_cross_report_message_read.cross_i_d_int_64[new_order_cross_report_message_at] == new_order_cross_report_message_written.cross_i_d_int_64[new_order_cross_report_message_at]); new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> assert(new_order_cross_report_message_read.cross_id[new_order_cross_report_message_at] == new_order_cross_report_message_written.cross_id[new_order_cross_report_message_at]); new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   new_order_cross_report_message_at = 0;
   do
-  :: new_order_cross_report_message_at < 8 -> assert(new_order_cross_report_message_read.transact_time_utc_timestamp[new_order_cross_report_message_at] == new_order_cross_report_message_written.transact_time_utc_timestamp[new_order_cross_report_message_at]); new_order_cross_report_message_at = new_order_cross_report_message_at + 1
+  :: new_order_cross_report_message_at < 8 -> assert(new_order_cross_report_message_read.transact_time[new_order_cross_report_message_at] == new_order_cross_report_message_written.transact_time[new_order_cross_report_message_at]); new_order_cross_report_message_at = new_order_cross_report_message_at + 1
   :: else -> break
   od;
   assert(new_order_cross_report_message_read.rfc_status == new_order_cross_report_message_written.rfc_status);
@@ -6192,10 +6192,10 @@ inline equal_new_order_cross_report_message(new_order_cross_report_message_read,
 /* OrderMassCancelReportMessage */
 typedef OrderMassCancelReportMessage {
   byte originator_user_id[20];
-  byte symbol_int_32_null[4];
+  byte symbol_optional[4];
   byte cl_ord_id[8];
-  byte transact_time_utc_timestamp[8];
-  byte market_type_i_d_int_32_null[4];
+  byte transact_time[8];
+  byte market_type_i_d_optional[4];
   byte mass_cancel_request_type;
   byte mass_cancel_response;
   byte mass_cancel_reject_reason;
@@ -6214,7 +6214,7 @@ inline fill_order_mass_cancel_report_message(order_mass_cancel_report_message_re
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.symbol_int_32_null[order_mass_cancel_report_message_at] = order_mass_cancel_report_message_value; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.symbol_optional[order_mass_cancel_report_message_at] = order_mass_cancel_report_message_value; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
@@ -6224,12 +6224,12 @@ inline fill_order_mass_cancel_report_message(order_mass_cancel_report_message_re
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 8 -> order_mass_cancel_report_message_record.transact_time_utc_timestamp[order_mass_cancel_report_message_at] = order_mass_cancel_report_message_value; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 8 -> order_mass_cancel_report_message_record.transact_time[order_mass_cancel_report_message_at] = order_mass_cancel_report_message_value; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.market_type_i_d_int_32_null[order_mass_cancel_report_message_at] = order_mass_cancel_report_message_value; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.market_type_i_d_optional[order_mass_cancel_report_message_at] = order_mass_cancel_report_message_value; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_record.mass_cancel_request_type = order_mass_cancel_report_message_value;
@@ -6257,7 +6257,7 @@ inline ramp_order_mass_cancel_report_message(order_mass_cancel_report_message_re
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.symbol_int_32_null[order_mass_cancel_report_message_at] = (order_mass_cancel_report_message_base + 20 + order_mass_cancel_report_message_at + 1) % 256; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.symbol_optional[order_mass_cancel_report_message_at] = (order_mass_cancel_report_message_base + 20 + order_mass_cancel_report_message_at + 1) % 256; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
@@ -6267,12 +6267,12 @@ inline ramp_order_mass_cancel_report_message(order_mass_cancel_report_message_re
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 8 -> order_mass_cancel_report_message_record.transact_time_utc_timestamp[order_mass_cancel_report_message_at] = (order_mass_cancel_report_message_base + 32 + order_mass_cancel_report_message_at + 1) % 256; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 8 -> order_mass_cancel_report_message_record.transact_time[order_mass_cancel_report_message_at] = (order_mass_cancel_report_message_base + 32 + order_mass_cancel_report_message_at + 1) % 256; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.market_type_i_d_int_32_null[order_mass_cancel_report_message_at] = (order_mass_cancel_report_message_base + 40 + order_mass_cancel_report_message_at + 1) % 256; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.market_type_i_d_optional[order_mass_cancel_report_message_at] = (order_mass_cancel_report_message_base + 40 + order_mass_cancel_report_message_at + 1) % 256; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_record.mass_cancel_request_type = (order_mass_cancel_report_message_base + 44 + 1) % 256;
@@ -6300,7 +6300,7 @@ inline encode_order_mass_cancel_report_message(order_mass_cancel_report_message_
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> wire[at] = order_mass_cancel_report_message_record.symbol_int_32_null[order_mass_cancel_report_message_at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> wire[at] = order_mass_cancel_report_message_record.symbol_optional[order_mass_cancel_report_message_at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
@@ -6310,12 +6310,12 @@ inline encode_order_mass_cancel_report_message(order_mass_cancel_report_message_
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 8 -> wire[at] = order_mass_cancel_report_message_record.transact_time_utc_timestamp[order_mass_cancel_report_message_at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 8 -> wire[at] = order_mass_cancel_report_message_record.transact_time[order_mass_cancel_report_message_at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> wire[at] = order_mass_cancel_report_message_record.market_type_i_d_int_32_null[order_mass_cancel_report_message_at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> wire[at] = order_mass_cancel_report_message_record.market_type_i_d_optional[order_mass_cancel_report_message_at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   wire[at] = order_mass_cancel_report_message_record.mass_cancel_request_type; at = at + 1;
@@ -6343,7 +6343,7 @@ inline decode_order_mass_cancel_report_message(order_mass_cancel_report_message_
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.symbol_int_32_null[order_mass_cancel_report_message_at] = wire[at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.symbol_optional[order_mass_cancel_report_message_at] = wire[at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
@@ -6353,12 +6353,12 @@ inline decode_order_mass_cancel_report_message(order_mass_cancel_report_message_
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 8 -> order_mass_cancel_report_message_record.transact_time_utc_timestamp[order_mass_cancel_report_message_at] = wire[at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 8 -> order_mass_cancel_report_message_record.transact_time[order_mass_cancel_report_message_at] = wire[at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.market_type_i_d_int_32_null[order_mass_cancel_report_message_at] = wire[at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> order_mass_cancel_report_message_record.market_type_i_d_optional[order_mass_cancel_report_message_at] = wire[at]; at = at + 1; order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_record.mass_cancel_request_type = wire[at]; at = at + 1;
@@ -6386,7 +6386,7 @@ inline equal_order_mass_cancel_report_message(order_mass_cancel_report_message_r
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> assert(order_mass_cancel_report_message_read.symbol_int_32_null[order_mass_cancel_report_message_at] == order_mass_cancel_report_message_written.symbol_int_32_null[order_mass_cancel_report_message_at]); order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> assert(order_mass_cancel_report_message_read.symbol_optional[order_mass_cancel_report_message_at] == order_mass_cancel_report_message_written.symbol_optional[order_mass_cancel_report_message_at]); order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
@@ -6396,12 +6396,12 @@ inline equal_order_mass_cancel_report_message(order_mass_cancel_report_message_r
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 8 -> assert(order_mass_cancel_report_message_read.transact_time_utc_timestamp[order_mass_cancel_report_message_at] == order_mass_cancel_report_message_written.transact_time_utc_timestamp[order_mass_cancel_report_message_at]); order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 8 -> assert(order_mass_cancel_report_message_read.transact_time[order_mass_cancel_report_message_at] == order_mass_cancel_report_message_written.transact_time[order_mass_cancel_report_message_at]); order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   order_mass_cancel_report_message_at = 0;
   do
-  :: order_mass_cancel_report_message_at < 4 -> assert(order_mass_cancel_report_message_read.market_type_i_d_int_32_null[order_mass_cancel_report_message_at] == order_mass_cancel_report_message_written.market_type_i_d_int_32_null[order_mass_cancel_report_message_at]); order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
+  :: order_mass_cancel_report_message_at < 4 -> assert(order_mass_cancel_report_message_read.market_type_i_d_optional[order_mass_cancel_report_message_at] == order_mass_cancel_report_message_written.market_type_i_d_optional[order_mass_cancel_report_message_at]); order_mass_cancel_report_message_at = order_mass_cancel_report_message_at + 1
   :: else -> break
   od;
   assert(order_mass_cancel_report_message_read.mass_cancel_request_type == order_mass_cancel_report_message_written.mass_cancel_request_type);

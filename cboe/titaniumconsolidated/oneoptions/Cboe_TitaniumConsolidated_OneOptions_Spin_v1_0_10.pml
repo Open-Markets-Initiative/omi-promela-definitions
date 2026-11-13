@@ -31,11 +31,11 @@ byte wire[WIRE];
 /* where the next byte is written or read, so a nested record carries on from its holder */
 int at;
 
-/* ---- Packet Header: 15 bytes ------------------------------------------------- */
+/* ---- Packet Header: 8 bytes -------------------------------------------------- */
 
 typedef PacketHeader {
   byte length[2];
-  byte message_count[8];
+  byte message_count;
   byte unit;
   byte sequence[4]
 };
@@ -49,11 +49,7 @@ inline fill_packet_header(packet_header_record, packet_header_value) {
   :: packet_header_at < 2 -> packet_header_record.length[packet_header_at] = packet_header_value; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 8 -> packet_header_record.message_count[packet_header_at] = packet_header_value; packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
+  packet_header_record.message_count = packet_header_value;
   packet_header_record.unit = packet_header_value;
   packet_header_at = 0;
   do
@@ -70,32 +66,24 @@ inline ramp_packet_header(packet_header_record, packet_header_base) {
   :: packet_header_at < 2 -> packet_header_record.length[packet_header_at] = (packet_header_base + 0 + packet_header_at + 1) % 256; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
+  packet_header_record.message_count = (packet_header_base + 2 + 1) % 256;
+  packet_header_record.unit = (packet_header_base + 3 + 1) % 256;
   packet_header_at = 0;
   do
-  :: packet_header_at < 8 -> packet_header_record.message_count[packet_header_at] = (packet_header_base + 2 + packet_header_at + 1) % 256; packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
-  packet_header_record.unit = (packet_header_base + 10 + 1) % 256;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 4 -> packet_header_record.sequence[packet_header_at] = (packet_header_base + 11 + packet_header_at + 1) % 256; packet_header_at = packet_header_at + 1
+  :: packet_header_at < 4 -> packet_header_record.sequence[packet_header_at] = (packet_header_base + 4 + packet_header_at + 1) % 256; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Packet Header to the wire, 15 bytes from where the cursor stands */
+/* Packet Header to the wire, 8 bytes from where the cursor stands */
 inline encode_packet_header(packet_header_record) {
   packet_header_at = 0;
   do
   :: packet_header_at < 2 -> wire[at] = packet_header_record.length[packet_header_at]; at = at + 1; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 8 -> wire[at] = packet_header_record.message_count[packet_header_at]; at = at + 1; packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
+  wire[at] = packet_header_record.message_count; at = at + 1;
   wire[at] = packet_header_record.unit; at = at + 1;
   packet_header_at = 0;
   do
@@ -105,18 +93,14 @@ inline encode_packet_header(packet_header_record) {
   skip
 }
 
-/* Packet Header off the wire, 15 bytes from where the cursor stands */
+/* Packet Header off the wire, 8 bytes from where the cursor stands */
 inline decode_packet_header(packet_header_record) {
   packet_header_at = 0;
   do
   :: packet_header_at < 2 -> packet_header_record.length[packet_header_at] = wire[at]; at = at + 1; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 8 -> packet_header_record.message_count[packet_header_at] = wire[at]; at = at + 1; packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
+  packet_header_record.message_count = wire[at]; at = at + 1;
   packet_header_record.unit = wire[at]; at = at + 1;
   packet_header_at = 0;
   do
@@ -133,11 +117,7 @@ inline equal_packet_header(packet_header_read, packet_header_written) {
   :: packet_header_at < 2 -> assert(packet_header_read.length[packet_header_at] == packet_header_written.length[packet_header_at]); packet_header_at = packet_header_at + 1
   :: else -> break
   od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 8 -> assert(packet_header_read.message_count[packet_header_at] == packet_header_written.message_count[packet_header_at]); packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
+  assert(packet_header_read.message_count == packet_header_written.message_count);
   assert(packet_header_read.unit == packet_header_written.unit);
   packet_header_at = 0;
   do
@@ -962,7 +942,7 @@ inline equal_trade_replay_request_message(trade_replay_request_message_read, tra
 /* The Trade Replay Response message is sent in response to a user's Trade Replay Request message indicating whether a spin will be sent. */
 typedef TradeReplayResponseMessage {
   byte sequence[4];
-  byte message_count[8];
+  byte trade_replay_message_count[8];
   byte trade_replay_response_status
 };
 
@@ -977,7 +957,7 @@ inline fill_trade_replay_response_message(trade_replay_response_message_record, 
   od;
   trade_replay_response_message_at = 0;
   do
-  :: trade_replay_response_message_at < 8 -> trade_replay_response_message_record.message_count[trade_replay_response_message_at] = trade_replay_response_message_value; trade_replay_response_message_at = trade_replay_response_message_at + 1
+  :: trade_replay_response_message_at < 8 -> trade_replay_response_message_record.trade_replay_message_count[trade_replay_response_message_at] = trade_replay_response_message_value; trade_replay_response_message_at = trade_replay_response_message_at + 1
   :: else -> break
   od;
   trade_replay_response_message_record.trade_replay_response_status = trade_replay_response_message_value;
@@ -993,7 +973,7 @@ inline ramp_trade_replay_response_message(trade_replay_response_message_record, 
   od;
   trade_replay_response_message_at = 0;
   do
-  :: trade_replay_response_message_at < 8 -> trade_replay_response_message_record.message_count[trade_replay_response_message_at] = (trade_replay_response_message_base + 4 + trade_replay_response_message_at + 1) % 256; trade_replay_response_message_at = trade_replay_response_message_at + 1
+  :: trade_replay_response_message_at < 8 -> trade_replay_response_message_record.trade_replay_message_count[trade_replay_response_message_at] = (trade_replay_response_message_base + 4 + trade_replay_response_message_at + 1) % 256; trade_replay_response_message_at = trade_replay_response_message_at + 1
   :: else -> break
   od;
   trade_replay_response_message_record.trade_replay_response_status = (trade_replay_response_message_base + 12 + 1) % 256;
@@ -1009,7 +989,7 @@ inline encode_trade_replay_response_message(trade_replay_response_message_record
   od;
   trade_replay_response_message_at = 0;
   do
-  :: trade_replay_response_message_at < 8 -> wire[at] = trade_replay_response_message_record.message_count[trade_replay_response_message_at]; at = at + 1; trade_replay_response_message_at = trade_replay_response_message_at + 1
+  :: trade_replay_response_message_at < 8 -> wire[at] = trade_replay_response_message_record.trade_replay_message_count[trade_replay_response_message_at]; at = at + 1; trade_replay_response_message_at = trade_replay_response_message_at + 1
   :: else -> break
   od;
   wire[at] = trade_replay_response_message_record.trade_replay_response_status; at = at + 1;
@@ -1025,7 +1005,7 @@ inline decode_trade_replay_response_message(trade_replay_response_message_record
   od;
   trade_replay_response_message_at = 0;
   do
-  :: trade_replay_response_message_at < 8 -> trade_replay_response_message_record.message_count[trade_replay_response_message_at] = wire[at]; at = at + 1; trade_replay_response_message_at = trade_replay_response_message_at + 1
+  :: trade_replay_response_message_at < 8 -> trade_replay_response_message_record.trade_replay_message_count[trade_replay_response_message_at] = wire[at]; at = at + 1; trade_replay_response_message_at = trade_replay_response_message_at + 1
   :: else -> break
   od;
   trade_replay_response_message_record.trade_replay_response_status = wire[at]; at = at + 1;
@@ -1041,7 +1021,7 @@ inline equal_trade_replay_response_message(trade_replay_response_message_read, t
   od;
   trade_replay_response_message_at = 0;
   do
-  :: trade_replay_response_message_at < 8 -> assert(trade_replay_response_message_read.message_count[trade_replay_response_message_at] == trade_replay_response_message_written.message_count[trade_replay_response_message_at]); trade_replay_response_message_at = trade_replay_response_message_at + 1
+  :: trade_replay_response_message_at < 8 -> assert(trade_replay_response_message_read.trade_replay_message_count[trade_replay_response_message_at] == trade_replay_response_message_written.trade_replay_message_count[trade_replay_response_message_at]); trade_replay_response_message_at = trade_replay_response_message_at + 1
   :: else -> break
   od;
   assert(trade_replay_response_message_read.trade_replay_response_status == trade_replay_response_message_written.trade_replay_response_status);
@@ -1073,10 +1053,10 @@ proctype check_packet_header() {
   atomic {
     at = 0;
     encode_packet_header(packet_header_sent);
-    assert(at == 15);
+    assert(at == 8);
     at = 0;
     decode_packet_header(packet_header_got);
-    assert(at == 15);
+    assert(at == 8);
     equal_packet_header(packet_header_got, packet_header_sent)
   }
 }

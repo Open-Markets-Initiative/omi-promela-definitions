@@ -22,7 +22,7 @@
 /* ---- The wire ---------------------------------------------------------------- */
 
 /* the widest record this protocol states, which is the most a check writes at once */
-#define WIRE 247
+#define WIRE 245
 
 /* the bytes a record is written to and read back from */
 byte wire[WIRE];
@@ -1178,7 +1178,7 @@ inline equal_k_otc_quote_message(k_otc_quote_message_read, k_otc_quote_message_w
   skip
 }
 
-/* ---- K Otc Order Filled Message: 247 bytes ----------------------------------- */
+/* ---- K Otc Order Filled Message: 245 bytes ----------------------------------- */
 
 /* K-OTC Order Filled. Trade prints with running totals, high/low, weighted average price, and previous-day comparison. */
 typedef KOtcOrderFilledMessage {
@@ -1186,7 +1186,7 @@ typedef KOtcOrderFilledMessage {
   byte data_seq_number[8];
   byte trading_number[6];
   byte trading_price[9];
-  byte trading_volume[12];
+  byte trading_volume_short[10];
   byte trading_time[6];
   byte ask_quote_number[6];
   byte bid_quote_number[6];
@@ -1235,7 +1235,7 @@ inline fill_k_otc_order_filled_message(k_otc_order_filled_message_record, k_otc_
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 12 -> k_otc_order_filled_message_record.trading_volume[k_otc_order_filled_message_at] = k_otc_order_filled_message_value; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.trading_volume_short[k_otc_order_filled_message_at] = k_otc_order_filled_message_value; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
@@ -1357,105 +1357,105 @@ inline ramp_k_otc_order_filled_message(k_otc_order_filled_message_record, k_otc_
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 12 -> k_otc_order_filled_message_record.trading_volume[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 35 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.trading_volume_short[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 35 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 6 -> k_otc_order_filled_message_record.trading_time[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 47 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 6 -> k_otc_order_filled_message_record.trading_time[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 45 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 6 -> k_otc_order_filled_message_record.ask_quote_number[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 53 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 6 -> k_otc_order_filled_message_record.ask_quote_number[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 51 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 6 -> k_otc_order_filled_message_record.bid_quote_number[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 59 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 6 -> k_otc_order_filled_message_record.bid_quote_number[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 57 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.high_price[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 65 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.high_price[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 63 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.low_price[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 74 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.low_price[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 72 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.weighted_average_stock_price[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 83 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.weighted_average_stock_price[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 81 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 12 -> k_otc_order_filled_message_record.total_trading_accumulated_volume[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 92 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 12 -> k_otc_order_filled_message_record.total_trading_accumulated_volume[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 90 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 14 -> k_otc_order_filled_message_record.total_trading_accumulated_value[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 104 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 14 -> k_otc_order_filled_message_record.total_trading_accumulated_value[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 102 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.total_remaining_quantity_of_ask[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 118 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.total_remaining_quantity_of_ask[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 116 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.total_remaining_quantity_of_bid[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 128 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.total_remaining_quantity_of_bid[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 126 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.best_ask_order[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 138 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.best_ask_order[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 136 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.remaining_quantity_of_best_ask_order[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 147 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.remaining_quantity_of_best_ask_order[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 145 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.best_bid_order[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 157 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.best_bid_order[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 155 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.remaining_quantity_of_best_bid_order[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 166 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.remaining_quantity_of_best_bid_order[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 164 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
-  k_otc_order_filled_message_record.compared_to_previous_day_type = (k_otc_order_filled_message_base + 176 + 1) % 256;
+  k_otc_order_filled_message_record.compared_to_previous_day_type = (k_otc_order_filled_message_base + 174 + 1) % 256;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.compared_to_previous_day[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 177 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
-  :: else -> break
-  od;
-  k_otc_order_filled_message_at = 0;
-  do
-  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.trading_price_compare_remaining_quantity_of_ask[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 186 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 9 -> k_otc_order_filled_message_record.compared_to_previous_day[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 175 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.trading_price_compare_remaining_quantity_of_bid[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 196 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.trading_price_compare_remaining_quantity_of_ask[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 184 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 40 -> k_otc_order_filled_message_record.filler_40[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 206 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.trading_price_compare_remaining_quantity_of_bid[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 194 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
-  k_otc_order_filled_message_record.end_keyword = (k_otc_order_filled_message_base + 246 + 1) % 256;
+  k_otc_order_filled_message_at = 0;
+  do
+  :: k_otc_order_filled_message_at < 40 -> k_otc_order_filled_message_record.filler_40[k_otc_order_filled_message_at] = (k_otc_order_filled_message_base + 204 + k_otc_order_filled_message_at + 1) % 256; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: else -> break
+  od;
+  k_otc_order_filled_message_record.end_keyword = (k_otc_order_filled_message_base + 244 + 1) % 256;
   skip
 }
 
-/* K Otc Order Filled Message to the wire, 247 bytes from where the cursor stands */
+/* K Otc Order Filled Message to the wire, 245 bytes from where the cursor stands */
 inline encode_k_otc_order_filled_message(k_otc_order_filled_message_record) {
   k_otc_order_filled_message_at = 0;
   do
@@ -1479,7 +1479,7 @@ inline encode_k_otc_order_filled_message(k_otc_order_filled_message_record) {
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 12 -> wire[at] = k_otc_order_filled_message_record.trading_volume[k_otc_order_filled_message_at]; at = at + 1; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> wire[at] = k_otc_order_filled_message_record.trading_volume_short[k_otc_order_filled_message_at]; at = at + 1; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
@@ -1577,7 +1577,7 @@ inline encode_k_otc_order_filled_message(k_otc_order_filled_message_record) {
   skip
 }
 
-/* K Otc Order Filled Message off the wire, 247 bytes from where the cursor stands */
+/* K Otc Order Filled Message off the wire, 245 bytes from where the cursor stands */
 inline decode_k_otc_order_filled_message(k_otc_order_filled_message_record) {
   k_otc_order_filled_message_at = 0;
   do
@@ -1601,7 +1601,7 @@ inline decode_k_otc_order_filled_message(k_otc_order_filled_message_record) {
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 12 -> k_otc_order_filled_message_record.trading_volume[k_otc_order_filled_message_at] = wire[at]; at = at + 1; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> k_otc_order_filled_message_record.trading_volume_short[k_otc_order_filled_message_at] = wire[at]; at = at + 1; k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
@@ -1723,7 +1723,7 @@ inline equal_k_otc_order_filled_message(k_otc_order_filled_message_read, k_otc_o
   od;
   k_otc_order_filled_message_at = 0;
   do
-  :: k_otc_order_filled_message_at < 12 -> assert(k_otc_order_filled_message_read.trading_volume[k_otc_order_filled_message_at] == k_otc_order_filled_message_written.trading_volume[k_otc_order_filled_message_at]); k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
+  :: k_otc_order_filled_message_at < 10 -> assert(k_otc_order_filled_message_read.trading_volume_short[k_otc_order_filled_message_at] == k_otc_order_filled_message_written.trading_volume_short[k_otc_order_filled_message_at]); k_otc_order_filled_message_at = k_otc_order_filled_message_at + 1
   :: else -> break
   od;
   k_otc_order_filled_message_at = 0;
@@ -3269,7 +3269,7 @@ typedef MkfIndexMessage {
   byte index[9];
   byte sign;
   byte comparison[9];
-  byte trading_volume[12];
+  byte trading_volume_long[12];
   byte trading_value[12];
   byte filler_4[4];
   byte end_keyword
@@ -3307,7 +3307,7 @@ inline fill_mkf_index_message(mkf_index_message_record, mkf_index_message_value)
   od;
   mkf_index_message_at = 0;
   do
-  :: mkf_index_message_at < 12 -> mkf_index_message_record.trading_volume[mkf_index_message_at] = mkf_index_message_value; mkf_index_message_at = mkf_index_message_at + 1
+  :: mkf_index_message_at < 12 -> mkf_index_message_record.trading_volume_long[mkf_index_message_at] = mkf_index_message_value; mkf_index_message_at = mkf_index_message_at + 1
   :: else -> break
   od;
   mkf_index_message_at = 0;
@@ -3354,7 +3354,7 @@ inline ramp_mkf_index_message(mkf_index_message_record, mkf_index_message_base) 
   od;
   mkf_index_message_at = 0;
   do
-  :: mkf_index_message_at < 12 -> mkf_index_message_record.trading_volume[mkf_index_message_at] = (mkf_index_message_base + 43 + mkf_index_message_at + 1) % 256; mkf_index_message_at = mkf_index_message_at + 1
+  :: mkf_index_message_at < 12 -> mkf_index_message_record.trading_volume_long[mkf_index_message_at] = (mkf_index_message_base + 43 + mkf_index_message_at + 1) % 256; mkf_index_message_at = mkf_index_message_at + 1
   :: else -> break
   od;
   mkf_index_message_at = 0;
@@ -3401,7 +3401,7 @@ inline encode_mkf_index_message(mkf_index_message_record) {
   od;
   mkf_index_message_at = 0;
   do
-  :: mkf_index_message_at < 12 -> wire[at] = mkf_index_message_record.trading_volume[mkf_index_message_at]; at = at + 1; mkf_index_message_at = mkf_index_message_at + 1
+  :: mkf_index_message_at < 12 -> wire[at] = mkf_index_message_record.trading_volume_long[mkf_index_message_at]; at = at + 1; mkf_index_message_at = mkf_index_message_at + 1
   :: else -> break
   od;
   mkf_index_message_at = 0;
@@ -3448,7 +3448,7 @@ inline decode_mkf_index_message(mkf_index_message_record) {
   od;
   mkf_index_message_at = 0;
   do
-  :: mkf_index_message_at < 12 -> mkf_index_message_record.trading_volume[mkf_index_message_at] = wire[at]; at = at + 1; mkf_index_message_at = mkf_index_message_at + 1
+  :: mkf_index_message_at < 12 -> mkf_index_message_record.trading_volume_long[mkf_index_message_at] = wire[at]; at = at + 1; mkf_index_message_at = mkf_index_message_at + 1
   :: else -> break
   od;
   mkf_index_message_at = 0;
@@ -3495,7 +3495,7 @@ inline equal_mkf_index_message(mkf_index_message_read, mkf_index_message_written
   od;
   mkf_index_message_at = 0;
   do
-  :: mkf_index_message_at < 12 -> assert(mkf_index_message_read.trading_volume[mkf_index_message_at] == mkf_index_message_written.trading_volume[mkf_index_message_at]); mkf_index_message_at = mkf_index_message_at + 1
+  :: mkf_index_message_at < 12 -> assert(mkf_index_message_read.trading_volume_long[mkf_index_message_at] == mkf_index_message_written.trading_volume_long[mkf_index_message_at]); mkf_index_message_at = mkf_index_message_at + 1
   :: else -> break
   od;
   mkf_index_message_at = 0;
@@ -3522,7 +3522,7 @@ typedef MkfIndexJpyMessage {
   byte index[9];
   byte sign;
   byte comparison[9];
-  byte trading_volume[12];
+  byte trading_volume_long[12];
   byte trading_value[12];
   byte filler_4[4];
   byte end_keyword
@@ -3560,7 +3560,7 @@ inline fill_mkf_index_jpy_message(mkf_index_jpy_message_record, mkf_index_jpy_me
   od;
   mkf_index_jpy_message_at = 0;
   do
-  :: mkf_index_jpy_message_at < 12 -> mkf_index_jpy_message_record.trading_volume[mkf_index_jpy_message_at] = mkf_index_jpy_message_value; mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
+  :: mkf_index_jpy_message_at < 12 -> mkf_index_jpy_message_record.trading_volume_long[mkf_index_jpy_message_at] = mkf_index_jpy_message_value; mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
   :: else -> break
   od;
   mkf_index_jpy_message_at = 0;
@@ -3607,7 +3607,7 @@ inline ramp_mkf_index_jpy_message(mkf_index_jpy_message_record, mkf_index_jpy_me
   od;
   mkf_index_jpy_message_at = 0;
   do
-  :: mkf_index_jpy_message_at < 12 -> mkf_index_jpy_message_record.trading_volume[mkf_index_jpy_message_at] = (mkf_index_jpy_message_base + 43 + mkf_index_jpy_message_at + 1) % 256; mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
+  :: mkf_index_jpy_message_at < 12 -> mkf_index_jpy_message_record.trading_volume_long[mkf_index_jpy_message_at] = (mkf_index_jpy_message_base + 43 + mkf_index_jpy_message_at + 1) % 256; mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
   :: else -> break
   od;
   mkf_index_jpy_message_at = 0;
@@ -3654,7 +3654,7 @@ inline encode_mkf_index_jpy_message(mkf_index_jpy_message_record) {
   od;
   mkf_index_jpy_message_at = 0;
   do
-  :: mkf_index_jpy_message_at < 12 -> wire[at] = mkf_index_jpy_message_record.trading_volume[mkf_index_jpy_message_at]; at = at + 1; mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
+  :: mkf_index_jpy_message_at < 12 -> wire[at] = mkf_index_jpy_message_record.trading_volume_long[mkf_index_jpy_message_at]; at = at + 1; mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
   :: else -> break
   od;
   mkf_index_jpy_message_at = 0;
@@ -3701,7 +3701,7 @@ inline decode_mkf_index_jpy_message(mkf_index_jpy_message_record) {
   od;
   mkf_index_jpy_message_at = 0;
   do
-  :: mkf_index_jpy_message_at < 12 -> mkf_index_jpy_message_record.trading_volume[mkf_index_jpy_message_at] = wire[at]; at = at + 1; mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
+  :: mkf_index_jpy_message_at < 12 -> mkf_index_jpy_message_record.trading_volume_long[mkf_index_jpy_message_at] = wire[at]; at = at + 1; mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
   :: else -> break
   od;
   mkf_index_jpy_message_at = 0;
@@ -3748,7 +3748,7 @@ inline equal_mkf_index_jpy_message(mkf_index_jpy_message_read, mkf_index_jpy_mes
   od;
   mkf_index_jpy_message_at = 0;
   do
-  :: mkf_index_jpy_message_at < 12 -> assert(mkf_index_jpy_message_read.trading_volume[mkf_index_jpy_message_at] == mkf_index_jpy_message_written.trading_volume[mkf_index_jpy_message_at]); mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
+  :: mkf_index_jpy_message_at < 12 -> assert(mkf_index_jpy_message_read.trading_volume_long[mkf_index_jpy_message_at] == mkf_index_jpy_message_written.trading_volume_long[mkf_index_jpy_message_at]); mkf_index_jpy_message_at = mkf_index_jpy_message_at + 1
   :: else -> break
   od;
   mkf_index_jpy_message_at = 0;
@@ -3775,7 +3775,7 @@ typedef WisefnIndexMessage {
   byte index[9];
   byte sign;
   byte comparison[9];
-  byte trading_volume[12];
+  byte trading_volume_long[12];
   byte trading_value[12];
   byte filler_4[4];
   byte end_keyword
@@ -3813,7 +3813,7 @@ inline fill_wisefn_index_message(wisefn_index_message_record, wisefn_index_messa
   od;
   wisefn_index_message_at = 0;
   do
-  :: wisefn_index_message_at < 12 -> wisefn_index_message_record.trading_volume[wisefn_index_message_at] = wisefn_index_message_value; wisefn_index_message_at = wisefn_index_message_at + 1
+  :: wisefn_index_message_at < 12 -> wisefn_index_message_record.trading_volume_long[wisefn_index_message_at] = wisefn_index_message_value; wisefn_index_message_at = wisefn_index_message_at + 1
   :: else -> break
   od;
   wisefn_index_message_at = 0;
@@ -3860,7 +3860,7 @@ inline ramp_wisefn_index_message(wisefn_index_message_record, wisefn_index_messa
   od;
   wisefn_index_message_at = 0;
   do
-  :: wisefn_index_message_at < 12 -> wisefn_index_message_record.trading_volume[wisefn_index_message_at] = (wisefn_index_message_base + 43 + wisefn_index_message_at + 1) % 256; wisefn_index_message_at = wisefn_index_message_at + 1
+  :: wisefn_index_message_at < 12 -> wisefn_index_message_record.trading_volume_long[wisefn_index_message_at] = (wisefn_index_message_base + 43 + wisefn_index_message_at + 1) % 256; wisefn_index_message_at = wisefn_index_message_at + 1
   :: else -> break
   od;
   wisefn_index_message_at = 0;
@@ -3907,7 +3907,7 @@ inline encode_wisefn_index_message(wisefn_index_message_record) {
   od;
   wisefn_index_message_at = 0;
   do
-  :: wisefn_index_message_at < 12 -> wire[at] = wisefn_index_message_record.trading_volume[wisefn_index_message_at]; at = at + 1; wisefn_index_message_at = wisefn_index_message_at + 1
+  :: wisefn_index_message_at < 12 -> wire[at] = wisefn_index_message_record.trading_volume_long[wisefn_index_message_at]; at = at + 1; wisefn_index_message_at = wisefn_index_message_at + 1
   :: else -> break
   od;
   wisefn_index_message_at = 0;
@@ -3954,7 +3954,7 @@ inline decode_wisefn_index_message(wisefn_index_message_record) {
   od;
   wisefn_index_message_at = 0;
   do
-  :: wisefn_index_message_at < 12 -> wisefn_index_message_record.trading_volume[wisefn_index_message_at] = wire[at]; at = at + 1; wisefn_index_message_at = wisefn_index_message_at + 1
+  :: wisefn_index_message_at < 12 -> wisefn_index_message_record.trading_volume_long[wisefn_index_message_at] = wire[at]; at = at + 1; wisefn_index_message_at = wisefn_index_message_at + 1
   :: else -> break
   od;
   wisefn_index_message_at = 0;
@@ -4001,7 +4001,7 @@ inline equal_wisefn_index_message(wisefn_index_message_read, wisefn_index_messag
   od;
   wisefn_index_message_at = 0;
   do
-  :: wisefn_index_message_at < 12 -> assert(wisefn_index_message_read.trading_volume[wisefn_index_message_at] == wisefn_index_message_written.trading_volume[wisefn_index_message_at]); wisefn_index_message_at = wisefn_index_message_at + 1
+  :: wisefn_index_message_at < 12 -> assert(wisefn_index_message_read.trading_volume_long[wisefn_index_message_at] == wisefn_index_message_written.trading_volume_long[wisefn_index_message_at]); wisefn_index_message_at = wisefn_index_message_at + 1
   :: else -> break
   od;
   wisefn_index_message_at = 0;
@@ -4028,7 +4028,7 @@ typedef KisIndexMessage {
   byte index[9];
   byte sign;
   byte comparison[9];
-  byte trading_volume[12];
+  byte trading_volume_long[12];
   byte trading_value[12];
   byte filler_4[4];
   byte end_keyword
@@ -4066,7 +4066,7 @@ inline fill_kis_index_message(kis_index_message_record, kis_index_message_value)
   od;
   kis_index_message_at = 0;
   do
-  :: kis_index_message_at < 12 -> kis_index_message_record.trading_volume[kis_index_message_at] = kis_index_message_value; kis_index_message_at = kis_index_message_at + 1
+  :: kis_index_message_at < 12 -> kis_index_message_record.trading_volume_long[kis_index_message_at] = kis_index_message_value; kis_index_message_at = kis_index_message_at + 1
   :: else -> break
   od;
   kis_index_message_at = 0;
@@ -4113,7 +4113,7 @@ inline ramp_kis_index_message(kis_index_message_record, kis_index_message_base) 
   od;
   kis_index_message_at = 0;
   do
-  :: kis_index_message_at < 12 -> kis_index_message_record.trading_volume[kis_index_message_at] = (kis_index_message_base + 43 + kis_index_message_at + 1) % 256; kis_index_message_at = kis_index_message_at + 1
+  :: kis_index_message_at < 12 -> kis_index_message_record.trading_volume_long[kis_index_message_at] = (kis_index_message_base + 43 + kis_index_message_at + 1) % 256; kis_index_message_at = kis_index_message_at + 1
   :: else -> break
   od;
   kis_index_message_at = 0;
@@ -4160,7 +4160,7 @@ inline encode_kis_index_message(kis_index_message_record) {
   od;
   kis_index_message_at = 0;
   do
-  :: kis_index_message_at < 12 -> wire[at] = kis_index_message_record.trading_volume[kis_index_message_at]; at = at + 1; kis_index_message_at = kis_index_message_at + 1
+  :: kis_index_message_at < 12 -> wire[at] = kis_index_message_record.trading_volume_long[kis_index_message_at]; at = at + 1; kis_index_message_at = kis_index_message_at + 1
   :: else -> break
   od;
   kis_index_message_at = 0;
@@ -4207,7 +4207,7 @@ inline decode_kis_index_message(kis_index_message_record) {
   od;
   kis_index_message_at = 0;
   do
-  :: kis_index_message_at < 12 -> kis_index_message_record.trading_volume[kis_index_message_at] = wire[at]; at = at + 1; kis_index_message_at = kis_index_message_at + 1
+  :: kis_index_message_at < 12 -> kis_index_message_record.trading_volume_long[kis_index_message_at] = wire[at]; at = at + 1; kis_index_message_at = kis_index_message_at + 1
   :: else -> break
   od;
   kis_index_message_at = 0;
@@ -4254,7 +4254,7 @@ inline equal_kis_index_message(kis_index_message_read, kis_index_message_written
   od;
   kis_index_message_at = 0;
   do
-  :: kis_index_message_at < 12 -> assert(kis_index_message_read.trading_volume[kis_index_message_at] == kis_index_message_written.trading_volume[kis_index_message_at]); kis_index_message_at = kis_index_message_at + 1
+  :: kis_index_message_at < 12 -> assert(kis_index_message_read.trading_volume_long[kis_index_message_at] == kis_index_message_written.trading_volume_long[kis_index_message_at]); kis_index_message_at = kis_index_message_at + 1
   :: else -> break
   od;
   kis_index_message_at = 0;
@@ -9957,10 +9957,10 @@ proctype check_k_otc_order_filled_message() {
   atomic {
     at = 0;
     encode_k_otc_order_filled_message(k_otc_order_filled_message_sent);
-    assert(at == 247);
+    assert(at == 245);
     at = 0;
     decode_k_otc_order_filled_message(k_otc_order_filled_message_got);
-    assert(at == 247);
+    assert(at == 245);
     equal_k_otc_order_filled_message(k_otc_order_filled_message_got, k_otc_order_filled_message_sent)
   }
 }

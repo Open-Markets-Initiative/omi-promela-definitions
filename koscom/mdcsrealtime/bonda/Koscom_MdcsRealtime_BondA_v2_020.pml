@@ -95,18 +95,18 @@ inline equal_polling_data_message(polling_data_message_read, polling_data_messag
   skip
 }
 
-/* ---- Krx Index Message: 88 bytes --------------------------------------------- */
+/* ---- Krx Index Message: 72 bytes --------------------------------------------- */
 
 /* Krx Index real-time message. Reports current index value, change against previous day, accumulated trading volume, and accumulated trading value for one index. The Index ID field identifies which index group (KRX Index Group 1/2/3, Sector A/B, Gold Spot, or Equity Derivatives) this record belongs to. */
 typedef KrxIndexMessage {
   byte index_id[6];
   byte isin_code[12];
-  byte calculation_time[9];
+  byte calculation_time_short[6];
   byte index[9];
   byte index_change_sign_against_the_previous_day;
   byte index_change_against_the_previous_day[9];
-  byte accumulated_trading_volume[15];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_volume_short[12];
+  byte accumulated_trading_value_short[12];
   byte filler_4[4];
   byte end_keyword
 };
@@ -127,7 +127,7 @@ inline fill_krx_index_message(krx_index_message_record, krx_index_message_value)
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 9 -> krx_index_message_record.calculation_time[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 6 -> krx_index_message_record.calculation_time_short[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -143,12 +143,12 @@ inline fill_krx_index_message(krx_index_message_record, krx_index_message_value)
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 15 -> krx_index_message_record.accumulated_trading_volume[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_volume_short[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_value_short[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -174,40 +174,40 @@ inline ramp_krx_index_message(krx_index_message_record, krx_index_message_base) 
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 9 -> krx_index_message_record.calculation_time[krx_index_message_at] = (krx_index_message_base + 18 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 6 -> krx_index_message_record.calculation_time_short[krx_index_message_at] = (krx_index_message_base + 18 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 9 -> krx_index_message_record.index[krx_index_message_at] = (krx_index_message_base + 27 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 9 -> krx_index_message_record.index[krx_index_message_at] = (krx_index_message_base + 24 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
-  krx_index_message_record.index_change_sign_against_the_previous_day = (krx_index_message_base + 36 + 1) % 256;
+  krx_index_message_record.index_change_sign_against_the_previous_day = (krx_index_message_base + 33 + 1) % 256;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 9 -> krx_index_message_record.index_change_against_the_previous_day[krx_index_message_at] = (krx_index_message_base + 37 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
-  :: else -> break
-  od;
-  krx_index_message_at = 0;
-  do
-  :: krx_index_message_at < 15 -> krx_index_message_record.accumulated_trading_volume[krx_index_message_at] = (krx_index_message_base + 46 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 9 -> krx_index_message_record.index_change_against_the_previous_day[krx_index_message_at] = (krx_index_message_base + 34 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = (krx_index_message_base + 61 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_volume_short[krx_index_message_at] = (krx_index_message_base + 43 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 4 -> krx_index_message_record.filler_4[krx_index_message_at] = (krx_index_message_base + 83 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_value_short[krx_index_message_at] = (krx_index_message_base + 55 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
-  krx_index_message_record.end_keyword = (krx_index_message_base + 87 + 1) % 256;
+  krx_index_message_at = 0;
+  do
+  :: krx_index_message_at < 4 -> krx_index_message_record.filler_4[krx_index_message_at] = (krx_index_message_base + 67 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: else -> break
+  od;
+  krx_index_message_record.end_keyword = (krx_index_message_base + 71 + 1) % 256;
   skip
 }
 
-/* Krx Index Message to the wire, 88 bytes from where the cursor stands */
+/* Krx Index Message to the wire, 72 bytes from where the cursor stands */
 inline encode_krx_index_message(krx_index_message_record) {
   krx_index_message_at = 0;
   do
@@ -221,7 +221,7 @@ inline encode_krx_index_message(krx_index_message_record) {
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 9 -> wire[at] = krx_index_message_record.calculation_time[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 6 -> wire[at] = krx_index_message_record.calculation_time_short[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -237,12 +237,12 @@ inline encode_krx_index_message(krx_index_message_record) {
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 15 -> wire[at] = krx_index_message_record.accumulated_trading_volume[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> wire[at] = krx_index_message_record.accumulated_trading_volume_short[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> wire[at] = krx_index_message_record.accumulated_trading_value[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> wire[at] = krx_index_message_record.accumulated_trading_value_short[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -254,7 +254,7 @@ inline encode_krx_index_message(krx_index_message_record) {
   skip
 }
 
-/* Krx Index Message off the wire, 88 bytes from where the cursor stands */
+/* Krx Index Message off the wire, 72 bytes from where the cursor stands */
 inline decode_krx_index_message(krx_index_message_record) {
   krx_index_message_at = 0;
   do
@@ -268,7 +268,7 @@ inline decode_krx_index_message(krx_index_message_record) {
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 9 -> krx_index_message_record.calculation_time[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 6 -> krx_index_message_record.calculation_time_short[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -284,12 +284,12 @@ inline decode_krx_index_message(krx_index_message_record) {
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 15 -> krx_index_message_record.accumulated_trading_volume[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_volume_short[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_value_short[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -315,7 +315,7 @@ inline equal_krx_index_message(krx_index_message_read, krx_index_message_written
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 9 -> assert(krx_index_message_read.calculation_time[krx_index_message_at] == krx_index_message_written.calculation_time[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 6 -> assert(krx_index_message_read.calculation_time_short[krx_index_message_at] == krx_index_message_written.calculation_time_short[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -331,12 +331,12 @@ inline equal_krx_index_message(krx_index_message_read, krx_index_message_written
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 15 -> assert(krx_index_message_read.accumulated_trading_volume[krx_index_message_at] == krx_index_message_written.accumulated_trading_volume[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> assert(krx_index_message_read.accumulated_trading_volume_short[krx_index_message_at] == krx_index_message_written.accumulated_trading_volume_short[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> assert(krx_index_message_read.accumulated_trading_value[krx_index_message_at] == krx_index_message_written.accumulated_trading_value[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> assert(krx_index_message_read.accumulated_trading_value_short[krx_index_message_at] == krx_index_message_written.accumulated_trading_value_short[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -348,18 +348,18 @@ inline equal_krx_index_message(krx_index_message_read, krx_index_message_written
   skip
 }
 
-/* ---- Krx Estimated Index Message: 88 bytes ----------------------------------- */
+/* ---- Krx Estimated Index Message: 72 bytes ----------------------------------- */
 
 /* Krx Estimated Index real-time message. Reports the estimated index value during the pre-opening simultaneous-trading window or during regular session estimation. Identical field layout to the Krx Index Message. */
 typedef KrxEstimatedIndexMessage {
   byte index_id[6];
   byte isin_code[12];
-  byte calculation_time[9];
+  byte calculation_time_short[6];
   byte index[9];
   byte index_change_sign_against_the_previous_day;
   byte index_change_against_the_previous_day[9];
-  byte accumulated_trading_volume[15];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_volume_short[12];
+  byte accumulated_trading_value_short[12];
   byte filler_4[4];
   byte end_keyword
 };
@@ -380,7 +380,7 @@ inline fill_krx_estimated_index_message(krx_estimated_index_message_record, krx_
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 9 -> krx_estimated_index_message_record.calculation_time[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 6 -> krx_estimated_index_message_record.calculation_time_short[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -396,12 +396,12 @@ inline fill_krx_estimated_index_message(krx_estimated_index_message_record, krx_
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 15 -> krx_estimated_index_message_record.accumulated_trading_volume[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_volume_short[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_value_short[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -427,40 +427,40 @@ inline ramp_krx_estimated_index_message(krx_estimated_index_message_record, krx_
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 9 -> krx_estimated_index_message_record.calculation_time[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 18 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 6 -> krx_estimated_index_message_record.calculation_time_short[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 18 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 9 -> krx_estimated_index_message_record.index[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 27 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 9 -> krx_estimated_index_message_record.index[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 24 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
-  krx_estimated_index_message_record.index_change_sign_against_the_previous_day = (krx_estimated_index_message_base + 36 + 1) % 256;
+  krx_estimated_index_message_record.index_change_sign_against_the_previous_day = (krx_estimated_index_message_base + 33 + 1) % 256;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 9 -> krx_estimated_index_message_record.index_change_against_the_previous_day[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 37 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
-  :: else -> break
-  od;
-  krx_estimated_index_message_at = 0;
-  do
-  :: krx_estimated_index_message_at < 15 -> krx_estimated_index_message_record.accumulated_trading_volume[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 46 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 9 -> krx_estimated_index_message_record.index_change_against_the_previous_day[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 34 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 61 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_volume_short[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 43 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 4 -> krx_estimated_index_message_record.filler_4[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 83 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_value_short[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 55 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
-  krx_estimated_index_message_record.end_keyword = (krx_estimated_index_message_base + 87 + 1) % 256;
+  krx_estimated_index_message_at = 0;
+  do
+  :: krx_estimated_index_message_at < 4 -> krx_estimated_index_message_record.filler_4[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 67 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: else -> break
+  od;
+  krx_estimated_index_message_record.end_keyword = (krx_estimated_index_message_base + 71 + 1) % 256;
   skip
 }
 
-/* Krx Estimated Index Message to the wire, 88 bytes from where the cursor stands */
+/* Krx Estimated Index Message to the wire, 72 bytes from where the cursor stands */
 inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   krx_estimated_index_message_at = 0;
   do
@@ -474,7 +474,7 @@ inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 9 -> wire[at] = krx_estimated_index_message_record.calculation_time[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 6 -> wire[at] = krx_estimated_index_message_record.calculation_time_short[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -490,12 +490,12 @@ inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 15 -> wire[at] = krx_estimated_index_message_record.accumulated_trading_volume[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> wire[at] = krx_estimated_index_message_record.accumulated_trading_volume_short[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> wire[at] = krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> wire[at] = krx_estimated_index_message_record.accumulated_trading_value_short[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -507,7 +507,7 @@ inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   skip
 }
 
-/* Krx Estimated Index Message off the wire, 88 bytes from where the cursor stands */
+/* Krx Estimated Index Message off the wire, 72 bytes from where the cursor stands */
 inline decode_krx_estimated_index_message(krx_estimated_index_message_record) {
   krx_estimated_index_message_at = 0;
   do
@@ -521,7 +521,7 @@ inline decode_krx_estimated_index_message(krx_estimated_index_message_record) {
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 9 -> krx_estimated_index_message_record.calculation_time[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 6 -> krx_estimated_index_message_record.calculation_time_short[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -537,12 +537,12 @@ inline decode_krx_estimated_index_message(krx_estimated_index_message_record) {
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 15 -> krx_estimated_index_message_record.accumulated_trading_volume[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_volume_short[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_value_short[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -568,7 +568,7 @@ inline equal_krx_estimated_index_message(krx_estimated_index_message_read, krx_e
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 9 -> assert(krx_estimated_index_message_read.calculation_time[krx_estimated_index_message_at] == krx_estimated_index_message_written.calculation_time[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 6 -> assert(krx_estimated_index_message_read.calculation_time_short[krx_estimated_index_message_at] == krx_estimated_index_message_written.calculation_time_short[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -584,12 +584,12 @@ inline equal_krx_estimated_index_message(krx_estimated_index_message_read, krx_e
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 15 -> assert(krx_estimated_index_message_read.accumulated_trading_volume[krx_estimated_index_message_at] == krx_estimated_index_message_written.accumulated_trading_volume[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> assert(krx_estimated_index_message_read.accumulated_trading_volume_short[krx_estimated_index_message_at] == krx_estimated_index_message_written.accumulated_trading_volume_short[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> assert(krx_estimated_index_message_read.accumulated_trading_value[krx_estimated_index_message_at] == krx_estimated_index_message_written.accumulated_trading_value[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> assert(krx_estimated_index_message_read.accumulated_trading_value_short[krx_estimated_index_message_at] == krx_estimated_index_message_written.accumulated_trading_value_short[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -601,14 +601,14 @@ inline equal_krx_estimated_index_message(krx_estimated_index_message_read, krx_e
   skip
 }
 
-/* ---- Global Index Message: 62 bytes ------------------------------------------ */
+/* ---- Global Index Message: 59 bytes ------------------------------------------ */
 
 /* Global Index real-time message. Reports the current value of a foreign index referenced by KRX (e.g. Korea-Taiwan IT Premier, Korea-China Index) in the index's native currency. */
 typedef GlobalIndexMessage {
   byte index_id[6];
   byte isin_code[12];
   byte business_date[8];
-  byte calculation_time[9];
+  byte calculation_time_short[6];
   byte index[9];
   byte index_change_sign_against_the_previous_day;
   byte index_change_against_the_previous_day[9];
@@ -638,7 +638,7 @@ inline fill_global_index_message(global_index_message_record, global_index_messa
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 9 -> global_index_message_record.calculation_time[global_index_message_at] = global_index_message_value; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 6 -> global_index_message_record.calculation_time_short[global_index_message_at] = global_index_message_value; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
@@ -685,35 +685,35 @@ inline ramp_global_index_message(global_index_message_record, global_index_messa
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 9 -> global_index_message_record.calculation_time[global_index_message_at] = (global_index_message_base + 26 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 6 -> global_index_message_record.calculation_time_short[global_index_message_at] = (global_index_message_base + 26 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 9 -> global_index_message_record.index[global_index_message_at] = (global_index_message_base + 35 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 9 -> global_index_message_record.index[global_index_message_at] = (global_index_message_base + 32 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
-  global_index_message_record.index_change_sign_against_the_previous_day = (global_index_message_base + 44 + 1) % 256;
+  global_index_message_record.index_change_sign_against_the_previous_day = (global_index_message_base + 41 + 1) % 256;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 9 -> global_index_message_record.index_change_against_the_previous_day[global_index_message_at] = (global_index_message_base + 45 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
-  :: else -> break
-  od;
-  global_index_message_at = 0;
-  do
-  :: global_index_message_at < 3 -> global_index_message_record.currency_code[global_index_message_at] = (global_index_message_base + 54 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 9 -> global_index_message_record.index_change_against_the_previous_day[global_index_message_at] = (global_index_message_base + 42 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 4 -> global_index_message_record.filler_4[global_index_message_at] = (global_index_message_base + 57 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 3 -> global_index_message_record.currency_code[global_index_message_at] = (global_index_message_base + 51 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
-  global_index_message_record.end_keyword = (global_index_message_base + 61 + 1) % 256;
+  global_index_message_at = 0;
+  do
+  :: global_index_message_at < 4 -> global_index_message_record.filler_4[global_index_message_at] = (global_index_message_base + 54 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
+  :: else -> break
+  od;
+  global_index_message_record.end_keyword = (global_index_message_base + 58 + 1) % 256;
   skip
 }
 
-/* Global Index Message to the wire, 62 bytes from where the cursor stands */
+/* Global Index Message to the wire, 59 bytes from where the cursor stands */
 inline encode_global_index_message(global_index_message_record) {
   global_index_message_at = 0;
   do
@@ -732,7 +732,7 @@ inline encode_global_index_message(global_index_message_record) {
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 9 -> wire[at] = global_index_message_record.calculation_time[global_index_message_at]; at = at + 1; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 6 -> wire[at] = global_index_message_record.calculation_time_short[global_index_message_at]; at = at + 1; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
@@ -760,7 +760,7 @@ inline encode_global_index_message(global_index_message_record) {
   skip
 }
 
-/* Global Index Message off the wire, 62 bytes from where the cursor stands */
+/* Global Index Message off the wire, 59 bytes from where the cursor stands */
 inline decode_global_index_message(global_index_message_record) {
   global_index_message_at = 0;
   do
@@ -779,7 +779,7 @@ inline decode_global_index_message(global_index_message_record) {
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 9 -> global_index_message_record.calculation_time[global_index_message_at] = wire[at]; at = at + 1; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 6 -> global_index_message_record.calculation_time_short[global_index_message_at] = wire[at]; at = at + 1; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
@@ -826,7 +826,7 @@ inline equal_global_index_message(global_index_message_read, global_index_messag
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 9 -> assert(global_index_message_read.calculation_time[global_index_message_at] == global_index_message_written.calculation_time[global_index_message_at]); global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 6 -> assert(global_index_message_read.calculation_time_short[global_index_message_at] == global_index_message_written.calculation_time_short[global_index_message_at]); global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
@@ -854,7 +854,7 @@ inline equal_global_index_message(global_index_message_read, global_index_messag
   skip
 }
 
-/* ---- Bond Prime Index Message: 178 bytes ------------------------------------- */
+/* ---- Bond Prime Index Message: 177 bytes ------------------------------------- */
 
 /* Bond Prime Index intraday calculation. Reports clean and total-earnings index values plus their weighted variants and average duration / convexity / yield for one Group Code and Maturity Code pair. */
 typedef BondPrimeIndexMessage {
@@ -871,7 +871,7 @@ typedef BondPrimeIndexMessage {
   byte average_duration[16];
   byte average_convexity[16];
   byte average_yld[16];
-  byte transmission_time[9];
+  byte transmission_time_short[8];
   byte end_keyword
 };
 
@@ -946,7 +946,7 @@ inline fill_bond_prime_index_message(bond_prime_index_message_record, bond_prime
   od;
   bond_prime_index_message_at = 0;
   do
-  :: bond_prime_index_message_at < 9 -> bond_prime_index_message_record.transmission_time[bond_prime_index_message_at] = bond_prime_index_message_value; bond_prime_index_message_at = bond_prime_index_message_at + 1
+  :: bond_prime_index_message_at < 8 -> bond_prime_index_message_record.transmission_time_short[bond_prime_index_message_at] = bond_prime_index_message_value; bond_prime_index_message_at = bond_prime_index_message_at + 1
   :: else -> break
   od;
   bond_prime_index_message_record.end_keyword = bond_prime_index_message_value;
@@ -1022,14 +1022,14 @@ inline ramp_bond_prime_index_message(bond_prime_index_message_record, bond_prime
   od;
   bond_prime_index_message_at = 0;
   do
-  :: bond_prime_index_message_at < 9 -> bond_prime_index_message_record.transmission_time[bond_prime_index_message_at] = (bond_prime_index_message_base + 168 + bond_prime_index_message_at + 1) % 256; bond_prime_index_message_at = bond_prime_index_message_at + 1
+  :: bond_prime_index_message_at < 8 -> bond_prime_index_message_record.transmission_time_short[bond_prime_index_message_at] = (bond_prime_index_message_base + 168 + bond_prime_index_message_at + 1) % 256; bond_prime_index_message_at = bond_prime_index_message_at + 1
   :: else -> break
   od;
-  bond_prime_index_message_record.end_keyword = (bond_prime_index_message_base + 177 + 1) % 256;
+  bond_prime_index_message_record.end_keyword = (bond_prime_index_message_base + 176 + 1) % 256;
   skip
 }
 
-/* Bond Prime Index Message to the wire, 178 bytes from where the cursor stands */
+/* Bond Prime Index Message to the wire, 177 bytes from where the cursor stands */
 inline encode_bond_prime_index_message(bond_prime_index_message_record) {
   bond_prime_index_message_at = 0;
   do
@@ -1098,14 +1098,14 @@ inline encode_bond_prime_index_message(bond_prime_index_message_record) {
   od;
   bond_prime_index_message_at = 0;
   do
-  :: bond_prime_index_message_at < 9 -> wire[at] = bond_prime_index_message_record.transmission_time[bond_prime_index_message_at]; at = at + 1; bond_prime_index_message_at = bond_prime_index_message_at + 1
+  :: bond_prime_index_message_at < 8 -> wire[at] = bond_prime_index_message_record.transmission_time_short[bond_prime_index_message_at]; at = at + 1; bond_prime_index_message_at = bond_prime_index_message_at + 1
   :: else -> break
   od;
   wire[at] = bond_prime_index_message_record.end_keyword; at = at + 1;
   skip
 }
 
-/* Bond Prime Index Message off the wire, 178 bytes from where the cursor stands */
+/* Bond Prime Index Message off the wire, 177 bytes from where the cursor stands */
 inline decode_bond_prime_index_message(bond_prime_index_message_record) {
   bond_prime_index_message_at = 0;
   do
@@ -1174,7 +1174,7 @@ inline decode_bond_prime_index_message(bond_prime_index_message_record) {
   od;
   bond_prime_index_message_at = 0;
   do
-  :: bond_prime_index_message_at < 9 -> bond_prime_index_message_record.transmission_time[bond_prime_index_message_at] = wire[at]; at = at + 1; bond_prime_index_message_at = bond_prime_index_message_at + 1
+  :: bond_prime_index_message_at < 8 -> bond_prime_index_message_record.transmission_time_short[bond_prime_index_message_at] = wire[at]; at = at + 1; bond_prime_index_message_at = bond_prime_index_message_at + 1
   :: else -> break
   od;
   bond_prime_index_message_record.end_keyword = wire[at]; at = at + 1;
@@ -1250,7 +1250,7 @@ inline equal_bond_prime_index_message(bond_prime_index_message_read, bond_prime_
   od;
   bond_prime_index_message_at = 0;
   do
-  :: bond_prime_index_message_at < 9 -> assert(bond_prime_index_message_read.transmission_time[bond_prime_index_message_at] == bond_prime_index_message_written.transmission_time[bond_prime_index_message_at]); bond_prime_index_message_at = bond_prime_index_message_at + 1
+  :: bond_prime_index_message_at < 8 -> assert(bond_prime_index_message_read.transmission_time_short[bond_prime_index_message_at] == bond_prime_index_message_written.transmission_time_short[bond_prime_index_message_at]); bond_prime_index_message_at = bond_prime_index_message_at + 1
   :: else -> break
   od;
   assert(bond_prime_index_message_read.end_keyword == bond_prime_index_message_written.end_keyword);
@@ -4843,8 +4843,8 @@ typedef BondsOrderFilledMessage {
   byte yield_opening_price[13];
   byte yield_todays_high[13];
   byte yield_todays_low[13];
-  byte accumulated_trading_volume[15];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_volume_long[15];
+  byte accumulated_trading_value_long[22];
   byte settlement_date[8];
   byte end_keyword
 };
@@ -4935,12 +4935,12 @@ inline fill_bonds_order_filled_message(bonds_order_filled_message_record, bonds_
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 15 -> bonds_order_filled_message_record.accumulated_trading_volume[bonds_order_filled_message_at] = bonds_order_filled_message_value; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 15 -> bonds_order_filled_message_record.accumulated_trading_volume_long[bonds_order_filled_message_at] = bonds_order_filled_message_value; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 22 -> bonds_order_filled_message_record.accumulated_trading_value[bonds_order_filled_message_at] = bonds_order_filled_message_value; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 22 -> bonds_order_filled_message_record.accumulated_trading_value_long[bonds_order_filled_message_at] = bonds_order_filled_message_value; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
@@ -5036,12 +5036,12 @@ inline ramp_bonds_order_filled_message(bonds_order_filled_message_record, bonds_
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 15 -> bonds_order_filled_message_record.accumulated_trading_volume[bonds_order_filled_message_at] = (bonds_order_filled_message_base + 172 + bonds_order_filled_message_at + 1) % 256; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 15 -> bonds_order_filled_message_record.accumulated_trading_volume_long[bonds_order_filled_message_at] = (bonds_order_filled_message_base + 172 + bonds_order_filled_message_at + 1) % 256; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 22 -> bonds_order_filled_message_record.accumulated_trading_value[bonds_order_filled_message_at] = (bonds_order_filled_message_base + 187 + bonds_order_filled_message_at + 1) % 256; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 22 -> bonds_order_filled_message_record.accumulated_trading_value_long[bonds_order_filled_message_at] = (bonds_order_filled_message_base + 187 + bonds_order_filled_message_at + 1) % 256; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
@@ -5137,12 +5137,12 @@ inline encode_bonds_order_filled_message(bonds_order_filled_message_record) {
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 15 -> wire[at] = bonds_order_filled_message_record.accumulated_trading_volume[bonds_order_filled_message_at]; at = at + 1; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 15 -> wire[at] = bonds_order_filled_message_record.accumulated_trading_volume_long[bonds_order_filled_message_at]; at = at + 1; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 22 -> wire[at] = bonds_order_filled_message_record.accumulated_trading_value[bonds_order_filled_message_at]; at = at + 1; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 22 -> wire[at] = bonds_order_filled_message_record.accumulated_trading_value_long[bonds_order_filled_message_at]; at = at + 1; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
@@ -5238,12 +5238,12 @@ inline decode_bonds_order_filled_message(bonds_order_filled_message_record) {
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 15 -> bonds_order_filled_message_record.accumulated_trading_volume[bonds_order_filled_message_at] = wire[at]; at = at + 1; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 15 -> bonds_order_filled_message_record.accumulated_trading_volume_long[bonds_order_filled_message_at] = wire[at]; at = at + 1; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 22 -> bonds_order_filled_message_record.accumulated_trading_value[bonds_order_filled_message_at] = wire[at]; at = at + 1; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 22 -> bonds_order_filled_message_record.accumulated_trading_value_long[bonds_order_filled_message_at] = wire[at]; at = at + 1; bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
@@ -5339,12 +5339,12 @@ inline equal_bonds_order_filled_message(bonds_order_filled_message_read, bonds_o
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 15 -> assert(bonds_order_filled_message_read.accumulated_trading_volume[bonds_order_filled_message_at] == bonds_order_filled_message_written.accumulated_trading_volume[bonds_order_filled_message_at]); bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 15 -> assert(bonds_order_filled_message_read.accumulated_trading_volume_long[bonds_order_filled_message_at] == bonds_order_filled_message_written.accumulated_trading_volume_long[bonds_order_filled_message_at]); bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
   do
-  :: bonds_order_filled_message_at < 22 -> assert(bonds_order_filled_message_read.accumulated_trading_value[bonds_order_filled_message_at] == bonds_order_filled_message_written.accumulated_trading_value[bonds_order_filled_message_at]); bonds_order_filled_message_at = bonds_order_filled_message_at + 1
+  :: bonds_order_filled_message_at < 22 -> assert(bonds_order_filled_message_read.accumulated_trading_value_long[bonds_order_filled_message_at] == bonds_order_filled_message_written.accumulated_trading_value_long[bonds_order_filled_message_at]); bonds_order_filled_message_at = bonds_order_filled_message_at + 1
   :: else -> break
   od;
   bonds_order_filled_message_at = 0;
@@ -5376,8 +5376,8 @@ typedef GeneralBondsKtbOrderFilledPlusQuoteMessage {
   byte yield_opening_price[13];
   byte yield_todays_high[13];
   byte yield_todays_low[13];
-  byte accumulated_trading_volume[15];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_volume_long[15];
+  byte accumulated_trading_value_long[22];
   byte settlement_date[8];
   byte ask_level_1_price[11];
   byte bid_level_1_price[11];
@@ -5500,12 +5500,12 @@ inline fill_general_bonds_ktb_order_filled_plus_quote_message(general_bonds_ktb_
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_volume[general_bonds_ktb_order_filled_plus_quote_message_at] = general_bonds_ktb_order_filled_plus_quote_message_value; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_volume_long[general_bonds_ktb_order_filled_plus_quote_message_at] = general_bonds_ktb_order_filled_plus_quote_message_value; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_value[general_bonds_ktb_order_filled_plus_quote_message_at] = general_bonds_ktb_order_filled_plus_quote_message_value; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_value_long[general_bonds_ktb_order_filled_plus_quote_message_at] = general_bonds_ktb_order_filled_plus_quote_message_value; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
@@ -5761,12 +5761,12 @@ inline ramp_general_bonds_ktb_order_filled_plus_quote_message(general_bonds_ktb_
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_volume[general_bonds_ktb_order_filled_plus_quote_message_at] = (general_bonds_ktb_order_filled_plus_quote_message_base + 172 + general_bonds_ktb_order_filled_plus_quote_message_at + 1) % 256; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_volume_long[general_bonds_ktb_order_filled_plus_quote_message_at] = (general_bonds_ktb_order_filled_plus_quote_message_base + 172 + general_bonds_ktb_order_filled_plus_quote_message_at + 1) % 256; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_value[general_bonds_ktb_order_filled_plus_quote_message_at] = (general_bonds_ktb_order_filled_plus_quote_message_base + 187 + general_bonds_ktb_order_filled_plus_quote_message_at + 1) % 256; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_value_long[general_bonds_ktb_order_filled_plus_quote_message_at] = (general_bonds_ktb_order_filled_plus_quote_message_base + 187 + general_bonds_ktb_order_filled_plus_quote_message_at + 1) % 256; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
@@ -6022,12 +6022,12 @@ inline encode_general_bonds_ktb_order_filled_plus_quote_message(general_bonds_kt
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> wire[at] = general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_volume[general_bonds_ktb_order_filled_plus_quote_message_at]; at = at + 1; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> wire[at] = general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_volume_long[general_bonds_ktb_order_filled_plus_quote_message_at]; at = at + 1; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> wire[at] = general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_value[general_bonds_ktb_order_filled_plus_quote_message_at]; at = at + 1; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> wire[at] = general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_value_long[general_bonds_ktb_order_filled_plus_quote_message_at]; at = at + 1; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
@@ -6283,12 +6283,12 @@ inline decode_general_bonds_ktb_order_filled_plus_quote_message(general_bonds_kt
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_volume[general_bonds_ktb_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_volume_long[general_bonds_ktb_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_value[general_bonds_ktb_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> general_bonds_ktb_order_filled_plus_quote_message_record.accumulated_trading_value_long[general_bonds_ktb_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
@@ -6544,12 +6544,12 @@ inline equal_general_bonds_ktb_order_filled_plus_quote_message(general_bonds_ktb
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> assert(general_bonds_ktb_order_filled_plus_quote_message_read.accumulated_trading_volume[general_bonds_ktb_order_filled_plus_quote_message_at] == general_bonds_ktb_order_filled_plus_quote_message_written.accumulated_trading_volume[general_bonds_ktb_order_filled_plus_quote_message_at]); general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 15 -> assert(general_bonds_ktb_order_filled_plus_quote_message_read.accumulated_trading_volume_long[general_bonds_ktb_order_filled_plus_quote_message_at] == general_bonds_ktb_order_filled_plus_quote_message_written.accumulated_trading_volume_long[general_bonds_ktb_order_filled_plus_quote_message_at]); general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
   do
-  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> assert(general_bonds_ktb_order_filled_plus_quote_message_read.accumulated_trading_value[general_bonds_ktb_order_filled_plus_quote_message_at] == general_bonds_ktb_order_filled_plus_quote_message_written.accumulated_trading_value[general_bonds_ktb_order_filled_plus_quote_message_at]); general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
+  :: general_bonds_ktb_order_filled_plus_quote_message_at < 22 -> assert(general_bonds_ktb_order_filled_plus_quote_message_read.accumulated_trading_value_long[general_bonds_ktb_order_filled_plus_quote_message_at] == general_bonds_ktb_order_filled_plus_quote_message_written.accumulated_trading_value_long[general_bonds_ktb_order_filled_plus_quote_message_at]); general_bonds_ktb_order_filled_plus_quote_message_at = general_bonds_ktb_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   general_bonds_ktb_order_filled_plus_quote_message_at = 0;
@@ -6728,7 +6728,7 @@ typedef BondsNegotiatedTradeDataMessage {
   byte board_id[2];
   byte isin_code[12];
   byte a_designated_number_for_an_issue[6];
-  byte accumulated_trading_volume[15];
+  byte accumulated_trading_volume_long[15];
   byte end_keyword
 };
 
@@ -6753,7 +6753,7 @@ inline fill_bonds_negotiated_trade_data_message(bonds_negotiated_trade_data_mess
   od;
   bonds_negotiated_trade_data_message_at = 0;
   do
-  :: bonds_negotiated_trade_data_message_at < 15 -> bonds_negotiated_trade_data_message_record.accumulated_trading_volume[bonds_negotiated_trade_data_message_at] = bonds_negotiated_trade_data_message_value; bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
+  :: bonds_negotiated_trade_data_message_at < 15 -> bonds_negotiated_trade_data_message_record.accumulated_trading_volume_long[bonds_negotiated_trade_data_message_at] = bonds_negotiated_trade_data_message_value; bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
   :: else -> break
   od;
   bonds_negotiated_trade_data_message_record.end_keyword = bonds_negotiated_trade_data_message_value;
@@ -6779,7 +6779,7 @@ inline ramp_bonds_negotiated_trade_data_message(bonds_negotiated_trade_data_mess
   od;
   bonds_negotiated_trade_data_message_at = 0;
   do
-  :: bonds_negotiated_trade_data_message_at < 15 -> bonds_negotiated_trade_data_message_record.accumulated_trading_volume[bonds_negotiated_trade_data_message_at] = (bonds_negotiated_trade_data_message_base + 20 + bonds_negotiated_trade_data_message_at + 1) % 256; bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
+  :: bonds_negotiated_trade_data_message_at < 15 -> bonds_negotiated_trade_data_message_record.accumulated_trading_volume_long[bonds_negotiated_trade_data_message_at] = (bonds_negotiated_trade_data_message_base + 20 + bonds_negotiated_trade_data_message_at + 1) % 256; bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
   :: else -> break
   od;
   bonds_negotiated_trade_data_message_record.end_keyword = (bonds_negotiated_trade_data_message_base + 35 + 1) % 256;
@@ -6805,7 +6805,7 @@ inline encode_bonds_negotiated_trade_data_message(bonds_negotiated_trade_data_me
   od;
   bonds_negotiated_trade_data_message_at = 0;
   do
-  :: bonds_negotiated_trade_data_message_at < 15 -> wire[at] = bonds_negotiated_trade_data_message_record.accumulated_trading_volume[bonds_negotiated_trade_data_message_at]; at = at + 1; bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
+  :: bonds_negotiated_trade_data_message_at < 15 -> wire[at] = bonds_negotiated_trade_data_message_record.accumulated_trading_volume_long[bonds_negotiated_trade_data_message_at]; at = at + 1; bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
   :: else -> break
   od;
   wire[at] = bonds_negotiated_trade_data_message_record.end_keyword; at = at + 1;
@@ -6831,7 +6831,7 @@ inline decode_bonds_negotiated_trade_data_message(bonds_negotiated_trade_data_me
   od;
   bonds_negotiated_trade_data_message_at = 0;
   do
-  :: bonds_negotiated_trade_data_message_at < 15 -> bonds_negotiated_trade_data_message_record.accumulated_trading_volume[bonds_negotiated_trade_data_message_at] = wire[at]; at = at + 1; bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
+  :: bonds_negotiated_trade_data_message_at < 15 -> bonds_negotiated_trade_data_message_record.accumulated_trading_volume_long[bonds_negotiated_trade_data_message_at] = wire[at]; at = at + 1; bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
   :: else -> break
   od;
   bonds_negotiated_trade_data_message_record.end_keyword = wire[at]; at = at + 1;
@@ -6857,7 +6857,7 @@ inline equal_bonds_negotiated_trade_data_message(bonds_negotiated_trade_data_mes
   od;
   bonds_negotiated_trade_data_message_at = 0;
   do
-  :: bonds_negotiated_trade_data_message_at < 15 -> assert(bonds_negotiated_trade_data_message_read.accumulated_trading_volume[bonds_negotiated_trade_data_message_at] == bonds_negotiated_trade_data_message_written.accumulated_trading_volume[bonds_negotiated_trade_data_message_at]); bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
+  :: bonds_negotiated_trade_data_message_at < 15 -> assert(bonds_negotiated_trade_data_message_read.accumulated_trading_volume_long[bonds_negotiated_trade_data_message_at] == bonds_negotiated_trade_data_message_written.accumulated_trading_volume_long[bonds_negotiated_trade_data_message_at]); bonds_negotiated_trade_data_message_at = bonds_negotiated_trade_data_message_at + 1
   :: else -> break
   od;
   assert(bonds_negotiated_trade_data_message_read.end_keyword == bonds_negotiated_trade_data_message_written.end_keyword);
@@ -9839,8 +9839,8 @@ typedef KtbConfirmedInfoForWitMessage {
   byte isin_code[12];
   byte trading_date[8];
   byte bid_closing_date[8];
-  byte accumulated_trading_volume[15];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_volume_long[15];
+  byte accumulated_trading_value_long[22];
   byte cancellation;
   byte end_keyword
 };
@@ -9866,12 +9866,12 @@ inline fill_ktb_confirmed_info_for_wit_message(ktb_confirmed_info_for_wit_messag
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 15 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_volume[ktb_confirmed_info_for_wit_message_at] = ktb_confirmed_info_for_wit_message_value; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 15 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_volume_long[ktb_confirmed_info_for_wit_message_at] = ktb_confirmed_info_for_wit_message_value; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 22 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_value[ktb_confirmed_info_for_wit_message_at] = ktb_confirmed_info_for_wit_message_value; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 22 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_value_long[ktb_confirmed_info_for_wit_message_at] = ktb_confirmed_info_for_wit_message_value; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   ktb_confirmed_info_for_wit_message_record.cancellation = ktb_confirmed_info_for_wit_message_value;
@@ -9898,12 +9898,12 @@ inline ramp_ktb_confirmed_info_for_wit_message(ktb_confirmed_info_for_wit_messag
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 15 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_volume[ktb_confirmed_info_for_wit_message_at] = (ktb_confirmed_info_for_wit_message_base + 28 + ktb_confirmed_info_for_wit_message_at + 1) % 256; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 15 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_volume_long[ktb_confirmed_info_for_wit_message_at] = (ktb_confirmed_info_for_wit_message_base + 28 + ktb_confirmed_info_for_wit_message_at + 1) % 256; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 22 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_value[ktb_confirmed_info_for_wit_message_at] = (ktb_confirmed_info_for_wit_message_base + 43 + ktb_confirmed_info_for_wit_message_at + 1) % 256; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 22 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_value_long[ktb_confirmed_info_for_wit_message_at] = (ktb_confirmed_info_for_wit_message_base + 43 + ktb_confirmed_info_for_wit_message_at + 1) % 256; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   ktb_confirmed_info_for_wit_message_record.cancellation = (ktb_confirmed_info_for_wit_message_base + 65 + 1) % 256;
@@ -9930,12 +9930,12 @@ inline encode_ktb_confirmed_info_for_wit_message(ktb_confirmed_info_for_wit_mess
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 15 -> wire[at] = ktb_confirmed_info_for_wit_message_record.accumulated_trading_volume[ktb_confirmed_info_for_wit_message_at]; at = at + 1; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 15 -> wire[at] = ktb_confirmed_info_for_wit_message_record.accumulated_trading_volume_long[ktb_confirmed_info_for_wit_message_at]; at = at + 1; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 22 -> wire[at] = ktb_confirmed_info_for_wit_message_record.accumulated_trading_value[ktb_confirmed_info_for_wit_message_at]; at = at + 1; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 22 -> wire[at] = ktb_confirmed_info_for_wit_message_record.accumulated_trading_value_long[ktb_confirmed_info_for_wit_message_at]; at = at + 1; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   wire[at] = ktb_confirmed_info_for_wit_message_record.cancellation; at = at + 1;
@@ -9962,12 +9962,12 @@ inline decode_ktb_confirmed_info_for_wit_message(ktb_confirmed_info_for_wit_mess
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 15 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_volume[ktb_confirmed_info_for_wit_message_at] = wire[at]; at = at + 1; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 15 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_volume_long[ktb_confirmed_info_for_wit_message_at] = wire[at]; at = at + 1; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 22 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_value[ktb_confirmed_info_for_wit_message_at] = wire[at]; at = at + 1; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 22 -> ktb_confirmed_info_for_wit_message_record.accumulated_trading_value_long[ktb_confirmed_info_for_wit_message_at] = wire[at]; at = at + 1; ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   ktb_confirmed_info_for_wit_message_record.cancellation = wire[at]; at = at + 1;
@@ -9994,12 +9994,12 @@ inline equal_ktb_confirmed_info_for_wit_message(ktb_confirmed_info_for_wit_messa
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 15 -> assert(ktb_confirmed_info_for_wit_message_read.accumulated_trading_volume[ktb_confirmed_info_for_wit_message_at] == ktb_confirmed_info_for_wit_message_written.accumulated_trading_volume[ktb_confirmed_info_for_wit_message_at]); ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 15 -> assert(ktb_confirmed_info_for_wit_message_read.accumulated_trading_volume_long[ktb_confirmed_info_for_wit_message_at] == ktb_confirmed_info_for_wit_message_written.accumulated_trading_volume_long[ktb_confirmed_info_for_wit_message_at]); ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   ktb_confirmed_info_for_wit_message_at = 0;
   do
-  :: ktb_confirmed_info_for_wit_message_at < 22 -> assert(ktb_confirmed_info_for_wit_message_read.accumulated_trading_value[ktb_confirmed_info_for_wit_message_at] == ktb_confirmed_info_for_wit_message_written.accumulated_trading_value[ktb_confirmed_info_for_wit_message_at]); ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
+  :: ktb_confirmed_info_for_wit_message_at < 22 -> assert(ktb_confirmed_info_for_wit_message_read.accumulated_trading_value_long[ktb_confirmed_info_for_wit_message_at] == ktb_confirmed_info_for_wit_message_written.accumulated_trading_value_long[ktb_confirmed_info_for_wit_message_at]); ktb_confirmed_info_for_wit_message_at = ktb_confirmed_info_for_wit_message_at + 1
   :: else -> break
   od;
   assert(ktb_confirmed_info_for_wit_message_read.cancellation == ktb_confirmed_info_for_wit_message_written.cancellation);
@@ -10012,7 +10012,7 @@ inline equal_ktb_confirmed_info_for_wit_message(ktb_confirmed_info_for_wit_messa
 /* KTB Short-term Yield reference. */
 typedef KtbShortTermYieldMessage {
   byte transmission_date[8];
-  byte calculation_time[9];
+  byte calculation_time_long[9];
   byte short_term_interest_rates_type_code;
   byte short_term_yield[13];
   byte end_keyword
@@ -10029,7 +10029,7 @@ inline fill_ktb_short_term_yield_message(ktb_short_term_yield_message_record, kt
   od;
   ktb_short_term_yield_message_at = 0;
   do
-  :: ktb_short_term_yield_message_at < 9 -> ktb_short_term_yield_message_record.calculation_time[ktb_short_term_yield_message_at] = ktb_short_term_yield_message_value; ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
+  :: ktb_short_term_yield_message_at < 9 -> ktb_short_term_yield_message_record.calculation_time_long[ktb_short_term_yield_message_at] = ktb_short_term_yield_message_value; ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
   :: else -> break
   od;
   ktb_short_term_yield_message_record.short_term_interest_rates_type_code = ktb_short_term_yield_message_value;
@@ -10051,7 +10051,7 @@ inline ramp_ktb_short_term_yield_message(ktb_short_term_yield_message_record, kt
   od;
   ktb_short_term_yield_message_at = 0;
   do
-  :: ktb_short_term_yield_message_at < 9 -> ktb_short_term_yield_message_record.calculation_time[ktb_short_term_yield_message_at] = (ktb_short_term_yield_message_base + 8 + ktb_short_term_yield_message_at + 1) % 256; ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
+  :: ktb_short_term_yield_message_at < 9 -> ktb_short_term_yield_message_record.calculation_time_long[ktb_short_term_yield_message_at] = (ktb_short_term_yield_message_base + 8 + ktb_short_term_yield_message_at + 1) % 256; ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
   :: else -> break
   od;
   ktb_short_term_yield_message_record.short_term_interest_rates_type_code = (ktb_short_term_yield_message_base + 17 + 1) % 256;
@@ -10073,7 +10073,7 @@ inline encode_ktb_short_term_yield_message(ktb_short_term_yield_message_record) 
   od;
   ktb_short_term_yield_message_at = 0;
   do
-  :: ktb_short_term_yield_message_at < 9 -> wire[at] = ktb_short_term_yield_message_record.calculation_time[ktb_short_term_yield_message_at]; at = at + 1; ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
+  :: ktb_short_term_yield_message_at < 9 -> wire[at] = ktb_short_term_yield_message_record.calculation_time_long[ktb_short_term_yield_message_at]; at = at + 1; ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
   :: else -> break
   od;
   wire[at] = ktb_short_term_yield_message_record.short_term_interest_rates_type_code; at = at + 1;
@@ -10095,7 +10095,7 @@ inline decode_ktb_short_term_yield_message(ktb_short_term_yield_message_record) 
   od;
   ktb_short_term_yield_message_at = 0;
   do
-  :: ktb_short_term_yield_message_at < 9 -> ktb_short_term_yield_message_record.calculation_time[ktb_short_term_yield_message_at] = wire[at]; at = at + 1; ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
+  :: ktb_short_term_yield_message_at < 9 -> ktb_short_term_yield_message_record.calculation_time_long[ktb_short_term_yield_message_at] = wire[at]; at = at + 1; ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
   :: else -> break
   od;
   ktb_short_term_yield_message_record.short_term_interest_rates_type_code = wire[at]; at = at + 1;
@@ -10117,7 +10117,7 @@ inline equal_ktb_short_term_yield_message(ktb_short_term_yield_message_read, ktb
   od;
   ktb_short_term_yield_message_at = 0;
   do
-  :: ktb_short_term_yield_message_at < 9 -> assert(ktb_short_term_yield_message_read.calculation_time[ktb_short_term_yield_message_at] == ktb_short_term_yield_message_written.calculation_time[ktb_short_term_yield_message_at]); ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
+  :: ktb_short_term_yield_message_at < 9 -> assert(ktb_short_term_yield_message_read.calculation_time_long[ktb_short_term_yield_message_at] == ktb_short_term_yield_message_written.calculation_time_long[ktb_short_term_yield_message_at]); ktb_short_term_yield_message_at = ktb_short_term_yield_message_at + 1
   :: else -> break
   od;
   assert(ktb_short_term_yield_message_read.short_term_interest_rates_type_code == ktb_short_term_yield_message_written.short_term_interest_rates_type_code);
@@ -10135,7 +10135,7 @@ inline equal_ktb_short_term_yield_message(ktb_short_term_yield_message_read, ktb
 /* KTB Average Yield reference. */
 typedef KtbAverageYieldMessage {
   byte transmission_date[8];
-  byte calculation_time[9];
+  byte calculation_time_long[9];
   byte short_term_interest_rates_type_code;
   byte average_yield[13];
   byte end_keyword
@@ -10152,7 +10152,7 @@ inline fill_ktb_average_yield_message(ktb_average_yield_message_record, ktb_aver
   od;
   ktb_average_yield_message_at = 0;
   do
-  :: ktb_average_yield_message_at < 9 -> ktb_average_yield_message_record.calculation_time[ktb_average_yield_message_at] = ktb_average_yield_message_value; ktb_average_yield_message_at = ktb_average_yield_message_at + 1
+  :: ktb_average_yield_message_at < 9 -> ktb_average_yield_message_record.calculation_time_long[ktb_average_yield_message_at] = ktb_average_yield_message_value; ktb_average_yield_message_at = ktb_average_yield_message_at + 1
   :: else -> break
   od;
   ktb_average_yield_message_record.short_term_interest_rates_type_code = ktb_average_yield_message_value;
@@ -10174,7 +10174,7 @@ inline ramp_ktb_average_yield_message(ktb_average_yield_message_record, ktb_aver
   od;
   ktb_average_yield_message_at = 0;
   do
-  :: ktb_average_yield_message_at < 9 -> ktb_average_yield_message_record.calculation_time[ktb_average_yield_message_at] = (ktb_average_yield_message_base + 8 + ktb_average_yield_message_at + 1) % 256; ktb_average_yield_message_at = ktb_average_yield_message_at + 1
+  :: ktb_average_yield_message_at < 9 -> ktb_average_yield_message_record.calculation_time_long[ktb_average_yield_message_at] = (ktb_average_yield_message_base + 8 + ktb_average_yield_message_at + 1) % 256; ktb_average_yield_message_at = ktb_average_yield_message_at + 1
   :: else -> break
   od;
   ktb_average_yield_message_record.short_term_interest_rates_type_code = (ktb_average_yield_message_base + 17 + 1) % 256;
@@ -10196,7 +10196,7 @@ inline encode_ktb_average_yield_message(ktb_average_yield_message_record) {
   od;
   ktb_average_yield_message_at = 0;
   do
-  :: ktb_average_yield_message_at < 9 -> wire[at] = ktb_average_yield_message_record.calculation_time[ktb_average_yield_message_at]; at = at + 1; ktb_average_yield_message_at = ktb_average_yield_message_at + 1
+  :: ktb_average_yield_message_at < 9 -> wire[at] = ktb_average_yield_message_record.calculation_time_long[ktb_average_yield_message_at]; at = at + 1; ktb_average_yield_message_at = ktb_average_yield_message_at + 1
   :: else -> break
   od;
   wire[at] = ktb_average_yield_message_record.short_term_interest_rates_type_code; at = at + 1;
@@ -10218,7 +10218,7 @@ inline decode_ktb_average_yield_message(ktb_average_yield_message_record) {
   od;
   ktb_average_yield_message_at = 0;
   do
-  :: ktb_average_yield_message_at < 9 -> ktb_average_yield_message_record.calculation_time[ktb_average_yield_message_at] = wire[at]; at = at + 1; ktb_average_yield_message_at = ktb_average_yield_message_at + 1
+  :: ktb_average_yield_message_at < 9 -> ktb_average_yield_message_record.calculation_time_long[ktb_average_yield_message_at] = wire[at]; at = at + 1; ktb_average_yield_message_at = ktb_average_yield_message_at + 1
   :: else -> break
   od;
   ktb_average_yield_message_record.short_term_interest_rates_type_code = wire[at]; at = at + 1;
@@ -10240,7 +10240,7 @@ inline equal_ktb_average_yield_message(ktb_average_yield_message_read, ktb_avera
   od;
   ktb_average_yield_message_at = 0;
   do
-  :: ktb_average_yield_message_at < 9 -> assert(ktb_average_yield_message_read.calculation_time[ktb_average_yield_message_at] == ktb_average_yield_message_written.calculation_time[ktb_average_yield_message_at]); ktb_average_yield_message_at = ktb_average_yield_message_at + 1
+  :: ktb_average_yield_message_at < 9 -> assert(ktb_average_yield_message_read.calculation_time_long[ktb_average_yield_message_at] == ktb_average_yield_message_written.calculation_time_long[ktb_average_yield_message_at]); ktb_average_yield_message_at = ktb_average_yield_message_at + 1
   :: else -> break
   od;
   assert(ktb_average_yield_message_read.short_term_interest_rates_type_code == ktb_average_yield_message_written.short_term_interest_rates_type_code);
@@ -10920,14 +10920,14 @@ inline equal_investor_activities_per_bond_types_message(investor_activities_per_
   skip
 }
 
-/* ---- Bonds Isin Issue Information Message: 918 bytes ------------------------- */
+/* ---- Bonds Isin Issue Information Message: 898 bytes ------------------------- */
 
 /* Bonds ISIN Issue Information (IFMSRID0038) — Bonds A. Comprehensive bond issue reference data. */
 typedef BondsIsinIssueInformationMessage {
   byte message_sequence_number[8];
   byte isin_code[12];
   byte transmission_date[8];
-  byte transmission_time[9];
+  byte transmission_time_long[9];
   byte record_process_category;
   byte abbreviated_issue_name[40];
   byte abbreviated_issue_name_in_en[40];
@@ -10986,7 +10986,7 @@ typedef BondsIsinIssueInformationMessage {
   byte bond_delisted_date[8];
   byte equity_linked_bond_rights_type_code[2];
   byte isin[12];
-  byte issue_name[80];
+  byte issue_name_short[60];
   byte equity_linked_bond_exercise_price[11];
   byte exercise_ratio[7];
   byte date_to_start_exercising[8];
@@ -11059,7 +11059,7 @@ inline fill_bonds_isin_issue_information_message(bonds_isin_issue_information_me
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 9 -> bonds_isin_issue_information_message_record.transmission_time[bonds_isin_issue_information_message_at] = bonds_isin_issue_information_message_value; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 9 -> bonds_isin_issue_information_message_record.transmission_time_long[bonds_isin_issue_information_message_at] = bonds_isin_issue_information_message_value; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_record.record_process_category = bonds_isin_issue_information_message_value;
@@ -11282,7 +11282,7 @@ inline fill_bonds_isin_issue_information_message(bonds_isin_issue_information_me
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 80 -> bonds_isin_issue_information_message_record.issue_name[bonds_isin_issue_information_message_at] = bonds_isin_issue_information_message_value; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 60 -> bonds_isin_issue_information_message_record.issue_name_short[bonds_isin_issue_information_message_at] = bonds_isin_issue_information_message_value; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
@@ -11484,7 +11484,7 @@ inline ramp_bonds_isin_issue_information_message(bonds_isin_issue_information_me
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 9 -> bonds_isin_issue_information_message_record.transmission_time[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 28 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 9 -> bonds_isin_issue_information_message_record.transmission_time_long[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 28 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_record.record_process_category = (bonds_isin_issue_information_message_base + 37 + 1) % 256;
@@ -11707,190 +11707,190 @@ inline ramp_bonds_isin_issue_information_message(bonds_isin_issue_information_me
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 80 -> bonds_isin_issue_information_message_record.issue_name[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 486 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 60 -> bonds_isin_issue_information_message_record.issue_name_short[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 486 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 11 -> bonds_isin_issue_information_message_record.equity_linked_bond_exercise_price[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 566 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 11 -> bonds_isin_issue_information_message_record.equity_linked_bond_exercise_price[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 546 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 7 -> bonds_isin_issue_information_message_record.exercise_ratio[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 577 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 7 -> bonds_isin_issue_information_message_record.exercise_ratio[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 557 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.date_to_start_exercising[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 584 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.date_to_start_exercising[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 564 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.date_to_end_exercising[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 592 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.date_to_end_exercising[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 572 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 4 -> bonds_isin_issue_information_message_record.institution_code[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 600 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 4 -> bonds_isin_issue_information_message_record.institution_code[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 580 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
-  bonds_isin_issue_information_message_record.record_date_of_dividend_payout = (bonds_isin_issue_information_message_base + 604 + 1) % 256;
-  bonds_isin_issue_information_message_record.profit_participating_accum_status = (bonds_isin_issue_information_message_base + 605 + 1) % 256;
+  bonds_isin_issue_information_message_record.record_date_of_dividend_payout = (bonds_isin_issue_information_message_base + 584 + 1) % 256;
+  bonds_isin_issue_information_message_record.profit_participating_accum_status = (bonds_isin_issue_information_message_base + 585 + 1) % 256;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 12 -> bonds_isin_issue_information_message_record.issue_code_of_post_exercise[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 606 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 12 -> bonds_isin_issue_information_message_record.issue_code_of_post_exercise[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 586 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
-  bonds_isin_issue_information_message_record.amortization_type_code = (bonds_isin_issue_information_message_base + 618 + 1) % 256;
+  bonds_isin_issue_information_message_record.amortization_type_code = (bonds_isin_issue_information_message_base + 598 + 1) % 256;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 22 -> bonds_isin_issue_information_message_record.level_payment_amount[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 619 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
-  :: else -> break
-  od;
-  bonds_isin_issue_information_message_at = 0;
-  do
-  :: bonds_isin_issue_information_message_at < 4 -> bonds_isin_issue_information_message_record.number_of_months_for_grace[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 641 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
-  :: else -> break
-  od;
-  bonds_isin_issue_information_message_record.interest_type_code_during_amortization = (bonds_isin_issue_information_message_base + 645 + 1) % 256;
-  bonds_isin_issue_information_message_at = 0;
-  do
-  :: bonds_isin_issue_information_message_at < 5 -> bonds_isin_issue_information_message_record.number_of_amortization[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 646 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 22 -> bonds_isin_issue_information_message_record.level_payment_amount[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 599 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 20 -> bonds_isin_issue_information_message_record.interest_rate_decision_other_base_rate_name[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 651 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 4 -> bonds_isin_issue_information_message_record.number_of_months_for_grace[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 621 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: else -> break
+  od;
+  bonds_isin_issue_information_message_record.interest_type_code_during_amortization = (bonds_isin_issue_information_message_base + 625 + 1) % 256;
+  bonds_isin_issue_information_message_at = 0;
+  do
+  :: bonds_isin_issue_information_message_at < 5 -> bonds_isin_issue_information_message_record.number_of_amortization[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 626 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 10 -> bonds_isin_issue_information_message_record.spread[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 671 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
-  :: else -> break
-  od;
-  bonds_isin_issue_information_message_record.timing_of_interest_rate_decision_type_code = (bonds_isin_issue_information_message_base + 681 + 1) % 256;
-  bonds_isin_issue_information_message_at = 0;
-  do
-  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.upper_limit_coupon_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 682 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 20 -> bonds_isin_issue_information_message_record.interest_rate_decision_other_base_rate_name[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 631 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.lower_limit_coupon_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 696 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 10 -> bonds_isin_issue_information_message_record.spread[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 651 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: else -> break
+  od;
+  bonds_isin_issue_information_message_record.timing_of_interest_rate_decision_type_code = (bonds_isin_issue_information_message_base + 661 + 1) % 256;
+  bonds_isin_issue_information_message_at = 0;
+  do
+  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.upper_limit_coupon_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 662 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.the_date_to_decide_interest_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 710 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.lower_limit_coupon_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 676 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.first_call_exercise_start_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 718 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.the_date_to_decide_interest_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 690 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.first_call_exercise_end_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 726 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.first_call_exercise_start_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 698 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.second_call_exercise_start_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 734 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.first_call_exercise_end_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 706 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.second_call_exercise_end_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 742 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.second_call_exercise_start_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 714 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.first_put_exercise_start_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 750 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.second_call_exercise_end_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 722 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.first_put_exercise_end_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 758 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.first_put_exercise_start_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 730 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.second_put_exercise_start_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 766 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.first_put_exercise_end_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 738 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.second_put_exercise_end_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 774 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
-  :: else -> break
-  od;
-  bonds_isin_issue_information_message_record.coupon_payment_decision_code_for_bank_holidays = (bonds_isin_issue_information_message_base + 782 + 1) % 256;
-  bonds_isin_issue_information_message_record.hybrid_bond = (bonds_isin_issue_information_message_base + 783 + 1) % 256;
-  bonds_isin_issue_information_message_record.co_cos_type_code = (bonds_isin_issue_information_message_base + 784 + 1) % 256;
-  bonds_isin_issue_information_message_record.coupon_rate_confirmation = (bonds_isin_issue_information_message_base + 785 + 1) % 256;
-  bonds_isin_issue_information_message_at = 0;
-  do
-  :: bonds_isin_issue_information_message_at < 13 -> bonds_isin_issue_information_message_record.principal_guranteed_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 786 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.second_put_exercise_start_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 746 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 11 -> bonds_isin_issue_information_message_record.participating_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 799 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 8 -> bonds_isin_issue_information_message_record.second_put_exercise_end_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 754 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: else -> break
+  od;
+  bonds_isin_issue_information_message_record.coupon_payment_decision_code_for_bank_holidays = (bonds_isin_issue_information_message_base + 762 + 1) % 256;
+  bonds_isin_issue_information_message_record.hybrid_bond = (bonds_isin_issue_information_message_base + 763 + 1) % 256;
+  bonds_isin_issue_information_message_record.co_cos_type_code = (bonds_isin_issue_information_message_base + 764 + 1) % 256;
+  bonds_isin_issue_information_message_record.coupon_rate_confirmation = (bonds_isin_issue_information_message_base + 765 + 1) % 256;
+  bonds_isin_issue_information_message_at = 0;
+  do
+  :: bonds_isin_issue_information_message_at < 13 -> bonds_isin_issue_information_message_record.principal_guranteed_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 766 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 11 -> bonds_isin_issue_information_message_record.maximum_yield[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 810 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
-  :: else -> break
-  od;
-  bonds_isin_issue_information_message_record.strip_bond_type_code = (bonds_isin_issue_information_message_base + 821 + 1) % 256;
-  bonds_isin_issue_information_message_at = 0;
-  do
-  :: bonds_isin_issue_information_message_at < 12 -> bonds_isin_issue_information_message_record.original_bond_type_code_subjec_to_strip[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 822 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 11 -> bonds_isin_issue_information_message_record.participating_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 779 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 22 -> bonds_isin_issue_information_message_record.unstripped_balance[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 834 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 11 -> bonds_isin_issue_information_message_record.maximum_yield[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 790 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
-  bonds_isin_issue_information_message_record.inflation_indexed_category = (bonds_isin_issue_information_message_base + 856 + 1) % 256;
+  bonds_isin_issue_information_message_record.strip_bond_type_code = (bonds_isin_issue_information_message_base + 801 + 1) % 256;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 11 -> bonds_isin_issue_information_message_record.reference_index_for_issue_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 857 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
-  :: else -> break
-  od;
-  bonds_isin_issue_information_message_at = 0;
-  do
-  :: bonds_isin_issue_information_message_at < 2 -> bonds_isin_issue_information_message_record.coupon_rate_decision_base_rate_type_code[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 868 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
-  :: else -> break
-  od;
-  bonds_isin_issue_information_message_record.bond_odd_lot_days_base_interest_type_code = (bonds_isin_issue_information_message_base + 870 + 1) % 256;
-  bonds_isin_issue_information_message_record.base_interest_rate_on_bank_holidays_type_code = (bonds_isin_issue_information_message_base + 871 + 1) % 256;
-  bonds_isin_issue_information_message_at = 0;
-  do
-  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.accrued_interest_rate_on_bank_holidays_type_code[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 872 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
-  :: else -> break
-  od;
-  bonds_isin_issue_information_message_record.principal_payment_methods_on_bank_holidays_type_code = (bonds_isin_issue_information_message_base + 886 + 1) % 256;
-  bonds_isin_issue_information_message_record.principal_base_rate_on_bank_holidays_type_code = (bonds_isin_issue_information_message_base + 887 + 1) % 256;
-  bonds_isin_issue_information_message_at = 0;
-  do
-  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.principal_accrued_interest_rate_on_bank_holidays_type_code[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 888 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 12 -> bonds_isin_issue_information_message_record.original_bond_type_code_subjec_to_strip[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 802 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.stop_out_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 902 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 22 -> bonds_isin_issue_information_message_record.unstripped_balance[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 814 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
-  bonds_isin_issue_information_message_record.crowdfunding = (bonds_isin_issue_information_message_base + 916 + 1) % 256;
-  bonds_isin_issue_information_message_record.end_keyword = (bonds_isin_issue_information_message_base + 917 + 1) % 256;
+  bonds_isin_issue_information_message_record.inflation_indexed_category = (bonds_isin_issue_information_message_base + 836 + 1) % 256;
+  bonds_isin_issue_information_message_at = 0;
+  do
+  :: bonds_isin_issue_information_message_at < 11 -> bonds_isin_issue_information_message_record.reference_index_for_issue_date[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 837 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: else -> break
+  od;
+  bonds_isin_issue_information_message_at = 0;
+  do
+  :: bonds_isin_issue_information_message_at < 2 -> bonds_isin_issue_information_message_record.coupon_rate_decision_base_rate_type_code[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 848 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: else -> break
+  od;
+  bonds_isin_issue_information_message_record.bond_odd_lot_days_base_interest_type_code = (bonds_isin_issue_information_message_base + 850 + 1) % 256;
+  bonds_isin_issue_information_message_record.base_interest_rate_on_bank_holidays_type_code = (bonds_isin_issue_information_message_base + 851 + 1) % 256;
+  bonds_isin_issue_information_message_at = 0;
+  do
+  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.accrued_interest_rate_on_bank_holidays_type_code[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 852 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: else -> break
+  od;
+  bonds_isin_issue_information_message_record.principal_payment_methods_on_bank_holidays_type_code = (bonds_isin_issue_information_message_base + 866 + 1) % 256;
+  bonds_isin_issue_information_message_record.principal_base_rate_on_bank_holidays_type_code = (bonds_isin_issue_information_message_base + 867 + 1) % 256;
+  bonds_isin_issue_information_message_at = 0;
+  do
+  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.principal_accrued_interest_rate_on_bank_holidays_type_code[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 868 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: else -> break
+  od;
+  bonds_isin_issue_information_message_at = 0;
+  do
+  :: bonds_isin_issue_information_message_at < 14 -> bonds_isin_issue_information_message_record.stop_out_rate[bonds_isin_issue_information_message_at] = (bonds_isin_issue_information_message_base + 882 + bonds_isin_issue_information_message_at + 1) % 256; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: else -> break
+  od;
+  bonds_isin_issue_information_message_record.crowdfunding = (bonds_isin_issue_information_message_base + 896 + 1) % 256;
+  bonds_isin_issue_information_message_record.end_keyword = (bonds_isin_issue_information_message_base + 897 + 1) % 256;
   skip
 }
 
-/* Bonds Isin Issue Information Message to the wire, 918 bytes from where the cursor stands */
+/* Bonds Isin Issue Information Message to the wire, 898 bytes from where the cursor stands */
 inline encode_bonds_isin_issue_information_message(bonds_isin_issue_information_message_record) {
   bonds_isin_issue_information_message_at = 0;
   do
@@ -11909,7 +11909,7 @@ inline encode_bonds_isin_issue_information_message(bonds_isin_issue_information_
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 9 -> wire[at] = bonds_isin_issue_information_message_record.transmission_time[bonds_isin_issue_information_message_at]; at = at + 1; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 9 -> wire[at] = bonds_isin_issue_information_message_record.transmission_time_long[bonds_isin_issue_information_message_at]; at = at + 1; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   wire[at] = bonds_isin_issue_information_message_record.record_process_category; at = at + 1;
@@ -12132,7 +12132,7 @@ inline encode_bonds_isin_issue_information_message(bonds_isin_issue_information_
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 80 -> wire[at] = bonds_isin_issue_information_message_record.issue_name[bonds_isin_issue_information_message_at]; at = at + 1; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 60 -> wire[at] = bonds_isin_issue_information_message_record.issue_name_short[bonds_isin_issue_information_message_at]; at = at + 1; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
@@ -12315,7 +12315,7 @@ inline encode_bonds_isin_issue_information_message(bonds_isin_issue_information_
   skip
 }
 
-/* Bonds Isin Issue Information Message off the wire, 918 bytes from where the cursor stands */
+/* Bonds Isin Issue Information Message off the wire, 898 bytes from where the cursor stands */
 inline decode_bonds_isin_issue_information_message(bonds_isin_issue_information_message_record) {
   bonds_isin_issue_information_message_at = 0;
   do
@@ -12334,7 +12334,7 @@ inline decode_bonds_isin_issue_information_message(bonds_isin_issue_information_
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 9 -> bonds_isin_issue_information_message_record.transmission_time[bonds_isin_issue_information_message_at] = wire[at]; at = at + 1; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 9 -> bonds_isin_issue_information_message_record.transmission_time_long[bonds_isin_issue_information_message_at] = wire[at]; at = at + 1; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_record.record_process_category = wire[at]; at = at + 1;
@@ -12557,7 +12557,7 @@ inline decode_bonds_isin_issue_information_message(bonds_isin_issue_information_
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 80 -> bonds_isin_issue_information_message_record.issue_name[bonds_isin_issue_information_message_at] = wire[at]; at = at + 1; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 60 -> bonds_isin_issue_information_message_record.issue_name_short[bonds_isin_issue_information_message_at] = wire[at]; at = at + 1; bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
@@ -12759,7 +12759,7 @@ inline equal_bonds_isin_issue_information_message(bonds_isin_issue_information_m
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 9 -> assert(bonds_isin_issue_information_message_read.transmission_time[bonds_isin_issue_information_message_at] == bonds_isin_issue_information_message_written.transmission_time[bonds_isin_issue_information_message_at]); bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 9 -> assert(bonds_isin_issue_information_message_read.transmission_time_long[bonds_isin_issue_information_message_at] == bonds_isin_issue_information_message_written.transmission_time_long[bonds_isin_issue_information_message_at]); bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   assert(bonds_isin_issue_information_message_read.record_process_category == bonds_isin_issue_information_message_written.record_process_category);
@@ -12982,7 +12982,7 @@ inline equal_bonds_isin_issue_information_message(bonds_isin_issue_information_m
   od;
   bonds_isin_issue_information_message_at = 0;
   do
-  :: bonds_isin_issue_information_message_at < 80 -> assert(bonds_isin_issue_information_message_read.issue_name[bonds_isin_issue_information_message_at] == bonds_isin_issue_information_message_written.issue_name[bonds_isin_issue_information_message_at]); bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
+  :: bonds_isin_issue_information_message_at < 60 -> assert(bonds_isin_issue_information_message_read.issue_name_short[bonds_isin_issue_information_message_at] == bonds_isin_issue_information_message_written.issue_name_short[bonds_isin_issue_information_message_at]); bonds_isin_issue_information_message_at = bonds_isin_issue_information_message_at + 1
   :: else -> break
   od;
   bonds_isin_issue_information_message_at = 0;
@@ -13172,7 +13172,7 @@ typedef BondsIsinInformationTextMessage {
   byte message_sequence_number[8];
   byte isin_code[12];
   byte transmission_date[8];
-  byte issue_name[80];
+  byte issue_name_long[80];
   byte english_issue_name[80];
   byte unusual_issuance_condition[60];
   byte reason_for_exercising_a_call[50];
@@ -13204,7 +13204,7 @@ inline fill_bonds_isin_information_text_message(bonds_isin_information_text_mess
   od;
   bonds_isin_information_text_message_at = 0;
   do
-  :: bonds_isin_information_text_message_at < 80 -> bonds_isin_information_text_message_record.issue_name[bonds_isin_information_text_message_at] = bonds_isin_information_text_message_value; bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
+  :: bonds_isin_information_text_message_at < 80 -> bonds_isin_information_text_message_record.issue_name_long[bonds_isin_information_text_message_at] = bonds_isin_information_text_message_value; bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
   :: else -> break
   od;
   bonds_isin_information_text_message_at = 0;
@@ -13265,7 +13265,7 @@ inline ramp_bonds_isin_information_text_message(bonds_isin_information_text_mess
   od;
   bonds_isin_information_text_message_at = 0;
   do
-  :: bonds_isin_information_text_message_at < 80 -> bonds_isin_information_text_message_record.issue_name[bonds_isin_information_text_message_at] = (bonds_isin_information_text_message_base + 28 + bonds_isin_information_text_message_at + 1) % 256; bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
+  :: bonds_isin_information_text_message_at < 80 -> bonds_isin_information_text_message_record.issue_name_long[bonds_isin_information_text_message_at] = (bonds_isin_information_text_message_base + 28 + bonds_isin_information_text_message_at + 1) % 256; bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
   :: else -> break
   od;
   bonds_isin_information_text_message_at = 0;
@@ -13326,7 +13326,7 @@ inline encode_bonds_isin_information_text_message(bonds_isin_information_text_me
   od;
   bonds_isin_information_text_message_at = 0;
   do
-  :: bonds_isin_information_text_message_at < 80 -> wire[at] = bonds_isin_information_text_message_record.issue_name[bonds_isin_information_text_message_at]; at = at + 1; bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
+  :: bonds_isin_information_text_message_at < 80 -> wire[at] = bonds_isin_information_text_message_record.issue_name_long[bonds_isin_information_text_message_at]; at = at + 1; bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
   :: else -> break
   od;
   bonds_isin_information_text_message_at = 0;
@@ -13387,7 +13387,7 @@ inline decode_bonds_isin_information_text_message(bonds_isin_information_text_me
   od;
   bonds_isin_information_text_message_at = 0;
   do
-  :: bonds_isin_information_text_message_at < 80 -> bonds_isin_information_text_message_record.issue_name[bonds_isin_information_text_message_at] = wire[at]; at = at + 1; bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
+  :: bonds_isin_information_text_message_at < 80 -> bonds_isin_information_text_message_record.issue_name_long[bonds_isin_information_text_message_at] = wire[at]; at = at + 1; bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
   :: else -> break
   od;
   bonds_isin_information_text_message_at = 0;
@@ -13448,7 +13448,7 @@ inline equal_bonds_isin_information_text_message(bonds_isin_information_text_mes
   od;
   bonds_isin_information_text_message_at = 0;
   do
-  :: bonds_isin_information_text_message_at < 80 -> assert(bonds_isin_information_text_message_read.issue_name[bonds_isin_information_text_message_at] == bonds_isin_information_text_message_written.issue_name[bonds_isin_information_text_message_at]); bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
+  :: bonds_isin_information_text_message_at < 80 -> assert(bonds_isin_information_text_message_read.issue_name_long[bonds_isin_information_text_message_at] == bonds_isin_information_text_message_written.issue_name_long[bonds_isin_information_text_message_at]); bonds_isin_information_text_message_at = bonds_isin_information_text_message_at + 1
   :: else -> break
   od;
   bonds_isin_information_text_message_at = 0;
@@ -18337,8 +18337,8 @@ typedef BabyBondsOrderFilledPlusQuoteMessage {
   byte yield_opening_price[13];
   byte yield_todays_high[13];
   byte yield_todays_low[13];
-  byte accumulated_trading_volume[15];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_volume_long[15];
+  byte accumulated_trading_value_long[22];
   byte settlement_date[8];
   byte ask_level_1_price[11];
   byte bid_level_1_price[11];
@@ -18493,12 +18493,12 @@ inline fill_baby_bonds_order_filled_plus_quote_message(baby_bonds_order_filled_p
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_volume[baby_bonds_order_filled_plus_quote_message_at] = baby_bonds_order_filled_plus_quote_message_value; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_volume_long[baby_bonds_order_filled_plus_quote_message_at] = baby_bonds_order_filled_plus_quote_message_value; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_value[baby_bonds_order_filled_plus_quote_message_at] = baby_bonds_order_filled_plus_quote_message_value; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_value_long[baby_bonds_order_filled_plus_quote_message_at] = baby_bonds_order_filled_plus_quote_message_value; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
@@ -18914,12 +18914,12 @@ inline ramp_baby_bonds_order_filled_plus_quote_message(baby_bonds_order_filled_p
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_volume[baby_bonds_order_filled_plus_quote_message_at] = (baby_bonds_order_filled_plus_quote_message_base + 172 + baby_bonds_order_filled_plus_quote_message_at + 1) % 256; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_volume_long[baby_bonds_order_filled_plus_quote_message_at] = (baby_bonds_order_filled_plus_quote_message_base + 172 + baby_bonds_order_filled_plus_quote_message_at + 1) % 256; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_value[baby_bonds_order_filled_plus_quote_message_at] = (baby_bonds_order_filled_plus_quote_message_base + 187 + baby_bonds_order_filled_plus_quote_message_at + 1) % 256; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_value_long[baby_bonds_order_filled_plus_quote_message_at] = (baby_bonds_order_filled_plus_quote_message_base + 187 + baby_bonds_order_filled_plus_quote_message_at + 1) % 256; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
@@ -19335,12 +19335,12 @@ inline encode_baby_bonds_order_filled_plus_quote_message(baby_bonds_order_filled
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> wire[at] = baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_volume[baby_bonds_order_filled_plus_quote_message_at]; at = at + 1; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> wire[at] = baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_volume_long[baby_bonds_order_filled_plus_quote_message_at]; at = at + 1; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> wire[at] = baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_value[baby_bonds_order_filled_plus_quote_message_at]; at = at + 1; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> wire[at] = baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_value_long[baby_bonds_order_filled_plus_quote_message_at]; at = at + 1; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
@@ -19756,12 +19756,12 @@ inline decode_baby_bonds_order_filled_plus_quote_message(baby_bonds_order_filled
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_volume[baby_bonds_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_volume_long[baby_bonds_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_value[baby_bonds_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> baby_bonds_order_filled_plus_quote_message_record.accumulated_trading_value_long[baby_bonds_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
@@ -20177,12 +20177,12 @@ inline equal_baby_bonds_order_filled_plus_quote_message(baby_bonds_order_filled_
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> assert(baby_bonds_order_filled_plus_quote_message_read.accumulated_trading_volume[baby_bonds_order_filled_plus_quote_message_at] == baby_bonds_order_filled_plus_quote_message_written.accumulated_trading_volume[baby_bonds_order_filled_plus_quote_message_at]); baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 15 -> assert(baby_bonds_order_filled_plus_quote_message_read.accumulated_trading_volume_long[baby_bonds_order_filled_plus_quote_message_at] == baby_bonds_order_filled_plus_quote_message_written.accumulated_trading_volume_long[baby_bonds_order_filled_plus_quote_message_at]); baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
   do
-  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> assert(baby_bonds_order_filled_plus_quote_message_read.accumulated_trading_value[baby_bonds_order_filled_plus_quote_message_at] == baby_bonds_order_filled_plus_quote_message_written.accumulated_trading_value[baby_bonds_order_filled_plus_quote_message_at]); baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
+  :: baby_bonds_order_filled_plus_quote_message_at < 22 -> assert(baby_bonds_order_filled_plus_quote_message_read.accumulated_trading_value_long[baby_bonds_order_filled_plus_quote_message_at] == baby_bonds_order_filled_plus_quote_message_written.accumulated_trading_value_long[baby_bonds_order_filled_plus_quote_message_at]); baby_bonds_order_filled_plus_quote_message_at = baby_bonds_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   baby_bonds_order_filled_plus_quote_message_at = 0;
@@ -20537,8 +20537,8 @@ typedef RepoOrderFilledPlusQuoteMessage {
   byte category_opening_price[11];
   byte category_todays_high[11];
   byte category_todays_low[11];
-  byte accumulated_trading_volume[15];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_volume_long[15];
+  byte accumulated_trading_value_long[22];
   byte category_accumulated_trading_volume[15];
   byte category_accumulated_trading_value[22];
   byte ask_level_1_price[11];
@@ -20746,12 +20746,12 @@ inline fill_repo_order_filled_plus_quote_message(repo_order_filled_plus_quote_me
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 15 -> repo_order_filled_plus_quote_message_record.accumulated_trading_volume[repo_order_filled_plus_quote_message_at] = repo_order_filled_plus_quote_message_value; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 15 -> repo_order_filled_plus_quote_message_record.accumulated_trading_volume_long[repo_order_filled_plus_quote_message_at] = repo_order_filled_plus_quote_message_value; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 22 -> repo_order_filled_plus_quote_message_record.accumulated_trading_value[repo_order_filled_plus_quote_message_at] = repo_order_filled_plus_quote_message_value; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 22 -> repo_order_filled_plus_quote_message_record.accumulated_trading_value_long[repo_order_filled_plus_quote_message_at] = repo_order_filled_plus_quote_message_value; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
@@ -21352,12 +21352,12 @@ inline ramp_repo_order_filled_plus_quote_message(repo_order_filled_plus_quote_me
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 15 -> repo_order_filled_plus_quote_message_record.accumulated_trading_volume[repo_order_filled_plus_quote_message_at] = (repo_order_filled_plus_quote_message_base + 165 + repo_order_filled_plus_quote_message_at + 1) % 256; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 15 -> repo_order_filled_plus_quote_message_record.accumulated_trading_volume_long[repo_order_filled_plus_quote_message_at] = (repo_order_filled_plus_quote_message_base + 165 + repo_order_filled_plus_quote_message_at + 1) % 256; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 22 -> repo_order_filled_plus_quote_message_record.accumulated_trading_value[repo_order_filled_plus_quote_message_at] = (repo_order_filled_plus_quote_message_base + 180 + repo_order_filled_plus_quote_message_at + 1) % 256; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 22 -> repo_order_filled_plus_quote_message_record.accumulated_trading_value_long[repo_order_filled_plus_quote_message_at] = (repo_order_filled_plus_quote_message_base + 180 + repo_order_filled_plus_quote_message_at + 1) % 256; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
@@ -21958,12 +21958,12 @@ inline encode_repo_order_filled_plus_quote_message(repo_order_filled_plus_quote_
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 15 -> wire[at] = repo_order_filled_plus_quote_message_record.accumulated_trading_volume[repo_order_filled_plus_quote_message_at]; at = at + 1; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 15 -> wire[at] = repo_order_filled_plus_quote_message_record.accumulated_trading_volume_long[repo_order_filled_plus_quote_message_at]; at = at + 1; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 22 -> wire[at] = repo_order_filled_plus_quote_message_record.accumulated_trading_value[repo_order_filled_plus_quote_message_at]; at = at + 1; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 22 -> wire[at] = repo_order_filled_plus_quote_message_record.accumulated_trading_value_long[repo_order_filled_plus_quote_message_at]; at = at + 1; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
@@ -22564,12 +22564,12 @@ inline decode_repo_order_filled_plus_quote_message(repo_order_filled_plus_quote_
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 15 -> repo_order_filled_plus_quote_message_record.accumulated_trading_volume[repo_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 15 -> repo_order_filled_plus_quote_message_record.accumulated_trading_volume_long[repo_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 22 -> repo_order_filled_plus_quote_message_record.accumulated_trading_value[repo_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 22 -> repo_order_filled_plus_quote_message_record.accumulated_trading_value_long[repo_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
@@ -23170,12 +23170,12 @@ inline equal_repo_order_filled_plus_quote_message(repo_order_filled_plus_quote_m
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 15 -> assert(repo_order_filled_plus_quote_message_read.accumulated_trading_volume[repo_order_filled_plus_quote_message_at] == repo_order_filled_plus_quote_message_written.accumulated_trading_volume[repo_order_filled_plus_quote_message_at]); repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 15 -> assert(repo_order_filled_plus_quote_message_read.accumulated_trading_volume_long[repo_order_filled_plus_quote_message_at] == repo_order_filled_plus_quote_message_written.accumulated_trading_volume_long[repo_order_filled_plus_quote_message_at]); repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
   do
-  :: repo_order_filled_plus_quote_message_at < 22 -> assert(repo_order_filled_plus_quote_message_read.accumulated_trading_value[repo_order_filled_plus_quote_message_at] == repo_order_filled_plus_quote_message_written.accumulated_trading_value[repo_order_filled_plus_quote_message_at]); repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
+  :: repo_order_filled_plus_quote_message_at < 22 -> assert(repo_order_filled_plus_quote_message_read.accumulated_trading_value_long[repo_order_filled_plus_quote_message_at] == repo_order_filled_plus_quote_message_written.accumulated_trading_value_long[repo_order_filled_plus_quote_message_at]); repo_order_filled_plus_quote_message_at = repo_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   repo_order_filled_plus_quote_message_at = 0;
@@ -23733,10 +23733,10 @@ proctype check_krx_index_message() {
   atomic {
     at = 0;
     encode_krx_index_message(krx_index_message_sent);
-    assert(at == 88);
+    assert(at == 72);
     at = 0;
     decode_krx_index_message(krx_index_message_got);
-    assert(at == 88);
+    assert(at == 72);
     equal_krx_index_message(krx_index_message_got, krx_index_message_sent)
   }
 }
@@ -23764,10 +23764,10 @@ proctype check_krx_estimated_index_message() {
   atomic {
     at = 0;
     encode_krx_estimated_index_message(krx_estimated_index_message_sent);
-    assert(at == 88);
+    assert(at == 72);
     at = 0;
     decode_krx_estimated_index_message(krx_estimated_index_message_got);
-    assert(at == 88);
+    assert(at == 72);
     equal_krx_estimated_index_message(krx_estimated_index_message_got, krx_estimated_index_message_sent)
   }
 }
@@ -23795,10 +23795,10 @@ proctype check_global_index_message() {
   atomic {
     at = 0;
     encode_global_index_message(global_index_message_sent);
-    assert(at == 62);
+    assert(at == 59);
     at = 0;
     decode_global_index_message(global_index_message_got);
-    assert(at == 62);
+    assert(at == 59);
     equal_global_index_message(global_index_message_got, global_index_message_sent)
   }
 }
@@ -23826,10 +23826,10 @@ proctype check_bond_prime_index_message() {
   atomic {
     at = 0;
     encode_bond_prime_index_message(bond_prime_index_message_sent);
-    assert(at == 178);
+    assert(at == 177);
     at = 0;
     decode_bond_prime_index_message(bond_prime_index_message_got);
-    assert(at == 178);
+    assert(at == 177);
     equal_bond_prime_index_message(bond_prime_index_message_got, bond_prime_index_message_sent)
   }
 }
@@ -24694,10 +24694,10 @@ proctype check_bonds_isin_issue_information_message() {
   atomic {
     at = 0;
     encode_bonds_isin_issue_information_message(bonds_isin_issue_information_message_sent);
-    assert(at == 918);
+    assert(at == 898);
     at = 0;
     decode_bonds_isin_issue_information_message(bonds_isin_issue_information_message_got);
-    assert(at == 918);
+    assert(at == 898);
     equal_bonds_isin_issue_information_message(bonds_isin_issue_information_message_got, bonds_isin_issue_information_message_sent)
   }
 }

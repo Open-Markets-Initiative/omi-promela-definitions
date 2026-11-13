@@ -22,7 +22,7 @@
 /* ---- The wire ---------------------------------------------------------------- */
 
 /* the widest record this protocol states, which is the most a check writes at once */
-#define WIRE 880
+#define WIRE 882
 
 /* the bytes a record is written to and read back from */
 byte wire[WIRE];
@@ -95,7 +95,7 @@ inline equal_polling_data_message(polling_data_message_read, polling_data_messag
   skip
 }
 
-/* ---- Krx Index Message: 82 bytes --------------------------------------------- */
+/* ---- Krx Index Message: 72 bytes --------------------------------------------- */
 
 /* Krx Index real-time message. Reports current index value, change against previous day, accumulated trading volume, and accumulated trading value for one index. The Index ID field identifies which index group (KRX Index Group 1/2/3, Sector A/B, Gold Spot, or Equity Derivatives) this record belongs to. */
 typedef KrxIndexMessage {
@@ -106,7 +106,7 @@ typedef KrxIndexMessage {
   byte index_change_sign_against_the_previous_day;
   byte index_change_against_the_previous_day[9];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_short[12];
   byte filler_4[4];
   byte end_keyword
 };
@@ -148,7 +148,7 @@ inline fill_krx_index_message(krx_index_message_record, krx_index_message_value)
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_value_short[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -195,19 +195,19 @@ inline ramp_krx_index_message(krx_index_message_record, krx_index_message_base) 
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = (krx_index_message_base + 55 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_value_short[krx_index_message_at] = (krx_index_message_base + 55 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 4 -> krx_index_message_record.filler_4[krx_index_message_at] = (krx_index_message_base + 77 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 4 -> krx_index_message_record.filler_4[krx_index_message_at] = (krx_index_message_base + 67 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
-  krx_index_message_record.end_keyword = (krx_index_message_base + 81 + 1) % 256;
+  krx_index_message_record.end_keyword = (krx_index_message_base + 71 + 1) % 256;
   skip
 }
 
-/* Krx Index Message to the wire, 82 bytes from where the cursor stands */
+/* Krx Index Message to the wire, 72 bytes from where the cursor stands */
 inline encode_krx_index_message(krx_index_message_record) {
   krx_index_message_at = 0;
   do
@@ -242,7 +242,7 @@ inline encode_krx_index_message(krx_index_message_record) {
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> wire[at] = krx_index_message_record.accumulated_trading_value[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> wire[at] = krx_index_message_record.accumulated_trading_value_short[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -254,7 +254,7 @@ inline encode_krx_index_message(krx_index_message_record) {
   skip
 }
 
-/* Krx Index Message off the wire, 82 bytes from where the cursor stands */
+/* Krx Index Message off the wire, 72 bytes from where the cursor stands */
 inline decode_krx_index_message(krx_index_message_record) {
   krx_index_message_at = 0;
   do
@@ -289,7 +289,7 @@ inline decode_krx_index_message(krx_index_message_record) {
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.accumulated_trading_value_short[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -336,7 +336,7 @@ inline equal_krx_index_message(krx_index_message_read, krx_index_message_written
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> assert(krx_index_message_read.accumulated_trading_value[krx_index_message_at] == krx_index_message_written.accumulated_trading_value[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> assert(krx_index_message_read.accumulated_trading_value_short[krx_index_message_at] == krx_index_message_written.accumulated_trading_value_short[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -348,7 +348,7 @@ inline equal_krx_index_message(krx_index_message_read, krx_index_message_written
   skip
 }
 
-/* ---- Krx Estimated Index Message: 82 bytes ----------------------------------- */
+/* ---- Krx Estimated Index Message: 72 bytes ----------------------------------- */
 
 /* Krx Estimated Index real-time message. Reports the estimated index value during the pre-opening simultaneous-trading window or during regular session estimation. Identical field layout to the Krx Index Message. */
 typedef KrxEstimatedIndexMessage {
@@ -359,7 +359,7 @@ typedef KrxEstimatedIndexMessage {
   byte index_change_sign_against_the_previous_day;
   byte index_change_against_the_previous_day[9];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_short[12];
   byte filler_4[4];
   byte end_keyword
 };
@@ -401,7 +401,7 @@ inline fill_krx_estimated_index_message(krx_estimated_index_message_record, krx_
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_value_short[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -448,19 +448,19 @@ inline ramp_krx_estimated_index_message(krx_estimated_index_message_record, krx_
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 55 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_value_short[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 55 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 4 -> krx_estimated_index_message_record.filler_4[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 77 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 4 -> krx_estimated_index_message_record.filler_4[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 67 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
-  krx_estimated_index_message_record.end_keyword = (krx_estimated_index_message_base + 81 + 1) % 256;
+  krx_estimated_index_message_record.end_keyword = (krx_estimated_index_message_base + 71 + 1) % 256;
   skip
 }
 
-/* Krx Estimated Index Message to the wire, 82 bytes from where the cursor stands */
+/* Krx Estimated Index Message to the wire, 72 bytes from where the cursor stands */
 inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   krx_estimated_index_message_at = 0;
   do
@@ -495,7 +495,7 @@ inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> wire[at] = krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> wire[at] = krx_estimated_index_message_record.accumulated_trading_value_short[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -507,7 +507,7 @@ inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   skip
 }
 
-/* Krx Estimated Index Message off the wire, 82 bytes from where the cursor stands */
+/* Krx Estimated Index Message off the wire, 72 bytes from where the cursor stands */
 inline decode_krx_estimated_index_message(krx_estimated_index_message_record) {
   krx_estimated_index_message_at = 0;
   do
@@ -542,7 +542,7 @@ inline decode_krx_estimated_index_message(krx_estimated_index_message_record) {
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.accumulated_trading_value_short[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -589,7 +589,7 @@ inline equal_krx_estimated_index_message(krx_estimated_index_message_read, krx_e
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> assert(krx_estimated_index_message_read.accumulated_trading_value[krx_estimated_index_message_at] == krx_estimated_index_message_written.accumulated_trading_value[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> assert(krx_estimated_index_message_read.accumulated_trading_value_short[krx_estimated_index_message_at] == krx_estimated_index_message_written.accumulated_trading_value_short[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -601,7 +601,7 @@ inline equal_krx_estimated_index_message(krx_estimated_index_message_read, krx_e
   skip
 }
 
-/* ---- Global Index Message: 62 bytes ------------------------------------------ */
+/* ---- Global Index Message: 59 bytes ------------------------------------------ */
 
 /* Global Index real-time message. Reports the current value of a foreign index referenced by KRX (e.g. Korea-Taiwan IT Premier, Korea-China Index) in the index's native currency. */
 typedef GlobalIndexMessage {
@@ -612,7 +612,7 @@ typedef GlobalIndexMessage {
   byte index[9];
   byte index_change_sign_against_the_previous_day;
   byte index_change_against_the_previous_day[9];
-  byte currency_code[6];
+  byte currency_code_short[3];
   byte filler_4[4];
   byte end_keyword
 };
@@ -654,7 +654,7 @@ inline fill_global_index_message(global_index_message_record, global_index_messa
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 6 -> global_index_message_record.currency_code[global_index_message_at] = global_index_message_value; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 3 -> global_index_message_record.currency_code_short[global_index_message_at] = global_index_message_value; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
@@ -701,19 +701,19 @@ inline ramp_global_index_message(global_index_message_record, global_index_messa
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 6 -> global_index_message_record.currency_code[global_index_message_at] = (global_index_message_base + 51 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 3 -> global_index_message_record.currency_code_short[global_index_message_at] = (global_index_message_base + 51 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 4 -> global_index_message_record.filler_4[global_index_message_at] = (global_index_message_base + 57 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 4 -> global_index_message_record.filler_4[global_index_message_at] = (global_index_message_base + 54 + global_index_message_at + 1) % 256; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
-  global_index_message_record.end_keyword = (global_index_message_base + 61 + 1) % 256;
+  global_index_message_record.end_keyword = (global_index_message_base + 58 + 1) % 256;
   skip
 }
 
-/* Global Index Message to the wire, 62 bytes from where the cursor stands */
+/* Global Index Message to the wire, 59 bytes from where the cursor stands */
 inline encode_global_index_message(global_index_message_record) {
   global_index_message_at = 0;
   do
@@ -748,7 +748,7 @@ inline encode_global_index_message(global_index_message_record) {
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 6 -> wire[at] = global_index_message_record.currency_code[global_index_message_at]; at = at + 1; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 3 -> wire[at] = global_index_message_record.currency_code_short[global_index_message_at]; at = at + 1; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
@@ -760,7 +760,7 @@ inline encode_global_index_message(global_index_message_record) {
   skip
 }
 
-/* Global Index Message off the wire, 62 bytes from where the cursor stands */
+/* Global Index Message off the wire, 59 bytes from where the cursor stands */
 inline decode_global_index_message(global_index_message_record) {
   global_index_message_at = 0;
   do
@@ -795,7 +795,7 @@ inline decode_global_index_message(global_index_message_record) {
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 6 -> global_index_message_record.currency_code[global_index_message_at] = wire[at]; at = at + 1; global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 3 -> global_index_message_record.currency_code_short[global_index_message_at] = wire[at]; at = at + 1; global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
@@ -842,7 +842,7 @@ inline equal_global_index_message(global_index_message_read, global_index_messag
   od;
   global_index_message_at = 0;
   do
-  :: global_index_message_at < 6 -> assert(global_index_message_read.currency_code[global_index_message_at] == global_index_message_written.currency_code[global_index_message_at]); global_index_message_at = global_index_message_at + 1
+  :: global_index_message_at < 3 -> assert(global_index_message_read.currency_code_short[global_index_message_at] == global_index_message_written.currency_code_short[global_index_message_at]); global_index_message_at = global_index_message_at + 1
   :: else -> break
   od;
   global_index_message_at = 0;
@@ -4597,7 +4597,7 @@ inline equal_spot_gold_quote_message(spot_gold_quote_message_read, spot_gold_quo
   skip
 }
 
-/* ---- Spot Gold Order Filled Message: 156 bytes ------------------------------- */
+/* ---- Spot Gold Order Filled Message: 158 bytes ------------------------------- */
 
 /* Spot Gold Order Filled. Real-time trade prints with running totals. */
 typedef SpotGoldOrderFilledMessage {
@@ -4609,12 +4609,12 @@ typedef SpotGoldOrderFilledMessage {
   byte processing_time_of_trading_system[12];
   byte trading_price[11];
   byte trading_volume[10];
-  byte opening_price[9];
+  byte opening_price_long[11];
   byte todays_high[11];
   byte todays_low[11];
   byte previous_price[11];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_long[22];
   byte final_ask_bid_type_code;
   byte lp_holding_quantity[15];
   byte end_keyword
@@ -4666,7 +4666,7 @@ inline fill_spot_gold_order_filled_message(spot_gold_order_filled_message_record
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 9 -> spot_gold_order_filled_message_record.opening_price[spot_gold_order_filled_message_at] = spot_gold_order_filled_message_value; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.opening_price_long[spot_gold_order_filled_message_at] = spot_gold_order_filled_message_value; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
@@ -4691,7 +4691,7 @@ inline fill_spot_gold_order_filled_message(spot_gold_order_filled_message_record
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 22 -> spot_gold_order_filled_message_record.accumulated_trading_value[spot_gold_order_filled_message_at] = spot_gold_order_filled_message_value; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 22 -> spot_gold_order_filled_message_record.accumulated_trading_value_long[spot_gold_order_filled_message_at] = spot_gold_order_filled_message_value; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_record.final_ask_bid_type_code = spot_gold_order_filled_message_value;
@@ -4748,45 +4748,45 @@ inline ramp_spot_gold_order_filled_message(spot_gold_order_filled_message_record
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 9 -> spot_gold_order_filled_message_record.opening_price[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 63 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.opening_price_long[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 63 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.todays_high[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 72 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.todays_high[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 74 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.todays_low[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 83 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.todays_low[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 85 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.previous_price[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 94 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.previous_price[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 96 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 12 -> spot_gold_order_filled_message_record.accumulated_trading_volume[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 105 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 12 -> spot_gold_order_filled_message_record.accumulated_trading_volume[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 107 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 22 -> spot_gold_order_filled_message_record.accumulated_trading_value[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 117 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 22 -> spot_gold_order_filled_message_record.accumulated_trading_value_long[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 119 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
-  spot_gold_order_filled_message_record.final_ask_bid_type_code = (spot_gold_order_filled_message_base + 139 + 1) % 256;
+  spot_gold_order_filled_message_record.final_ask_bid_type_code = (spot_gold_order_filled_message_base + 141 + 1) % 256;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 15 -> spot_gold_order_filled_message_record.lp_holding_quantity[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 140 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 15 -> spot_gold_order_filled_message_record.lp_holding_quantity[spot_gold_order_filled_message_at] = (spot_gold_order_filled_message_base + 142 + spot_gold_order_filled_message_at + 1) % 256; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
-  spot_gold_order_filled_message_record.end_keyword = (spot_gold_order_filled_message_base + 155 + 1) % 256;
+  spot_gold_order_filled_message_record.end_keyword = (spot_gold_order_filled_message_base + 157 + 1) % 256;
   skip
 }
 
-/* Spot Gold Order Filled Message to the wire, 156 bytes from where the cursor stands */
+/* Spot Gold Order Filled Message to the wire, 158 bytes from where the cursor stands */
 inline encode_spot_gold_order_filled_message(spot_gold_order_filled_message_record) {
   spot_gold_order_filled_message_at = 0;
   do
@@ -4830,7 +4830,7 @@ inline encode_spot_gold_order_filled_message(spot_gold_order_filled_message_reco
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 9 -> wire[at] = spot_gold_order_filled_message_record.opening_price[spot_gold_order_filled_message_at]; at = at + 1; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 11 -> wire[at] = spot_gold_order_filled_message_record.opening_price_long[spot_gold_order_filled_message_at]; at = at + 1; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
@@ -4855,7 +4855,7 @@ inline encode_spot_gold_order_filled_message(spot_gold_order_filled_message_reco
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 22 -> wire[at] = spot_gold_order_filled_message_record.accumulated_trading_value[spot_gold_order_filled_message_at]; at = at + 1; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 22 -> wire[at] = spot_gold_order_filled_message_record.accumulated_trading_value_long[spot_gold_order_filled_message_at]; at = at + 1; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   wire[at] = spot_gold_order_filled_message_record.final_ask_bid_type_code; at = at + 1;
@@ -4868,7 +4868,7 @@ inline encode_spot_gold_order_filled_message(spot_gold_order_filled_message_reco
   skip
 }
 
-/* Spot Gold Order Filled Message off the wire, 156 bytes from where the cursor stands */
+/* Spot Gold Order Filled Message off the wire, 158 bytes from where the cursor stands */
 inline decode_spot_gold_order_filled_message(spot_gold_order_filled_message_record) {
   spot_gold_order_filled_message_at = 0;
   do
@@ -4912,7 +4912,7 @@ inline decode_spot_gold_order_filled_message(spot_gold_order_filled_message_reco
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 9 -> spot_gold_order_filled_message_record.opening_price[spot_gold_order_filled_message_at] = wire[at]; at = at + 1; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 11 -> spot_gold_order_filled_message_record.opening_price_long[spot_gold_order_filled_message_at] = wire[at]; at = at + 1; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
@@ -4937,7 +4937,7 @@ inline decode_spot_gold_order_filled_message(spot_gold_order_filled_message_reco
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 22 -> spot_gold_order_filled_message_record.accumulated_trading_value[spot_gold_order_filled_message_at] = wire[at]; at = at + 1; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 22 -> spot_gold_order_filled_message_record.accumulated_trading_value_long[spot_gold_order_filled_message_at] = wire[at]; at = at + 1; spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_record.final_ask_bid_type_code = wire[at]; at = at + 1;
@@ -4994,7 +4994,7 @@ inline equal_spot_gold_order_filled_message(spot_gold_order_filled_message_read,
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 9 -> assert(spot_gold_order_filled_message_read.opening_price[spot_gold_order_filled_message_at] == spot_gold_order_filled_message_written.opening_price[spot_gold_order_filled_message_at]); spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 11 -> assert(spot_gold_order_filled_message_read.opening_price_long[spot_gold_order_filled_message_at] == spot_gold_order_filled_message_written.opening_price_long[spot_gold_order_filled_message_at]); spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_message_at = 0;
@@ -5019,7 +5019,7 @@ inline equal_spot_gold_order_filled_message(spot_gold_order_filled_message_read,
   od;
   spot_gold_order_filled_message_at = 0;
   do
-  :: spot_gold_order_filled_message_at < 22 -> assert(spot_gold_order_filled_message_read.accumulated_trading_value[spot_gold_order_filled_message_at] == spot_gold_order_filled_message_written.accumulated_trading_value[spot_gold_order_filled_message_at]); spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
+  :: spot_gold_order_filled_message_at < 22 -> assert(spot_gold_order_filled_message_read.accumulated_trading_value_long[spot_gold_order_filled_message_at] == spot_gold_order_filled_message_written.accumulated_trading_value_long[spot_gold_order_filled_message_at]); spot_gold_order_filled_message_at = spot_gold_order_filled_message_at + 1
   :: else -> break
   od;
   assert(spot_gold_order_filled_message_read.final_ask_bid_type_code == spot_gold_order_filled_message_written.final_ask_bid_type_code);
@@ -5032,7 +5032,7 @@ inline equal_spot_gold_order_filled_message(spot_gold_order_filled_message_read,
   skip
 }
 
-/* ---- Spot Gold Order Filled Plus Quote Message: 880 bytes -------------------- */
+/* ---- Spot Gold Order Filled Plus Quote Message: 882 bytes -------------------- */
 
 /* Spot Gold Order Filled plus Quote. Trade print followed by full quote state. */
 typedef SpotGoldOrderFilledPlusQuoteMessage {
@@ -5044,12 +5044,12 @@ typedef SpotGoldOrderFilledPlusQuoteMessage {
   byte processing_time_of_trading_system[12];
   byte trading_price[11];
   byte trading_volume[10];
-  byte opening_price[9];
+  byte opening_price_long[11];
   byte todays_high[11];
   byte todays_low[11];
   byte previous_price[11];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_long[22];
   byte final_ask_bid_type_code;
   byte lp_holding_quantity[15];
   byte ask_level_1_price[11];
@@ -5163,7 +5163,7 @@ inline fill_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_plu
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 9 -> spot_gold_order_filled_plus_quote_message_record.opening_price[spot_gold_order_filled_plus_quote_message_at] = spot_gold_order_filled_plus_quote_message_value; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.opening_price_long[spot_gold_order_filled_plus_quote_message_at] = spot_gold_order_filled_plus_quote_message_value; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
@@ -5188,7 +5188,7 @@ inline fill_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_plu
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 22 -> spot_gold_order_filled_plus_quote_message_record.accumulated_trading_value[spot_gold_order_filled_plus_quote_message_at] = spot_gold_order_filled_plus_quote_message_value; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 22 -> spot_gold_order_filled_plus_quote_message_record.accumulated_trading_value_long[spot_gold_order_filled_plus_quote_message_at] = spot_gold_order_filled_plus_quote_message_value; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_record.final_ask_bid_type_code = spot_gold_order_filled_plus_quote_message_value;
@@ -5555,355 +5555,355 @@ inline ramp_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_plu
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 9 -> spot_gold_order_filled_plus_quote_message_record.opening_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 63 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.opening_price_long[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 63 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.todays_high[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 72 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.todays_high[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 74 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.todays_low[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 83 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.todays_low[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 85 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.previous_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 94 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.previous_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 96 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.accumulated_trading_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 105 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.accumulated_trading_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 107 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 22 -> spot_gold_order_filled_plus_quote_message_record.accumulated_trading_value[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 117 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 22 -> spot_gold_order_filled_plus_quote_message_record.accumulated_trading_value_long[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 119 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
-  spot_gold_order_filled_plus_quote_message_record.final_ask_bid_type_code = (spot_gold_order_filled_plus_quote_message_base + 139 + 1) % 256;
+  spot_gold_order_filled_plus_quote_message_record.final_ask_bid_type_code = (spot_gold_order_filled_plus_quote_message_base + 141 + 1) % 256;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 15 -> spot_gold_order_filled_plus_quote_message_record.lp_holding_quantity[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 140 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 15 -> spot_gold_order_filled_plus_quote_message_record.lp_holding_quantity[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 142 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_1_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 155 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_1_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 157 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_1_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 166 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_1_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 168 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_1_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 177 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_1_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 179 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_1_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 189 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_1_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 191 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_1_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 201 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_1_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 203 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_1_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 213 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_1_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 215 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_2_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 225 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_2_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 227 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_2_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 236 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_2_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 238 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_2_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 247 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_2_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 249 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_2_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 259 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_2_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 261 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_2_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 271 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_2_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 273 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_2_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 283 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_2_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 285 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_3_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 295 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_3_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 297 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_3_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 306 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_3_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 308 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_3_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 317 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_3_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 319 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_3_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 329 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_3_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 331 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_3_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 341 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_3_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 343 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_3_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 353 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_3_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 355 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_4_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 365 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_4_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 367 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_4_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 376 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_4_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 378 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_4_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 387 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_4_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 389 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_4_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 399 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_4_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 401 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_4_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 411 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_4_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 413 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_4_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 423 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_4_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 425 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_5_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 435 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_5_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 437 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_5_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 446 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_5_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 448 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_5_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 457 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_5_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 459 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_5_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 469 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_5_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 471 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_5_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 481 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_5_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 483 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_5_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 493 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_5_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 495 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_6_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 505 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_6_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 507 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_6_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 516 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_6_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 518 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_6_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 527 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_6_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 529 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_6_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 539 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_6_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 541 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_6_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 551 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_6_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 553 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_6_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 563 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_6_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 565 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_7_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 575 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_7_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 577 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_7_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 586 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_7_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 588 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_7_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 597 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_7_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 599 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_7_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 609 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_7_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 611 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_7_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 621 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_7_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 623 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_7_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 633 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_7_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 635 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_8_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 645 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_8_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 647 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_8_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 656 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_8_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 658 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_8_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 667 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_8_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 669 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_8_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 679 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_8_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 681 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_8_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 691 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_8_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 693 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_8_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 703 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_8_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 705 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_9_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 715 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_9_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 717 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_9_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 726 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_9_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 728 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_9_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 737 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_9_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 739 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_9_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 749 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_9_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 751 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_9_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 761 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_9_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 763 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_9_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 773 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_9_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 775 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_10_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 785 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.ask_level_10_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 787 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_10_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 796 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.bid_level_10_price[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 798 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_10_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 807 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.ask_level_10_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 809 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_10_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 819 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.bid_level_10_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 821 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_10_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 831 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_ask_level_10_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 833 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_10_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 843 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.lp_bid_level_10_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 845 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.total_ask_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 855 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.total_ask_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 857 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.total_bid_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 867 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 12 -> spot_gold_order_filled_plus_quote_message_record.total_bid_volume[spot_gold_order_filled_plus_quote_message_at] = (spot_gold_order_filled_plus_quote_message_base + 869 + spot_gold_order_filled_plus_quote_message_at + 1) % 256; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
-  spot_gold_order_filled_plus_quote_message_record.end_keyword = (spot_gold_order_filled_plus_quote_message_base + 879 + 1) % 256;
+  spot_gold_order_filled_plus_quote_message_record.end_keyword = (spot_gold_order_filled_plus_quote_message_base + 881 + 1) % 256;
   skip
 }
 
-/* Spot Gold Order Filled Plus Quote Message to the wire, 880 bytes from where the cursor stands */
+/* Spot Gold Order Filled Plus Quote Message to the wire, 882 bytes from where the cursor stands */
 inline encode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_plus_quote_message_record) {
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
@@ -5947,7 +5947,7 @@ inline encode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_p
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 9 -> wire[at] = spot_gold_order_filled_plus_quote_message_record.opening_price[spot_gold_order_filled_plus_quote_message_at]; at = at + 1; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> wire[at] = spot_gold_order_filled_plus_quote_message_record.opening_price_long[spot_gold_order_filled_plus_quote_message_at]; at = at + 1; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
@@ -5972,7 +5972,7 @@ inline encode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_p
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 22 -> wire[at] = spot_gold_order_filled_plus_quote_message_record.accumulated_trading_value[spot_gold_order_filled_plus_quote_message_at]; at = at + 1; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 22 -> wire[at] = spot_gold_order_filled_plus_quote_message_record.accumulated_trading_value_long[spot_gold_order_filled_plus_quote_message_at]; at = at + 1; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   wire[at] = spot_gold_order_filled_plus_quote_message_record.final_ask_bid_type_code; at = at + 1;
@@ -6295,7 +6295,7 @@ inline encode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_p
   skip
 }
 
-/* Spot Gold Order Filled Plus Quote Message off the wire, 880 bytes from where the cursor stands */
+/* Spot Gold Order Filled Plus Quote Message off the wire, 882 bytes from where the cursor stands */
 inline decode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_plus_quote_message_record) {
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
@@ -6339,7 +6339,7 @@ inline decode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_p
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 9 -> spot_gold_order_filled_plus_quote_message_record.opening_price[spot_gold_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> spot_gold_order_filled_plus_quote_message_record.opening_price_long[spot_gold_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
@@ -6364,7 +6364,7 @@ inline decode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_p
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 22 -> spot_gold_order_filled_plus_quote_message_record.accumulated_trading_value[spot_gold_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 22 -> spot_gold_order_filled_plus_quote_message_record.accumulated_trading_value_long[spot_gold_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_record.final_ask_bid_type_code = wire[at]; at = at + 1;
@@ -6731,7 +6731,7 @@ inline equal_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_pl
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 9 -> assert(spot_gold_order_filled_plus_quote_message_read.opening_price[spot_gold_order_filled_plus_quote_message_at] == spot_gold_order_filled_plus_quote_message_written.opening_price[spot_gold_order_filled_plus_quote_message_at]); spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 11 -> assert(spot_gold_order_filled_plus_quote_message_read.opening_price_long[spot_gold_order_filled_plus_quote_message_at] == spot_gold_order_filled_plus_quote_message_written.opening_price_long[spot_gold_order_filled_plus_quote_message_at]); spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
@@ -6756,7 +6756,7 @@ inline equal_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_pl
   od;
   spot_gold_order_filled_plus_quote_message_at = 0;
   do
-  :: spot_gold_order_filled_plus_quote_message_at < 22 -> assert(spot_gold_order_filled_plus_quote_message_read.accumulated_trading_value[spot_gold_order_filled_plus_quote_message_at] == spot_gold_order_filled_plus_quote_message_written.accumulated_trading_value[spot_gold_order_filled_plus_quote_message_at]); spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
+  :: spot_gold_order_filled_plus_quote_message_at < 22 -> assert(spot_gold_order_filled_plus_quote_message_read.accumulated_trading_value_long[spot_gold_order_filled_plus_quote_message_at] == spot_gold_order_filled_plus_quote_message_written.accumulated_trading_value_long[spot_gold_order_filled_plus_quote_message_at]); spot_gold_order_filled_plus_quote_message_at = spot_gold_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   assert(spot_gold_order_filled_plus_quote_message_read.final_ask_bid_type_code == spot_gold_order_filled_plus_quote_message_written.final_ask_bid_type_code);
@@ -9042,7 +9042,7 @@ inline equal_spot_gold_market_operation_ts_plus_quote_message(spot_gold_market_o
   skip
 }
 
-/* ---- Spot Gold Snapshot Message: 847 bytes ----------------------------------- */
+/* ---- Spot Gold Snapshot Message: 849 bytes ----------------------------------- */
 
 /* Spot Gold Market Data Snapshot. Periodic full state snapshot. */
 typedef SpotGoldSnapshotMessage {
@@ -9051,11 +9051,11 @@ typedef SpotGoldSnapshotMessage {
   byte isin_code[12];
   byte a_designated_number_for_an_issue[6];
   byte current_price[11];
-  byte opening_price[9];
+  byte opening_price_long[11];
   byte todays_high[11];
   byte todays_low[11];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_long[22];
   byte trading_halt;
   byte ask_level_1_price[11];
   byte bid_level_1_price[11];
@@ -9155,7 +9155,7 @@ inline fill_spot_gold_snapshot_message(spot_gold_snapshot_message_record, spot_g
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 9 -> spot_gold_snapshot_message_record.opening_price[spot_gold_snapshot_message_at] = spot_gold_snapshot_message_value; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.opening_price_long[spot_gold_snapshot_message_at] = spot_gold_snapshot_message_value; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
@@ -9175,7 +9175,7 @@ inline fill_spot_gold_snapshot_message(spot_gold_snapshot_message_record, spot_g
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 22 -> spot_gold_snapshot_message_record.accumulated_trading_value[spot_gold_snapshot_message_at] = spot_gold_snapshot_message_value; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 22 -> spot_gold_snapshot_message_record.accumulated_trading_value_long[spot_gold_snapshot_message_at] = spot_gold_snapshot_message_value; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_record.trading_halt = spot_gold_snapshot_message_value;
@@ -9532,355 +9532,355 @@ inline ramp_spot_gold_snapshot_message(spot_gold_snapshot_message_record, spot_g
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 9 -> spot_gold_snapshot_message_record.opening_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 33 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.opening_price_long[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 33 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.todays_high[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 42 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.todays_high[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 44 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.todays_low[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 53 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.todays_low[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 55 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.accumulated_trading_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 64 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.accumulated_trading_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 66 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 22 -> spot_gold_snapshot_message_record.accumulated_trading_value[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 76 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 22 -> spot_gold_snapshot_message_record.accumulated_trading_value_long[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 78 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
-  spot_gold_snapshot_message_record.trading_halt = (spot_gold_snapshot_message_base + 98 + 1) % 256;
+  spot_gold_snapshot_message_record.trading_halt = (spot_gold_snapshot_message_base + 100 + 1) % 256;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_1_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 99 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_1_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 101 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_1_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 110 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_1_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 112 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_1_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 121 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_1_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 123 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_1_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 133 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_1_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 135 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_1_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 145 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_1_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 147 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_1_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 157 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_1_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 159 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_2_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 169 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_2_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 171 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_2_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 180 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_2_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 182 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_2_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 191 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_2_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 193 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_2_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 203 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_2_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 205 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_2_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 215 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_2_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 217 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_2_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 227 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_2_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 229 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_3_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 239 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_3_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 241 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_3_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 250 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_3_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 252 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_3_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 261 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_3_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 263 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_3_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 273 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_3_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 275 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_3_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 285 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_3_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 287 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_3_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 297 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_3_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 299 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_4_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 309 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_4_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 311 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_4_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 320 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_4_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 322 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_4_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 331 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_4_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 333 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_4_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 343 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_4_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 345 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_4_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 355 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_4_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 357 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_4_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 367 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_4_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 369 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_5_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 379 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_5_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 381 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_5_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 390 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_5_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 392 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_5_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 401 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_5_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 403 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_5_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 413 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_5_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 415 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_5_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 425 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_5_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 427 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_5_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 437 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_5_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 439 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_6_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 449 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_6_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 451 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_6_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 460 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_6_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 462 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_6_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 471 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_6_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 473 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_6_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 483 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_6_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 485 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_6_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 495 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_6_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 497 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_6_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 507 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_6_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 509 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_7_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 519 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_7_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 521 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_7_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 530 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_7_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 532 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_7_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 541 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_7_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 543 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_7_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 553 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_7_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 555 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_7_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 565 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_7_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 567 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_7_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 577 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_7_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 579 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_8_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 589 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_8_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 591 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_8_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 600 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_8_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 602 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_8_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 611 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_8_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 613 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_8_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 623 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_8_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 625 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_8_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 635 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_8_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 637 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_8_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 647 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_8_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 649 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_9_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 659 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_9_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 661 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_9_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 670 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_9_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 672 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_9_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 681 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_9_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 683 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_9_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 693 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_9_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 695 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_9_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 705 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_9_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 707 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_9_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 717 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_9_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 719 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_10_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 729 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.ask_level_10_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 731 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_10_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 740 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.bid_level_10_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 742 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_10_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 751 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.ask_level_10_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 753 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_10_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 763 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.bid_level_10_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 765 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_10_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 775 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_ask_level_10_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 777 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_10_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 787 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.lp_bid_level_10_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 789 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.total_ask_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 799 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.total_ask_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 801 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.total_bid_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 811 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.total_bid_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 813 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.estimated_trading_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 823 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.estimated_trading_price[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 825 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.estimated_trading_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 834 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 12 -> spot_gold_snapshot_message_record.estimated_trading_volume[spot_gold_snapshot_message_at] = (spot_gold_snapshot_message_base + 836 + spot_gold_snapshot_message_at + 1) % 256; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
-  spot_gold_snapshot_message_record.end_keyword = (spot_gold_snapshot_message_base + 846 + 1) % 256;
+  spot_gold_snapshot_message_record.end_keyword = (spot_gold_snapshot_message_base + 848 + 1) % 256;
   skip
 }
 
-/* Spot Gold Snapshot Message to the wire, 847 bytes from where the cursor stands */
+/* Spot Gold Snapshot Message to the wire, 849 bytes from where the cursor stands */
 inline encode_spot_gold_snapshot_message(spot_gold_snapshot_message_record) {
   spot_gold_snapshot_message_at = 0;
   do
@@ -9909,7 +9909,7 @@ inline encode_spot_gold_snapshot_message(spot_gold_snapshot_message_record) {
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 9 -> wire[at] = spot_gold_snapshot_message_record.opening_price[spot_gold_snapshot_message_at]; at = at + 1; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> wire[at] = spot_gold_snapshot_message_record.opening_price_long[spot_gold_snapshot_message_at]; at = at + 1; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
@@ -9929,7 +9929,7 @@ inline encode_spot_gold_snapshot_message(spot_gold_snapshot_message_record) {
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 22 -> wire[at] = spot_gold_snapshot_message_record.accumulated_trading_value[spot_gold_snapshot_message_at]; at = at + 1; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 22 -> wire[at] = spot_gold_snapshot_message_record.accumulated_trading_value_long[spot_gold_snapshot_message_at]; at = at + 1; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   wire[at] = spot_gold_snapshot_message_record.trading_halt; at = at + 1;
@@ -10257,7 +10257,7 @@ inline encode_spot_gold_snapshot_message(spot_gold_snapshot_message_record) {
   skip
 }
 
-/* Spot Gold Snapshot Message off the wire, 847 bytes from where the cursor stands */
+/* Spot Gold Snapshot Message off the wire, 849 bytes from where the cursor stands */
 inline decode_spot_gold_snapshot_message(spot_gold_snapshot_message_record) {
   spot_gold_snapshot_message_at = 0;
   do
@@ -10286,7 +10286,7 @@ inline decode_spot_gold_snapshot_message(spot_gold_snapshot_message_record) {
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 9 -> spot_gold_snapshot_message_record.opening_price[spot_gold_snapshot_message_at] = wire[at]; at = at + 1; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> spot_gold_snapshot_message_record.opening_price_long[spot_gold_snapshot_message_at] = wire[at]; at = at + 1; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
@@ -10306,7 +10306,7 @@ inline decode_spot_gold_snapshot_message(spot_gold_snapshot_message_record) {
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 22 -> spot_gold_snapshot_message_record.accumulated_trading_value[spot_gold_snapshot_message_at] = wire[at]; at = at + 1; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 22 -> spot_gold_snapshot_message_record.accumulated_trading_value_long[spot_gold_snapshot_message_at] = wire[at]; at = at + 1; spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_record.trading_halt = wire[at]; at = at + 1;
@@ -10663,7 +10663,7 @@ inline equal_spot_gold_snapshot_message(spot_gold_snapshot_message_read, spot_go
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 9 -> assert(spot_gold_snapshot_message_read.opening_price[spot_gold_snapshot_message_at] == spot_gold_snapshot_message_written.opening_price[spot_gold_snapshot_message_at]); spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 11 -> assert(spot_gold_snapshot_message_read.opening_price_long[spot_gold_snapshot_message_at] == spot_gold_snapshot_message_written.opening_price_long[spot_gold_snapshot_message_at]); spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   spot_gold_snapshot_message_at = 0;
@@ -10683,7 +10683,7 @@ inline equal_spot_gold_snapshot_message(spot_gold_snapshot_message_read, spot_go
   od;
   spot_gold_snapshot_message_at = 0;
   do
-  :: spot_gold_snapshot_message_at < 22 -> assert(spot_gold_snapshot_message_read.accumulated_trading_value[spot_gold_snapshot_message_at] == spot_gold_snapshot_message_written.accumulated_trading_value[spot_gold_snapshot_message_at]); spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
+  :: spot_gold_snapshot_message_at < 22 -> assert(spot_gold_snapshot_message_read.accumulated_trading_value_long[spot_gold_snapshot_message_at] == spot_gold_snapshot_message_written.accumulated_trading_value_long[spot_gold_snapshot_message_at]); spot_gold_snapshot_message_at = spot_gold_snapshot_message_at + 1
   :: else -> break
   od;
   assert(spot_gold_snapshot_message_read.trading_halt == spot_gold_snapshot_message_written.trading_halt);
@@ -12025,7 +12025,7 @@ inline equal_emissions_quote_message(emissions_quote_message_read, emissions_quo
   skip
 }
 
-/* ---- Emissions Order Filled Message: 141 bytes ------------------------------- */
+/* ---- Emissions Order Filled Message: 143 bytes ------------------------------- */
 
 /* Emissions Order Filled. Real-time trade prints with running totals. */
 typedef EmissionsOrderFilledMessage {
@@ -12037,12 +12037,12 @@ typedef EmissionsOrderFilledMessage {
   byte processing_time_of_trading_system[12];
   byte trading_price[11];
   byte trading_volume[10];
-  byte opening_price[9];
+  byte opening_price_long[11];
   byte todays_high[11];
   byte todays_low[11];
   byte previous_price[11];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_long[22];
   byte final_ask_bid_type_code;
   byte end_keyword
 };
@@ -12093,7 +12093,7 @@ inline fill_emissions_order_filled_message(emissions_order_filled_message_record
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 9 -> emissions_order_filled_message_record.opening_price[emissions_order_filled_message_at] = emissions_order_filled_message_value; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.opening_price_long[emissions_order_filled_message_at] = emissions_order_filled_message_value; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
@@ -12118,7 +12118,7 @@ inline fill_emissions_order_filled_message(emissions_order_filled_message_record
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 22 -> emissions_order_filled_message_record.accumulated_trading_value[emissions_order_filled_message_at] = emissions_order_filled_message_value; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 22 -> emissions_order_filled_message_record.accumulated_trading_value_long[emissions_order_filled_message_at] = emissions_order_filled_message_value; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_record.final_ask_bid_type_code = emissions_order_filled_message_value;
@@ -12170,40 +12170,40 @@ inline ramp_emissions_order_filled_message(emissions_order_filled_message_record
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 9 -> emissions_order_filled_message_record.opening_price[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 63 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.opening_price_long[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 63 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.todays_high[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 72 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.todays_high[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 74 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.todays_low[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 83 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.todays_low[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 85 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.previous_price[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 94 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.previous_price[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 96 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 12 -> emissions_order_filled_message_record.accumulated_trading_volume[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 105 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 12 -> emissions_order_filled_message_record.accumulated_trading_volume[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 107 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 22 -> emissions_order_filled_message_record.accumulated_trading_value[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 117 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 22 -> emissions_order_filled_message_record.accumulated_trading_value_long[emissions_order_filled_message_at] = (emissions_order_filled_message_base + 119 + emissions_order_filled_message_at + 1) % 256; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
-  emissions_order_filled_message_record.final_ask_bid_type_code = (emissions_order_filled_message_base + 139 + 1) % 256;
-  emissions_order_filled_message_record.end_keyword = (emissions_order_filled_message_base + 140 + 1) % 256;
+  emissions_order_filled_message_record.final_ask_bid_type_code = (emissions_order_filled_message_base + 141 + 1) % 256;
+  emissions_order_filled_message_record.end_keyword = (emissions_order_filled_message_base + 142 + 1) % 256;
   skip
 }
 
-/* Emissions Order Filled Message to the wire, 141 bytes from where the cursor stands */
+/* Emissions Order Filled Message to the wire, 143 bytes from where the cursor stands */
 inline encode_emissions_order_filled_message(emissions_order_filled_message_record) {
   emissions_order_filled_message_at = 0;
   do
@@ -12247,7 +12247,7 @@ inline encode_emissions_order_filled_message(emissions_order_filled_message_reco
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 9 -> wire[at] = emissions_order_filled_message_record.opening_price[emissions_order_filled_message_at]; at = at + 1; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 11 -> wire[at] = emissions_order_filled_message_record.opening_price_long[emissions_order_filled_message_at]; at = at + 1; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
@@ -12272,7 +12272,7 @@ inline encode_emissions_order_filled_message(emissions_order_filled_message_reco
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 22 -> wire[at] = emissions_order_filled_message_record.accumulated_trading_value[emissions_order_filled_message_at]; at = at + 1; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 22 -> wire[at] = emissions_order_filled_message_record.accumulated_trading_value_long[emissions_order_filled_message_at]; at = at + 1; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   wire[at] = emissions_order_filled_message_record.final_ask_bid_type_code; at = at + 1;
@@ -12280,7 +12280,7 @@ inline encode_emissions_order_filled_message(emissions_order_filled_message_reco
   skip
 }
 
-/* Emissions Order Filled Message off the wire, 141 bytes from where the cursor stands */
+/* Emissions Order Filled Message off the wire, 143 bytes from where the cursor stands */
 inline decode_emissions_order_filled_message(emissions_order_filled_message_record) {
   emissions_order_filled_message_at = 0;
   do
@@ -12324,7 +12324,7 @@ inline decode_emissions_order_filled_message(emissions_order_filled_message_reco
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 9 -> emissions_order_filled_message_record.opening_price[emissions_order_filled_message_at] = wire[at]; at = at + 1; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 11 -> emissions_order_filled_message_record.opening_price_long[emissions_order_filled_message_at] = wire[at]; at = at + 1; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
@@ -12349,7 +12349,7 @@ inline decode_emissions_order_filled_message(emissions_order_filled_message_reco
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 22 -> emissions_order_filled_message_record.accumulated_trading_value[emissions_order_filled_message_at] = wire[at]; at = at + 1; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 22 -> emissions_order_filled_message_record.accumulated_trading_value_long[emissions_order_filled_message_at] = wire[at]; at = at + 1; emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_record.final_ask_bid_type_code = wire[at]; at = at + 1;
@@ -12401,7 +12401,7 @@ inline equal_emissions_order_filled_message(emissions_order_filled_message_read,
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 9 -> assert(emissions_order_filled_message_read.opening_price[emissions_order_filled_message_at] == emissions_order_filled_message_written.opening_price[emissions_order_filled_message_at]); emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 11 -> assert(emissions_order_filled_message_read.opening_price_long[emissions_order_filled_message_at] == emissions_order_filled_message_written.opening_price_long[emissions_order_filled_message_at]); emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_message_at = 0;
@@ -12426,7 +12426,7 @@ inline equal_emissions_order_filled_message(emissions_order_filled_message_read,
   od;
   emissions_order_filled_message_at = 0;
   do
-  :: emissions_order_filled_message_at < 22 -> assert(emissions_order_filled_message_read.accumulated_trading_value[emissions_order_filled_message_at] == emissions_order_filled_message_written.accumulated_trading_value[emissions_order_filled_message_at]); emissions_order_filled_message_at = emissions_order_filled_message_at + 1
+  :: emissions_order_filled_message_at < 22 -> assert(emissions_order_filled_message_read.accumulated_trading_value_long[emissions_order_filled_message_at] == emissions_order_filled_message_written.accumulated_trading_value_long[emissions_order_filled_message_at]); emissions_order_filled_message_at = emissions_order_filled_message_at + 1
   :: else -> break
   od;
   assert(emissions_order_filled_message_read.final_ask_bid_type_code == emissions_order_filled_message_written.final_ask_bid_type_code);
@@ -12434,7 +12434,7 @@ inline equal_emissions_order_filled_message(emissions_order_filled_message_read,
   skip
 }
 
-/* ---- Emissions Order Filled Plus Quote Message: 395 bytes -------------------- */
+/* ---- Emissions Order Filled Plus Quote Message: 397 bytes -------------------- */
 
 /* Emissions Order Filled plus Quote. Trade print followed by full quote state. */
 typedef EmissionsOrderFilledPlusQuoteMessage {
@@ -12446,12 +12446,12 @@ typedef EmissionsOrderFilledPlusQuoteMessage {
   byte processing_time_of_trading_system[12];
   byte trading_price[11];
   byte trading_volume[10];
-  byte opening_price[9];
+  byte opening_price_long[11];
   byte todays_high[11];
   byte todays_low[11];
   byte previous_price[11];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_long[22];
   byte final_ask_bid_type_code;
   byte ask_level_1_price[11];
   byte bid_level_1_price[11];
@@ -12524,7 +12524,7 @@ inline fill_emissions_order_filled_plus_quote_message(emissions_order_filled_plu
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 9 -> emissions_order_filled_plus_quote_message_record.opening_price[emissions_order_filled_plus_quote_message_at] = emissions_order_filled_plus_quote_message_value; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.opening_price_long[emissions_order_filled_plus_quote_message_at] = emissions_order_filled_plus_quote_message_value; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
@@ -12549,7 +12549,7 @@ inline fill_emissions_order_filled_plus_quote_message(emissions_order_filled_plu
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 22 -> emissions_order_filled_plus_quote_message_record.accumulated_trading_value[emissions_order_filled_plus_quote_message_at] = emissions_order_filled_plus_quote_message_value; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 22 -> emissions_order_filled_plus_quote_message_record.accumulated_trading_value_long[emissions_order_filled_plus_quote_message_at] = emissions_order_filled_plus_quote_message_value; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_record.final_ask_bid_type_code = emissions_order_filled_plus_quote_message_value;
@@ -12711,150 +12711,150 @@ inline ramp_emissions_order_filled_plus_quote_message(emissions_order_filled_plu
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 9 -> emissions_order_filled_plus_quote_message_record.opening_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 63 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.opening_price_long[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 63 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.todays_high[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 72 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.todays_high[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 74 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.todays_low[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 83 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.todays_low[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 85 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.previous_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 94 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.previous_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 96 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.accumulated_trading_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 105 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.accumulated_trading_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 107 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 22 -> emissions_order_filled_plus_quote_message_record.accumulated_trading_value[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 117 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 22 -> emissions_order_filled_plus_quote_message_record.accumulated_trading_value_long[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 119 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
-  emissions_order_filled_plus_quote_message_record.final_ask_bid_type_code = (emissions_order_filled_plus_quote_message_base + 139 + 1) % 256;
+  emissions_order_filled_plus_quote_message_record.final_ask_bid_type_code = (emissions_order_filled_plus_quote_message_base + 141 + 1) % 256;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_1_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 140 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
-  :: else -> break
-  od;
-  emissions_order_filled_plus_quote_message_at = 0;
-  do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_1_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 151 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_1_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 142 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_1_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 162 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_1_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 153 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_1_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 174 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_1_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 164 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_2_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 186 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_1_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 176 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_2_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 197 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_2_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 188 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_2_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 208 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_2_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 199 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_2_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 220 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_2_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 210 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_3_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 232 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_2_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 222 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_3_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 243 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_3_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 234 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_3_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 254 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_3_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 245 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_3_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 266 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_3_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 256 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_4_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 278 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_3_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 268 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_4_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 289 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_4_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 280 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_4_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 300 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_4_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 291 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_4_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 312 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_4_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 302 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_5_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 324 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_4_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 314 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_5_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 335 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.ask_level_5_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 326 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_5_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 346 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.bid_level_5_price[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 337 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_5_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 358 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.ask_level_5_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 348 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.total_ask_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 370 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.bid_level_5_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 360 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.total_bid_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 382 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.total_ask_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 372 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
-  emissions_order_filled_plus_quote_message_record.end_keyword = (emissions_order_filled_plus_quote_message_base + 394 + 1) % 256;
+  emissions_order_filled_plus_quote_message_at = 0;
+  do
+  :: emissions_order_filled_plus_quote_message_at < 12 -> emissions_order_filled_plus_quote_message_record.total_bid_volume[emissions_order_filled_plus_quote_message_at] = (emissions_order_filled_plus_quote_message_base + 384 + emissions_order_filled_plus_quote_message_at + 1) % 256; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: else -> break
+  od;
+  emissions_order_filled_plus_quote_message_record.end_keyword = (emissions_order_filled_plus_quote_message_base + 396 + 1) % 256;
   skip
 }
 
-/* Emissions Order Filled Plus Quote Message to the wire, 395 bytes from where the cursor stands */
+/* Emissions Order Filled Plus Quote Message to the wire, 397 bytes from where the cursor stands */
 inline encode_emissions_order_filled_plus_quote_message(emissions_order_filled_plus_quote_message_record) {
   emissions_order_filled_plus_quote_message_at = 0;
   do
@@ -12898,7 +12898,7 @@ inline encode_emissions_order_filled_plus_quote_message(emissions_order_filled_p
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 9 -> wire[at] = emissions_order_filled_plus_quote_message_record.opening_price[emissions_order_filled_plus_quote_message_at]; at = at + 1; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> wire[at] = emissions_order_filled_plus_quote_message_record.opening_price_long[emissions_order_filled_plus_quote_message_at]; at = at + 1; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
@@ -12923,7 +12923,7 @@ inline encode_emissions_order_filled_plus_quote_message(emissions_order_filled_p
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 22 -> wire[at] = emissions_order_filled_plus_quote_message_record.accumulated_trading_value[emissions_order_filled_plus_quote_message_at]; at = at + 1; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 22 -> wire[at] = emissions_order_filled_plus_quote_message_record.accumulated_trading_value_long[emissions_order_filled_plus_quote_message_at]; at = at + 1; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   wire[at] = emissions_order_filled_plus_quote_message_record.final_ask_bid_type_code; at = at + 1;
@@ -13041,7 +13041,7 @@ inline encode_emissions_order_filled_plus_quote_message(emissions_order_filled_p
   skip
 }
 
-/* Emissions Order Filled Plus Quote Message off the wire, 395 bytes from where the cursor stands */
+/* Emissions Order Filled Plus Quote Message off the wire, 397 bytes from where the cursor stands */
 inline decode_emissions_order_filled_plus_quote_message(emissions_order_filled_plus_quote_message_record) {
   emissions_order_filled_plus_quote_message_at = 0;
   do
@@ -13085,7 +13085,7 @@ inline decode_emissions_order_filled_plus_quote_message(emissions_order_filled_p
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 9 -> emissions_order_filled_plus_quote_message_record.opening_price[emissions_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> emissions_order_filled_plus_quote_message_record.opening_price_long[emissions_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
@@ -13110,7 +13110,7 @@ inline decode_emissions_order_filled_plus_quote_message(emissions_order_filled_p
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 22 -> emissions_order_filled_plus_quote_message_record.accumulated_trading_value[emissions_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 22 -> emissions_order_filled_plus_quote_message_record.accumulated_trading_value_long[emissions_order_filled_plus_quote_message_at] = wire[at]; at = at + 1; emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_record.final_ask_bid_type_code = wire[at]; at = at + 1;
@@ -13272,7 +13272,7 @@ inline equal_emissions_order_filled_plus_quote_message(emissions_order_filled_pl
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 9 -> assert(emissions_order_filled_plus_quote_message_read.opening_price[emissions_order_filled_plus_quote_message_at] == emissions_order_filled_plus_quote_message_written.opening_price[emissions_order_filled_plus_quote_message_at]); emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 11 -> assert(emissions_order_filled_plus_quote_message_read.opening_price_long[emissions_order_filled_plus_quote_message_at] == emissions_order_filled_plus_quote_message_written.opening_price_long[emissions_order_filled_plus_quote_message_at]); emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   emissions_order_filled_plus_quote_message_at = 0;
@@ -13297,7 +13297,7 @@ inline equal_emissions_order_filled_plus_quote_message(emissions_order_filled_pl
   od;
   emissions_order_filled_plus_quote_message_at = 0;
   do
-  :: emissions_order_filled_plus_quote_message_at < 22 -> assert(emissions_order_filled_plus_quote_message_read.accumulated_trading_value[emissions_order_filled_plus_quote_message_at] == emissions_order_filled_plus_quote_message_written.accumulated_trading_value[emissions_order_filled_plus_quote_message_at]); emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
+  :: emissions_order_filled_plus_quote_message_at < 22 -> assert(emissions_order_filled_plus_quote_message_read.accumulated_trading_value_long[emissions_order_filled_plus_quote_message_at] == emissions_order_filled_plus_quote_message_written.accumulated_trading_value_long[emissions_order_filled_plus_quote_message_at]); emissions_order_filled_plus_quote_message_at = emissions_order_filled_plus_quote_message_at + 1
   :: else -> break
   od;
   assert(emissions_order_filled_plus_quote_message_read.final_ask_bid_type_code == emissions_order_filled_plus_quote_message_written.final_ask_bid_type_code);
@@ -14338,7 +14338,7 @@ inline equal_emissions_market_operation_ts_plus_quote_message(emissions_market_o
   skip
 }
 
-/* ---- Emissions Snapshot Message: 411 bytes ----------------------------------- */
+/* ---- Emissions Snapshot Message: 413 bytes ----------------------------------- */
 
 /* Emissions Market Data Snapshot. Periodic full state snapshot. */
 typedef EmissionsSnapshotMessage {
@@ -14347,11 +14347,11 @@ typedef EmissionsSnapshotMessage {
   byte isin_code[12];
   byte a_designated_number_for_an_issue[6];
   byte current_price[11];
-  byte opening_price[9];
+  byte opening_price_long[11];
   byte todays_high[11];
   byte todays_low[11];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_long[22];
   byte negotiated_block_trade_trading_volume[12];
   byte negotiated_block_trade_trading_value[22];
   byte trading_halt;
@@ -14413,7 +14413,7 @@ inline fill_emissions_snapshot_message(emissions_snapshot_message_record, emissi
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 9 -> emissions_snapshot_message_record.opening_price[emissions_snapshot_message_at] = emissions_snapshot_message_value; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.opening_price_long[emissions_snapshot_message_at] = emissions_snapshot_message_value; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
@@ -14433,7 +14433,7 @@ inline fill_emissions_snapshot_message(emissions_snapshot_message_record, emissi
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 22 -> emissions_snapshot_message_record.accumulated_trading_value[emissions_snapshot_message_at] = emissions_snapshot_message_value; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 22 -> emissions_snapshot_message_record.accumulated_trading_value_long[emissions_snapshot_message_at] = emissions_snapshot_message_value; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
@@ -14600,165 +14600,165 @@ inline ramp_emissions_snapshot_message(emissions_snapshot_message_record, emissi
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 9 -> emissions_snapshot_message_record.opening_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 33 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.opening_price_long[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 33 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.todays_high[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 42 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.todays_high[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 44 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.todays_low[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 53 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.todays_low[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 55 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.accumulated_trading_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 64 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.accumulated_trading_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 66 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 22 -> emissions_snapshot_message_record.accumulated_trading_value[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 76 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 22 -> emissions_snapshot_message_record.accumulated_trading_value_long[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 78 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.negotiated_block_trade_trading_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 98 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.negotiated_block_trade_trading_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 100 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 22 -> emissions_snapshot_message_record.negotiated_block_trade_trading_value[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 110 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 22 -> emissions_snapshot_message_record.negotiated_block_trade_trading_value[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 112 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
-  emissions_snapshot_message_record.trading_halt = (emissions_snapshot_message_base + 132 + 1) % 256;
+  emissions_snapshot_message_record.trading_halt = (emissions_snapshot_message_base + 134 + 1) % 256;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_1_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 133 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
-  :: else -> break
-  od;
-  emissions_snapshot_message_at = 0;
-  do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_1_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 144 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_1_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 135 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_1_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 155 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_1_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 146 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_1_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 167 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_1_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 157 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_2_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 179 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_1_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 169 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_2_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 190 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_2_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 181 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_2_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 201 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_2_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 192 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_2_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 213 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_2_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 203 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_3_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 225 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_2_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 215 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_3_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 236 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_3_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 227 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_3_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 247 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_3_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 238 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_3_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 259 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_3_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 249 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_4_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 271 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_3_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 261 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_4_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 282 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_4_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 273 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_4_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 293 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_4_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 284 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_4_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 305 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_4_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 295 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_5_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 317 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_4_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 307 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_5_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 328 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.ask_level_5_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 319 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_5_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 339 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.bid_level_5_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 330 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_5_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 351 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.ask_level_5_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 341 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.total_ask_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 363 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.bid_level_5_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 353 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.total_bid_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 375 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.total_ask_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 365 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.estimated_trading_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 387 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.total_bid_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 377 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.estimated_trading_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 398 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.estimated_trading_price[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 389 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
-  emissions_snapshot_message_record.end_keyword = (emissions_snapshot_message_base + 410 + 1) % 256;
+  emissions_snapshot_message_at = 0;
+  do
+  :: emissions_snapshot_message_at < 12 -> emissions_snapshot_message_record.estimated_trading_volume[emissions_snapshot_message_at] = (emissions_snapshot_message_base + 400 + emissions_snapshot_message_at + 1) % 256; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: else -> break
+  od;
+  emissions_snapshot_message_record.end_keyword = (emissions_snapshot_message_base + 412 + 1) % 256;
   skip
 }
 
-/* Emissions Snapshot Message to the wire, 411 bytes from where the cursor stands */
+/* Emissions Snapshot Message to the wire, 413 bytes from where the cursor stands */
 inline encode_emissions_snapshot_message(emissions_snapshot_message_record) {
   emissions_snapshot_message_at = 0;
   do
@@ -14787,7 +14787,7 @@ inline encode_emissions_snapshot_message(emissions_snapshot_message_record) {
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 9 -> wire[at] = emissions_snapshot_message_record.opening_price[emissions_snapshot_message_at]; at = at + 1; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> wire[at] = emissions_snapshot_message_record.opening_price_long[emissions_snapshot_message_at]; at = at + 1; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
@@ -14807,7 +14807,7 @@ inline encode_emissions_snapshot_message(emissions_snapshot_message_record) {
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 22 -> wire[at] = emissions_snapshot_message_record.accumulated_trading_value[emissions_snapshot_message_at]; at = at + 1; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 22 -> wire[at] = emissions_snapshot_message_record.accumulated_trading_value_long[emissions_snapshot_message_at]; at = at + 1; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
@@ -14945,7 +14945,7 @@ inline encode_emissions_snapshot_message(emissions_snapshot_message_record) {
   skip
 }
 
-/* Emissions Snapshot Message off the wire, 411 bytes from where the cursor stands */
+/* Emissions Snapshot Message off the wire, 413 bytes from where the cursor stands */
 inline decode_emissions_snapshot_message(emissions_snapshot_message_record) {
   emissions_snapshot_message_at = 0;
   do
@@ -14974,7 +14974,7 @@ inline decode_emissions_snapshot_message(emissions_snapshot_message_record) {
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 9 -> emissions_snapshot_message_record.opening_price[emissions_snapshot_message_at] = wire[at]; at = at + 1; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> emissions_snapshot_message_record.opening_price_long[emissions_snapshot_message_at] = wire[at]; at = at + 1; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
@@ -14994,7 +14994,7 @@ inline decode_emissions_snapshot_message(emissions_snapshot_message_record) {
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 22 -> emissions_snapshot_message_record.accumulated_trading_value[emissions_snapshot_message_at] = wire[at]; at = at + 1; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 22 -> emissions_snapshot_message_record.accumulated_trading_value_long[emissions_snapshot_message_at] = wire[at]; at = at + 1; emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
@@ -15161,7 +15161,7 @@ inline equal_emissions_snapshot_message(emissions_snapshot_message_read, emissio
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 9 -> assert(emissions_snapshot_message_read.opening_price[emissions_snapshot_message_at] == emissions_snapshot_message_written.opening_price[emissions_snapshot_message_at]); emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 11 -> assert(emissions_snapshot_message_read.opening_price_long[emissions_snapshot_message_at] == emissions_snapshot_message_written.opening_price_long[emissions_snapshot_message_at]); emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
@@ -15181,7 +15181,7 @@ inline equal_emissions_snapshot_message(emissions_snapshot_message_read, emissio
   od;
   emissions_snapshot_message_at = 0;
   do
-  :: emissions_snapshot_message_at < 22 -> assert(emissions_snapshot_message_read.accumulated_trading_value[emissions_snapshot_message_at] == emissions_snapshot_message_written.accumulated_trading_value[emissions_snapshot_message_at]); emissions_snapshot_message_at = emissions_snapshot_message_at + 1
+  :: emissions_snapshot_message_at < 22 -> assert(emissions_snapshot_message_read.accumulated_trading_value_long[emissions_snapshot_message_at] == emissions_snapshot_message_written.accumulated_trading_value_long[emissions_snapshot_message_at]); emissions_snapshot_message_at = emissions_snapshot_message_at + 1
   :: else -> break
   od;
   emissions_snapshot_message_at = 0;
@@ -15329,7 +15329,7 @@ typedef EmissionsNegotiatedTradeMessage {
   byte trading_price[11];
   byte trading_volume[10];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte accumulated_trading_value_long[22];
   byte end_keyword
 };
 
@@ -15369,7 +15369,7 @@ inline fill_emissions_negotiated_trade_message(emissions_negotiated_trade_messag
   od;
   emissions_negotiated_trade_message_at = 0;
   do
-  :: emissions_negotiated_trade_message_at < 22 -> emissions_negotiated_trade_message_record.accumulated_trading_value[emissions_negotiated_trade_message_at] = emissions_negotiated_trade_message_value; emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
+  :: emissions_negotiated_trade_message_at < 22 -> emissions_negotiated_trade_message_record.accumulated_trading_value_long[emissions_negotiated_trade_message_at] = emissions_negotiated_trade_message_value; emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
   :: else -> break
   od;
   emissions_negotiated_trade_message_record.end_keyword = emissions_negotiated_trade_message_value;
@@ -15410,7 +15410,7 @@ inline ramp_emissions_negotiated_trade_message(emissions_negotiated_trade_messag
   od;
   emissions_negotiated_trade_message_at = 0;
   do
-  :: emissions_negotiated_trade_message_at < 22 -> emissions_negotiated_trade_message_record.accumulated_trading_value[emissions_negotiated_trade_message_at] = (emissions_negotiated_trade_message_base + 53 + emissions_negotiated_trade_message_at + 1) % 256; emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
+  :: emissions_negotiated_trade_message_at < 22 -> emissions_negotiated_trade_message_record.accumulated_trading_value_long[emissions_negotiated_trade_message_at] = (emissions_negotiated_trade_message_base + 53 + emissions_negotiated_trade_message_at + 1) % 256; emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
   :: else -> break
   od;
   emissions_negotiated_trade_message_record.end_keyword = (emissions_negotiated_trade_message_base + 75 + 1) % 256;
@@ -15451,7 +15451,7 @@ inline encode_emissions_negotiated_trade_message(emissions_negotiated_trade_mess
   od;
   emissions_negotiated_trade_message_at = 0;
   do
-  :: emissions_negotiated_trade_message_at < 22 -> wire[at] = emissions_negotiated_trade_message_record.accumulated_trading_value[emissions_negotiated_trade_message_at]; at = at + 1; emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
+  :: emissions_negotiated_trade_message_at < 22 -> wire[at] = emissions_negotiated_trade_message_record.accumulated_trading_value_long[emissions_negotiated_trade_message_at]; at = at + 1; emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
   :: else -> break
   od;
   wire[at] = emissions_negotiated_trade_message_record.end_keyword; at = at + 1;
@@ -15492,7 +15492,7 @@ inline decode_emissions_negotiated_trade_message(emissions_negotiated_trade_mess
   od;
   emissions_negotiated_trade_message_at = 0;
   do
-  :: emissions_negotiated_trade_message_at < 22 -> emissions_negotiated_trade_message_record.accumulated_trading_value[emissions_negotiated_trade_message_at] = wire[at]; at = at + 1; emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
+  :: emissions_negotiated_trade_message_at < 22 -> emissions_negotiated_trade_message_record.accumulated_trading_value_long[emissions_negotiated_trade_message_at] = wire[at]; at = at + 1; emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
   :: else -> break
   od;
   emissions_negotiated_trade_message_record.end_keyword = wire[at]; at = at + 1;
@@ -15533,7 +15533,7 @@ inline equal_emissions_negotiated_trade_message(emissions_negotiated_trade_messa
   od;
   emissions_negotiated_trade_message_at = 0;
   do
-  :: emissions_negotiated_trade_message_at < 22 -> assert(emissions_negotiated_trade_message_read.accumulated_trading_value[emissions_negotiated_trade_message_at] == emissions_negotiated_trade_message_written.accumulated_trading_value[emissions_negotiated_trade_message_at]); emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
+  :: emissions_negotiated_trade_message_at < 22 -> assert(emissions_negotiated_trade_message_read.accumulated_trading_value_long[emissions_negotiated_trade_message_at] == emissions_negotiated_trade_message_written.accumulated_trading_value_long[emissions_negotiated_trade_message_at]); emissions_negotiated_trade_message_at = emissions_negotiated_trade_message_at + 1
   :: else -> break
   od;
   assert(emissions_negotiated_trade_message_read.end_keyword == emissions_negotiated_trade_message_written.end_keyword);
@@ -17376,7 +17376,7 @@ inline equal_emissions_batch_data_message(emissions_batch_data_message_read, emi
   skip
 }
 
-/* ---- External Gold Spot Closing Price Message: 122 bytes --------------------- */
+/* ---- External Gold Spot Closing Price Message: 120 bytes --------------------- */
 
 /* External Gold Spot (Closing Price) (IFMSRID0036) — Commodities A CMD variant. NESTED-BRANCH NOTE: TR-CODE M200G is shared with the Real-time variant (IFMSRID0035); the Data Type field (field 3) discriminates between Closing Price and Real-time. The loader will need an inner Branch on Data Type once the nested-Branch shape is settled. Real-time variant deferred. */
 typedef ExternalGoldSpotClosingPriceMessage {
@@ -17384,16 +17384,16 @@ typedef ExternalGoldSpotClosingPriceMessage {
   byte job_code_symbol[16];
   byte trading_date[8];
   byte trading_time[6];
-  byte opening_price[9];
+  byte opening_price_short[9];
   byte high_price[9];
   byte low_price[9];
-  byte closing_price[11];
+  byte closing_price_short[9];
   byte change_from_previous_day_sign;
   byte change_from_previous_day[9];
   byte fluctuating_rate[9];
   byte bid_quote[9];
   byte ask_quote[9];
-  byte currency_code[6];
+  byte currency_code_long[6];
   byte conversion_basic_exchange_rate[9];
   byte end_keyword
 };
@@ -17420,7 +17420,7 @@ inline fill_external_gold_spot_closing_price_message(external_gold_spot_closing_
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.opening_price[external_gold_spot_closing_price_message_at] = external_gold_spot_closing_price_message_value; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.opening_price_short[external_gold_spot_closing_price_message_at] = external_gold_spot_closing_price_message_value; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -17435,7 +17435,7 @@ inline fill_external_gold_spot_closing_price_message(external_gold_spot_closing_
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 11 -> external_gold_spot_closing_price_message_record.closing_price[external_gold_spot_closing_price_message_at] = external_gold_spot_closing_price_message_value; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.closing_price_short[external_gold_spot_closing_price_message_at] = external_gold_spot_closing_price_message_value; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_record.change_from_previous_day_sign = external_gold_spot_closing_price_message_value;
@@ -17461,7 +17461,7 @@ inline fill_external_gold_spot_closing_price_message(external_gold_spot_closing_
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 6 -> external_gold_spot_closing_price_message_record.currency_code[external_gold_spot_closing_price_message_at] = external_gold_spot_closing_price_message_value; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 6 -> external_gold_spot_closing_price_message_record.currency_code_long[external_gold_spot_closing_price_message_at] = external_gold_spot_closing_price_message_value; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -17493,7 +17493,7 @@ inline ramp_external_gold_spot_closing_price_message(external_gold_spot_closing_
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.opening_price[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 31 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.opening_price_short[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 31 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -17508,45 +17508,45 @@ inline ramp_external_gold_spot_closing_price_message(external_gold_spot_closing_
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 11 -> external_gold_spot_closing_price_message_record.closing_price[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 58 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.closing_price_short[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 58 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
-  external_gold_spot_closing_price_message_record.change_from_previous_day_sign = (external_gold_spot_closing_price_message_base + 69 + 1) % 256;
+  external_gold_spot_closing_price_message_record.change_from_previous_day_sign = (external_gold_spot_closing_price_message_base + 67 + 1) % 256;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.change_from_previous_day[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 70 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
-  :: else -> break
-  od;
-  external_gold_spot_closing_price_message_at = 0;
-  do
-  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.fluctuating_rate[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 79 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.change_from_previous_day[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 68 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.bid_quote[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 88 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.fluctuating_rate[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 77 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.ask_quote[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 97 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.bid_quote[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 86 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 6 -> external_gold_spot_closing_price_message_record.currency_code[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 106 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.ask_quote[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 95 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.conversion_basic_exchange_rate[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 112 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 6 -> external_gold_spot_closing_price_message_record.currency_code_long[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 104 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
-  external_gold_spot_closing_price_message_record.end_keyword = (external_gold_spot_closing_price_message_base + 121 + 1) % 256;
+  external_gold_spot_closing_price_message_at = 0;
+  do
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.conversion_basic_exchange_rate[external_gold_spot_closing_price_message_at] = (external_gold_spot_closing_price_message_base + 110 + external_gold_spot_closing_price_message_at + 1) % 256; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: else -> break
+  od;
+  external_gold_spot_closing_price_message_record.end_keyword = (external_gold_spot_closing_price_message_base + 119 + 1) % 256;
   skip
 }
 
-/* External Gold Spot Closing Price Message to the wire, 122 bytes from where the cursor stands */
+/* External Gold Spot Closing Price Message to the wire, 120 bytes from where the cursor stands */
 inline encode_external_gold_spot_closing_price_message(external_gold_spot_closing_price_message_record) {
   wire[at] = external_gold_spot_closing_price_message_record.data_type; at = at + 1;
   external_gold_spot_closing_price_message_at = 0;
@@ -17566,7 +17566,7 @@ inline encode_external_gold_spot_closing_price_message(external_gold_spot_closin
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> wire[at] = external_gold_spot_closing_price_message_record.opening_price[external_gold_spot_closing_price_message_at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> wire[at] = external_gold_spot_closing_price_message_record.opening_price_short[external_gold_spot_closing_price_message_at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -17581,7 +17581,7 @@ inline encode_external_gold_spot_closing_price_message(external_gold_spot_closin
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 11 -> wire[at] = external_gold_spot_closing_price_message_record.closing_price[external_gold_spot_closing_price_message_at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> wire[at] = external_gold_spot_closing_price_message_record.closing_price_short[external_gold_spot_closing_price_message_at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   wire[at] = external_gold_spot_closing_price_message_record.change_from_previous_day_sign; at = at + 1;
@@ -17607,7 +17607,7 @@ inline encode_external_gold_spot_closing_price_message(external_gold_spot_closin
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 6 -> wire[at] = external_gold_spot_closing_price_message_record.currency_code[external_gold_spot_closing_price_message_at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 6 -> wire[at] = external_gold_spot_closing_price_message_record.currency_code_long[external_gold_spot_closing_price_message_at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -17619,7 +17619,7 @@ inline encode_external_gold_spot_closing_price_message(external_gold_spot_closin
   skip
 }
 
-/* External Gold Spot Closing Price Message off the wire, 122 bytes from where the cursor stands */
+/* External Gold Spot Closing Price Message off the wire, 120 bytes from where the cursor stands */
 inline decode_external_gold_spot_closing_price_message(external_gold_spot_closing_price_message_record) {
   external_gold_spot_closing_price_message_record.data_type = wire[at]; at = at + 1;
   external_gold_spot_closing_price_message_at = 0;
@@ -17639,7 +17639,7 @@ inline decode_external_gold_spot_closing_price_message(external_gold_spot_closin
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.opening_price[external_gold_spot_closing_price_message_at] = wire[at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.opening_price_short[external_gold_spot_closing_price_message_at] = wire[at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -17654,7 +17654,7 @@ inline decode_external_gold_spot_closing_price_message(external_gold_spot_closin
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 11 -> external_gold_spot_closing_price_message_record.closing_price[external_gold_spot_closing_price_message_at] = wire[at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> external_gold_spot_closing_price_message_record.closing_price_short[external_gold_spot_closing_price_message_at] = wire[at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_record.change_from_previous_day_sign = wire[at]; at = at + 1;
@@ -17680,7 +17680,7 @@ inline decode_external_gold_spot_closing_price_message(external_gold_spot_closin
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 6 -> external_gold_spot_closing_price_message_record.currency_code[external_gold_spot_closing_price_message_at] = wire[at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 6 -> external_gold_spot_closing_price_message_record.currency_code_long[external_gold_spot_closing_price_message_at] = wire[at]; at = at + 1; external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -17712,7 +17712,7 @@ inline equal_external_gold_spot_closing_price_message(external_gold_spot_closing
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 9 -> assert(external_gold_spot_closing_price_message_read.opening_price[external_gold_spot_closing_price_message_at] == external_gold_spot_closing_price_message_written.opening_price[external_gold_spot_closing_price_message_at]); external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> assert(external_gold_spot_closing_price_message_read.opening_price_short[external_gold_spot_closing_price_message_at] == external_gold_spot_closing_price_message_written.opening_price_short[external_gold_spot_closing_price_message_at]); external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -17727,7 +17727,7 @@ inline equal_external_gold_spot_closing_price_message(external_gold_spot_closing
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 11 -> assert(external_gold_spot_closing_price_message_read.closing_price[external_gold_spot_closing_price_message_at] == external_gold_spot_closing_price_message_written.closing_price[external_gold_spot_closing_price_message_at]); external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 9 -> assert(external_gold_spot_closing_price_message_read.closing_price_short[external_gold_spot_closing_price_message_at] == external_gold_spot_closing_price_message_written.closing_price_short[external_gold_spot_closing_price_message_at]); external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   assert(external_gold_spot_closing_price_message_read.change_from_previous_day_sign == external_gold_spot_closing_price_message_written.change_from_previous_day_sign);
@@ -17753,7 +17753,7 @@ inline equal_external_gold_spot_closing_price_message(external_gold_spot_closing
   od;
   external_gold_spot_closing_price_message_at = 0;
   do
-  :: external_gold_spot_closing_price_message_at < 6 -> assert(external_gold_spot_closing_price_message_read.currency_code[external_gold_spot_closing_price_message_at] == external_gold_spot_closing_price_message_written.currency_code[external_gold_spot_closing_price_message_at]); external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
+  :: external_gold_spot_closing_price_message_at < 6 -> assert(external_gold_spot_closing_price_message_read.currency_code_long[external_gold_spot_closing_price_message_at] == external_gold_spot_closing_price_message_written.currency_code_long[external_gold_spot_closing_price_message_at]); external_gold_spot_closing_price_message_at = external_gold_spot_closing_price_message_at + 1
   :: else -> break
   od;
   external_gold_spot_closing_price_message_at = 0;
@@ -18072,7 +18072,7 @@ typedef SpotGoldIssueClosingMessage {
   byte board_id[2];
   byte isin_code[12];
   byte a_designated_number_for_an_issue[6];
-  byte closing_price[11];
+  byte closing_price_long[11];
   byte closing_price_type_code;
   byte filler_11[11];
   byte second_filler_11[11];
@@ -18109,7 +18109,7 @@ inline fill_spot_gold_issue_closing_message(spot_gold_issue_closing_message_reco
   od;
   spot_gold_issue_closing_message_at = 0;
   do
-  :: spot_gold_issue_closing_message_at < 11 -> spot_gold_issue_closing_message_record.closing_price[spot_gold_issue_closing_message_at] = spot_gold_issue_closing_message_value; spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
+  :: spot_gold_issue_closing_message_at < 11 -> spot_gold_issue_closing_message_record.closing_price_long[spot_gold_issue_closing_message_at] = spot_gold_issue_closing_message_value; spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
   :: else -> break
   od;
   spot_gold_issue_closing_message_record.closing_price_type_code = spot_gold_issue_closing_message_value;
@@ -18171,7 +18171,7 @@ inline ramp_spot_gold_issue_closing_message(spot_gold_issue_closing_message_reco
   od;
   spot_gold_issue_closing_message_at = 0;
   do
-  :: spot_gold_issue_closing_message_at < 11 -> spot_gold_issue_closing_message_record.closing_price[spot_gold_issue_closing_message_at] = (spot_gold_issue_closing_message_base + 28 + spot_gold_issue_closing_message_at + 1) % 256; spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
+  :: spot_gold_issue_closing_message_at < 11 -> spot_gold_issue_closing_message_record.closing_price_long[spot_gold_issue_closing_message_at] = (spot_gold_issue_closing_message_base + 28 + spot_gold_issue_closing_message_at + 1) % 256; spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
   :: else -> break
   od;
   spot_gold_issue_closing_message_record.closing_price_type_code = (spot_gold_issue_closing_message_base + 39 + 1) % 256;
@@ -18233,7 +18233,7 @@ inline encode_spot_gold_issue_closing_message(spot_gold_issue_closing_message_re
   od;
   spot_gold_issue_closing_message_at = 0;
   do
-  :: spot_gold_issue_closing_message_at < 11 -> wire[at] = spot_gold_issue_closing_message_record.closing_price[spot_gold_issue_closing_message_at]; at = at + 1; spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
+  :: spot_gold_issue_closing_message_at < 11 -> wire[at] = spot_gold_issue_closing_message_record.closing_price_long[spot_gold_issue_closing_message_at]; at = at + 1; spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
   :: else -> break
   od;
   wire[at] = spot_gold_issue_closing_message_record.closing_price_type_code; at = at + 1;
@@ -18295,7 +18295,7 @@ inline decode_spot_gold_issue_closing_message(spot_gold_issue_closing_message_re
   od;
   spot_gold_issue_closing_message_at = 0;
   do
-  :: spot_gold_issue_closing_message_at < 11 -> spot_gold_issue_closing_message_record.closing_price[spot_gold_issue_closing_message_at] = wire[at]; at = at + 1; spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
+  :: spot_gold_issue_closing_message_at < 11 -> spot_gold_issue_closing_message_record.closing_price_long[spot_gold_issue_closing_message_at] = wire[at]; at = at + 1; spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
   :: else -> break
   od;
   spot_gold_issue_closing_message_record.closing_price_type_code = wire[at]; at = at + 1;
@@ -18357,7 +18357,7 @@ inline equal_spot_gold_issue_closing_message(spot_gold_issue_closing_message_rea
   od;
   spot_gold_issue_closing_message_at = 0;
   do
-  :: spot_gold_issue_closing_message_at < 11 -> assert(spot_gold_issue_closing_message_read.closing_price[spot_gold_issue_closing_message_at] == spot_gold_issue_closing_message_written.closing_price[spot_gold_issue_closing_message_at]); spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
+  :: spot_gold_issue_closing_message_at < 11 -> assert(spot_gold_issue_closing_message_read.closing_price_long[spot_gold_issue_closing_message_at] == spot_gold_issue_closing_message_written.closing_price_long[spot_gold_issue_closing_message_at]); spot_gold_issue_closing_message_at = spot_gold_issue_closing_message_at + 1
   :: else -> break
   od;
   assert(spot_gold_issue_closing_message_read.closing_price_type_code == spot_gold_issue_closing_message_written.closing_price_type_code);
@@ -19091,7 +19091,7 @@ typedef EmissionsIssueClosingMessage {
   byte board_id[2];
   byte isin_code[12];
   byte a_designated_number_for_an_issue[6];
-  byte closing_price[11];
+  byte closing_price_long[11];
   byte closing_price_type_code;
   byte filler_11[11];
   byte second_filler_11[11];
@@ -19128,7 +19128,7 @@ inline fill_emissions_issue_closing_message(emissions_issue_closing_message_reco
   od;
   emissions_issue_closing_message_at = 0;
   do
-  :: emissions_issue_closing_message_at < 11 -> emissions_issue_closing_message_record.closing_price[emissions_issue_closing_message_at] = emissions_issue_closing_message_value; emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
+  :: emissions_issue_closing_message_at < 11 -> emissions_issue_closing_message_record.closing_price_long[emissions_issue_closing_message_at] = emissions_issue_closing_message_value; emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
   :: else -> break
   od;
   emissions_issue_closing_message_record.closing_price_type_code = emissions_issue_closing_message_value;
@@ -19190,7 +19190,7 @@ inline ramp_emissions_issue_closing_message(emissions_issue_closing_message_reco
   od;
   emissions_issue_closing_message_at = 0;
   do
-  :: emissions_issue_closing_message_at < 11 -> emissions_issue_closing_message_record.closing_price[emissions_issue_closing_message_at] = (emissions_issue_closing_message_base + 28 + emissions_issue_closing_message_at + 1) % 256; emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
+  :: emissions_issue_closing_message_at < 11 -> emissions_issue_closing_message_record.closing_price_long[emissions_issue_closing_message_at] = (emissions_issue_closing_message_base + 28 + emissions_issue_closing_message_at + 1) % 256; emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
   :: else -> break
   od;
   emissions_issue_closing_message_record.closing_price_type_code = (emissions_issue_closing_message_base + 39 + 1) % 256;
@@ -19252,7 +19252,7 @@ inline encode_emissions_issue_closing_message(emissions_issue_closing_message_re
   od;
   emissions_issue_closing_message_at = 0;
   do
-  :: emissions_issue_closing_message_at < 11 -> wire[at] = emissions_issue_closing_message_record.closing_price[emissions_issue_closing_message_at]; at = at + 1; emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
+  :: emissions_issue_closing_message_at < 11 -> wire[at] = emissions_issue_closing_message_record.closing_price_long[emissions_issue_closing_message_at]; at = at + 1; emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
   :: else -> break
   od;
   wire[at] = emissions_issue_closing_message_record.closing_price_type_code; at = at + 1;
@@ -19314,7 +19314,7 @@ inline decode_emissions_issue_closing_message(emissions_issue_closing_message_re
   od;
   emissions_issue_closing_message_at = 0;
   do
-  :: emissions_issue_closing_message_at < 11 -> emissions_issue_closing_message_record.closing_price[emissions_issue_closing_message_at] = wire[at]; at = at + 1; emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
+  :: emissions_issue_closing_message_at < 11 -> emissions_issue_closing_message_record.closing_price_long[emissions_issue_closing_message_at] = wire[at]; at = at + 1; emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
   :: else -> break
   od;
   emissions_issue_closing_message_record.closing_price_type_code = wire[at]; at = at + 1;
@@ -19376,7 +19376,7 @@ inline equal_emissions_issue_closing_message(emissions_issue_closing_message_rea
   od;
   emissions_issue_closing_message_at = 0;
   do
-  :: emissions_issue_closing_message_at < 11 -> assert(emissions_issue_closing_message_read.closing_price[emissions_issue_closing_message_at] == emissions_issue_closing_message_written.closing_price[emissions_issue_closing_message_at]); emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
+  :: emissions_issue_closing_message_at < 11 -> assert(emissions_issue_closing_message_read.closing_price_long[emissions_issue_closing_message_at] == emissions_issue_closing_message_written.closing_price_long[emissions_issue_closing_message_at]); emissions_issue_closing_message_at = emissions_issue_closing_message_at + 1
   :: else -> break
   od;
   assert(emissions_issue_closing_message_read.closing_price_type_code == emissions_issue_closing_message_written.closing_price_type_code);
@@ -20008,10 +20008,10 @@ proctype check_krx_index_message() {
   atomic {
     at = 0;
     encode_krx_index_message(krx_index_message_sent);
-    assert(at == 82);
+    assert(at == 72);
     at = 0;
     decode_krx_index_message(krx_index_message_got);
-    assert(at == 82);
+    assert(at == 72);
     equal_krx_index_message(krx_index_message_got, krx_index_message_sent)
   }
 }
@@ -20039,10 +20039,10 @@ proctype check_krx_estimated_index_message() {
   atomic {
     at = 0;
     encode_krx_estimated_index_message(krx_estimated_index_message_sent);
-    assert(at == 82);
+    assert(at == 72);
     at = 0;
     decode_krx_estimated_index_message(krx_estimated_index_message_got);
-    assert(at == 82);
+    assert(at == 72);
     equal_krx_estimated_index_message(krx_estimated_index_message_got, krx_estimated_index_message_sent)
   }
 }
@@ -20070,10 +20070,10 @@ proctype check_global_index_message() {
   atomic {
     at = 0;
     encode_global_index_message(global_index_message_sent);
-    assert(at == 62);
+    assert(at == 59);
     at = 0;
     decode_global_index_message(global_index_message_got);
-    assert(at == 62);
+    assert(at == 59);
     equal_global_index_message(global_index_message_got, global_index_message_sent)
   }
 }
@@ -20256,10 +20256,10 @@ proctype check_spot_gold_order_filled_message() {
   atomic {
     at = 0;
     encode_spot_gold_order_filled_message(spot_gold_order_filled_message_sent);
-    assert(at == 156);
+    assert(at == 158);
     at = 0;
     decode_spot_gold_order_filled_message(spot_gold_order_filled_message_got);
-    assert(at == 156);
+    assert(at == 158);
     equal_spot_gold_order_filled_message(spot_gold_order_filled_message_got, spot_gold_order_filled_message_sent)
   }
 }
@@ -20287,10 +20287,10 @@ proctype check_spot_gold_order_filled_plus_quote_message() {
   atomic {
     at = 0;
     encode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_plus_quote_message_sent);
-    assert(at == 880);
+    assert(at == 882);
     at = 0;
     decode_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_plus_quote_message_got);
-    assert(at == 880);
+    assert(at == 882);
     equal_spot_gold_order_filled_plus_quote_message(spot_gold_order_filled_plus_quote_message_got, spot_gold_order_filled_plus_quote_message_sent)
   }
 }
@@ -20349,10 +20349,10 @@ proctype check_spot_gold_snapshot_message() {
   atomic {
     at = 0;
     encode_spot_gold_snapshot_message(spot_gold_snapshot_message_sent);
-    assert(at == 847);
+    assert(at == 849);
     at = 0;
     decode_spot_gold_snapshot_message(spot_gold_snapshot_message_got);
-    assert(at == 847);
+    assert(at == 849);
     equal_spot_gold_snapshot_message(spot_gold_snapshot_message_got, spot_gold_snapshot_message_sent)
   }
 }
@@ -20442,10 +20442,10 @@ proctype check_emissions_order_filled_message() {
   atomic {
     at = 0;
     encode_emissions_order_filled_message(emissions_order_filled_message_sent);
-    assert(at == 141);
+    assert(at == 143);
     at = 0;
     decode_emissions_order_filled_message(emissions_order_filled_message_got);
-    assert(at == 141);
+    assert(at == 143);
     equal_emissions_order_filled_message(emissions_order_filled_message_got, emissions_order_filled_message_sent)
   }
 }
@@ -20473,10 +20473,10 @@ proctype check_emissions_order_filled_plus_quote_message() {
   atomic {
     at = 0;
     encode_emissions_order_filled_plus_quote_message(emissions_order_filled_plus_quote_message_sent);
-    assert(at == 395);
+    assert(at == 397);
     at = 0;
     decode_emissions_order_filled_plus_quote_message(emissions_order_filled_plus_quote_message_got);
-    assert(at == 395);
+    assert(at == 397);
     equal_emissions_order_filled_plus_quote_message(emissions_order_filled_plus_quote_message_got, emissions_order_filled_plus_quote_message_sent)
   }
 }
@@ -20535,10 +20535,10 @@ proctype check_emissions_snapshot_message() {
   atomic {
     at = 0;
     encode_emissions_snapshot_message(emissions_snapshot_message_sent);
-    assert(at == 411);
+    assert(at == 413);
     at = 0;
     decode_emissions_snapshot_message(emissions_snapshot_message_got);
-    assert(at == 411);
+    assert(at == 413);
     equal_emissions_snapshot_message(emissions_snapshot_message_got, emissions_snapshot_message_sent)
   }
 }
@@ -20721,10 +20721,10 @@ proctype check_external_gold_spot_closing_price_message() {
   atomic {
     at = 0;
     encode_external_gold_spot_closing_price_message(external_gold_spot_closing_price_message_sent);
-    assert(at == 122);
+    assert(at == 120);
     at = 0;
     decode_external_gold_spot_closing_price_message(external_gold_spot_closing_price_message_got);
-    assert(at == 122);
+    assert(at == 120);
     equal_external_gold_spot_closing_price_message(external_gold_spot_closing_price_message_got, external_gold_spot_closing_price_message_sent)
   }
 }

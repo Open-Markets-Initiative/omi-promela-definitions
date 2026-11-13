@@ -116,7 +116,7 @@ inline equal_sip_block_timestamp(sip_block_timestamp_read, sip_block_timestamp_w
   skip
 }
 
-/* ---- Block Header: 21 bytes -------------------------------------------------- */
+/* ---- Block Header: 24 bytes -------------------------------------------------- */
 
 /* Cqs Snapshot packet header */
 typedef BlockHeader {
@@ -124,9 +124,9 @@ typedef BlockHeader {
   byte block_size[2];
   byte block_sequence_number[4];
   byte messages_in_block;
-  byte delivery_flag;
-  byte last_seq_num;
-  byte tot_pub_seq_rollover;
+  byte deliveryflag;
+  byte lastseqnum[4];
+  byte totpubseqrollover;
   SipBlockTimestamp sip_block_timestamp;
   byte block_checksum[2]
 };
@@ -147,9 +147,13 @@ inline fill_block_header(block_header_record, block_header_value) {
   :: else -> break
   od;
   block_header_record.messages_in_block = block_header_value;
-  block_header_record.delivery_flag = block_header_value;
-  block_header_record.last_seq_num = block_header_value;
-  block_header_record.tot_pub_seq_rollover = block_header_value;
+  block_header_record.deliveryflag = block_header_value;
+  block_header_at = 0;
+  do
+  :: block_header_at < 4 -> block_header_record.lastseqnum[block_header_at] = block_header_value; block_header_at = block_header_at + 1
+  :: else -> break
+  od;
+  block_header_record.totpubseqrollover = block_header_value;
   fill_sip_block_timestamp(block_header_record.sip_block_timestamp, block_header_value);
   block_header_at = 0;
   do
@@ -173,19 +177,23 @@ inline ramp_block_header(block_header_record, block_header_base) {
   :: else -> break
   od;
   block_header_record.messages_in_block = (block_header_base + 7 + 1) % 256;
-  block_header_record.delivery_flag = (block_header_base + 8 + 1) % 256;
-  block_header_record.last_seq_num = (block_header_base + 9 + 1) % 256;
-  block_header_record.tot_pub_seq_rollover = (block_header_base + 10 + 1) % 256;
-  ramp_sip_block_timestamp(block_header_record.sip_block_timestamp, block_header_base + 11);
+  block_header_record.deliveryflag = (block_header_base + 8 + 1) % 256;
   block_header_at = 0;
   do
-  :: block_header_at < 2 -> block_header_record.block_checksum[block_header_at] = (block_header_base + 19 + block_header_at + 1) % 256; block_header_at = block_header_at + 1
+  :: block_header_at < 4 -> block_header_record.lastseqnum[block_header_at] = (block_header_base + 9 + block_header_at + 1) % 256; block_header_at = block_header_at + 1
+  :: else -> break
+  od;
+  block_header_record.totpubseqrollover = (block_header_base + 13 + 1) % 256;
+  ramp_sip_block_timestamp(block_header_record.sip_block_timestamp, block_header_base + 14);
+  block_header_at = 0;
+  do
+  :: block_header_at < 2 -> block_header_record.block_checksum[block_header_at] = (block_header_base + 22 + block_header_at + 1) % 256; block_header_at = block_header_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Block Header to the wire, 21 bytes from where the cursor stands */
+/* Block Header to the wire, 24 bytes from where the cursor stands */
 inline encode_block_header(block_header_record) {
   wire[at] = block_header_record.version; at = at + 1;
   block_header_at = 0;
@@ -199,9 +207,13 @@ inline encode_block_header(block_header_record) {
   :: else -> break
   od;
   wire[at] = block_header_record.messages_in_block; at = at + 1;
-  wire[at] = block_header_record.delivery_flag; at = at + 1;
-  wire[at] = block_header_record.last_seq_num; at = at + 1;
-  wire[at] = block_header_record.tot_pub_seq_rollover; at = at + 1;
+  wire[at] = block_header_record.deliveryflag; at = at + 1;
+  block_header_at = 0;
+  do
+  :: block_header_at < 4 -> wire[at] = block_header_record.lastseqnum[block_header_at]; at = at + 1; block_header_at = block_header_at + 1
+  :: else -> break
+  od;
+  wire[at] = block_header_record.totpubseqrollover; at = at + 1;
   encode_sip_block_timestamp(block_header_record.sip_block_timestamp);
   block_header_at = 0;
   do
@@ -211,7 +223,7 @@ inline encode_block_header(block_header_record) {
   skip
 }
 
-/* Block Header off the wire, 21 bytes from where the cursor stands */
+/* Block Header off the wire, 24 bytes from where the cursor stands */
 inline decode_block_header(block_header_record) {
   block_header_record.version = wire[at]; at = at + 1;
   block_header_at = 0;
@@ -225,9 +237,13 @@ inline decode_block_header(block_header_record) {
   :: else -> break
   od;
   block_header_record.messages_in_block = wire[at]; at = at + 1;
-  block_header_record.delivery_flag = wire[at]; at = at + 1;
-  block_header_record.last_seq_num = wire[at]; at = at + 1;
-  block_header_record.tot_pub_seq_rollover = wire[at]; at = at + 1;
+  block_header_record.deliveryflag = wire[at]; at = at + 1;
+  block_header_at = 0;
+  do
+  :: block_header_at < 4 -> block_header_record.lastseqnum[block_header_at] = wire[at]; at = at + 1; block_header_at = block_header_at + 1
+  :: else -> break
+  od;
+  block_header_record.totpubseqrollover = wire[at]; at = at + 1;
   decode_sip_block_timestamp(block_header_record.sip_block_timestamp);
   block_header_at = 0;
   do
@@ -251,9 +267,13 @@ inline equal_block_header(block_header_read, block_header_written) {
   :: else -> break
   od;
   assert(block_header_read.messages_in_block == block_header_written.messages_in_block);
-  assert(block_header_read.delivery_flag == block_header_written.delivery_flag);
-  assert(block_header_read.last_seq_num == block_header_written.last_seq_num);
-  assert(block_header_read.tot_pub_seq_rollover == block_header_written.tot_pub_seq_rollover);
+  assert(block_header_read.deliveryflag == block_header_written.deliveryflag);
+  block_header_at = 0;
+  do
+  :: block_header_at < 4 -> assert(block_header_read.lastseqnum[block_header_at] == block_header_written.lastseqnum[block_header_at]); block_header_at = block_header_at + 1
+  :: else -> break
+  od;
+  assert(block_header_read.totpubseqrollover == block_header_written.totpubseqrollover);
   equal_sip_block_timestamp(block_header_read.sip_block_timestamp, block_header_written.sip_block_timestamp);
   block_header_at = 0;
   do
@@ -1456,10 +1476,10 @@ proctype check_block_header() {
   atomic {
     at = 0;
     encode_block_header(block_header_sent);
-    assert(at == 21);
+    assert(at == 24);
     at = 0;
     decode_block_header(block_header_got);
-    assert(at == 21);
+    assert(at == 24);
     equal_block_header(block_header_got, block_header_sent)
   }
 }

@@ -1,5 +1,5 @@
 /*
- * National Association of Securities Dealers Automated Quotations (Nasdaq) Nom Binary Order Entry
+ * National Association of Securities Dealers Automated Quotations (Nasdaq) Best Of Nasdaq Options
  *
  * Generated from the binary model. Every record is a run of fields, and spin checks the two
  * claims the model's rules call for: that encoding a record writes the bytes its fields say,

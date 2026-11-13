@@ -95,7 +95,7 @@ inline equal_polling_data_message(polling_data_message_read, polling_data_messag
   skip
 }
 
-/* ---- Krx Index Message: 82 bytes --------------------------------------------- */
+/* ---- Krx Index Message: 72 bytes --------------------------------------------- */
 
 /* Krx Index real-time message. Reports current index value, change against previous day, accumulated trading volume, and accumulated trading value for one index. The Index ID field identifies which index group (KRX Index Group 1/2/3, Sector A/B, Gold Spot, or Equity Derivatives) this record belongs to. */
 typedef KrxIndexMessage {
@@ -106,7 +106,7 @@ typedef KrxIndexMessage {
   byte index_change_sign_against_the_previous_day;
   byte index_change_against_the_previous_day[9];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte index_accumulated_trading_value[12];
   byte filler_4[4];
   byte end_keyword
 };
@@ -148,7 +148,7 @@ inline fill_krx_index_message(krx_index_message_record, krx_index_message_value)
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.index_accumulated_trading_value[krx_index_message_at] = krx_index_message_value; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -195,19 +195,19 @@ inline ramp_krx_index_message(krx_index_message_record, krx_index_message_base) 
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = (krx_index_message_base + 55 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.index_accumulated_trading_value[krx_index_message_at] = (krx_index_message_base + 55 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 4 -> krx_index_message_record.filler_4[krx_index_message_at] = (krx_index_message_base + 77 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 4 -> krx_index_message_record.filler_4[krx_index_message_at] = (krx_index_message_base + 67 + krx_index_message_at + 1) % 256; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
-  krx_index_message_record.end_keyword = (krx_index_message_base + 81 + 1) % 256;
+  krx_index_message_record.end_keyword = (krx_index_message_base + 71 + 1) % 256;
   skip
 }
 
-/* Krx Index Message to the wire, 82 bytes from where the cursor stands */
+/* Krx Index Message to the wire, 72 bytes from where the cursor stands */
 inline encode_krx_index_message(krx_index_message_record) {
   krx_index_message_at = 0;
   do
@@ -242,7 +242,7 @@ inline encode_krx_index_message(krx_index_message_record) {
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> wire[at] = krx_index_message_record.accumulated_trading_value[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> wire[at] = krx_index_message_record.index_accumulated_trading_value[krx_index_message_at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -254,7 +254,7 @@ inline encode_krx_index_message(krx_index_message_record) {
   skip
 }
 
-/* Krx Index Message off the wire, 82 bytes from where the cursor stands */
+/* Krx Index Message off the wire, 72 bytes from where the cursor stands */
 inline decode_krx_index_message(krx_index_message_record) {
   krx_index_message_at = 0;
   do
@@ -289,7 +289,7 @@ inline decode_krx_index_message(krx_index_message_record) {
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> krx_index_message_record.accumulated_trading_value[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> krx_index_message_record.index_accumulated_trading_value[krx_index_message_at] = wire[at]; at = at + 1; krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -336,7 +336,7 @@ inline equal_krx_index_message(krx_index_message_read, krx_index_message_written
   od;
   krx_index_message_at = 0;
   do
-  :: krx_index_message_at < 22 -> assert(krx_index_message_read.accumulated_trading_value[krx_index_message_at] == krx_index_message_written.accumulated_trading_value[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
+  :: krx_index_message_at < 12 -> assert(krx_index_message_read.index_accumulated_trading_value[krx_index_message_at] == krx_index_message_written.index_accumulated_trading_value[krx_index_message_at]); krx_index_message_at = krx_index_message_at + 1
   :: else -> break
   od;
   krx_index_message_at = 0;
@@ -348,7 +348,7 @@ inline equal_krx_index_message(krx_index_message_read, krx_index_message_written
   skip
 }
 
-/* ---- Krx Estimated Index Message: 82 bytes ----------------------------------- */
+/* ---- Krx Estimated Index Message: 72 bytes ----------------------------------- */
 
 /* Krx Estimated Index real-time message. Reports the estimated index value during the pre-opening simultaneous-trading window or during regular session estimation. Identical field layout to the Krx Index Message. */
 typedef KrxEstimatedIndexMessage {
@@ -359,7 +359,7 @@ typedef KrxEstimatedIndexMessage {
   byte index_change_sign_against_the_previous_day;
   byte index_change_against_the_previous_day[9];
   byte accumulated_trading_volume[12];
-  byte accumulated_trading_value[22];
+  byte index_accumulated_trading_value[12];
   byte filler_4[4];
   byte end_keyword
 };
@@ -401,7 +401,7 @@ inline fill_krx_estimated_index_message(krx_estimated_index_message_record, krx_
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.index_accumulated_trading_value[krx_estimated_index_message_at] = krx_estimated_index_message_value; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -448,19 +448,19 @@ inline ramp_krx_estimated_index_message(krx_estimated_index_message_record, krx_
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 55 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.index_accumulated_trading_value[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 55 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 4 -> krx_estimated_index_message_record.filler_4[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 77 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 4 -> krx_estimated_index_message_record.filler_4[krx_estimated_index_message_at] = (krx_estimated_index_message_base + 67 + krx_estimated_index_message_at + 1) % 256; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
-  krx_estimated_index_message_record.end_keyword = (krx_estimated_index_message_base + 81 + 1) % 256;
+  krx_estimated_index_message_record.end_keyword = (krx_estimated_index_message_base + 71 + 1) % 256;
   skip
 }
 
-/* Krx Estimated Index Message to the wire, 82 bytes from where the cursor stands */
+/* Krx Estimated Index Message to the wire, 72 bytes from where the cursor stands */
 inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   krx_estimated_index_message_at = 0;
   do
@@ -495,7 +495,7 @@ inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> wire[at] = krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> wire[at] = krx_estimated_index_message_record.index_accumulated_trading_value[krx_estimated_index_message_at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -507,7 +507,7 @@ inline encode_krx_estimated_index_message(krx_estimated_index_message_record) {
   skip
 }
 
-/* Krx Estimated Index Message off the wire, 82 bytes from where the cursor stands */
+/* Krx Estimated Index Message off the wire, 72 bytes from where the cursor stands */
 inline decode_krx_estimated_index_message(krx_estimated_index_message_record) {
   krx_estimated_index_message_at = 0;
   do
@@ -542,7 +542,7 @@ inline decode_krx_estimated_index_message(krx_estimated_index_message_record) {
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> krx_estimated_index_message_record.accumulated_trading_value[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> krx_estimated_index_message_record.index_accumulated_trading_value[krx_estimated_index_message_at] = wire[at]; at = at + 1; krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -589,7 +589,7 @@ inline equal_krx_estimated_index_message(krx_estimated_index_message_read, krx_e
   od;
   krx_estimated_index_message_at = 0;
   do
-  :: krx_estimated_index_message_at < 22 -> assert(krx_estimated_index_message_read.accumulated_trading_value[krx_estimated_index_message_at] == krx_estimated_index_message_written.accumulated_trading_value[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
+  :: krx_estimated_index_message_at < 12 -> assert(krx_estimated_index_message_read.index_accumulated_trading_value[krx_estimated_index_message_at] == krx_estimated_index_message_written.index_accumulated_trading_value[krx_estimated_index_message_at]); krx_estimated_index_message_at = krx_estimated_index_message_at + 1
   :: else -> break
   od;
   krx_estimated_index_message_at = 0;
@@ -15368,13 +15368,15 @@ inline equal_securities_closing_date_message(securities_closing_date_message_rea
   skip
 }
 
-/* ---- Securities Mm Lp Information Message: 192 bytes ------------------------- */
+/* ---- Securities Mm Lp Information Message: 195 bytes ------------------------- */
 
 /* MM/LP Information. Market maker and liquidity provider assignments per issue. */
 typedef SecuritiesMmLpInformationMessage {
   byte message_sequence_number[8];
   byte isin_code[12];
   byte market_participant_number[5];
+  byte board_id[2];
+  byte market_making_liquidity_provider_type_code;
   byte lp_start_date[8];
   byte lp_end_date[8];
   byte minimum_order_volume[11];
@@ -15409,6 +15411,12 @@ inline fill_securities_mm_lp_information_message(securities_mm_lp_information_me
   :: securities_mm_lp_information_message_at < 5 -> securities_mm_lp_information_message_record.market_participant_number[securities_mm_lp_information_message_at] = securities_mm_lp_information_message_value; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
+  securities_mm_lp_information_message_at = 0;
+  do
+  :: securities_mm_lp_information_message_at < 2 -> securities_mm_lp_information_message_record.board_id[securities_mm_lp_information_message_at] = securities_mm_lp_information_message_value; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: else -> break
+  od;
+  securities_mm_lp_information_message_record.market_making_liquidity_provider_type_code = securities_mm_lp_information_message_value;
   securities_mm_lp_information_message_at = 0;
   do
   :: securities_mm_lp_information_message_at < 8 -> securities_mm_lp_information_message_record.lp_start_date[securities_mm_lp_information_message_at] = securities_mm_lp_information_message_value; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
@@ -15488,65 +15496,71 @@ inline ramp_securities_mm_lp_information_message(securities_mm_lp_information_me
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 8 -> securities_mm_lp_information_message_record.lp_start_date[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 25 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 2 -> securities_mm_lp_information_message_record.board_id[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 25 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: else -> break
+  od;
+  securities_mm_lp_information_message_record.market_making_liquidity_provider_type_code = (securities_mm_lp_information_message_base + 27 + 1) % 256;
+  securities_mm_lp_information_message_at = 0;
+  do
+  :: securities_mm_lp_information_message_at < 8 -> securities_mm_lp_information_message_record.lp_start_date[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 28 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 8 -> securities_mm_lp_information_message_record.lp_end_date[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 33 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 8 -> securities_mm_lp_information_message_record.lp_end_date[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 36 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 11 -> securities_mm_lp_information_message_record.minimum_order_volume[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 41 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 11 -> securities_mm_lp_information_message_record.minimum_order_volume[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 44 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 11 -> securities_mm_lp_information_message_record.maximum_volume_of_multiple_order[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 52 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 11 -> securities_mm_lp_information_message_record.maximum_volume_of_multiple_order[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 55 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
-  securities_mm_lp_information_message_record.bid_ask_spread_unit_code = (securities_mm_lp_information_message_base + 63 + 1) % 256;
+  securities_mm_lp_information_message_record.bid_ask_spread_unit_code = (securities_mm_lp_information_message_base + 66 + 1) % 256;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.upper_limit_of_bid_ask_spread[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 64 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
-  :: else -> break
-  od;
-  securities_mm_lp_information_message_at = 0;
-  do
-  :: securities_mm_lp_information_message_at < 11 -> securities_mm_lp_information_message_record.spread_multiple_for_market_holidays[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 86 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.upper_limit_of_bid_ask_spread[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 67 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 6 -> securities_mm_lp_information_message_record.an_obligatory_time_interval_to_place_an_order[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 97 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 11 -> securities_mm_lp_information_message_record.spread_multiple_for_market_holidays[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 89 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.minimum_ask_price[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 103 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 6 -> securities_mm_lp_information_message_record.an_obligatory_time_interval_to_place_an_order[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 100 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.maximum_bid_price[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 125 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.minimum_ask_price[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 106 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.minimum_order_price[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 147 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.maximum_bid_price[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 128 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
   securities_mm_lp_information_message_at = 0;
   do
-  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.maximum_order_price[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 169 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.minimum_order_price[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 150 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
-  securities_mm_lp_information_message_record.end_keyword = (securities_mm_lp_information_message_base + 191 + 1) % 256;
+  securities_mm_lp_information_message_at = 0;
+  do
+  :: securities_mm_lp_information_message_at < 22 -> securities_mm_lp_information_message_record.maximum_order_price[securities_mm_lp_information_message_at] = (securities_mm_lp_information_message_base + 172 + securities_mm_lp_information_message_at + 1) % 256; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: else -> break
+  od;
+  securities_mm_lp_information_message_record.end_keyword = (securities_mm_lp_information_message_base + 194 + 1) % 256;
   skip
 }
 
-/* Securities Mm Lp Information Message to the wire, 192 bytes from where the cursor stands */
+/* Securities Mm Lp Information Message to the wire, 195 bytes from where the cursor stands */
 inline encode_securities_mm_lp_information_message(securities_mm_lp_information_message_record) {
   securities_mm_lp_information_message_at = 0;
   do
@@ -15563,6 +15577,12 @@ inline encode_securities_mm_lp_information_message(securities_mm_lp_information_
   :: securities_mm_lp_information_message_at < 5 -> wire[at] = securities_mm_lp_information_message_record.market_participant_number[securities_mm_lp_information_message_at]; at = at + 1; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
+  securities_mm_lp_information_message_at = 0;
+  do
+  :: securities_mm_lp_information_message_at < 2 -> wire[at] = securities_mm_lp_information_message_record.board_id[securities_mm_lp_information_message_at]; at = at + 1; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = securities_mm_lp_information_message_record.market_making_liquidity_provider_type_code; at = at + 1;
   securities_mm_lp_information_message_at = 0;
   do
   :: securities_mm_lp_information_message_at < 8 -> wire[at] = securities_mm_lp_information_message_record.lp_start_date[securities_mm_lp_information_message_at]; at = at + 1; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
@@ -15623,7 +15643,7 @@ inline encode_securities_mm_lp_information_message(securities_mm_lp_information_
   skip
 }
 
-/* Securities Mm Lp Information Message off the wire, 192 bytes from where the cursor stands */
+/* Securities Mm Lp Information Message off the wire, 195 bytes from where the cursor stands */
 inline decode_securities_mm_lp_information_message(securities_mm_lp_information_message_record) {
   securities_mm_lp_information_message_at = 0;
   do
@@ -15640,6 +15660,12 @@ inline decode_securities_mm_lp_information_message(securities_mm_lp_information_
   :: securities_mm_lp_information_message_at < 5 -> securities_mm_lp_information_message_record.market_participant_number[securities_mm_lp_information_message_at] = wire[at]; at = at + 1; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
+  securities_mm_lp_information_message_at = 0;
+  do
+  :: securities_mm_lp_information_message_at < 2 -> securities_mm_lp_information_message_record.board_id[securities_mm_lp_information_message_at] = wire[at]; at = at + 1; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: else -> break
+  od;
+  securities_mm_lp_information_message_record.market_making_liquidity_provider_type_code = wire[at]; at = at + 1;
   securities_mm_lp_information_message_at = 0;
   do
   :: securities_mm_lp_information_message_at < 8 -> securities_mm_lp_information_message_record.lp_start_date[securities_mm_lp_information_message_at] = wire[at]; at = at + 1; securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
@@ -15717,6 +15743,12 @@ inline equal_securities_mm_lp_information_message(securities_mm_lp_information_m
   :: securities_mm_lp_information_message_at < 5 -> assert(securities_mm_lp_information_message_read.market_participant_number[securities_mm_lp_information_message_at] == securities_mm_lp_information_message_written.market_participant_number[securities_mm_lp_information_message_at]); securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
   :: else -> break
   od;
+  securities_mm_lp_information_message_at = 0;
+  do
+  :: securities_mm_lp_information_message_at < 2 -> assert(securities_mm_lp_information_message_read.board_id[securities_mm_lp_information_message_at] == securities_mm_lp_information_message_written.board_id[securities_mm_lp_information_message_at]); securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
+  :: else -> break
+  od;
+  assert(securities_mm_lp_information_message_read.market_making_liquidity_provider_type_code == securities_mm_lp_information_message_written.market_making_liquidity_provider_type_code);
   securities_mm_lp_information_message_at = 0;
   do
   :: securities_mm_lp_information_message_at < 8 -> assert(securities_mm_lp_information_message_read.lp_start_date[securities_mm_lp_information_message_at] == securities_mm_lp_information_message_written.lp_start_date[securities_mm_lp_information_message_at]); securities_mm_lp_information_message_at = securities_mm_lp_information_message_at + 1
@@ -20454,8 +20486,8 @@ typedef SecuritiesKnockOutUnderlyingMessage {
   byte ampm_type_code;
   byte underlying_i_s_i_n_code[12];
   byte index_id[6];
-  byte todays_high[11];
-  byte todays_low[11];
+  byte underlying_today_s_high[11];
+  byte underlying_today_s_low[11];
   byte filler_4[4];
   byte end_keyword
 };
@@ -20502,12 +20534,12 @@ inline fill_securities_knock_out_underlying_message(securities_knock_out_underly
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.todays_high[securities_knock_out_underlying_message_at] = securities_knock_out_underlying_message_value; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.underlying_today_s_high[securities_knock_out_underlying_message_at] = securities_knock_out_underlying_message_value; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.todays_low[securities_knock_out_underlying_message_at] = securities_knock_out_underlying_message_value; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.underlying_today_s_low[securities_knock_out_underlying_message_at] = securities_knock_out_underlying_message_value; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
@@ -20559,12 +20591,12 @@ inline ramp_securities_knock_out_underlying_message(securities_knock_out_underly
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.todays_high[securities_knock_out_underlying_message_at] = (securities_knock_out_underlying_message_base + 63 + securities_knock_out_underlying_message_at + 1) % 256; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.underlying_today_s_high[securities_knock_out_underlying_message_at] = (securities_knock_out_underlying_message_base + 63 + securities_knock_out_underlying_message_at + 1) % 256; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.todays_low[securities_knock_out_underlying_message_at] = (securities_knock_out_underlying_message_base + 74 + securities_knock_out_underlying_message_at + 1) % 256; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.underlying_today_s_low[securities_knock_out_underlying_message_at] = (securities_knock_out_underlying_message_base + 74 + securities_knock_out_underlying_message_at + 1) % 256; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
@@ -20616,12 +20648,12 @@ inline encode_securities_knock_out_underlying_message(securities_knock_out_under
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> wire[at] = securities_knock_out_underlying_message_record.todays_high[securities_knock_out_underlying_message_at]; at = at + 1; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> wire[at] = securities_knock_out_underlying_message_record.underlying_today_s_high[securities_knock_out_underlying_message_at]; at = at + 1; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> wire[at] = securities_knock_out_underlying_message_record.todays_low[securities_knock_out_underlying_message_at]; at = at + 1; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> wire[at] = securities_knock_out_underlying_message_record.underlying_today_s_low[securities_knock_out_underlying_message_at]; at = at + 1; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
@@ -20673,12 +20705,12 @@ inline decode_securities_knock_out_underlying_message(securities_knock_out_under
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.todays_high[securities_knock_out_underlying_message_at] = wire[at]; at = at + 1; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.underlying_today_s_high[securities_knock_out_underlying_message_at] = wire[at]; at = at + 1; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.todays_low[securities_knock_out_underlying_message_at] = wire[at]; at = at + 1; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> securities_knock_out_underlying_message_record.underlying_today_s_low[securities_knock_out_underlying_message_at] = wire[at]; at = at + 1; securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
@@ -20730,12 +20762,12 @@ inline equal_securities_knock_out_underlying_message(securities_knock_out_underl
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> assert(securities_knock_out_underlying_message_read.todays_high[securities_knock_out_underlying_message_at] == securities_knock_out_underlying_message_written.todays_high[securities_knock_out_underlying_message_at]); securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> assert(securities_knock_out_underlying_message_read.underlying_today_s_high[securities_knock_out_underlying_message_at] == securities_knock_out_underlying_message_written.underlying_today_s_high[securities_knock_out_underlying_message_at]); securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
   do
-  :: securities_knock_out_underlying_message_at < 11 -> assert(securities_knock_out_underlying_message_read.todays_low[securities_knock_out_underlying_message_at] == securities_knock_out_underlying_message_written.todays_low[securities_knock_out_underlying_message_at]); securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
+  :: securities_knock_out_underlying_message_at < 11 -> assert(securities_knock_out_underlying_message_read.underlying_today_s_low[securities_knock_out_underlying_message_at] == securities_knock_out_underlying_message_written.underlying_today_s_low[securities_knock_out_underlying_message_at]); securities_knock_out_underlying_message_at = securities_knock_out_underlying_message_at + 1
   :: else -> break
   od;
   securities_knock_out_underlying_message_at = 0;
@@ -24843,10 +24875,10 @@ proctype check_krx_index_message() {
   atomic {
     at = 0;
     encode_krx_index_message(krx_index_message_sent);
-    assert(at == 82);
+    assert(at == 72);
     at = 0;
     decode_krx_index_message(krx_index_message_got);
-    assert(at == 82);
+    assert(at == 72);
     equal_krx_index_message(krx_index_message_got, krx_index_message_sent)
   }
 }
@@ -24874,10 +24906,10 @@ proctype check_krx_estimated_index_message() {
   atomic {
     at = 0;
     encode_krx_estimated_index_message(krx_estimated_index_message_sent);
-    assert(at == 82);
+    assert(at == 72);
     at = 0;
     decode_krx_estimated_index_message(krx_estimated_index_message_got);
-    assert(at == 82);
+    assert(at == 72);
     equal_krx_estimated_index_message(krx_estimated_index_message_got, krx_estimated_index_message_sent)
   }
 }
@@ -25618,10 +25650,10 @@ proctype check_securities_mm_lp_information_message() {
   atomic {
     at = 0;
     encode_securities_mm_lp_information_message(securities_mm_lp_information_message_sent);
-    assert(at == 192);
+    assert(at == 195);
     at = 0;
     decode_securities_mm_lp_information_message(securities_mm_lp_information_message_got);
-    assert(at == 192);
+    assert(at == 195);
     equal_securities_mm_lp_information_message(securities_mm_lp_information_message_got, securities_mm_lp_information_message_sent)
   }
 }

@@ -26,7 +26,7 @@
 /* ---- The wire ---------------------------------------------------------------- */
 
 /* the widest record this protocol states, which is the most a check writes at once */
-#define WIRE 105
+#define WIRE 180
 
 /* the bytes a record is written to and read back from */
 byte wire[WIRE];
@@ -449,11 +449,11 @@ inline equal_admin_login(admin_login_read, admin_login_written) {
   skip
 }
 
-/* ---- Admin Logout: 100 bytes ------------------------------------------------- */
+/* ---- Admin Logout: 180 bytes ------------------------------------------------- */
 
 /* AdminLogout */
 typedef AdminLogout {
-  byte text[100]
+  byte text[180]
 };
 
 int admin_logout_at;
@@ -462,7 +462,7 @@ int admin_logout_at;
 inline fill_admin_logout(admin_logout_record, admin_logout_value) {
   admin_logout_at = 0;
   do
-  :: admin_logout_at < 100 -> admin_logout_record.text[admin_logout_at] = admin_logout_value; admin_logout_at = admin_logout_at + 1
+  :: admin_logout_at < 180 -> admin_logout_record.text[admin_logout_at] = admin_logout_value; admin_logout_at = admin_logout_at + 1
   :: else -> break
   od;
   skip
@@ -472,27 +472,27 @@ inline fill_admin_logout(admin_logout_record, admin_logout_value) {
 inline ramp_admin_logout(admin_logout_record, admin_logout_base) {
   admin_logout_at = 0;
   do
-  :: admin_logout_at < 100 -> admin_logout_record.text[admin_logout_at] = (admin_logout_base + 0 + admin_logout_at + 1) % 256; admin_logout_at = admin_logout_at + 1
+  :: admin_logout_at < 180 -> admin_logout_record.text[admin_logout_at] = (admin_logout_base + 0 + admin_logout_at + 1) % 256; admin_logout_at = admin_logout_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Admin Logout to the wire, 100 bytes from where the cursor stands */
+/* Admin Logout to the wire, 180 bytes from where the cursor stands */
 inline encode_admin_logout(admin_logout_record) {
   admin_logout_at = 0;
   do
-  :: admin_logout_at < 100 -> wire[at] = admin_logout_record.text[admin_logout_at]; at = at + 1; admin_logout_at = admin_logout_at + 1
+  :: admin_logout_at < 180 -> wire[at] = admin_logout_record.text[admin_logout_at]; at = at + 1; admin_logout_at = admin_logout_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Admin Logout off the wire, 100 bytes from where the cursor stands */
+/* Admin Logout off the wire, 180 bytes from where the cursor stands */
 inline decode_admin_logout(admin_logout_record) {
   admin_logout_at = 0;
   do
-  :: admin_logout_at < 100 -> admin_logout_record.text[admin_logout_at] = wire[at]; at = at + 1; admin_logout_at = admin_logout_at + 1
+  :: admin_logout_at < 180 -> admin_logout_record.text[admin_logout_at] = wire[at]; at = at + 1; admin_logout_at = admin_logout_at + 1
   :: else -> break
   od;
   skip
@@ -502,7 +502,7 @@ inline decode_admin_logout(admin_logout_record) {
 inline equal_admin_logout(admin_logout_read, admin_logout_written) {
   admin_logout_at = 0;
   do
-  :: admin_logout_at < 100 -> assert(admin_logout_read.text[admin_logout_at] == admin_logout_written.text[admin_logout_at]); admin_logout_at = admin_logout_at + 1
+  :: admin_logout_at < 180 -> assert(admin_logout_read.text[admin_logout_at] == admin_logout_written.text[admin_logout_at]); admin_logout_at = admin_logout_at + 1
   :: else -> break
   od;
   skip
@@ -1105,7 +1105,7 @@ inline equal_terminate(terminate_read, terminate_written) {
 typedef RequestReject {
   byte md_req_id_optional[4];
   byte md_req_rej_reason;
-  byte text[100]
+  byte session_text[100]
 };
 
 int request_reject_at;
@@ -1120,7 +1120,7 @@ inline fill_request_reject(request_reject_record, request_reject_value) {
   request_reject_record.md_req_rej_reason = request_reject_value;
   request_reject_at = 0;
   do
-  :: request_reject_at < 100 -> request_reject_record.text[request_reject_at] = request_reject_value; request_reject_at = request_reject_at + 1
+  :: request_reject_at < 100 -> request_reject_record.session_text[request_reject_at] = request_reject_value; request_reject_at = request_reject_at + 1
   :: else -> break
   od;
   skip
@@ -1136,7 +1136,7 @@ inline ramp_request_reject(request_reject_record, request_reject_base) {
   request_reject_record.md_req_rej_reason = (request_reject_base + 4 + 1) % 256;
   request_reject_at = 0;
   do
-  :: request_reject_at < 100 -> request_reject_record.text[request_reject_at] = (request_reject_base + 5 + request_reject_at + 1) % 256; request_reject_at = request_reject_at + 1
+  :: request_reject_at < 100 -> request_reject_record.session_text[request_reject_at] = (request_reject_base + 5 + request_reject_at + 1) % 256; request_reject_at = request_reject_at + 1
   :: else -> break
   od;
   skip
@@ -1152,7 +1152,7 @@ inline encode_request_reject(request_reject_record) {
   wire[at] = request_reject_record.md_req_rej_reason; at = at + 1;
   request_reject_at = 0;
   do
-  :: request_reject_at < 100 -> wire[at] = request_reject_record.text[request_reject_at]; at = at + 1; request_reject_at = request_reject_at + 1
+  :: request_reject_at < 100 -> wire[at] = request_reject_record.session_text[request_reject_at]; at = at + 1; request_reject_at = request_reject_at + 1
   :: else -> break
   od;
   skip
@@ -1168,7 +1168,7 @@ inline decode_request_reject(request_reject_record) {
   request_reject_record.md_req_rej_reason = wire[at]; at = at + 1;
   request_reject_at = 0;
   do
-  :: request_reject_at < 100 -> request_reject_record.text[request_reject_at] = wire[at]; at = at + 1; request_reject_at = request_reject_at + 1
+  :: request_reject_at < 100 -> request_reject_record.session_text[request_reject_at] = wire[at]; at = at + 1; request_reject_at = request_reject_at + 1
   :: else -> break
   od;
   skip
@@ -1184,7 +1184,7 @@ inline equal_request_reject(request_reject_read, request_reject_written) {
   assert(request_reject_read.md_req_rej_reason == request_reject_written.md_req_rej_reason);
   request_reject_at = 0;
   do
-  :: request_reject_at < 100 -> assert(request_reject_read.text[request_reject_at] == request_reject_written.text[request_reject_at]); request_reject_at = request_reject_at + 1
+  :: request_reject_at < 100 -> assert(request_reject_read.session_text[request_reject_at] == request_reject_written.session_text[request_reject_at]); request_reject_at = request_reject_at + 1
   :: else -> break
   od;
   skip
@@ -1370,10 +1370,10 @@ proctype check_admin_logout() {
   atomic {
     at = 0;
     encode_admin_logout(admin_logout_sent);
-    assert(at == 100);
+    assert(at == 180);
     at = 0;
     decode_admin_logout(admin_logout_got);
-    assert(at == 100);
+    assert(at == 180);
     equal_admin_logout(admin_logout_got, admin_logout_sent)
   }
 }

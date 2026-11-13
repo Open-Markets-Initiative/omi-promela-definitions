@@ -32,12 +32,12 @@ byte wire[WIRE];
 /* where the next byte is written or read, so a nested record carries on from its holder */
 int at;
 
-/* ---- Message Header: 13 bytes ------------------------------------------------ */
+/* ---- Message Header: 9 bytes ------------------------------------------------- */
 
 /* Currenex Itch Market Data Message Header */
 typedef MessageHeader {
   byte sequence_number[4];
-  byte timestamp[8];
+  byte timestamp[4];
   byte message_type
 };
 
@@ -52,7 +52,7 @@ inline fill_message_header(message_header_record, message_header_value) {
   od;
   message_header_at = 0;
   do
-  :: message_header_at < 8 -> message_header_record.timestamp[message_header_at] = message_header_value; message_header_at = message_header_at + 1
+  :: message_header_at < 4 -> message_header_record.timestamp[message_header_at] = message_header_value; message_header_at = message_header_at + 1
   :: else -> break
   od;
   message_header_record.message_type = message_header_value;
@@ -68,14 +68,14 @@ inline ramp_message_header(message_header_record, message_header_base) {
   od;
   message_header_at = 0;
   do
-  :: message_header_at < 8 -> message_header_record.timestamp[message_header_at] = (message_header_base + 4 + message_header_at + 1) % 256; message_header_at = message_header_at + 1
+  :: message_header_at < 4 -> message_header_record.timestamp[message_header_at] = (message_header_base + 4 + message_header_at + 1) % 256; message_header_at = message_header_at + 1
   :: else -> break
   od;
-  message_header_record.message_type = (message_header_base + 12 + 1) % 256;
+  message_header_record.message_type = (message_header_base + 8 + 1) % 256;
   skip
 }
 
-/* Message Header to the wire, 13 bytes from where the cursor stands */
+/* Message Header to the wire, 9 bytes from where the cursor stands */
 inline encode_message_header(message_header_record) {
   message_header_at = 0;
   do
@@ -84,14 +84,14 @@ inline encode_message_header(message_header_record) {
   od;
   message_header_at = 0;
   do
-  :: message_header_at < 8 -> wire[at] = message_header_record.timestamp[message_header_at]; at = at + 1; message_header_at = message_header_at + 1
+  :: message_header_at < 4 -> wire[at] = message_header_record.timestamp[message_header_at]; at = at + 1; message_header_at = message_header_at + 1
   :: else -> break
   od;
   wire[at] = message_header_record.message_type; at = at + 1;
   skip
 }
 
-/* Message Header off the wire, 13 bytes from where the cursor stands */
+/* Message Header off the wire, 9 bytes from where the cursor stands */
 inline decode_message_header(message_header_record) {
   message_header_at = 0;
   do
@@ -100,7 +100,7 @@ inline decode_message_header(message_header_record) {
   od;
   message_header_at = 0;
   do
-  :: message_header_at < 8 -> message_header_record.timestamp[message_header_at] = wire[at]; at = at + 1; message_header_at = message_header_at + 1
+  :: message_header_at < 4 -> message_header_record.timestamp[message_header_at] = wire[at]; at = at + 1; message_header_at = message_header_at + 1
   :: else -> break
   od;
   message_header_record.message_type = wire[at]; at = at + 1;
@@ -116,7 +116,7 @@ inline equal_message_header(message_header_read, message_header_written) {
   od;
   message_header_at = 0;
   do
-  :: message_header_at < 8 -> assert(message_header_read.timestamp[message_header_at] == message_header_written.timestamp[message_header_at]); message_header_at = message_header_at + 1
+  :: message_header_at < 4 -> assert(message_header_read.timestamp[message_header_at] == message_header_written.timestamp[message_header_at]); message_header_at = message_header_at + 1
   :: else -> break
   od;
   assert(message_header_read.message_type == message_header_written.message_type);
@@ -1397,7 +1397,7 @@ typedef WamrWithConfidenceFactorMessage {
   ConfFactor75 conf_factor_75;
   ConfFactor50 conf_factor_50;
   ConfFactor25 conf_factor_25;
-  byte timestamp[8]
+  byte calculation_timestamp[8]
 };
 
 int wamr_with_confidence_factor_message_at;
@@ -1419,7 +1419,7 @@ inline fill_wamr_with_confidence_factor_message(wamr_with_confidence_factor_mess
   fill_conf_factor25(wamr_with_confidence_factor_message_record.conf_factor_25, wamr_with_confidence_factor_message_value);
   wamr_with_confidence_factor_message_at = 0;
   do
-  :: wamr_with_confidence_factor_message_at < 8 -> wamr_with_confidence_factor_message_record.timestamp[wamr_with_confidence_factor_message_at] = wamr_with_confidence_factor_message_value; wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
+  :: wamr_with_confidence_factor_message_at < 8 -> wamr_with_confidence_factor_message_record.calculation_timestamp[wamr_with_confidence_factor_message_at] = wamr_with_confidence_factor_message_value; wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
   :: else -> break
   od;
   skip
@@ -1442,7 +1442,7 @@ inline ramp_wamr_with_confidence_factor_message(wamr_with_confidence_factor_mess
   ramp_conf_factor25(wamr_with_confidence_factor_message_record.conf_factor_25, wamr_with_confidence_factor_message_base + 22);
   wamr_with_confidence_factor_message_at = 0;
   do
-  :: wamr_with_confidence_factor_message_at < 8 -> wamr_with_confidence_factor_message_record.timestamp[wamr_with_confidence_factor_message_at] = (wamr_with_confidence_factor_message_base + 30 + wamr_with_confidence_factor_message_at + 1) % 256; wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
+  :: wamr_with_confidence_factor_message_at < 8 -> wamr_with_confidence_factor_message_record.calculation_timestamp[wamr_with_confidence_factor_message_at] = (wamr_with_confidence_factor_message_base + 30 + wamr_with_confidence_factor_message_at + 1) % 256; wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
   :: else -> break
   od;
   skip
@@ -1465,7 +1465,7 @@ inline encode_wamr_with_confidence_factor_message(wamr_with_confidence_factor_me
   encode_conf_factor25(wamr_with_confidence_factor_message_record.conf_factor_25);
   wamr_with_confidence_factor_message_at = 0;
   do
-  :: wamr_with_confidence_factor_message_at < 8 -> wire[at] = wamr_with_confidence_factor_message_record.timestamp[wamr_with_confidence_factor_message_at]; at = at + 1; wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
+  :: wamr_with_confidence_factor_message_at < 8 -> wire[at] = wamr_with_confidence_factor_message_record.calculation_timestamp[wamr_with_confidence_factor_message_at]; at = at + 1; wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
   :: else -> break
   od;
   skip
@@ -1488,7 +1488,7 @@ inline decode_wamr_with_confidence_factor_message(wamr_with_confidence_factor_me
   decode_conf_factor25(wamr_with_confidence_factor_message_record.conf_factor_25);
   wamr_with_confidence_factor_message_at = 0;
   do
-  :: wamr_with_confidence_factor_message_at < 8 -> wamr_with_confidence_factor_message_record.timestamp[wamr_with_confidence_factor_message_at] = wire[at]; at = at + 1; wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
+  :: wamr_with_confidence_factor_message_at < 8 -> wamr_with_confidence_factor_message_record.calculation_timestamp[wamr_with_confidence_factor_message_at] = wire[at]; at = at + 1; wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
   :: else -> break
   od;
   skip
@@ -1511,7 +1511,7 @@ inline equal_wamr_with_confidence_factor_message(wamr_with_confidence_factor_mes
   equal_conf_factor25(wamr_with_confidence_factor_message_read.conf_factor_25, wamr_with_confidence_factor_message_written.conf_factor_25);
   wamr_with_confidence_factor_message_at = 0;
   do
-  :: wamr_with_confidence_factor_message_at < 8 -> assert(wamr_with_confidence_factor_message_read.timestamp[wamr_with_confidence_factor_message_at] == wamr_with_confidence_factor_message_written.timestamp[wamr_with_confidence_factor_message_at]); wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
+  :: wamr_with_confidence_factor_message_at < 8 -> assert(wamr_with_confidence_factor_message_read.calculation_timestamp[wamr_with_confidence_factor_message_at] == wamr_with_confidence_factor_message_written.calculation_timestamp[wamr_with_confidence_factor_message_at]); wamr_with_confidence_factor_message_at = wamr_with_confidence_factor_message_at + 1
   :: else -> break
   od;
   skip
@@ -1698,10 +1698,10 @@ proctype check_message_header() {
   atomic {
     at = 0;
     encode_message_header(message_header_sent);
-    assert(at == 13);
+    assert(at == 9);
     at = 0;
     decode_message_header(message_header_got);
-    assert(at == 13);
+    assert(at == 9);
     equal_message_header(message_header_got, message_header_sent)
   }
 }
