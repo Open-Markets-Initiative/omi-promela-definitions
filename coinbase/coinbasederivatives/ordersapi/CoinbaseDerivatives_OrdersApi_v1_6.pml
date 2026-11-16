@@ -1013,6 +1013,207 @@ inline equal_set_ack_message(set_ack_message_read, set_ack_message_written) {
   skip
 }
 
+/* ---- New Order Message: 36 bytes --------------------------------------------- */
+
+/* NewOrderMessage */
+typedef NewOrderMessage {
+  byte client_order_id[8];
+  byte correlation_id[8];
+  byte limit_price[8];
+  byte quantity[4];
+  byte instrument_id[4];
+  byte side;
+  byte new_order_padding;
+  byte good_til_date[2]
+};
+
+int new_order_message_at;
+
+/* every byte of New Order Message set to one value */
+inline fill_new_order_message(new_order_message_record, new_order_message_value) {
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.client_order_id[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.correlation_id[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.limit_price[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> new_order_message_record.quantity[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> new_order_message_record.instrument_id[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_record.side = new_order_message_value;
+  new_order_message_record.new_order_padding = new_order_message_value;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 2 -> new_order_message_record.good_til_date[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of New Order Message set to where it lies, so a field read out of place says so */
+inline ramp_new_order_message(new_order_message_record, new_order_message_base) {
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.client_order_id[new_order_message_at] = (new_order_message_base + 0 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.correlation_id[new_order_message_at] = (new_order_message_base + 8 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.limit_price[new_order_message_at] = (new_order_message_base + 16 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> new_order_message_record.quantity[new_order_message_at] = (new_order_message_base + 24 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> new_order_message_record.instrument_id[new_order_message_at] = (new_order_message_base + 28 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_record.side = (new_order_message_base + 32 + 1) % 256;
+  new_order_message_record.new_order_padding = (new_order_message_base + 33 + 1) % 256;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 2 -> new_order_message_record.good_til_date[new_order_message_at] = (new_order_message_base + 34 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* New Order Message to the wire, 36 bytes from where the cursor stands */
+inline encode_new_order_message(new_order_message_record) {
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> wire[at] = new_order_message_record.client_order_id[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> wire[at] = new_order_message_record.correlation_id[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> wire[at] = new_order_message_record.limit_price[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> wire[at] = new_order_message_record.quantity[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> wire[at] = new_order_message_record.instrument_id[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  wire[at] = new_order_message_record.side; at = at + 1;
+  wire[at] = new_order_message_record.new_order_padding; at = at + 1;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 2 -> wire[at] = new_order_message_record.good_til_date[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* New Order Message off the wire, 36 bytes from where the cursor stands */
+inline decode_new_order_message(new_order_message_record) {
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.client_order_id[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.correlation_id[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> new_order_message_record.limit_price[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> new_order_message_record.quantity[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> new_order_message_record.instrument_id[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_record.side = wire[at]; at = at + 1;
+  new_order_message_record.new_order_padding = wire[at]; at = at + 1;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 2 -> new_order_message_record.good_til_date[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of New Order Message is what was written, byte for byte */
+inline equal_new_order_message(new_order_message_read, new_order_message_written) {
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> assert(new_order_message_read.client_order_id[new_order_message_at] == new_order_message_written.client_order_id[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> assert(new_order_message_read.correlation_id[new_order_message_at] == new_order_message_written.correlation_id[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 8 -> assert(new_order_message_read.limit_price[new_order_message_at] == new_order_message_written.limit_price[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> assert(new_order_message_read.quantity[new_order_message_at] == new_order_message_written.quantity[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 4 -> assert(new_order_message_read.instrument_id[new_order_message_at] == new_order_message_written.instrument_id[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  assert(new_order_message_read.side == new_order_message_written.side);
+  assert(new_order_message_read.new_order_padding == new_order_message_written.new_order_padding);
+  new_order_message_at = 0;
+  do
+  :: new_order_message_at < 2 -> assert(new_order_message_read.good_til_date[new_order_message_at] == new_order_message_written.good_til_date[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
 /* ---- New Ioc Order Message: 37 bytes ----------------------------------------- */
 
 /* NewIocOrderMessage */
@@ -5042,6 +5243,37 @@ proctype check_set_ack_message() {
   }
 }
 
+/* New Order Message: encoded, read back, and compared */
+proctype check_new_order_message() {
+  NewOrderMessage new_order_message_sent;
+  NewOrderMessage new_order_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_new_order_message(new_order_message_sent, 0)
+  :: pattern == 1 -> fill_new_order_message(new_order_message_sent, 32)
+  :: pattern == 2 -> fill_new_order_message(new_order_message_sent, 255)
+  :: else -> ramp_new_order_message(new_order_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_new_order_message(new_order_message_sent);
+    assert(at == 36);
+    at = 0;
+    decode_new_order_message(new_order_message_got);
+    assert(at == 36);
+    equal_new_order_message(new_order_message_got, new_order_message_sent)
+  }
+}
+
 /* New Ioc Order Message: encoded, read back, and compared */
 proctype check_new_ioc_order_message() {
   NewIocOrderMessage new_ioc_order_message_sent;
@@ -5740,6 +5972,7 @@ init {
   :: run check_set_account_message()
   :: run check_set_trader_message()
   :: run check_set_ack_message()
+  :: run check_new_order_message()
   :: run check_new_ioc_order_message()
   :: run check_order_entered_message()
   :: run check_replace_order_message()

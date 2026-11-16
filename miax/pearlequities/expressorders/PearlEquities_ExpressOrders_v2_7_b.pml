@@ -337,7 +337,7 @@ inline equal_symbol_update_message(symbol_update_message_read, symbol_update_mes
   skip
 }
 
-/* ---- New Order Response Message: 76 bytes ------------------------------------ */
+/* ---- New Order Response Message: 67 bytes ------------------------------------ */
 
 /* provides an acknowledgement for a New Order Request accepted by MIAX Pearl Equities */
 typedef NewOrderResponseMessage {
@@ -349,7 +349,7 @@ typedef NewOrderResponseMessage {
   byte price[8];
   byte size[4];
   byte order_status;
-  byte reserved_19[19]
+  byte reserved_10[10]
 };
 
 int new_order_response_message_at;
@@ -394,7 +394,7 @@ inline fill_new_order_response_message(new_order_response_message_record, new_or
   new_order_response_message_record.order_status = new_order_response_message_value;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> new_order_response_message_record.reserved_19[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
@@ -440,13 +440,13 @@ inline ramp_new_order_response_message(new_order_response_message_record, new_or
   new_order_response_message_record.order_status = (new_order_response_message_base + 56 + 1) % 256;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> new_order_response_message_record.reserved_19[new_order_response_message_at] = (new_order_response_message_base + 57 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = (new_order_response_message_base + 57 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* New Order Response Message to the wire, 76 bytes from where the cursor stands */
+/* New Order Response Message to the wire, 67 bytes from where the cursor stands */
 inline encode_new_order_response_message(new_order_response_message_record) {
   new_order_response_message_at = 0;
   do
@@ -486,13 +486,13 @@ inline encode_new_order_response_message(new_order_response_message_record) {
   wire[at] = new_order_response_message_record.order_status; at = at + 1;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> wire[at] = new_order_response_message_record.reserved_19[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> wire[at] = new_order_response_message_record.reserved_10[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* New Order Response Message off the wire, 76 bytes from where the cursor stands */
+/* New Order Response Message off the wire, 67 bytes from where the cursor stands */
 inline decode_new_order_response_message(new_order_response_message_record) {
   new_order_response_message_at = 0;
   do
@@ -532,7 +532,7 @@ inline decode_new_order_response_message(new_order_response_message_record) {
   new_order_response_message_record.order_status = wire[at]; at = at + 1;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> new_order_response_message_record.reserved_19[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
@@ -578,7 +578,7 @@ inline equal_new_order_response_message(new_order_response_message_read, new_ord
   assert(new_order_response_message_read.order_status == new_order_response_message_written.order_status);
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> assert(new_order_response_message_read.reserved_19[new_order_response_message_at] == new_order_response_message_written.reserved_19[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> assert(new_order_response_message_read.reserved_10[new_order_response_message_at] == new_order_response_message_written.reserved_10[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
@@ -1114,7 +1114,7 @@ typedef CancelOrderByExchangeOrderIdResponseMessage {
   byte symbol_id[4];
   byte order_id[8];
   byte leaves_qty[4];
-  byte cancel_status;
+  byte cancel_by_exchange_order_id_status;
   byte reserved_10[10]
 };
 
@@ -1152,7 +1152,7 @@ inline fill_cancel_order_by_exchange_order_id_response_message(cancel_order_by_e
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> cancel_order_by_exchange_order_id_response_message_record.leaves_qty[cancel_order_by_exchange_order_id_response_message_at] = cancel_order_by_exchange_order_id_response_message_value; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  cancel_order_by_exchange_order_id_response_message_record.cancel_status = cancel_order_by_exchange_order_id_response_message_value;
+  cancel_order_by_exchange_order_id_response_message_record.cancel_by_exchange_order_id_status = cancel_order_by_exchange_order_id_response_message_value;
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> cancel_order_by_exchange_order_id_response_message_record.reserved_10[cancel_order_by_exchange_order_id_response_message_at] = cancel_order_by_exchange_order_id_response_message_value; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -1193,7 +1193,7 @@ inline ramp_cancel_order_by_exchange_order_id_response_message(cancel_order_by_e
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> cancel_order_by_exchange_order_id_response_message_record.leaves_qty[cancel_order_by_exchange_order_id_response_message_at] = (cancel_order_by_exchange_order_id_response_message_base + 44 + cancel_order_by_exchange_order_id_response_message_at + 1) % 256; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  cancel_order_by_exchange_order_id_response_message_record.cancel_status = (cancel_order_by_exchange_order_id_response_message_base + 48 + 1) % 256;
+  cancel_order_by_exchange_order_id_response_message_record.cancel_by_exchange_order_id_status = (cancel_order_by_exchange_order_id_response_message_base + 48 + 1) % 256;
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> cancel_order_by_exchange_order_id_response_message_record.reserved_10[cancel_order_by_exchange_order_id_response_message_at] = (cancel_order_by_exchange_order_id_response_message_base + 49 + cancel_order_by_exchange_order_id_response_message_at + 1) % 256; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -1234,7 +1234,7 @@ inline encode_cancel_order_by_exchange_order_id_response_message(cancel_order_by
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> wire[at] = cancel_order_by_exchange_order_id_response_message_record.leaves_qty[cancel_order_by_exchange_order_id_response_message_at]; at = at + 1; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  wire[at] = cancel_order_by_exchange_order_id_response_message_record.cancel_status; at = at + 1;
+  wire[at] = cancel_order_by_exchange_order_id_response_message_record.cancel_by_exchange_order_id_status; at = at + 1;
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> wire[at] = cancel_order_by_exchange_order_id_response_message_record.reserved_10[cancel_order_by_exchange_order_id_response_message_at]; at = at + 1; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -1275,7 +1275,7 @@ inline decode_cancel_order_by_exchange_order_id_response_message(cancel_order_by
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> cancel_order_by_exchange_order_id_response_message_record.leaves_qty[cancel_order_by_exchange_order_id_response_message_at] = wire[at]; at = at + 1; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  cancel_order_by_exchange_order_id_response_message_record.cancel_status = wire[at]; at = at + 1;
+  cancel_order_by_exchange_order_id_response_message_record.cancel_by_exchange_order_id_status = wire[at]; at = at + 1;
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> cancel_order_by_exchange_order_id_response_message_record.reserved_10[cancel_order_by_exchange_order_id_response_message_at] = wire[at]; at = at + 1; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -1316,7 +1316,7 @@ inline equal_cancel_order_by_exchange_order_id_response_message(cancel_order_by_
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> assert(cancel_order_by_exchange_order_id_response_message_read.leaves_qty[cancel_order_by_exchange_order_id_response_message_at] == cancel_order_by_exchange_order_id_response_message_written.leaves_qty[cancel_order_by_exchange_order_id_response_message_at]); cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  assert(cancel_order_by_exchange_order_id_response_message_read.cancel_status == cancel_order_by_exchange_order_id_response_message_written.cancel_status);
+  assert(cancel_order_by_exchange_order_id_response_message_read.cancel_by_exchange_order_id_status == cancel_order_by_exchange_order_id_response_message_written.cancel_by_exchange_order_id_status);
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> assert(cancel_order_by_exchange_order_id_response_message_read.reserved_10[cancel_order_by_exchange_order_id_response_message_at] == cancel_order_by_exchange_order_id_response_message_written.reserved_10[cancel_order_by_exchange_order_id_response_message_at]); cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -3083,10 +3083,10 @@ proctype check_new_order_response_message() {
   atomic {
     at = 0;
     encode_new_order_response_message(new_order_response_message_sent);
-    assert(at == 76);
+    assert(at == 67);
     at = 0;
     decode_new_order_response_message(new_order_response_message_got);
-    assert(at == 76);
+    assert(at == 67);
     equal_new_order_response_message(new_order_response_message_got, new_order_response_message_sent)
   }
 }

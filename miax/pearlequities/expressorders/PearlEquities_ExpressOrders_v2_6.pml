@@ -98,16 +98,16 @@ inline equal_esesm_packet_header(esesm_packet_header_read, esesm_packet_header_w
   skip
 }
 
-/* ---- Symbol Update: 59 bytes ------------------------------------------------- */
+/* ---- Symbol Update Message: 59 bytes ----------------------------------------- */
 
 /* used to disseminate all security symbols traded on MIAX Pearl Equities for the current session */
-typedef SymbolUpdate {
+typedef SymbolUpdateMessage {
   byte matching_engine_time[8];
   byte symbol_id[4];
   byte ticker_symbol[11];
   byte reserved_1;
   byte test_security_indicator;
-  byte future;
+  byte second_reserved_1;
   byte lot_size[4];
   byte opening_time[8];
   byte closing_time[8];
@@ -115,229 +115,229 @@ typedef SymbolUpdate {
   byte reserved_12[12]
 };
 
-int symbol_update_at;
+int symbol_update_message_at;
 
-/* every byte of Symbol Update set to one value */
-inline fill_symbol_update(symbol_update_record, symbol_update_value) {
-  symbol_update_at = 0;
+/* every byte of Symbol Update Message set to one value */
+inline fill_symbol_update_message(symbol_update_message_record, symbol_update_message_value) {
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.matching_engine_time[symbol_update_at] = symbol_update_value; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.matching_engine_time[symbol_update_message_at] = symbol_update_message_value; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 4 -> symbol_update_record.symbol_id[symbol_update_at] = symbol_update_value; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 4 -> symbol_update_message_record.symbol_id[symbol_update_message_at] = symbol_update_message_value; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 11 -> symbol_update_record.ticker_symbol[symbol_update_at] = symbol_update_value; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 11 -> symbol_update_message_record.ticker_symbol[symbol_update_message_at] = symbol_update_message_value; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_record.reserved_1 = symbol_update_value;
-  symbol_update_record.test_security_indicator = symbol_update_value;
-  symbol_update_record.future = symbol_update_value;
-  symbol_update_at = 0;
+  symbol_update_message_record.reserved_1 = symbol_update_message_value;
+  symbol_update_message_record.test_security_indicator = symbol_update_message_value;
+  symbol_update_message_record.second_reserved_1 = symbol_update_message_value;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 4 -> symbol_update_record.lot_size[symbol_update_at] = symbol_update_value; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 4 -> symbol_update_message_record.lot_size[symbol_update_message_at] = symbol_update_message_value; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.opening_time[symbol_update_at] = symbol_update_value; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.opening_time[symbol_update_message_at] = symbol_update_message_value; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.closing_time[symbol_update_at] = symbol_update_value; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.closing_time[symbol_update_message_at] = symbol_update_message_value; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_record.primary_market_code = symbol_update_value;
-  symbol_update_at = 0;
+  symbol_update_message_record.primary_market_code = symbol_update_message_value;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 12 -> symbol_update_record.reserved_12[symbol_update_at] = symbol_update_value; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 12 -> symbol_update_message_record.reserved_12[symbol_update_message_at] = symbol_update_message_value; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* each byte of Symbol Update set to where it lies, so a field read out of place says so */
-inline ramp_symbol_update(symbol_update_record, symbol_update_base) {
-  symbol_update_at = 0;
+/* each byte of Symbol Update Message set to where it lies, so a field read out of place says so */
+inline ramp_symbol_update_message(symbol_update_message_record, symbol_update_message_base) {
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.matching_engine_time[symbol_update_at] = (symbol_update_base + 0 + symbol_update_at + 1) % 256; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.matching_engine_time[symbol_update_message_at] = (symbol_update_message_base + 0 + symbol_update_message_at + 1) % 256; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 4 -> symbol_update_record.symbol_id[symbol_update_at] = (symbol_update_base + 8 + symbol_update_at + 1) % 256; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 4 -> symbol_update_message_record.symbol_id[symbol_update_message_at] = (symbol_update_message_base + 8 + symbol_update_message_at + 1) % 256; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 11 -> symbol_update_record.ticker_symbol[symbol_update_at] = (symbol_update_base + 12 + symbol_update_at + 1) % 256; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 11 -> symbol_update_message_record.ticker_symbol[symbol_update_message_at] = (symbol_update_message_base + 12 + symbol_update_message_at + 1) % 256; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_record.reserved_1 = (symbol_update_base + 23 + 1) % 256;
-  symbol_update_record.test_security_indicator = (symbol_update_base + 24 + 1) % 256;
-  symbol_update_record.future = (symbol_update_base + 25 + 1) % 256;
-  symbol_update_at = 0;
+  symbol_update_message_record.reserved_1 = (symbol_update_message_base + 23 + 1) % 256;
+  symbol_update_message_record.test_security_indicator = (symbol_update_message_base + 24 + 1) % 256;
+  symbol_update_message_record.second_reserved_1 = (symbol_update_message_base + 25 + 1) % 256;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 4 -> symbol_update_record.lot_size[symbol_update_at] = (symbol_update_base + 26 + symbol_update_at + 1) % 256; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 4 -> symbol_update_message_record.lot_size[symbol_update_message_at] = (symbol_update_message_base + 26 + symbol_update_message_at + 1) % 256; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.opening_time[symbol_update_at] = (symbol_update_base + 30 + symbol_update_at + 1) % 256; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.opening_time[symbol_update_message_at] = (symbol_update_message_base + 30 + symbol_update_message_at + 1) % 256; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.closing_time[symbol_update_at] = (symbol_update_base + 38 + symbol_update_at + 1) % 256; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.closing_time[symbol_update_message_at] = (symbol_update_message_base + 38 + symbol_update_message_at + 1) % 256; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_record.primary_market_code = (symbol_update_base + 46 + 1) % 256;
-  symbol_update_at = 0;
+  symbol_update_message_record.primary_market_code = (symbol_update_message_base + 46 + 1) % 256;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 12 -> symbol_update_record.reserved_12[symbol_update_at] = (symbol_update_base + 47 + symbol_update_at + 1) % 256; symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Symbol Update to the wire, 59 bytes from where the cursor stands */
-inline encode_symbol_update(symbol_update_record) {
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 8 -> wire[at] = symbol_update_record.matching_engine_time[symbol_update_at]; at = at + 1; symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 4 -> wire[at] = symbol_update_record.symbol_id[symbol_update_at]; at = at + 1; symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 11 -> wire[at] = symbol_update_record.ticker_symbol[symbol_update_at]; at = at + 1; symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  wire[at] = symbol_update_record.reserved_1; at = at + 1;
-  wire[at] = symbol_update_record.test_security_indicator; at = at + 1;
-  wire[at] = symbol_update_record.future; at = at + 1;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 4 -> wire[at] = symbol_update_record.lot_size[symbol_update_at]; at = at + 1; symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 8 -> wire[at] = symbol_update_record.opening_time[symbol_update_at]; at = at + 1; symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 8 -> wire[at] = symbol_update_record.closing_time[symbol_update_at]; at = at + 1; symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  wire[at] = symbol_update_record.primary_market_code; at = at + 1;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 12 -> wire[at] = symbol_update_record.reserved_12[symbol_update_at]; at = at + 1; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 12 -> symbol_update_message_record.reserved_12[symbol_update_message_at] = (symbol_update_message_base + 47 + symbol_update_message_at + 1) % 256; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Symbol Update off the wire, 59 bytes from where the cursor stands */
-inline decode_symbol_update(symbol_update_record) {
-  symbol_update_at = 0;
+/* Symbol Update Message to the wire, 59 bytes from where the cursor stands */
+inline encode_symbol_update_message(symbol_update_message_record) {
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.matching_engine_time[symbol_update_at] = wire[at]; at = at + 1; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> wire[at] = symbol_update_message_record.matching_engine_time[symbol_update_message_at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 4 -> symbol_update_record.symbol_id[symbol_update_at] = wire[at]; at = at + 1; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 4 -> wire[at] = symbol_update_message_record.symbol_id[symbol_update_message_at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 11 -> symbol_update_record.ticker_symbol[symbol_update_at] = wire[at]; at = at + 1; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 11 -> wire[at] = symbol_update_message_record.ticker_symbol[symbol_update_message_at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_record.reserved_1 = wire[at]; at = at + 1;
-  symbol_update_record.test_security_indicator = wire[at]; at = at + 1;
-  symbol_update_record.future = wire[at]; at = at + 1;
-  symbol_update_at = 0;
+  wire[at] = symbol_update_message_record.reserved_1; at = at + 1;
+  wire[at] = symbol_update_message_record.test_security_indicator; at = at + 1;
+  wire[at] = symbol_update_message_record.second_reserved_1; at = at + 1;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 4 -> symbol_update_record.lot_size[symbol_update_at] = wire[at]; at = at + 1; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 4 -> wire[at] = symbol_update_message_record.lot_size[symbol_update_message_at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.opening_time[symbol_update_at] = wire[at]; at = at + 1; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> wire[at] = symbol_update_message_record.opening_time[symbol_update_message_at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_at = 0;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 8 -> symbol_update_record.closing_time[symbol_update_at] = wire[at]; at = at + 1; symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 8 -> wire[at] = symbol_update_message_record.closing_time[symbol_update_message_at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
-  symbol_update_record.primary_market_code = wire[at]; at = at + 1;
-  symbol_update_at = 0;
+  wire[at] = symbol_update_message_record.primary_market_code; at = at + 1;
+  symbol_update_message_at = 0;
   do
-  :: symbol_update_at < 12 -> symbol_update_record.reserved_12[symbol_update_at] = wire[at]; at = at + 1; symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* what was read of Symbol Update is what was written, byte for byte */
-inline equal_symbol_update(symbol_update_read, symbol_update_written) {
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 8 -> assert(symbol_update_read.matching_engine_time[symbol_update_at] == symbol_update_written.matching_engine_time[symbol_update_at]); symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 4 -> assert(symbol_update_read.symbol_id[symbol_update_at] == symbol_update_written.symbol_id[symbol_update_at]); symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 11 -> assert(symbol_update_read.ticker_symbol[symbol_update_at] == symbol_update_written.ticker_symbol[symbol_update_at]); symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  assert(symbol_update_read.reserved_1 == symbol_update_written.reserved_1);
-  assert(symbol_update_read.test_security_indicator == symbol_update_written.test_security_indicator);
-  assert(symbol_update_read.future == symbol_update_written.future);
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 4 -> assert(symbol_update_read.lot_size[symbol_update_at] == symbol_update_written.lot_size[symbol_update_at]); symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 8 -> assert(symbol_update_read.opening_time[symbol_update_at] == symbol_update_written.opening_time[symbol_update_at]); symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 8 -> assert(symbol_update_read.closing_time[symbol_update_at] == symbol_update_written.closing_time[symbol_update_at]); symbol_update_at = symbol_update_at + 1
-  :: else -> break
-  od;
-  assert(symbol_update_read.primary_market_code == symbol_update_written.primary_market_code);
-  symbol_update_at = 0;
-  do
-  :: symbol_update_at < 12 -> assert(symbol_update_read.reserved_12[symbol_update_at] == symbol_update_written.reserved_12[symbol_update_at]); symbol_update_at = symbol_update_at + 1
+  :: symbol_update_message_at < 12 -> wire[at] = symbol_update_message_record.reserved_12[symbol_update_message_at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* ---- New Order Response Message: 76 bytes ------------------------------------ */
+/* Symbol Update Message off the wire, 59 bytes from where the cursor stands */
+inline decode_symbol_update_message(symbol_update_message_record) {
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.matching_engine_time[symbol_update_message_at] = wire[at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 4 -> symbol_update_message_record.symbol_id[symbol_update_message_at] = wire[at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 11 -> symbol_update_message_record.ticker_symbol[symbol_update_message_at] = wire[at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_record.reserved_1 = wire[at]; at = at + 1;
+  symbol_update_message_record.test_security_indicator = wire[at]; at = at + 1;
+  symbol_update_message_record.second_reserved_1 = wire[at]; at = at + 1;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 4 -> symbol_update_message_record.lot_size[symbol_update_message_at] = wire[at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.opening_time[symbol_update_message_at] = wire[at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 8 -> symbol_update_message_record.closing_time[symbol_update_message_at] = wire[at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_record.primary_market_code = wire[at]; at = at + 1;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 12 -> symbol_update_message_record.reserved_12[symbol_update_message_at] = wire[at]; at = at + 1; symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Symbol Update Message is what was written, byte for byte */
+inline equal_symbol_update_message(symbol_update_message_read, symbol_update_message_written) {
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 8 -> assert(symbol_update_message_read.matching_engine_time[symbol_update_message_at] == symbol_update_message_written.matching_engine_time[symbol_update_message_at]); symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 4 -> assert(symbol_update_message_read.symbol_id[symbol_update_message_at] == symbol_update_message_written.symbol_id[symbol_update_message_at]); symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 11 -> assert(symbol_update_message_read.ticker_symbol[symbol_update_message_at] == symbol_update_message_written.ticker_symbol[symbol_update_message_at]); symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  assert(symbol_update_message_read.reserved_1 == symbol_update_message_written.reserved_1);
+  assert(symbol_update_message_read.test_security_indicator == symbol_update_message_written.test_security_indicator);
+  assert(symbol_update_message_read.second_reserved_1 == symbol_update_message_written.second_reserved_1);
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 4 -> assert(symbol_update_message_read.lot_size[symbol_update_message_at] == symbol_update_message_written.lot_size[symbol_update_message_at]); symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 8 -> assert(symbol_update_message_read.opening_time[symbol_update_message_at] == symbol_update_message_written.opening_time[symbol_update_message_at]); symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 8 -> assert(symbol_update_message_read.closing_time[symbol_update_message_at] == symbol_update_message_written.closing_time[symbol_update_message_at]); symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  assert(symbol_update_message_read.primary_market_code == symbol_update_message_written.primary_market_code);
+  symbol_update_message_at = 0;
+  do
+  :: symbol_update_message_at < 12 -> assert(symbol_update_message_read.reserved_12[symbol_update_message_at] == symbol_update_message_written.reserved_12[symbol_update_message_at]); symbol_update_message_at = symbol_update_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- New Order Response Message: 67 bytes ------------------------------------ */
 
 /* provides an acknowledgement for a New Order Request accepted by MIAX Pearl Equities */
 typedef NewOrderResponseMessage {
@@ -349,7 +349,7 @@ typedef NewOrderResponseMessage {
   byte price[8];
   byte size[4];
   byte order_status;
-  byte reserved_19[19]
+  byte reserved_10[10]
 };
 
 int new_order_response_message_at;
@@ -394,7 +394,7 @@ inline fill_new_order_response_message(new_order_response_message_record, new_or
   new_order_response_message_record.order_status = new_order_response_message_value;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> new_order_response_message_record.reserved_19[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
@@ -440,13 +440,13 @@ inline ramp_new_order_response_message(new_order_response_message_record, new_or
   new_order_response_message_record.order_status = (new_order_response_message_base + 56 + 1) % 256;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> new_order_response_message_record.reserved_19[new_order_response_message_at] = (new_order_response_message_base + 57 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = (new_order_response_message_base + 57 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* New Order Response Message to the wire, 76 bytes from where the cursor stands */
+/* New Order Response Message to the wire, 67 bytes from where the cursor stands */
 inline encode_new_order_response_message(new_order_response_message_record) {
   new_order_response_message_at = 0;
   do
@@ -486,13 +486,13 @@ inline encode_new_order_response_message(new_order_response_message_record) {
   wire[at] = new_order_response_message_record.order_status; at = at + 1;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> wire[at] = new_order_response_message_record.reserved_19[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> wire[at] = new_order_response_message_record.reserved_10[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* New Order Response Message off the wire, 76 bytes from where the cursor stands */
+/* New Order Response Message off the wire, 67 bytes from where the cursor stands */
 inline decode_new_order_response_message(new_order_response_message_record) {
   new_order_response_message_at = 0;
   do
@@ -532,7 +532,7 @@ inline decode_new_order_response_message(new_order_response_message_record) {
   new_order_response_message_record.order_status = wire[at]; at = at + 1;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> new_order_response_message_record.reserved_19[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
@@ -578,7 +578,7 @@ inline equal_new_order_response_message(new_order_response_message_read, new_ord
   assert(new_order_response_message_read.order_status == new_order_response_message_written.order_status);
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 19 -> assert(new_order_response_message_read.reserved_19[new_order_response_message_at] == new_order_response_message_written.reserved_19[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 10 -> assert(new_order_response_message_read.reserved_10[new_order_response_message_at] == new_order_response_message_written.reserved_10[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   skip
@@ -1114,7 +1114,7 @@ typedef CancelOrderByExchangeOrderIdResponseMessage {
   byte symbol_id[4];
   byte order_id[8];
   byte leaves_qty[4];
-  byte cancel_status;
+  byte cancel_by_exchange_order_id_status;
   byte reserved_10[10]
 };
 
@@ -1152,7 +1152,7 @@ inline fill_cancel_order_by_exchange_order_id_response_message(cancel_order_by_e
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> cancel_order_by_exchange_order_id_response_message_record.leaves_qty[cancel_order_by_exchange_order_id_response_message_at] = cancel_order_by_exchange_order_id_response_message_value; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  cancel_order_by_exchange_order_id_response_message_record.cancel_status = cancel_order_by_exchange_order_id_response_message_value;
+  cancel_order_by_exchange_order_id_response_message_record.cancel_by_exchange_order_id_status = cancel_order_by_exchange_order_id_response_message_value;
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> cancel_order_by_exchange_order_id_response_message_record.reserved_10[cancel_order_by_exchange_order_id_response_message_at] = cancel_order_by_exchange_order_id_response_message_value; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -1193,7 +1193,7 @@ inline ramp_cancel_order_by_exchange_order_id_response_message(cancel_order_by_e
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> cancel_order_by_exchange_order_id_response_message_record.leaves_qty[cancel_order_by_exchange_order_id_response_message_at] = (cancel_order_by_exchange_order_id_response_message_base + 44 + cancel_order_by_exchange_order_id_response_message_at + 1) % 256; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  cancel_order_by_exchange_order_id_response_message_record.cancel_status = (cancel_order_by_exchange_order_id_response_message_base + 48 + 1) % 256;
+  cancel_order_by_exchange_order_id_response_message_record.cancel_by_exchange_order_id_status = (cancel_order_by_exchange_order_id_response_message_base + 48 + 1) % 256;
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> cancel_order_by_exchange_order_id_response_message_record.reserved_10[cancel_order_by_exchange_order_id_response_message_at] = (cancel_order_by_exchange_order_id_response_message_base + 49 + cancel_order_by_exchange_order_id_response_message_at + 1) % 256; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -1234,7 +1234,7 @@ inline encode_cancel_order_by_exchange_order_id_response_message(cancel_order_by
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> wire[at] = cancel_order_by_exchange_order_id_response_message_record.leaves_qty[cancel_order_by_exchange_order_id_response_message_at]; at = at + 1; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  wire[at] = cancel_order_by_exchange_order_id_response_message_record.cancel_status; at = at + 1;
+  wire[at] = cancel_order_by_exchange_order_id_response_message_record.cancel_by_exchange_order_id_status; at = at + 1;
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> wire[at] = cancel_order_by_exchange_order_id_response_message_record.reserved_10[cancel_order_by_exchange_order_id_response_message_at]; at = at + 1; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -1275,7 +1275,7 @@ inline decode_cancel_order_by_exchange_order_id_response_message(cancel_order_by
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> cancel_order_by_exchange_order_id_response_message_record.leaves_qty[cancel_order_by_exchange_order_id_response_message_at] = wire[at]; at = at + 1; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  cancel_order_by_exchange_order_id_response_message_record.cancel_status = wire[at]; at = at + 1;
+  cancel_order_by_exchange_order_id_response_message_record.cancel_by_exchange_order_id_status = wire[at]; at = at + 1;
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> cancel_order_by_exchange_order_id_response_message_record.reserved_10[cancel_order_by_exchange_order_id_response_message_at] = wire[at]; at = at + 1; cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -1316,7 +1316,7 @@ inline equal_cancel_order_by_exchange_order_id_response_message(cancel_order_by_
   :: cancel_order_by_exchange_order_id_response_message_at < 4 -> assert(cancel_order_by_exchange_order_id_response_message_read.leaves_qty[cancel_order_by_exchange_order_id_response_message_at] == cancel_order_by_exchange_order_id_response_message_written.leaves_qty[cancel_order_by_exchange_order_id_response_message_at]); cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
   :: else -> break
   od;
-  assert(cancel_order_by_exchange_order_id_response_message_read.cancel_status == cancel_order_by_exchange_order_id_response_message_written.cancel_status);
+  assert(cancel_order_by_exchange_order_id_response_message_read.cancel_by_exchange_order_id_status == cancel_order_by_exchange_order_id_response_message_written.cancel_by_exchange_order_id_status);
   cancel_order_by_exchange_order_id_response_message_at = 0;
   do
   :: cancel_order_by_exchange_order_id_response_message_at < 10 -> assert(cancel_order_by_exchange_order_id_response_message_read.reserved_10[cancel_order_by_exchange_order_id_response_message_at] == cancel_order_by_exchange_order_id_response_message_written.reserved_10[cancel_order_by_exchange_order_id_response_message_at]); cancel_order_by_exchange_order_id_response_message_at = cancel_order_by_exchange_order_id_response_message_at + 1
@@ -2822,10 +2822,10 @@ proctype check_esesm_packet_header() {
   }
 }
 
-/* Symbol Update: encoded, read back, and compared */
-proctype check_symbol_update() {
-  SymbolUpdate symbol_update_sent;
-  SymbolUpdate symbol_update_got;
+/* Symbol Update Message: encoded, read back, and compared */
+proctype check_symbol_update_message() {
+  SymbolUpdateMessage symbol_update_message_sent;
+  SymbolUpdateMessage symbol_update_message_got;
   int pattern;
 
   if
@@ -2836,20 +2836,20 @@ proctype check_symbol_update() {
   fi;
 
   if
-  :: pattern == 0 -> fill_symbol_update(symbol_update_sent, 0)
-  :: pattern == 1 -> fill_symbol_update(symbol_update_sent, 32)
-  :: pattern == 2 -> fill_symbol_update(symbol_update_sent, 255)
-  :: else -> ramp_symbol_update(symbol_update_sent, 0)
+  :: pattern == 0 -> fill_symbol_update_message(symbol_update_message_sent, 0)
+  :: pattern == 1 -> fill_symbol_update_message(symbol_update_message_sent, 32)
+  :: pattern == 2 -> fill_symbol_update_message(symbol_update_message_sent, 255)
+  :: else -> ramp_symbol_update_message(symbol_update_message_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_symbol_update(symbol_update_sent);
+    encode_symbol_update_message(symbol_update_message_sent);
     assert(at == 59);
     at = 0;
-    decode_symbol_update(symbol_update_got);
+    decode_symbol_update_message(symbol_update_message_got);
     assert(at == 59);
-    equal_symbol_update(symbol_update_got, symbol_update_sent)
+    equal_symbol_update_message(symbol_update_message_got, symbol_update_message_sent)
   }
 }
 
@@ -2876,10 +2876,10 @@ proctype check_new_order_response_message() {
   atomic {
     at = 0;
     encode_new_order_response_message(new_order_response_message_sent);
-    assert(at == 76);
+    assert(at == 67);
     at = 0;
     decode_new_order_response_message(new_order_response_message_got);
-    assert(at == 76);
+    assert(at == 67);
     equal_new_order_response_message(new_order_response_message_got, new_order_response_message_sent)
   }
 }
@@ -3291,7 +3291,7 @@ proctype check_trading_session_update() {
 init {
   if
   :: run check_esesm_packet_header()
-  :: run check_symbol_update()
+  :: run check_symbol_update_message()
   :: run check_new_order_response_message()
   :: run check_modify_order_response()
   :: run check_cancel_order_response()

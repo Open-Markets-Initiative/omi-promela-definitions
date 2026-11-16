@@ -186,10 +186,10 @@ inline equal_system_time_message(system_time_message_read, system_time_message_w
   skip
 }
 
-/* ---- Series Update: 72 bytes ------------------------------------------------- */
+/* ---- Series Update Message: 72 bytes ----------------------------------------- */
 
 /* This is the message format that will be used to disseminate all Option series traded on MIAX for the current session. The product ID sent in this message is what will be disseminated in Top of Market BBO and Last Sale messages. */
-typedef SeriesUpdate {
+typedef SeriesUpdateMessage {
   byte nanoseconds[4];
   byte product_id[4];
   byte underlying_symbol[11];
@@ -209,313 +209,313 @@ typedef SeriesUpdate {
   byte reserved_8[8]
 };
 
-int series_update_at;
+int series_update_message_at;
 
-/* every byte of Series Update set to one value */
-inline fill_series_update(series_update_record, series_update_value) {
-  series_update_at = 0;
+/* every byte of Series Update Message set to one value */
+inline fill_series_update_message(series_update_message_record, series_update_message_value) {
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.nanoseconds[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.nanoseconds[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.product_id[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.product_id[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 11 -> series_update_record.underlying_symbol[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 11 -> series_update_message_record.underlying_symbol[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 6 -> series_update_record.security_symbol[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 6 -> series_update_message_record.security_symbol[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.expiration_date[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.expiration_date[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.strike_price[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.strike_price[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_record.call_or_put = series_update_value;
-  series_update_at = 0;
+  series_update_message_record.call_or_put = series_update_message_value;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.opening_time[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.opening_time[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.closing_time[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.closing_time[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_record.restricted_option = series_update_value;
-  series_update_record.long_term_option = series_update_value;
-  series_update_record.active_on_miax = series_update_value;
-  series_update_record.miax_bbo_posting_increment_indicator = series_update_value;
-  series_update_record.liquidity_acceptance_increment_indicator = series_update_value;
-  series_update_record.opening_underlying_market_code = series_update_value;
-  series_update_at = 0;
+  series_update_message_record.restricted_option = series_update_message_value;
+  series_update_message_record.long_term_option = series_update_message_value;
+  series_update_message_record.active_on_miax = series_update_message_value;
+  series_update_message_record.miax_bbo_posting_increment_indicator = series_update_message_value;
+  series_update_message_record.liquidity_acceptance_increment_indicator = series_update_message_value;
+  series_update_message_record.opening_underlying_market_code = series_update_message_value;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.priority_quote_width[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.priority_quote_width[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.reserved_8[series_update_at] = series_update_value; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.reserved_8[series_update_message_at] = series_update_message_value; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* each byte of Series Update set to where it lies, so a field read out of place says so */
-inline ramp_series_update(series_update_record, series_update_base) {
-  series_update_at = 0;
+/* each byte of Series Update Message set to where it lies, so a field read out of place says so */
+inline ramp_series_update_message(series_update_message_record, series_update_message_base) {
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.nanoseconds[series_update_at] = (series_update_base + 0 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.nanoseconds[series_update_message_at] = (series_update_message_base + 0 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.product_id[series_update_at] = (series_update_base + 4 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.product_id[series_update_message_at] = (series_update_message_base + 4 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 11 -> series_update_record.underlying_symbol[series_update_at] = (series_update_base + 8 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 11 -> series_update_message_record.underlying_symbol[series_update_message_at] = (series_update_message_base + 8 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 6 -> series_update_record.security_symbol[series_update_at] = (series_update_base + 19 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 6 -> series_update_message_record.security_symbol[series_update_message_at] = (series_update_message_base + 19 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.expiration_date[series_update_at] = (series_update_base + 25 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.expiration_date[series_update_message_at] = (series_update_message_base + 25 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.strike_price[series_update_at] = (series_update_base + 33 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.strike_price[series_update_message_at] = (series_update_message_base + 33 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_record.call_or_put = (series_update_base + 37 + 1) % 256;
-  series_update_at = 0;
+  series_update_message_record.call_or_put = (series_update_message_base + 37 + 1) % 256;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.opening_time[series_update_at] = (series_update_base + 38 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.opening_time[series_update_message_at] = (series_update_message_base + 38 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.closing_time[series_update_at] = (series_update_base + 46 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.closing_time[series_update_message_at] = (series_update_message_base + 46 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_record.restricted_option = (series_update_base + 54 + 1) % 256;
-  series_update_record.long_term_option = (series_update_base + 55 + 1) % 256;
-  series_update_record.active_on_miax = (series_update_base + 56 + 1) % 256;
-  series_update_record.miax_bbo_posting_increment_indicator = (series_update_base + 57 + 1) % 256;
-  series_update_record.liquidity_acceptance_increment_indicator = (series_update_base + 58 + 1) % 256;
-  series_update_record.opening_underlying_market_code = (series_update_base + 59 + 1) % 256;
-  series_update_at = 0;
+  series_update_message_record.restricted_option = (series_update_message_base + 54 + 1) % 256;
+  series_update_message_record.long_term_option = (series_update_message_base + 55 + 1) % 256;
+  series_update_message_record.active_on_miax = (series_update_message_base + 56 + 1) % 256;
+  series_update_message_record.miax_bbo_posting_increment_indicator = (series_update_message_base + 57 + 1) % 256;
+  series_update_message_record.liquidity_acceptance_increment_indicator = (series_update_message_base + 58 + 1) % 256;
+  series_update_message_record.opening_underlying_market_code = (series_update_message_base + 59 + 1) % 256;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.priority_quote_width[series_update_at] = (series_update_base + 60 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.priority_quote_width[series_update_message_at] = (series_update_message_base + 60 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.reserved_8[series_update_at] = (series_update_base + 64 + series_update_at + 1) % 256; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Series Update to the wire, 72 bytes from where the cursor stands */
-inline encode_series_update(series_update_record) {
-  series_update_at = 0;
-  do
-  :: series_update_at < 4 -> wire[at] = series_update_record.nanoseconds[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  series_update_at = 0;
-  do
-  :: series_update_at < 4 -> wire[at] = series_update_record.product_id[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  series_update_at = 0;
-  do
-  :: series_update_at < 11 -> wire[at] = series_update_record.underlying_symbol[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  series_update_at = 0;
-  do
-  :: series_update_at < 6 -> wire[at] = series_update_record.security_symbol[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  series_update_at = 0;
-  do
-  :: series_update_at < 8 -> wire[at] = series_update_record.expiration_date[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  series_update_at = 0;
-  do
-  :: series_update_at < 4 -> wire[at] = series_update_record.strike_price[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  wire[at] = series_update_record.call_or_put; at = at + 1;
-  series_update_at = 0;
-  do
-  :: series_update_at < 8 -> wire[at] = series_update_record.opening_time[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  series_update_at = 0;
-  do
-  :: series_update_at < 8 -> wire[at] = series_update_record.closing_time[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  wire[at] = series_update_record.restricted_option; at = at + 1;
-  wire[at] = series_update_record.long_term_option; at = at + 1;
-  wire[at] = series_update_record.active_on_miax; at = at + 1;
-  wire[at] = series_update_record.miax_bbo_posting_increment_indicator; at = at + 1;
-  wire[at] = series_update_record.liquidity_acceptance_increment_indicator; at = at + 1;
-  wire[at] = series_update_record.opening_underlying_market_code; at = at + 1;
-  series_update_at = 0;
-  do
-  :: series_update_at < 4 -> wire[at] = series_update_record.priority_quote_width[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
-  :: else -> break
-  od;
-  series_update_at = 0;
-  do
-  :: series_update_at < 8 -> wire[at] = series_update_record.reserved_8[series_update_at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.reserved_8[series_update_message_at] = (series_update_message_base + 64 + series_update_message_at + 1) % 256; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Series Update off the wire, 72 bytes from where the cursor stands */
-inline decode_series_update(series_update_record) {
-  series_update_at = 0;
+/* Series Update Message to the wire, 72 bytes from where the cursor stands */
+inline encode_series_update_message(series_update_message_record) {
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.nanoseconds[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> wire[at] = series_update_message_record.nanoseconds[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.product_id[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> wire[at] = series_update_message_record.product_id[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 11 -> series_update_record.underlying_symbol[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 11 -> wire[at] = series_update_message_record.underlying_symbol[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 6 -> series_update_record.security_symbol[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 6 -> wire[at] = series_update_message_record.security_symbol[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.expiration_date[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> wire[at] = series_update_message_record.expiration_date[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.strike_price[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> wire[at] = series_update_message_record.strike_price[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_record.call_or_put = wire[at]; at = at + 1;
-  series_update_at = 0;
+  wire[at] = series_update_message_record.call_or_put; at = at + 1;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.opening_time[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> wire[at] = series_update_message_record.opening_time[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.closing_time[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> wire[at] = series_update_message_record.closing_time[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_record.restricted_option = wire[at]; at = at + 1;
-  series_update_record.long_term_option = wire[at]; at = at + 1;
-  series_update_record.active_on_miax = wire[at]; at = at + 1;
-  series_update_record.miax_bbo_posting_increment_indicator = wire[at]; at = at + 1;
-  series_update_record.liquidity_acceptance_increment_indicator = wire[at]; at = at + 1;
-  series_update_record.opening_underlying_market_code = wire[at]; at = at + 1;
-  series_update_at = 0;
+  wire[at] = series_update_message_record.restricted_option; at = at + 1;
+  wire[at] = series_update_message_record.long_term_option; at = at + 1;
+  wire[at] = series_update_message_record.active_on_miax; at = at + 1;
+  wire[at] = series_update_message_record.miax_bbo_posting_increment_indicator; at = at + 1;
+  wire[at] = series_update_message_record.liquidity_acceptance_increment_indicator; at = at + 1;
+  wire[at] = series_update_message_record.opening_underlying_market_code; at = at + 1;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> series_update_record.priority_quote_width[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> wire[at] = series_update_message_record.priority_quote_width[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> series_update_record.reserved_8[series_update_at] = wire[at]; at = at + 1; series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> wire[at] = series_update_message_record.reserved_8[series_update_message_at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* what was read of Series Update is what was written, byte for byte */
-inline equal_series_update(series_update_read, series_update_written) {
-  series_update_at = 0;
+/* Series Update Message off the wire, 72 bytes from where the cursor stands */
+inline decode_series_update_message(series_update_message_record) {
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> assert(series_update_read.nanoseconds[series_update_at] == series_update_written.nanoseconds[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.nanoseconds[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> assert(series_update_read.product_id[series_update_at] == series_update_written.product_id[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.product_id[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 11 -> assert(series_update_read.underlying_symbol[series_update_at] == series_update_written.underlying_symbol[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 11 -> series_update_message_record.underlying_symbol[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 6 -> assert(series_update_read.security_symbol[series_update_at] == series_update_written.security_symbol[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 6 -> series_update_message_record.security_symbol[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> assert(series_update_read.expiration_date[series_update_at] == series_update_written.expiration_date[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.expiration_date[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> assert(series_update_read.strike_price[series_update_at] == series_update_written.strike_price[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.strike_price[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  assert(series_update_read.call_or_put == series_update_written.call_or_put);
-  series_update_at = 0;
+  series_update_message_record.call_or_put = wire[at]; at = at + 1;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> assert(series_update_read.opening_time[series_update_at] == series_update_written.opening_time[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.opening_time[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> assert(series_update_read.closing_time[series_update_at] == series_update_written.closing_time[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.closing_time[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  assert(series_update_read.restricted_option == series_update_written.restricted_option);
-  assert(series_update_read.long_term_option == series_update_written.long_term_option);
-  assert(series_update_read.active_on_miax == series_update_written.active_on_miax);
-  assert(series_update_read.miax_bbo_posting_increment_indicator == series_update_written.miax_bbo_posting_increment_indicator);
-  assert(series_update_read.liquidity_acceptance_increment_indicator == series_update_written.liquidity_acceptance_increment_indicator);
-  assert(series_update_read.opening_underlying_market_code == series_update_written.opening_underlying_market_code);
-  series_update_at = 0;
+  series_update_message_record.restricted_option = wire[at]; at = at + 1;
+  series_update_message_record.long_term_option = wire[at]; at = at + 1;
+  series_update_message_record.active_on_miax = wire[at]; at = at + 1;
+  series_update_message_record.miax_bbo_posting_increment_indicator = wire[at]; at = at + 1;
+  series_update_message_record.liquidity_acceptance_increment_indicator = wire[at]; at = at + 1;
+  series_update_message_record.opening_underlying_market_code = wire[at]; at = at + 1;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 4 -> assert(series_update_read.priority_quote_width[series_update_at] == series_update_written.priority_quote_width[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 4 -> series_update_message_record.priority_quote_width[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
-  series_update_at = 0;
+  series_update_message_at = 0;
   do
-  :: series_update_at < 8 -> assert(series_update_read.reserved_8[series_update_at] == series_update_written.reserved_8[series_update_at]); series_update_at = series_update_at + 1
+  :: series_update_message_at < 8 -> series_update_message_record.reserved_8[series_update_message_at] = wire[at]; at = at + 1; series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Series Update Message is what was written, byte for byte */
+inline equal_series_update_message(series_update_message_read, series_update_message_written) {
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 4 -> assert(series_update_message_read.nanoseconds[series_update_message_at] == series_update_message_written.nanoseconds[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 4 -> assert(series_update_message_read.product_id[series_update_message_at] == series_update_message_written.product_id[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 11 -> assert(series_update_message_read.underlying_symbol[series_update_message_at] == series_update_message_written.underlying_symbol[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 6 -> assert(series_update_message_read.security_symbol[series_update_message_at] == series_update_message_written.security_symbol[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 8 -> assert(series_update_message_read.expiration_date[series_update_message_at] == series_update_message_written.expiration_date[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 4 -> assert(series_update_message_read.strike_price[series_update_message_at] == series_update_message_written.strike_price[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  assert(series_update_message_read.call_or_put == series_update_message_written.call_or_put);
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 8 -> assert(series_update_message_read.opening_time[series_update_message_at] == series_update_message_written.opening_time[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 8 -> assert(series_update_message_read.closing_time[series_update_message_at] == series_update_message_written.closing_time[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  assert(series_update_message_read.restricted_option == series_update_message_written.restricted_option);
+  assert(series_update_message_read.long_term_option == series_update_message_written.long_term_option);
+  assert(series_update_message_read.active_on_miax == series_update_message_written.active_on_miax);
+  assert(series_update_message_read.miax_bbo_posting_increment_indicator == series_update_message_written.miax_bbo_posting_increment_indicator);
+  assert(series_update_message_read.liquidity_acceptance_increment_indicator == series_update_message_written.liquidity_acceptance_increment_indicator);
+  assert(series_update_message_read.opening_underlying_market_code == series_update_message_written.opening_underlying_market_code);
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 4 -> assert(series_update_message_read.priority_quote_width[series_update_message_at] == series_update_message_written.priority_quote_width[series_update_message_at]); series_update_message_at = series_update_message_at + 1
+  :: else -> break
+  od;
+  series_update_message_at = 0;
+  do
+  :: series_update_message_at < 8 -> assert(series_update_message_read.reserved_8[series_update_message_at] == series_update_message_written.reserved_8[series_update_message_at]); series_update_message_at = series_update_message_at + 1
   :: else -> break
   od;
   skip
@@ -640,7 +640,7 @@ inline equal_system_state_message(system_state_message_read, system_state_messag
 
 /* ---- Top Of Market Bid Compact Message: 15 bytes ----------------------------- */
 
-/* This is the message format that will be used to disseminate each side of the MIAX Top of Market for options with low premiums and small aggregate MIAX Best Bid or Offer (MBBO) size */
+/* This is the message format that will be used to disseminate each side of the MIAX Top of Market for options with low premiums and small aggregate MIAX Best Bid or Offer (MBBO) size. */
 typedef TopOfMarketBidCompactMessage {
   byte nanoseconds[4];
   byte product_id[4];
@@ -809,7 +809,7 @@ inline equal_top_of_market_bid_compact_message(top_of_market_bid_compact_message
 
 /* ---- Top Of Market Offer Compact Message: 15 bytes --------------------------- */
 
-/* This is the message format that will be used to disseminate each side of the MIAX Top of Market for options with low premiums and small aggregate MIAX Best Bid or Offer (MBBO) size */
+/* This is the message format that will be used to disseminate each side of the MIAX Top of Market for options with low premiums and small aggregate MIAX Best Bid or Offer (MBBO) size. */
 typedef TopOfMarketOfferCompactMessage {
   byte nanoseconds[4];
   byte product_id[4];
@@ -976,10 +976,10 @@ inline equal_top_of_market_offer_compact_message(top_of_market_offer_compact_mes
   skip
 }
 
-/* ---- Wide Top Of Market Bid Message: 21 bytes -------------------------------- */
+/* ---- Top Of Market Bid Wide Message: 21 bytes -------------------------------- */
 
 /* This is the message format that will be used to disseminate MIAX Top of Market for options with high premiums or large aggregate MIAX Best Bid or Offer (MBBO) size. */
-typedef WideTopOfMarketBidMessage {
+typedef TopOfMarketBidWideMessage {
   byte nanoseconds[4];
   byte product_id[4];
   byte mbbo_price_4[4];
@@ -988,167 +988,167 @@ typedef WideTopOfMarketBidMessage {
   byte mbbo_condition
 };
 
-int wide_top_of_market_bid_message_at;
+int top_of_market_bid_wide_message_at;
 
-/* every byte of Wide Top Of Market Bid Message set to one value */
-inline fill_wide_top_of_market_bid_message(wide_top_of_market_bid_message_record, wide_top_of_market_bid_message_value) {
-  wide_top_of_market_bid_message_at = 0;
+/* every byte of Top Of Market Bid Wide Message set to one value */
+inline fill_top_of_market_bid_wide_message(top_of_market_bid_wide_message_record, top_of_market_bid_wide_message_value) {
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.nanoseconds[wide_top_of_market_bid_message_at] = wide_top_of_market_bid_message_value; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.nanoseconds[top_of_market_bid_wide_message_at] = top_of_market_bid_wide_message_value; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.product_id[wide_top_of_market_bid_message_at] = wide_top_of_market_bid_message_value; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.product_id[top_of_market_bid_wide_message_at] = top_of_market_bid_wide_message_value; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_price_4[wide_top_of_market_bid_message_at] = wide_top_of_market_bid_message_value; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_price_4[top_of_market_bid_wide_message_at] = top_of_market_bid_wide_message_value; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_size_4[wide_top_of_market_bid_message_at] = wide_top_of_market_bid_message_value; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_size_4[top_of_market_bid_wide_message_at] = top_of_market_bid_wide_message_value; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_priority_customer_size_4[wide_top_of_market_bid_message_at] = wide_top_of_market_bid_message_value; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_priority_customer_size_4[top_of_market_bid_wide_message_at] = top_of_market_bid_wide_message_value; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_record.mbbo_condition = wide_top_of_market_bid_message_value;
+  top_of_market_bid_wide_message_record.mbbo_condition = top_of_market_bid_wide_message_value;
   skip
 }
 
-/* each byte of Wide Top Of Market Bid Message set to where it lies, so a field read out of place says so */
-inline ramp_wide_top_of_market_bid_message(wide_top_of_market_bid_message_record, wide_top_of_market_bid_message_base) {
-  wide_top_of_market_bid_message_at = 0;
+/* each byte of Top Of Market Bid Wide Message set to where it lies, so a field read out of place says so */
+inline ramp_top_of_market_bid_wide_message(top_of_market_bid_wide_message_record, top_of_market_bid_wide_message_base) {
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.nanoseconds[wide_top_of_market_bid_message_at] = (wide_top_of_market_bid_message_base + 0 + wide_top_of_market_bid_message_at + 1) % 256; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.nanoseconds[top_of_market_bid_wide_message_at] = (top_of_market_bid_wide_message_base + 0 + top_of_market_bid_wide_message_at + 1) % 256; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.product_id[wide_top_of_market_bid_message_at] = (wide_top_of_market_bid_message_base + 4 + wide_top_of_market_bid_message_at + 1) % 256; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.product_id[top_of_market_bid_wide_message_at] = (top_of_market_bid_wide_message_base + 4 + top_of_market_bid_wide_message_at + 1) % 256; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_price_4[wide_top_of_market_bid_message_at] = (wide_top_of_market_bid_message_base + 8 + wide_top_of_market_bid_message_at + 1) % 256; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_price_4[top_of_market_bid_wide_message_at] = (top_of_market_bid_wide_message_base + 8 + top_of_market_bid_wide_message_at + 1) % 256; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_size_4[wide_top_of_market_bid_message_at] = (wide_top_of_market_bid_message_base + 12 + wide_top_of_market_bid_message_at + 1) % 256; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_size_4[top_of_market_bid_wide_message_at] = (top_of_market_bid_wide_message_base + 12 + top_of_market_bid_wide_message_at + 1) % 256; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_priority_customer_size_4[wide_top_of_market_bid_message_at] = (wide_top_of_market_bid_message_base + 16 + wide_top_of_market_bid_message_at + 1) % 256; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_priority_customer_size_4[top_of_market_bid_wide_message_at] = (top_of_market_bid_wide_message_base + 16 + top_of_market_bid_wide_message_at + 1) % 256; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_record.mbbo_condition = (wide_top_of_market_bid_message_base + 20 + 1) % 256;
+  top_of_market_bid_wide_message_record.mbbo_condition = (top_of_market_bid_wide_message_base + 20 + 1) % 256;
   skip
 }
 
-/* Wide Top Of Market Bid Message to the wire, 21 bytes from where the cursor stands */
-inline encode_wide_top_of_market_bid_message(wide_top_of_market_bid_message_record) {
-  wide_top_of_market_bid_message_at = 0;
+/* Top Of Market Bid Wide Message to the wire, 21 bytes from where the cursor stands */
+inline encode_top_of_market_bid_wide_message(top_of_market_bid_wide_message_record) {
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wire[at] = wide_top_of_market_bid_message_record.nanoseconds[wide_top_of_market_bid_message_at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> wire[at] = top_of_market_bid_wide_message_record.nanoseconds[top_of_market_bid_wide_message_at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wire[at] = wide_top_of_market_bid_message_record.product_id[wide_top_of_market_bid_message_at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> wire[at] = top_of_market_bid_wide_message_record.product_id[top_of_market_bid_wide_message_at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wire[at] = wide_top_of_market_bid_message_record.mbbo_price_4[wide_top_of_market_bid_message_at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> wire[at] = top_of_market_bid_wide_message_record.mbbo_price_4[top_of_market_bid_wide_message_at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wire[at] = wide_top_of_market_bid_message_record.mbbo_size_4[wide_top_of_market_bid_message_at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> wire[at] = top_of_market_bid_wide_message_record.mbbo_size_4[top_of_market_bid_wide_message_at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wire[at] = wide_top_of_market_bid_message_record.mbbo_priority_customer_size_4[wide_top_of_market_bid_message_at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> wire[at] = top_of_market_bid_wide_message_record.mbbo_priority_customer_size_4[top_of_market_bid_wide_message_at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wire[at] = wide_top_of_market_bid_message_record.mbbo_condition; at = at + 1;
+  wire[at] = top_of_market_bid_wide_message_record.mbbo_condition; at = at + 1;
   skip
 }
 
-/* Wide Top Of Market Bid Message off the wire, 21 bytes from where the cursor stands */
-inline decode_wide_top_of_market_bid_message(wide_top_of_market_bid_message_record) {
-  wide_top_of_market_bid_message_at = 0;
+/* Top Of Market Bid Wide Message off the wire, 21 bytes from where the cursor stands */
+inline decode_top_of_market_bid_wide_message(top_of_market_bid_wide_message_record) {
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.nanoseconds[wide_top_of_market_bid_message_at] = wire[at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.nanoseconds[top_of_market_bid_wide_message_at] = wire[at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.product_id[wide_top_of_market_bid_message_at] = wire[at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.product_id[top_of_market_bid_wide_message_at] = wire[at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_price_4[wide_top_of_market_bid_message_at] = wire[at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_price_4[top_of_market_bid_wide_message_at] = wire[at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_size_4[wide_top_of_market_bid_message_at] = wire[at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_size_4[top_of_market_bid_wide_message_at] = wire[at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> wide_top_of_market_bid_message_record.mbbo_priority_customer_size_4[wide_top_of_market_bid_message_at] = wire[at]; at = at + 1; wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> top_of_market_bid_wide_message_record.mbbo_priority_customer_size_4[top_of_market_bid_wide_message_at] = wire[at]; at = at + 1; top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_record.mbbo_condition = wire[at]; at = at + 1;
+  top_of_market_bid_wide_message_record.mbbo_condition = wire[at]; at = at + 1;
   skip
 }
 
-/* what was read of Wide Top Of Market Bid Message is what was written, byte for byte */
-inline equal_wide_top_of_market_bid_message(wide_top_of_market_bid_message_read, wide_top_of_market_bid_message_written) {
-  wide_top_of_market_bid_message_at = 0;
+/* what was read of Top Of Market Bid Wide Message is what was written, byte for byte */
+inline equal_top_of_market_bid_wide_message(top_of_market_bid_wide_message_read, top_of_market_bid_wide_message_written) {
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> assert(wide_top_of_market_bid_message_read.nanoseconds[wide_top_of_market_bid_message_at] == wide_top_of_market_bid_message_written.nanoseconds[wide_top_of_market_bid_message_at]); wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> assert(top_of_market_bid_wide_message_read.nanoseconds[top_of_market_bid_wide_message_at] == top_of_market_bid_wide_message_written.nanoseconds[top_of_market_bid_wide_message_at]); top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> assert(wide_top_of_market_bid_message_read.product_id[wide_top_of_market_bid_message_at] == wide_top_of_market_bid_message_written.product_id[wide_top_of_market_bid_message_at]); wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> assert(top_of_market_bid_wide_message_read.product_id[top_of_market_bid_wide_message_at] == top_of_market_bid_wide_message_written.product_id[top_of_market_bid_wide_message_at]); top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> assert(wide_top_of_market_bid_message_read.mbbo_price_4[wide_top_of_market_bid_message_at] == wide_top_of_market_bid_message_written.mbbo_price_4[wide_top_of_market_bid_message_at]); wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> assert(top_of_market_bid_wide_message_read.mbbo_price_4[top_of_market_bid_wide_message_at] == top_of_market_bid_wide_message_written.mbbo_price_4[top_of_market_bid_wide_message_at]); top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> assert(wide_top_of_market_bid_message_read.mbbo_size_4[wide_top_of_market_bid_message_at] == wide_top_of_market_bid_message_written.mbbo_size_4[wide_top_of_market_bid_message_at]); wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> assert(top_of_market_bid_wide_message_read.mbbo_size_4[top_of_market_bid_wide_message_at] == top_of_market_bid_wide_message_written.mbbo_size_4[top_of_market_bid_wide_message_at]); top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_bid_message_at = 0;
+  top_of_market_bid_wide_message_at = 0;
   do
-  :: wide_top_of_market_bid_message_at < 4 -> assert(wide_top_of_market_bid_message_read.mbbo_priority_customer_size_4[wide_top_of_market_bid_message_at] == wide_top_of_market_bid_message_written.mbbo_priority_customer_size_4[wide_top_of_market_bid_message_at]); wide_top_of_market_bid_message_at = wide_top_of_market_bid_message_at + 1
+  :: top_of_market_bid_wide_message_at < 4 -> assert(top_of_market_bid_wide_message_read.mbbo_priority_customer_size_4[top_of_market_bid_wide_message_at] == top_of_market_bid_wide_message_written.mbbo_priority_customer_size_4[top_of_market_bid_wide_message_at]); top_of_market_bid_wide_message_at = top_of_market_bid_wide_message_at + 1
   :: else -> break
   od;
-  assert(wide_top_of_market_bid_message_read.mbbo_condition == wide_top_of_market_bid_message_written.mbbo_condition);
+  assert(top_of_market_bid_wide_message_read.mbbo_condition == top_of_market_bid_wide_message_written.mbbo_condition);
   skip
 }
 
-/* ---- Wide Top Of Market Offer Message: 21 bytes ------------------------------ */
+/* ---- Top Of Market Offer Wide Message: 21 bytes ------------------------------ */
 
 /* This is the message format that will be used to disseminate MIAX Top of Market for options with high premiums or large aggregate MIAX Best Bid or Offer (MBBO) size. */
-typedef WideTopOfMarketOfferMessage {
+typedef TopOfMarketOfferWideMessage {
   byte nanoseconds[4];
   byte product_id[4];
   byte mbbo_price_4[4];
@@ -1157,160 +1157,160 @@ typedef WideTopOfMarketOfferMessage {
   byte mbbo_condition
 };
 
-int wide_top_of_market_offer_message_at;
+int top_of_market_offer_wide_message_at;
 
-/* every byte of Wide Top Of Market Offer Message set to one value */
-inline fill_wide_top_of_market_offer_message(wide_top_of_market_offer_message_record, wide_top_of_market_offer_message_value) {
-  wide_top_of_market_offer_message_at = 0;
+/* every byte of Top Of Market Offer Wide Message set to one value */
+inline fill_top_of_market_offer_wide_message(top_of_market_offer_wide_message_record, top_of_market_offer_wide_message_value) {
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.nanoseconds[wide_top_of_market_offer_message_at] = wide_top_of_market_offer_message_value; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.nanoseconds[top_of_market_offer_wide_message_at] = top_of_market_offer_wide_message_value; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.product_id[wide_top_of_market_offer_message_at] = wide_top_of_market_offer_message_value; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.product_id[top_of_market_offer_wide_message_at] = top_of_market_offer_wide_message_value; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_price_4[wide_top_of_market_offer_message_at] = wide_top_of_market_offer_message_value; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_price_4[top_of_market_offer_wide_message_at] = top_of_market_offer_wide_message_value; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_size_4[wide_top_of_market_offer_message_at] = wide_top_of_market_offer_message_value; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_size_4[top_of_market_offer_wide_message_at] = top_of_market_offer_wide_message_value; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_priority_customer_size_4[wide_top_of_market_offer_message_at] = wide_top_of_market_offer_message_value; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_priority_customer_size_4[top_of_market_offer_wide_message_at] = top_of_market_offer_wide_message_value; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_record.mbbo_condition = wide_top_of_market_offer_message_value;
+  top_of_market_offer_wide_message_record.mbbo_condition = top_of_market_offer_wide_message_value;
   skip
 }
 
-/* each byte of Wide Top Of Market Offer Message set to where it lies, so a field read out of place says so */
-inline ramp_wide_top_of_market_offer_message(wide_top_of_market_offer_message_record, wide_top_of_market_offer_message_base) {
-  wide_top_of_market_offer_message_at = 0;
+/* each byte of Top Of Market Offer Wide Message set to where it lies, so a field read out of place says so */
+inline ramp_top_of_market_offer_wide_message(top_of_market_offer_wide_message_record, top_of_market_offer_wide_message_base) {
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.nanoseconds[wide_top_of_market_offer_message_at] = (wide_top_of_market_offer_message_base + 0 + wide_top_of_market_offer_message_at + 1) % 256; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.nanoseconds[top_of_market_offer_wide_message_at] = (top_of_market_offer_wide_message_base + 0 + top_of_market_offer_wide_message_at + 1) % 256; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.product_id[wide_top_of_market_offer_message_at] = (wide_top_of_market_offer_message_base + 4 + wide_top_of_market_offer_message_at + 1) % 256; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.product_id[top_of_market_offer_wide_message_at] = (top_of_market_offer_wide_message_base + 4 + top_of_market_offer_wide_message_at + 1) % 256; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_price_4[wide_top_of_market_offer_message_at] = (wide_top_of_market_offer_message_base + 8 + wide_top_of_market_offer_message_at + 1) % 256; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_price_4[top_of_market_offer_wide_message_at] = (top_of_market_offer_wide_message_base + 8 + top_of_market_offer_wide_message_at + 1) % 256; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_size_4[wide_top_of_market_offer_message_at] = (wide_top_of_market_offer_message_base + 12 + wide_top_of_market_offer_message_at + 1) % 256; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_size_4[top_of_market_offer_wide_message_at] = (top_of_market_offer_wide_message_base + 12 + top_of_market_offer_wide_message_at + 1) % 256; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_priority_customer_size_4[wide_top_of_market_offer_message_at] = (wide_top_of_market_offer_message_base + 16 + wide_top_of_market_offer_message_at + 1) % 256; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_priority_customer_size_4[top_of_market_offer_wide_message_at] = (top_of_market_offer_wide_message_base + 16 + top_of_market_offer_wide_message_at + 1) % 256; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_record.mbbo_condition = (wide_top_of_market_offer_message_base + 20 + 1) % 256;
+  top_of_market_offer_wide_message_record.mbbo_condition = (top_of_market_offer_wide_message_base + 20 + 1) % 256;
   skip
 }
 
-/* Wide Top Of Market Offer Message to the wire, 21 bytes from where the cursor stands */
-inline encode_wide_top_of_market_offer_message(wide_top_of_market_offer_message_record) {
-  wide_top_of_market_offer_message_at = 0;
+/* Top Of Market Offer Wide Message to the wire, 21 bytes from where the cursor stands */
+inline encode_top_of_market_offer_wide_message(top_of_market_offer_wide_message_record) {
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wire[at] = wide_top_of_market_offer_message_record.nanoseconds[wide_top_of_market_offer_message_at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> wire[at] = top_of_market_offer_wide_message_record.nanoseconds[top_of_market_offer_wide_message_at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wire[at] = wide_top_of_market_offer_message_record.product_id[wide_top_of_market_offer_message_at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> wire[at] = top_of_market_offer_wide_message_record.product_id[top_of_market_offer_wide_message_at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wire[at] = wide_top_of_market_offer_message_record.mbbo_price_4[wide_top_of_market_offer_message_at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> wire[at] = top_of_market_offer_wide_message_record.mbbo_price_4[top_of_market_offer_wide_message_at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wire[at] = wide_top_of_market_offer_message_record.mbbo_size_4[wide_top_of_market_offer_message_at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> wire[at] = top_of_market_offer_wide_message_record.mbbo_size_4[top_of_market_offer_wide_message_at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wire[at] = wide_top_of_market_offer_message_record.mbbo_priority_customer_size_4[wide_top_of_market_offer_message_at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> wire[at] = top_of_market_offer_wide_message_record.mbbo_priority_customer_size_4[top_of_market_offer_wide_message_at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wire[at] = wide_top_of_market_offer_message_record.mbbo_condition; at = at + 1;
+  wire[at] = top_of_market_offer_wide_message_record.mbbo_condition; at = at + 1;
   skip
 }
 
-/* Wide Top Of Market Offer Message off the wire, 21 bytes from where the cursor stands */
-inline decode_wide_top_of_market_offer_message(wide_top_of_market_offer_message_record) {
-  wide_top_of_market_offer_message_at = 0;
+/* Top Of Market Offer Wide Message off the wire, 21 bytes from where the cursor stands */
+inline decode_top_of_market_offer_wide_message(top_of_market_offer_wide_message_record) {
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.nanoseconds[wide_top_of_market_offer_message_at] = wire[at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.nanoseconds[top_of_market_offer_wide_message_at] = wire[at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.product_id[wide_top_of_market_offer_message_at] = wire[at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.product_id[top_of_market_offer_wide_message_at] = wire[at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_price_4[wide_top_of_market_offer_message_at] = wire[at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_price_4[top_of_market_offer_wide_message_at] = wire[at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_size_4[wide_top_of_market_offer_message_at] = wire[at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_size_4[top_of_market_offer_wide_message_at] = wire[at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> wide_top_of_market_offer_message_record.mbbo_priority_customer_size_4[wide_top_of_market_offer_message_at] = wire[at]; at = at + 1; wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> top_of_market_offer_wide_message_record.mbbo_priority_customer_size_4[top_of_market_offer_wide_message_at] = wire[at]; at = at + 1; top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_record.mbbo_condition = wire[at]; at = at + 1;
+  top_of_market_offer_wide_message_record.mbbo_condition = wire[at]; at = at + 1;
   skip
 }
 
-/* what was read of Wide Top Of Market Offer Message is what was written, byte for byte */
-inline equal_wide_top_of_market_offer_message(wide_top_of_market_offer_message_read, wide_top_of_market_offer_message_written) {
-  wide_top_of_market_offer_message_at = 0;
+/* what was read of Top Of Market Offer Wide Message is what was written, byte for byte */
+inline equal_top_of_market_offer_wide_message(top_of_market_offer_wide_message_read, top_of_market_offer_wide_message_written) {
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> assert(wide_top_of_market_offer_message_read.nanoseconds[wide_top_of_market_offer_message_at] == wide_top_of_market_offer_message_written.nanoseconds[wide_top_of_market_offer_message_at]); wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> assert(top_of_market_offer_wide_message_read.nanoseconds[top_of_market_offer_wide_message_at] == top_of_market_offer_wide_message_written.nanoseconds[top_of_market_offer_wide_message_at]); top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> assert(wide_top_of_market_offer_message_read.product_id[wide_top_of_market_offer_message_at] == wide_top_of_market_offer_message_written.product_id[wide_top_of_market_offer_message_at]); wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> assert(top_of_market_offer_wide_message_read.product_id[top_of_market_offer_wide_message_at] == top_of_market_offer_wide_message_written.product_id[top_of_market_offer_wide_message_at]); top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> assert(wide_top_of_market_offer_message_read.mbbo_price_4[wide_top_of_market_offer_message_at] == wide_top_of_market_offer_message_written.mbbo_price_4[wide_top_of_market_offer_message_at]); wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> assert(top_of_market_offer_wide_message_read.mbbo_price_4[top_of_market_offer_wide_message_at] == top_of_market_offer_wide_message_written.mbbo_price_4[top_of_market_offer_wide_message_at]); top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> assert(wide_top_of_market_offer_message_read.mbbo_size_4[wide_top_of_market_offer_message_at] == wide_top_of_market_offer_message_written.mbbo_size_4[wide_top_of_market_offer_message_at]); wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> assert(top_of_market_offer_wide_message_read.mbbo_size_4[top_of_market_offer_wide_message_at] == top_of_market_offer_wide_message_written.mbbo_size_4[top_of_market_offer_wide_message_at]); top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  wide_top_of_market_offer_message_at = 0;
+  top_of_market_offer_wide_message_at = 0;
   do
-  :: wide_top_of_market_offer_message_at < 4 -> assert(wide_top_of_market_offer_message_read.mbbo_priority_customer_size_4[wide_top_of_market_offer_message_at] == wide_top_of_market_offer_message_written.mbbo_priority_customer_size_4[wide_top_of_market_offer_message_at]); wide_top_of_market_offer_message_at = wide_top_of_market_offer_message_at + 1
+  :: top_of_market_offer_wide_message_at < 4 -> assert(top_of_market_offer_wide_message_read.mbbo_priority_customer_size_4[top_of_market_offer_wide_message_at] == top_of_market_offer_wide_message_written.mbbo_priority_customer_size_4[top_of_market_offer_wide_message_at]); top_of_market_offer_wide_message_at = top_of_market_offer_wide_message_at + 1
   :: else -> break
   od;
-  assert(wide_top_of_market_offer_message_read.mbbo_condition == wide_top_of_market_offer_message_written.mbbo_condition);
+  assert(top_of_market_offer_wide_message_read.mbbo_condition == top_of_market_offer_wide_message_written.mbbo_condition);
   skip
 }
 
@@ -1567,10 +1567,10 @@ inline equal_double_sided_top_of_market_compact_message(double_sided_top_of_mark
   skip
 }
 
-/* ---- Wide Double Sided Top Of Market Message: 34 bytes ----------------------- */
+/* ---- Double Sided Top Of Market Wide Message: 34 bytes ----------------------- */
 
-/* This is the message format that will be used to disseminate the “seconds” part of the timestamp that is applicable to all messages that are sent in the current second.This is the message format that will be used, in the refresh service only, to disseminate both sides of the MIAX Top of Market for options with high premiums or large aggregate MIAX Best Bid or Offer (MBBO) sizes. */
-typedef WideDoubleSidedTopOfMarketMessage {
+/* This is the message format that will be used, in the refresh service only, to disseminate both sides of the MIAX Top of Market for options with high premiums or large aggregate MIAX Best Bid or Offer (MBBO) sizes. */
+typedef DoubleSidedTopOfMarketWideMessage {
   byte nanoseconds[4];
   byte product_id[4];
   byte bid_price_4[4];
@@ -1583,247 +1583,247 @@ typedef WideDoubleSidedTopOfMarketMessage {
   byte offer_condition
 };
 
-int wide_double_sided_top_of_market_message_at;
+int double_sided_top_of_market_wide_message_at;
 
-/* every byte of Wide Double Sided Top Of Market Message set to one value */
-inline fill_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_record, wide_double_sided_top_of_market_message_value) {
-  wide_double_sided_top_of_market_message_at = 0;
+/* every byte of Double Sided Top Of Market Wide Message set to one value */
+inline fill_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_record, double_sided_top_of_market_wide_message_value) {
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.nanoseconds[wide_double_sided_top_of_market_message_at] = wide_double_sided_top_of_market_message_value; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.nanoseconds[double_sided_top_of_market_wide_message_at] = double_sided_top_of_market_wide_message_value; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.product_id[wide_double_sided_top_of_market_message_at] = wide_double_sided_top_of_market_message_value; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.product_id[double_sided_top_of_market_wide_message_at] = double_sided_top_of_market_wide_message_value; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_price_4[wide_double_sided_top_of_market_message_at] = wide_double_sided_top_of_market_message_value; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_price_4[double_sided_top_of_market_wide_message_at] = double_sided_top_of_market_wide_message_value; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_size_4[wide_double_sided_top_of_market_message_at] = wide_double_sided_top_of_market_message_value; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_size_4[double_sided_top_of_market_wide_message_at] = double_sided_top_of_market_wide_message_value; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_priority_customer_size_4[wide_double_sided_top_of_market_message_at] = wide_double_sided_top_of_market_message_value; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_priority_customer_size_4[double_sided_top_of_market_wide_message_at] = double_sided_top_of_market_wide_message_value; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_record.bid_condition = wide_double_sided_top_of_market_message_value;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_record.bid_condition = double_sided_top_of_market_wide_message_value;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_price_4[wide_double_sided_top_of_market_message_at] = wide_double_sided_top_of_market_message_value; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_price_4[double_sided_top_of_market_wide_message_at] = double_sided_top_of_market_wide_message_value; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_size_4[wide_double_sided_top_of_market_message_at] = wide_double_sided_top_of_market_message_value; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_size_4[double_sided_top_of_market_wide_message_at] = double_sided_top_of_market_wide_message_value; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_priority_customer_size_4[wide_double_sided_top_of_market_message_at] = wide_double_sided_top_of_market_message_value; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_priority_customer_size_4[double_sided_top_of_market_wide_message_at] = double_sided_top_of_market_wide_message_value; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_record.offer_condition = wide_double_sided_top_of_market_message_value;
+  double_sided_top_of_market_wide_message_record.offer_condition = double_sided_top_of_market_wide_message_value;
   skip
 }
 
-/* each byte of Wide Double Sided Top Of Market Message set to where it lies, so a field read out of place says so */
-inline ramp_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_record, wide_double_sided_top_of_market_message_base) {
-  wide_double_sided_top_of_market_message_at = 0;
+/* each byte of Double Sided Top Of Market Wide Message set to where it lies, so a field read out of place says so */
+inline ramp_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_record, double_sided_top_of_market_wide_message_base) {
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.nanoseconds[wide_double_sided_top_of_market_message_at] = (wide_double_sided_top_of_market_message_base + 0 + wide_double_sided_top_of_market_message_at + 1) % 256; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.nanoseconds[double_sided_top_of_market_wide_message_at] = (double_sided_top_of_market_wide_message_base + 0 + double_sided_top_of_market_wide_message_at + 1) % 256; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.product_id[wide_double_sided_top_of_market_message_at] = (wide_double_sided_top_of_market_message_base + 4 + wide_double_sided_top_of_market_message_at + 1) % 256; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.product_id[double_sided_top_of_market_wide_message_at] = (double_sided_top_of_market_wide_message_base + 4 + double_sided_top_of_market_wide_message_at + 1) % 256; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_price_4[wide_double_sided_top_of_market_message_at] = (wide_double_sided_top_of_market_message_base + 8 + wide_double_sided_top_of_market_message_at + 1) % 256; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_price_4[double_sided_top_of_market_wide_message_at] = (double_sided_top_of_market_wide_message_base + 8 + double_sided_top_of_market_wide_message_at + 1) % 256; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_size_4[wide_double_sided_top_of_market_message_at] = (wide_double_sided_top_of_market_message_base + 12 + wide_double_sided_top_of_market_message_at + 1) % 256; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_size_4[double_sided_top_of_market_wide_message_at] = (double_sided_top_of_market_wide_message_base + 12 + double_sided_top_of_market_wide_message_at + 1) % 256; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_priority_customer_size_4[wide_double_sided_top_of_market_message_at] = (wide_double_sided_top_of_market_message_base + 16 + wide_double_sided_top_of_market_message_at + 1) % 256; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_priority_customer_size_4[double_sided_top_of_market_wide_message_at] = (double_sided_top_of_market_wide_message_base + 16 + double_sided_top_of_market_wide_message_at + 1) % 256; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_record.bid_condition = (wide_double_sided_top_of_market_message_base + 20 + 1) % 256;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_record.bid_condition = (double_sided_top_of_market_wide_message_base + 20 + 1) % 256;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_price_4[wide_double_sided_top_of_market_message_at] = (wide_double_sided_top_of_market_message_base + 21 + wide_double_sided_top_of_market_message_at + 1) % 256; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_price_4[double_sided_top_of_market_wide_message_at] = (double_sided_top_of_market_wide_message_base + 21 + double_sided_top_of_market_wide_message_at + 1) % 256; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_size_4[wide_double_sided_top_of_market_message_at] = (wide_double_sided_top_of_market_message_base + 25 + wide_double_sided_top_of_market_message_at + 1) % 256; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_size_4[double_sided_top_of_market_wide_message_at] = (double_sided_top_of_market_wide_message_base + 25 + double_sided_top_of_market_wide_message_at + 1) % 256; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_priority_customer_size_4[wide_double_sided_top_of_market_message_at] = (wide_double_sided_top_of_market_message_base + 29 + wide_double_sided_top_of_market_message_at + 1) % 256; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_priority_customer_size_4[double_sided_top_of_market_wide_message_at] = (double_sided_top_of_market_wide_message_base + 29 + double_sided_top_of_market_wide_message_at + 1) % 256; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_record.offer_condition = (wide_double_sided_top_of_market_message_base + 33 + 1) % 256;
+  double_sided_top_of_market_wide_message_record.offer_condition = (double_sided_top_of_market_wide_message_base + 33 + 1) % 256;
   skip
 }
 
-/* Wide Double Sided Top Of Market Message to the wire, 34 bytes from where the cursor stands */
-inline encode_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_record) {
-  wide_double_sided_top_of_market_message_at = 0;
+/* Double Sided Top Of Market Wide Message to the wire, 34 bytes from where the cursor stands */
+inline encode_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_record) {
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wire[at] = wide_double_sided_top_of_market_message_record.nanoseconds[wide_double_sided_top_of_market_message_at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> wire[at] = double_sided_top_of_market_wide_message_record.nanoseconds[double_sided_top_of_market_wide_message_at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wire[at] = wide_double_sided_top_of_market_message_record.product_id[wide_double_sided_top_of_market_message_at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> wire[at] = double_sided_top_of_market_wide_message_record.product_id[double_sided_top_of_market_wide_message_at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wire[at] = wide_double_sided_top_of_market_message_record.bid_price_4[wide_double_sided_top_of_market_message_at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> wire[at] = double_sided_top_of_market_wide_message_record.bid_price_4[double_sided_top_of_market_wide_message_at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wire[at] = wide_double_sided_top_of_market_message_record.bid_size_4[wide_double_sided_top_of_market_message_at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> wire[at] = double_sided_top_of_market_wide_message_record.bid_size_4[double_sided_top_of_market_wide_message_at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wire[at] = wide_double_sided_top_of_market_message_record.bid_priority_customer_size_4[wide_double_sided_top_of_market_message_at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> wire[at] = double_sided_top_of_market_wide_message_record.bid_priority_customer_size_4[double_sided_top_of_market_wide_message_at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wire[at] = wide_double_sided_top_of_market_message_record.bid_condition; at = at + 1;
-  wide_double_sided_top_of_market_message_at = 0;
+  wire[at] = double_sided_top_of_market_wide_message_record.bid_condition; at = at + 1;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wire[at] = wide_double_sided_top_of_market_message_record.offer_price_4[wide_double_sided_top_of_market_message_at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> wire[at] = double_sided_top_of_market_wide_message_record.offer_price_4[double_sided_top_of_market_wide_message_at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wire[at] = wide_double_sided_top_of_market_message_record.offer_size_4[wide_double_sided_top_of_market_message_at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> wire[at] = double_sided_top_of_market_wide_message_record.offer_size_4[double_sided_top_of_market_wide_message_at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wire[at] = wide_double_sided_top_of_market_message_record.offer_priority_customer_size_4[wide_double_sided_top_of_market_message_at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> wire[at] = double_sided_top_of_market_wide_message_record.offer_priority_customer_size_4[double_sided_top_of_market_wide_message_at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wire[at] = wide_double_sided_top_of_market_message_record.offer_condition; at = at + 1;
+  wire[at] = double_sided_top_of_market_wide_message_record.offer_condition; at = at + 1;
   skip
 }
 
-/* Wide Double Sided Top Of Market Message off the wire, 34 bytes from where the cursor stands */
-inline decode_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_record) {
-  wide_double_sided_top_of_market_message_at = 0;
+/* Double Sided Top Of Market Wide Message off the wire, 34 bytes from where the cursor stands */
+inline decode_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_record) {
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.nanoseconds[wide_double_sided_top_of_market_message_at] = wire[at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.nanoseconds[double_sided_top_of_market_wide_message_at] = wire[at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.product_id[wide_double_sided_top_of_market_message_at] = wire[at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.product_id[double_sided_top_of_market_wide_message_at] = wire[at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_price_4[wide_double_sided_top_of_market_message_at] = wire[at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_price_4[double_sided_top_of_market_wide_message_at] = wire[at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_size_4[wide_double_sided_top_of_market_message_at] = wire[at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_size_4[double_sided_top_of_market_wide_message_at] = wire[at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.bid_priority_customer_size_4[wide_double_sided_top_of_market_message_at] = wire[at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.bid_priority_customer_size_4[double_sided_top_of_market_wide_message_at] = wire[at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_record.bid_condition = wire[at]; at = at + 1;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_record.bid_condition = wire[at]; at = at + 1;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_price_4[wide_double_sided_top_of_market_message_at] = wire[at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_price_4[double_sided_top_of_market_wide_message_at] = wire[at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_size_4[wide_double_sided_top_of_market_message_at] = wire[at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_size_4[double_sided_top_of_market_wide_message_at] = wire[at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> wide_double_sided_top_of_market_message_record.offer_priority_customer_size_4[wide_double_sided_top_of_market_message_at] = wire[at]; at = at + 1; wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> double_sided_top_of_market_wide_message_record.offer_priority_customer_size_4[double_sided_top_of_market_wide_message_at] = wire[at]; at = at + 1; double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_record.offer_condition = wire[at]; at = at + 1;
+  double_sided_top_of_market_wide_message_record.offer_condition = wire[at]; at = at + 1;
   skip
 }
 
-/* what was read of Wide Double Sided Top Of Market Message is what was written, byte for byte */
-inline equal_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_read, wide_double_sided_top_of_market_message_written) {
-  wide_double_sided_top_of_market_message_at = 0;
+/* what was read of Double Sided Top Of Market Wide Message is what was written, byte for byte */
+inline equal_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_read, double_sided_top_of_market_wide_message_written) {
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> assert(wide_double_sided_top_of_market_message_read.nanoseconds[wide_double_sided_top_of_market_message_at] == wide_double_sided_top_of_market_message_written.nanoseconds[wide_double_sided_top_of_market_message_at]); wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> assert(double_sided_top_of_market_wide_message_read.nanoseconds[double_sided_top_of_market_wide_message_at] == double_sided_top_of_market_wide_message_written.nanoseconds[double_sided_top_of_market_wide_message_at]); double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> assert(wide_double_sided_top_of_market_message_read.product_id[wide_double_sided_top_of_market_message_at] == wide_double_sided_top_of_market_message_written.product_id[wide_double_sided_top_of_market_message_at]); wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> assert(double_sided_top_of_market_wide_message_read.product_id[double_sided_top_of_market_wide_message_at] == double_sided_top_of_market_wide_message_written.product_id[double_sided_top_of_market_wide_message_at]); double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> assert(wide_double_sided_top_of_market_message_read.bid_price_4[wide_double_sided_top_of_market_message_at] == wide_double_sided_top_of_market_message_written.bid_price_4[wide_double_sided_top_of_market_message_at]); wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> assert(double_sided_top_of_market_wide_message_read.bid_price_4[double_sided_top_of_market_wide_message_at] == double_sided_top_of_market_wide_message_written.bid_price_4[double_sided_top_of_market_wide_message_at]); double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> assert(wide_double_sided_top_of_market_message_read.bid_size_4[wide_double_sided_top_of_market_message_at] == wide_double_sided_top_of_market_message_written.bid_size_4[wide_double_sided_top_of_market_message_at]); wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> assert(double_sided_top_of_market_wide_message_read.bid_size_4[double_sided_top_of_market_wide_message_at] == double_sided_top_of_market_wide_message_written.bid_size_4[double_sided_top_of_market_wide_message_at]); double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> assert(wide_double_sided_top_of_market_message_read.bid_priority_customer_size_4[wide_double_sided_top_of_market_message_at] == wide_double_sided_top_of_market_message_written.bid_priority_customer_size_4[wide_double_sided_top_of_market_message_at]); wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> assert(double_sided_top_of_market_wide_message_read.bid_priority_customer_size_4[double_sided_top_of_market_wide_message_at] == double_sided_top_of_market_wide_message_written.bid_priority_customer_size_4[double_sided_top_of_market_wide_message_at]); double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  assert(wide_double_sided_top_of_market_message_read.bid_condition == wide_double_sided_top_of_market_message_written.bid_condition);
-  wide_double_sided_top_of_market_message_at = 0;
+  assert(double_sided_top_of_market_wide_message_read.bid_condition == double_sided_top_of_market_wide_message_written.bid_condition);
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> assert(wide_double_sided_top_of_market_message_read.offer_price_4[wide_double_sided_top_of_market_message_at] == wide_double_sided_top_of_market_message_written.offer_price_4[wide_double_sided_top_of_market_message_at]); wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> assert(double_sided_top_of_market_wide_message_read.offer_price_4[double_sided_top_of_market_wide_message_at] == double_sided_top_of_market_wide_message_written.offer_price_4[double_sided_top_of_market_wide_message_at]); double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> assert(wide_double_sided_top_of_market_message_read.offer_size_4[wide_double_sided_top_of_market_message_at] == wide_double_sided_top_of_market_message_written.offer_size_4[wide_double_sided_top_of_market_message_at]); wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> assert(double_sided_top_of_market_wide_message_read.offer_size_4[double_sided_top_of_market_wide_message_at] == double_sided_top_of_market_wide_message_written.offer_size_4[double_sided_top_of_market_wide_message_at]); double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  wide_double_sided_top_of_market_message_at = 0;
+  double_sided_top_of_market_wide_message_at = 0;
   do
-  :: wide_double_sided_top_of_market_message_at < 4 -> assert(wide_double_sided_top_of_market_message_read.offer_priority_customer_size_4[wide_double_sided_top_of_market_message_at] == wide_double_sided_top_of_market_message_written.offer_priority_customer_size_4[wide_double_sided_top_of_market_message_at]); wide_double_sided_top_of_market_message_at = wide_double_sided_top_of_market_message_at + 1
+  :: double_sided_top_of_market_wide_message_at < 4 -> assert(double_sided_top_of_market_wide_message_read.offer_priority_customer_size_4[double_sided_top_of_market_wide_message_at] == double_sided_top_of_market_wide_message_written.offer_priority_customer_size_4[double_sided_top_of_market_wide_message_at]); double_sided_top_of_market_wide_message_at = double_sided_top_of_market_wide_message_at + 1
   :: else -> break
   od;
-  assert(wide_double_sided_top_of_market_message_read.offer_condition == wide_double_sided_top_of_market_message_written.offer_condition);
+  assert(double_sided_top_of_market_wide_message_read.offer_condition == double_sided_top_of_market_wide_message_written.offer_condition);
   skip
 }
 
-/* ---- Trade Message: 27 bytes ------------------------------------------------- */
+/* ---- Last Sale Message: 27 bytes --------------------------------------------- */
 
 /* This is the message format that will be used to disseminate Trades that are resulting from executions on MIAX during the current trading session. */
-typedef TradeMessage {
+typedef LastSaleMessage {
   byte nanoseconds[4];
   byte product_id[4];
   byte trade_id[4];
@@ -1835,195 +1835,195 @@ typedef TradeMessage {
   byte trade_condition
 };
 
-int trade_message_at;
+int last_sale_message_at;
 
-/* every byte of Trade Message set to one value */
-inline fill_trade_message(trade_message_record, trade_message_value) {
-  trade_message_at = 0;
+/* every byte of Last Sale Message set to one value */
+inline fill_last_sale_message(last_sale_message_record, last_sale_message_value) {
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.nanoseconds[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.nanoseconds[last_sale_message_at] = last_sale_message_value; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.product_id[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.product_id[last_sale_message_at] = last_sale_message_value; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_id[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_id[last_sale_message_at] = last_sale_message_value; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.correction_number = trade_message_value;
-  trade_message_at = 0;
+  last_sale_message_record.correction_number = last_sale_message_value;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.reference_trade_id[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.reference_trade_id[last_sale_message_at] = last_sale_message_value; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.reference_correction_number = trade_message_value;
-  trade_message_at = 0;
+  last_sale_message_record.reference_correction_number = last_sale_message_value;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_price[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_price[last_sale_message_at] = last_sale_message_value; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_size[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_size[last_sale_message_at] = last_sale_message_value; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.trade_condition = trade_message_value;
+  last_sale_message_record.trade_condition = last_sale_message_value;
   skip
 }
 
-/* each byte of Trade Message set to where it lies, so a field read out of place says so */
-inline ramp_trade_message(trade_message_record, trade_message_base) {
-  trade_message_at = 0;
+/* each byte of Last Sale Message set to where it lies, so a field read out of place says so */
+inline ramp_last_sale_message(last_sale_message_record, last_sale_message_base) {
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.nanoseconds[trade_message_at] = (trade_message_base + 0 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.nanoseconds[last_sale_message_at] = (last_sale_message_base + 0 + last_sale_message_at + 1) % 256; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.product_id[trade_message_at] = (trade_message_base + 4 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.product_id[last_sale_message_at] = (last_sale_message_base + 4 + last_sale_message_at + 1) % 256; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_id[trade_message_at] = (trade_message_base + 8 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_id[last_sale_message_at] = (last_sale_message_base + 8 + last_sale_message_at + 1) % 256; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.correction_number = (trade_message_base + 12 + 1) % 256;
-  trade_message_at = 0;
+  last_sale_message_record.correction_number = (last_sale_message_base + 12 + 1) % 256;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.reference_trade_id[trade_message_at] = (trade_message_base + 13 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.reference_trade_id[last_sale_message_at] = (last_sale_message_base + 13 + last_sale_message_at + 1) % 256; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.reference_correction_number = (trade_message_base + 17 + 1) % 256;
-  trade_message_at = 0;
+  last_sale_message_record.reference_correction_number = (last_sale_message_base + 17 + 1) % 256;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_price[trade_message_at] = (trade_message_base + 18 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_price[last_sale_message_at] = (last_sale_message_base + 18 + last_sale_message_at + 1) % 256; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_size[trade_message_at] = (trade_message_base + 22 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_size[last_sale_message_at] = (last_sale_message_base + 22 + last_sale_message_at + 1) % 256; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.trade_condition = (trade_message_base + 26 + 1) % 256;
+  last_sale_message_record.trade_condition = (last_sale_message_base + 26 + 1) % 256;
   skip
 }
 
-/* Trade Message to the wire, 27 bytes from where the cursor stands */
-inline encode_trade_message(trade_message_record) {
-  trade_message_at = 0;
+/* Last Sale Message to the wire, 27 bytes from where the cursor stands */
+inline encode_last_sale_message(last_sale_message_record) {
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> wire[at] = trade_message_record.nanoseconds[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> wire[at] = last_sale_message_record.nanoseconds[last_sale_message_at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> wire[at] = trade_message_record.product_id[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> wire[at] = last_sale_message_record.product_id[last_sale_message_at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> wire[at] = trade_message_record.trade_id[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> wire[at] = last_sale_message_record.trade_id[last_sale_message_at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  wire[at] = trade_message_record.correction_number; at = at + 1;
-  trade_message_at = 0;
+  wire[at] = last_sale_message_record.correction_number; at = at + 1;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> wire[at] = trade_message_record.reference_trade_id[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> wire[at] = last_sale_message_record.reference_trade_id[last_sale_message_at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  wire[at] = trade_message_record.reference_correction_number; at = at + 1;
-  trade_message_at = 0;
+  wire[at] = last_sale_message_record.reference_correction_number; at = at + 1;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> wire[at] = trade_message_record.trade_price[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> wire[at] = last_sale_message_record.trade_price[last_sale_message_at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> wire[at] = trade_message_record.trade_size[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> wire[at] = last_sale_message_record.trade_size[last_sale_message_at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  wire[at] = trade_message_record.trade_condition; at = at + 1;
+  wire[at] = last_sale_message_record.trade_condition; at = at + 1;
   skip
 }
 
-/* Trade Message off the wire, 27 bytes from where the cursor stands */
-inline decode_trade_message(trade_message_record) {
-  trade_message_at = 0;
+/* Last Sale Message off the wire, 27 bytes from where the cursor stands */
+inline decode_last_sale_message(last_sale_message_record) {
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.nanoseconds[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.nanoseconds[last_sale_message_at] = wire[at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.product_id[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.product_id[last_sale_message_at] = wire[at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_id[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_id[last_sale_message_at] = wire[at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.correction_number = wire[at]; at = at + 1;
-  trade_message_at = 0;
+  last_sale_message_record.correction_number = wire[at]; at = at + 1;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.reference_trade_id[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.reference_trade_id[last_sale_message_at] = wire[at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.reference_correction_number = wire[at]; at = at + 1;
-  trade_message_at = 0;
+  last_sale_message_record.reference_correction_number = wire[at]; at = at + 1;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_price[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_price[last_sale_message_at] = wire[at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.trade_size[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> last_sale_message_record.trade_size[last_sale_message_at] = wire[at]; at = at + 1; last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_record.trade_condition = wire[at]; at = at + 1;
+  last_sale_message_record.trade_condition = wire[at]; at = at + 1;
   skip
 }
 
-/* what was read of Trade Message is what was written, byte for byte */
-inline equal_trade_message(trade_message_read, trade_message_written) {
-  trade_message_at = 0;
+/* what was read of Last Sale Message is what was written, byte for byte */
+inline equal_last_sale_message(last_sale_message_read, last_sale_message_written) {
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> assert(trade_message_read.nanoseconds[trade_message_at] == trade_message_written.nanoseconds[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> assert(last_sale_message_read.nanoseconds[last_sale_message_at] == last_sale_message_written.nanoseconds[last_sale_message_at]); last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> assert(trade_message_read.product_id[trade_message_at] == trade_message_written.product_id[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> assert(last_sale_message_read.product_id[last_sale_message_at] == last_sale_message_written.product_id[last_sale_message_at]); last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> assert(trade_message_read.trade_id[trade_message_at] == trade_message_written.trade_id[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> assert(last_sale_message_read.trade_id[last_sale_message_at] == last_sale_message_written.trade_id[last_sale_message_at]); last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  assert(trade_message_read.correction_number == trade_message_written.correction_number);
-  trade_message_at = 0;
+  assert(last_sale_message_read.correction_number == last_sale_message_written.correction_number);
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> assert(trade_message_read.reference_trade_id[trade_message_at] == trade_message_written.reference_trade_id[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> assert(last_sale_message_read.reference_trade_id[last_sale_message_at] == last_sale_message_written.reference_trade_id[last_sale_message_at]); last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  assert(trade_message_read.reference_correction_number == trade_message_written.reference_correction_number);
-  trade_message_at = 0;
+  assert(last_sale_message_read.reference_correction_number == last_sale_message_written.reference_correction_number);
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> assert(trade_message_read.trade_price[trade_message_at] == trade_message_written.trade_price[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> assert(last_sale_message_read.trade_price[last_sale_message_at] == last_sale_message_written.trade_price[last_sale_message_at]); last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  trade_message_at = 0;
+  last_sale_message_at = 0;
   do
-  :: trade_message_at < 4 -> assert(trade_message_read.trade_size[trade_message_at] == trade_message_written.trade_size[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: last_sale_message_at < 4 -> assert(last_sale_message_read.trade_size[last_sale_message_at] == last_sale_message_written.trade_size[last_sale_message_at]); last_sale_message_at = last_sale_message_at + 1
   :: else -> break
   od;
-  assert(trade_message_read.trade_condition == trade_message_written.trade_condition);
+  assert(last_sale_message_read.trade_condition == last_sale_message_written.trade_condition);
   skip
 }
 
@@ -2202,150 +2202,150 @@ inline equal_trade_cancel_message(trade_cancel_message_read, trade_cancel_messag
   skip
 }
 
-/* ---- Underlying Trading Status Message: 25 bytes ----------------------------- */
+/* ---- Underlying Trading Status Notification Message: 25 bytes ---------------- */
 
 /* This message format will be used to notify firms of changes to the trading status of all the options of an underlying */
-typedef UnderlyingTradingStatusMessage {
+typedef UnderlyingTradingStatusNotificationMessage {
   byte nanoseconds[4];
   byte underlying_symbol[11];
   byte trading_status;
   byte event_reason;
-  byte seconds_part[4];
-  byte expected_event_time_nano_seconds_part[4]
+  byte expected_event_time_seconds[4];
+  byte expected_event_time_nano_seconds[4]
 };
 
-int underlying_trading_status_message_at;
+int underlying_trading_status_notification_message_at;
 
-/* every byte of Underlying Trading Status Message set to one value */
-inline fill_underlying_trading_status_message(underlying_trading_status_message_record, underlying_trading_status_message_value) {
-  underlying_trading_status_message_at = 0;
+/* every byte of Underlying Trading Status Notification Message set to one value */
+inline fill_underlying_trading_status_notification_message(underlying_trading_status_notification_message_record, underlying_trading_status_notification_message_value) {
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.nanoseconds[underlying_trading_status_message_at] = underlying_trading_status_message_value; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.nanoseconds[underlying_trading_status_notification_message_at] = underlying_trading_status_notification_message_value; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 11 -> underlying_trading_status_message_record.underlying_symbol[underlying_trading_status_message_at] = underlying_trading_status_message_value; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 11 -> underlying_trading_status_notification_message_record.underlying_symbol[underlying_trading_status_notification_message_at] = underlying_trading_status_notification_message_value; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_record.trading_status = underlying_trading_status_message_value;
-  underlying_trading_status_message_record.event_reason = underlying_trading_status_message_value;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_record.trading_status = underlying_trading_status_notification_message_value;
+  underlying_trading_status_notification_message_record.event_reason = underlying_trading_status_notification_message_value;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.seconds_part[underlying_trading_status_message_at] = underlying_trading_status_message_value; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.expected_event_time_seconds[underlying_trading_status_notification_message_at] = underlying_trading_status_notification_message_value; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.expected_event_time_nano_seconds_part[underlying_trading_status_message_at] = underlying_trading_status_message_value; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.expected_event_time_nano_seconds[underlying_trading_status_notification_message_at] = underlying_trading_status_notification_message_value; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* each byte of Underlying Trading Status Message set to where it lies, so a field read out of place says so */
-inline ramp_underlying_trading_status_message(underlying_trading_status_message_record, underlying_trading_status_message_base) {
-  underlying_trading_status_message_at = 0;
+/* each byte of Underlying Trading Status Notification Message set to where it lies, so a field read out of place says so */
+inline ramp_underlying_trading_status_notification_message(underlying_trading_status_notification_message_record, underlying_trading_status_notification_message_base) {
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.nanoseconds[underlying_trading_status_message_at] = (underlying_trading_status_message_base + 0 + underlying_trading_status_message_at + 1) % 256; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.nanoseconds[underlying_trading_status_notification_message_at] = (underlying_trading_status_notification_message_base + 0 + underlying_trading_status_notification_message_at + 1) % 256; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 11 -> underlying_trading_status_message_record.underlying_symbol[underlying_trading_status_message_at] = (underlying_trading_status_message_base + 4 + underlying_trading_status_message_at + 1) % 256; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 11 -> underlying_trading_status_notification_message_record.underlying_symbol[underlying_trading_status_notification_message_at] = (underlying_trading_status_notification_message_base + 4 + underlying_trading_status_notification_message_at + 1) % 256; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_record.trading_status = (underlying_trading_status_message_base + 15 + 1) % 256;
-  underlying_trading_status_message_record.event_reason = (underlying_trading_status_message_base + 16 + 1) % 256;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_record.trading_status = (underlying_trading_status_notification_message_base + 15 + 1) % 256;
+  underlying_trading_status_notification_message_record.event_reason = (underlying_trading_status_notification_message_base + 16 + 1) % 256;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.seconds_part[underlying_trading_status_message_at] = (underlying_trading_status_message_base + 17 + underlying_trading_status_message_at + 1) % 256; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.expected_event_time_seconds[underlying_trading_status_notification_message_at] = (underlying_trading_status_notification_message_base + 17 + underlying_trading_status_notification_message_at + 1) % 256; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.expected_event_time_nano_seconds_part[underlying_trading_status_message_at] = (underlying_trading_status_message_base + 21 + underlying_trading_status_message_at + 1) % 256; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Underlying Trading Status Message to the wire, 25 bytes from where the cursor stands */
-inline encode_underlying_trading_status_message(underlying_trading_status_message_record) {
-  underlying_trading_status_message_at = 0;
-  do
-  :: underlying_trading_status_message_at < 4 -> wire[at] = underlying_trading_status_message_record.nanoseconds[underlying_trading_status_message_at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
-  :: else -> break
-  od;
-  underlying_trading_status_message_at = 0;
-  do
-  :: underlying_trading_status_message_at < 11 -> wire[at] = underlying_trading_status_message_record.underlying_symbol[underlying_trading_status_message_at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
-  :: else -> break
-  od;
-  wire[at] = underlying_trading_status_message_record.trading_status; at = at + 1;
-  wire[at] = underlying_trading_status_message_record.event_reason; at = at + 1;
-  underlying_trading_status_message_at = 0;
-  do
-  :: underlying_trading_status_message_at < 4 -> wire[at] = underlying_trading_status_message_record.seconds_part[underlying_trading_status_message_at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
-  :: else -> break
-  od;
-  underlying_trading_status_message_at = 0;
-  do
-  :: underlying_trading_status_message_at < 4 -> wire[at] = underlying_trading_status_message_record.expected_event_time_nano_seconds_part[underlying_trading_status_message_at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.expected_event_time_nano_seconds[underlying_trading_status_notification_message_at] = (underlying_trading_status_notification_message_base + 21 + underlying_trading_status_notification_message_at + 1) % 256; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Underlying Trading Status Message off the wire, 25 bytes from where the cursor stands */
-inline decode_underlying_trading_status_message(underlying_trading_status_message_record) {
-  underlying_trading_status_message_at = 0;
+/* Underlying Trading Status Notification Message to the wire, 25 bytes from where the cursor stands */
+inline encode_underlying_trading_status_notification_message(underlying_trading_status_notification_message_record) {
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.nanoseconds[underlying_trading_status_message_at] = wire[at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> wire[at] = underlying_trading_status_notification_message_record.nanoseconds[underlying_trading_status_notification_message_at]; at = at + 1; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 11 -> underlying_trading_status_message_record.underlying_symbol[underlying_trading_status_message_at] = wire[at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 11 -> wire[at] = underlying_trading_status_notification_message_record.underlying_symbol[underlying_trading_status_notification_message_at]; at = at + 1; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_record.trading_status = wire[at]; at = at + 1;
-  underlying_trading_status_message_record.event_reason = wire[at]; at = at + 1;
-  underlying_trading_status_message_at = 0;
+  wire[at] = underlying_trading_status_notification_message_record.trading_status; at = at + 1;
+  wire[at] = underlying_trading_status_notification_message_record.event_reason; at = at + 1;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.seconds_part[underlying_trading_status_message_at] = wire[at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> wire[at] = underlying_trading_status_notification_message_record.expected_event_time_seconds[underlying_trading_status_notification_message_at]; at = at + 1; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.expected_event_time_nano_seconds_part[underlying_trading_status_message_at] = wire[at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> wire[at] = underlying_trading_status_notification_message_record.expected_event_time_nano_seconds[underlying_trading_status_notification_message_at]; at = at + 1; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* what was read of Underlying Trading Status Message is what was written, byte for byte */
-inline equal_underlying_trading_status_message(underlying_trading_status_message_read, underlying_trading_status_message_written) {
-  underlying_trading_status_message_at = 0;
+/* Underlying Trading Status Notification Message off the wire, 25 bytes from where the cursor stands */
+inline decode_underlying_trading_status_notification_message(underlying_trading_status_notification_message_record) {
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> assert(underlying_trading_status_message_read.nanoseconds[underlying_trading_status_message_at] == underlying_trading_status_message_written.nanoseconds[underlying_trading_status_message_at]); underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.nanoseconds[underlying_trading_status_notification_message_at] = wire[at]; at = at + 1; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 11 -> assert(underlying_trading_status_message_read.underlying_symbol[underlying_trading_status_message_at] == underlying_trading_status_message_written.underlying_symbol[underlying_trading_status_message_at]); underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 11 -> underlying_trading_status_notification_message_record.underlying_symbol[underlying_trading_status_notification_message_at] = wire[at]; at = at + 1; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  assert(underlying_trading_status_message_read.trading_status == underlying_trading_status_message_written.trading_status);
-  assert(underlying_trading_status_message_read.event_reason == underlying_trading_status_message_written.event_reason);
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_record.trading_status = wire[at]; at = at + 1;
+  underlying_trading_status_notification_message_record.event_reason = wire[at]; at = at + 1;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> assert(underlying_trading_status_message_read.seconds_part[underlying_trading_status_message_at] == underlying_trading_status_message_written.seconds_part[underlying_trading_status_message_at]); underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.expected_event_time_seconds[underlying_trading_status_notification_message_at] = wire[at]; at = at + 1; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
-  underlying_trading_status_message_at = 0;
+  underlying_trading_status_notification_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> assert(underlying_trading_status_message_read.expected_event_time_nano_seconds_part[underlying_trading_status_message_at] == underlying_trading_status_message_written.expected_event_time_nano_seconds_part[underlying_trading_status_message_at]); underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_notification_message_at < 4 -> underlying_trading_status_notification_message_record.expected_event_time_nano_seconds[underlying_trading_status_notification_message_at] = wire[at]; at = at + 1; underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Underlying Trading Status Notification Message is what was written, byte for byte */
+inline equal_underlying_trading_status_notification_message(underlying_trading_status_notification_message_read, underlying_trading_status_notification_message_written) {
+  underlying_trading_status_notification_message_at = 0;
+  do
+  :: underlying_trading_status_notification_message_at < 4 -> assert(underlying_trading_status_notification_message_read.nanoseconds[underlying_trading_status_notification_message_at] == underlying_trading_status_notification_message_written.nanoseconds[underlying_trading_status_notification_message_at]); underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
+  :: else -> break
+  od;
+  underlying_trading_status_notification_message_at = 0;
+  do
+  :: underlying_trading_status_notification_message_at < 11 -> assert(underlying_trading_status_notification_message_read.underlying_symbol[underlying_trading_status_notification_message_at] == underlying_trading_status_notification_message_written.underlying_symbol[underlying_trading_status_notification_message_at]); underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
+  :: else -> break
+  od;
+  assert(underlying_trading_status_notification_message_read.trading_status == underlying_trading_status_notification_message_written.trading_status);
+  assert(underlying_trading_status_notification_message_read.event_reason == underlying_trading_status_notification_message_written.event_reason);
+  underlying_trading_status_notification_message_at = 0;
+  do
+  :: underlying_trading_status_notification_message_at < 4 -> assert(underlying_trading_status_notification_message_read.expected_event_time_seconds[underlying_trading_status_notification_message_at] == underlying_trading_status_notification_message_written.expected_event_time_seconds[underlying_trading_status_notification_message_at]); underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
+  :: else -> break
+  od;
+  underlying_trading_status_notification_message_at = 0;
+  do
+  :: underlying_trading_status_notification_message_at < 4 -> assert(underlying_trading_status_notification_message_read.expected_event_time_nano_seconds[underlying_trading_status_notification_message_at] == underlying_trading_status_notification_message_written.expected_event_time_nano_seconds[underlying_trading_status_notification_message_at]); underlying_trading_status_notification_message_at = underlying_trading_status_notification_message_at + 1
   :: else -> break
   od;
   skip
@@ -2415,10 +2415,10 @@ proctype check_system_time_message() {
   }
 }
 
-/* Series Update: encoded, read back, and compared */
-proctype check_series_update() {
-  SeriesUpdate series_update_sent;
-  SeriesUpdate series_update_got;
+/* Series Update Message: encoded, read back, and compared */
+proctype check_series_update_message() {
+  SeriesUpdateMessage series_update_message_sent;
+  SeriesUpdateMessage series_update_message_got;
   int pattern;
 
   if
@@ -2429,20 +2429,20 @@ proctype check_series_update() {
   fi;
 
   if
-  :: pattern == 0 -> fill_series_update(series_update_sent, 0)
-  :: pattern == 1 -> fill_series_update(series_update_sent, 32)
-  :: pattern == 2 -> fill_series_update(series_update_sent, 255)
-  :: else -> ramp_series_update(series_update_sent, 0)
+  :: pattern == 0 -> fill_series_update_message(series_update_message_sent, 0)
+  :: pattern == 1 -> fill_series_update_message(series_update_message_sent, 32)
+  :: pattern == 2 -> fill_series_update_message(series_update_message_sent, 255)
+  :: else -> ramp_series_update_message(series_update_message_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_series_update(series_update_sent);
+    encode_series_update_message(series_update_message_sent);
     assert(at == 72);
     at = 0;
-    decode_series_update(series_update_got);
+    decode_series_update_message(series_update_message_got);
     assert(at == 72);
-    equal_series_update(series_update_got, series_update_sent)
+    equal_series_update_message(series_update_message_got, series_update_message_sent)
   }
 }
 
@@ -2539,10 +2539,10 @@ proctype check_top_of_market_offer_compact_message() {
   }
 }
 
-/* Wide Top Of Market Bid Message: encoded, read back, and compared */
-proctype check_wide_top_of_market_bid_message() {
-  WideTopOfMarketBidMessage wide_top_of_market_bid_message_sent;
-  WideTopOfMarketBidMessage wide_top_of_market_bid_message_got;
+/* Top Of Market Bid Wide Message: encoded, read back, and compared */
+proctype check_top_of_market_bid_wide_message() {
+  TopOfMarketBidWideMessage top_of_market_bid_wide_message_sent;
+  TopOfMarketBidWideMessage top_of_market_bid_wide_message_got;
   int pattern;
 
   if
@@ -2553,27 +2553,27 @@ proctype check_wide_top_of_market_bid_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_wide_top_of_market_bid_message(wide_top_of_market_bid_message_sent, 0)
-  :: pattern == 1 -> fill_wide_top_of_market_bid_message(wide_top_of_market_bid_message_sent, 32)
-  :: pattern == 2 -> fill_wide_top_of_market_bid_message(wide_top_of_market_bid_message_sent, 255)
-  :: else -> ramp_wide_top_of_market_bid_message(wide_top_of_market_bid_message_sent, 0)
+  :: pattern == 0 -> fill_top_of_market_bid_wide_message(top_of_market_bid_wide_message_sent, 0)
+  :: pattern == 1 -> fill_top_of_market_bid_wide_message(top_of_market_bid_wide_message_sent, 32)
+  :: pattern == 2 -> fill_top_of_market_bid_wide_message(top_of_market_bid_wide_message_sent, 255)
+  :: else -> ramp_top_of_market_bid_wide_message(top_of_market_bid_wide_message_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_wide_top_of_market_bid_message(wide_top_of_market_bid_message_sent);
+    encode_top_of_market_bid_wide_message(top_of_market_bid_wide_message_sent);
     assert(at == 21);
     at = 0;
-    decode_wide_top_of_market_bid_message(wide_top_of_market_bid_message_got);
+    decode_top_of_market_bid_wide_message(top_of_market_bid_wide_message_got);
     assert(at == 21);
-    equal_wide_top_of_market_bid_message(wide_top_of_market_bid_message_got, wide_top_of_market_bid_message_sent)
+    equal_top_of_market_bid_wide_message(top_of_market_bid_wide_message_got, top_of_market_bid_wide_message_sent)
   }
 }
 
-/* Wide Top Of Market Offer Message: encoded, read back, and compared */
-proctype check_wide_top_of_market_offer_message() {
-  WideTopOfMarketOfferMessage wide_top_of_market_offer_message_sent;
-  WideTopOfMarketOfferMessage wide_top_of_market_offer_message_got;
+/* Top Of Market Offer Wide Message: encoded, read back, and compared */
+proctype check_top_of_market_offer_wide_message() {
+  TopOfMarketOfferWideMessage top_of_market_offer_wide_message_sent;
+  TopOfMarketOfferWideMessage top_of_market_offer_wide_message_got;
   int pattern;
 
   if
@@ -2584,20 +2584,20 @@ proctype check_wide_top_of_market_offer_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_wide_top_of_market_offer_message(wide_top_of_market_offer_message_sent, 0)
-  :: pattern == 1 -> fill_wide_top_of_market_offer_message(wide_top_of_market_offer_message_sent, 32)
-  :: pattern == 2 -> fill_wide_top_of_market_offer_message(wide_top_of_market_offer_message_sent, 255)
-  :: else -> ramp_wide_top_of_market_offer_message(wide_top_of_market_offer_message_sent, 0)
+  :: pattern == 0 -> fill_top_of_market_offer_wide_message(top_of_market_offer_wide_message_sent, 0)
+  :: pattern == 1 -> fill_top_of_market_offer_wide_message(top_of_market_offer_wide_message_sent, 32)
+  :: pattern == 2 -> fill_top_of_market_offer_wide_message(top_of_market_offer_wide_message_sent, 255)
+  :: else -> ramp_top_of_market_offer_wide_message(top_of_market_offer_wide_message_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_wide_top_of_market_offer_message(wide_top_of_market_offer_message_sent);
+    encode_top_of_market_offer_wide_message(top_of_market_offer_wide_message_sent);
     assert(at == 21);
     at = 0;
-    decode_wide_top_of_market_offer_message(wide_top_of_market_offer_message_got);
+    decode_top_of_market_offer_wide_message(top_of_market_offer_wide_message_got);
     assert(at == 21);
-    equal_wide_top_of_market_offer_message(wide_top_of_market_offer_message_got, wide_top_of_market_offer_message_sent)
+    equal_top_of_market_offer_wide_message(top_of_market_offer_wide_message_got, top_of_market_offer_wide_message_sent)
   }
 }
 
@@ -2632,10 +2632,10 @@ proctype check_double_sided_top_of_market_compact_message() {
   }
 }
 
-/* Wide Double Sided Top Of Market Message: encoded, read back, and compared */
-proctype check_wide_double_sided_top_of_market_message() {
-  WideDoubleSidedTopOfMarketMessage wide_double_sided_top_of_market_message_sent;
-  WideDoubleSidedTopOfMarketMessage wide_double_sided_top_of_market_message_got;
+/* Double Sided Top Of Market Wide Message: encoded, read back, and compared */
+proctype check_double_sided_top_of_market_wide_message() {
+  DoubleSidedTopOfMarketWideMessage double_sided_top_of_market_wide_message_sent;
+  DoubleSidedTopOfMarketWideMessage double_sided_top_of_market_wide_message_got;
   int pattern;
 
   if
@@ -2646,27 +2646,27 @@ proctype check_wide_double_sided_top_of_market_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_sent, 0)
-  :: pattern == 1 -> fill_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_sent, 32)
-  :: pattern == 2 -> fill_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_sent, 255)
-  :: else -> ramp_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_sent, 0)
+  :: pattern == 0 -> fill_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_sent, 0)
+  :: pattern == 1 -> fill_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_sent, 32)
+  :: pattern == 2 -> fill_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_sent, 255)
+  :: else -> ramp_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_sent);
+    encode_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_sent);
     assert(at == 34);
     at = 0;
-    decode_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_got);
+    decode_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_got);
     assert(at == 34);
-    equal_wide_double_sided_top_of_market_message(wide_double_sided_top_of_market_message_got, wide_double_sided_top_of_market_message_sent)
+    equal_double_sided_top_of_market_wide_message(double_sided_top_of_market_wide_message_got, double_sided_top_of_market_wide_message_sent)
   }
 }
 
-/* Trade Message: encoded, read back, and compared */
-proctype check_trade_message() {
-  TradeMessage trade_message_sent;
-  TradeMessage trade_message_got;
+/* Last Sale Message: encoded, read back, and compared */
+proctype check_last_sale_message() {
+  LastSaleMessage last_sale_message_sent;
+  LastSaleMessage last_sale_message_got;
   int pattern;
 
   if
@@ -2677,20 +2677,20 @@ proctype check_trade_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_trade_message(trade_message_sent, 0)
-  :: pattern == 1 -> fill_trade_message(trade_message_sent, 32)
-  :: pattern == 2 -> fill_trade_message(trade_message_sent, 255)
-  :: else -> ramp_trade_message(trade_message_sent, 0)
+  :: pattern == 0 -> fill_last_sale_message(last_sale_message_sent, 0)
+  :: pattern == 1 -> fill_last_sale_message(last_sale_message_sent, 32)
+  :: pattern == 2 -> fill_last_sale_message(last_sale_message_sent, 255)
+  :: else -> ramp_last_sale_message(last_sale_message_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_trade_message(trade_message_sent);
+    encode_last_sale_message(last_sale_message_sent);
     assert(at == 27);
     at = 0;
-    decode_trade_message(trade_message_got);
+    decode_last_sale_message(last_sale_message_got);
     assert(at == 27);
-    equal_trade_message(trade_message_got, trade_message_sent)
+    equal_last_sale_message(last_sale_message_got, last_sale_message_sent)
   }
 }
 
@@ -2725,10 +2725,10 @@ proctype check_trade_cancel_message() {
   }
 }
 
-/* Underlying Trading Status Message: encoded, read back, and compared */
-proctype check_underlying_trading_status_message() {
-  UnderlyingTradingStatusMessage underlying_trading_status_message_sent;
-  UnderlyingTradingStatusMessage underlying_trading_status_message_got;
+/* Underlying Trading Status Notification Message: encoded, read back, and compared */
+proctype check_underlying_trading_status_notification_message() {
+  UnderlyingTradingStatusNotificationMessage underlying_trading_status_notification_message_sent;
+  UnderlyingTradingStatusNotificationMessage underlying_trading_status_notification_message_got;
   int pattern;
 
   if
@@ -2739,20 +2739,20 @@ proctype check_underlying_trading_status_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_underlying_trading_status_message(underlying_trading_status_message_sent, 0)
-  :: pattern == 1 -> fill_underlying_trading_status_message(underlying_trading_status_message_sent, 32)
-  :: pattern == 2 -> fill_underlying_trading_status_message(underlying_trading_status_message_sent, 255)
-  :: else -> ramp_underlying_trading_status_message(underlying_trading_status_message_sent, 0)
+  :: pattern == 0 -> fill_underlying_trading_status_notification_message(underlying_trading_status_notification_message_sent, 0)
+  :: pattern == 1 -> fill_underlying_trading_status_notification_message(underlying_trading_status_notification_message_sent, 32)
+  :: pattern == 2 -> fill_underlying_trading_status_notification_message(underlying_trading_status_notification_message_sent, 255)
+  :: else -> ramp_underlying_trading_status_notification_message(underlying_trading_status_notification_message_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_underlying_trading_status_message(underlying_trading_status_message_sent);
+    encode_underlying_trading_status_notification_message(underlying_trading_status_notification_message_sent);
     assert(at == 25);
     at = 0;
-    decode_underlying_trading_status_message(underlying_trading_status_message_got);
+    decode_underlying_trading_status_notification_message(underlying_trading_status_notification_message_got);
     assert(at == 25);
-    equal_underlying_trading_status_message(underlying_trading_status_message_got, underlying_trading_status_message_sent)
+    equal_underlying_trading_status_notification_message(underlying_trading_status_notification_message_got, underlying_trading_status_notification_message_sent)
   }
 }
 
@@ -2761,16 +2761,16 @@ init {
   if
   :: run check_mach_packet_header()
   :: run check_system_time_message()
-  :: run check_series_update()
+  :: run check_series_update_message()
   :: run check_system_state_message()
   :: run check_top_of_market_bid_compact_message()
   :: run check_top_of_market_offer_compact_message()
-  :: run check_wide_top_of_market_bid_message()
-  :: run check_wide_top_of_market_offer_message()
+  :: run check_top_of_market_bid_wide_message()
+  :: run check_top_of_market_offer_wide_message()
   :: run check_double_sided_top_of_market_compact_message()
-  :: run check_wide_double_sided_top_of_market_message()
-  :: run check_trade_message()
+  :: run check_double_sided_top_of_market_wide_message()
+  :: run check_last_sale_message()
   :: run check_trade_cancel_message()
-  :: run check_underlying_trading_status_message()
+  :: run check_underlying_trading_status_notification_message()
   fi
 }

@@ -102,12 +102,12 @@ inline equal_sesm_packet_header(sesm_packet_header_read, sesm_packet_header_writ
 
 /* An acknowledgement for a New Order Request accepted by MIAX Futures Onyx */
 typedef NewOrderResponseMessage {
-  byte matching_engine[8];
+  byte matching_engine_time[8];
   byte mp_id[5];
   byte client_order_id[20];
-  byte instrument_id_binary_u_4[4];
+  byte instrument_id[4];
   byte order_id[8];
-  byte status;
+  byte order_status;
   byte reserved_10[10]
 };
 
@@ -117,7 +117,7 @@ int new_order_response_message_at;
 inline fill_new_order_response_message(new_order_response_message_record, new_order_response_message_value) {
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 8 -> new_order_response_message_record.matching_engine[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 8 -> new_order_response_message_record.matching_engine_time[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -132,7 +132,7 @@ inline fill_new_order_response_message(new_order_response_message_record, new_or
   od;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 4 -> new_order_response_message_record.instrument_id_binary_u_4[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 4 -> new_order_response_message_record.instrument_id[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -140,7 +140,7 @@ inline fill_new_order_response_message(new_order_response_message_record, new_or
   :: new_order_response_message_at < 8 -> new_order_response_message_record.order_id[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
-  new_order_response_message_record.status = new_order_response_message_value;
+  new_order_response_message_record.order_status = new_order_response_message_value;
   new_order_response_message_at = 0;
   do
   :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = new_order_response_message_value; new_order_response_message_at = new_order_response_message_at + 1
@@ -153,7 +153,7 @@ inline fill_new_order_response_message(new_order_response_message_record, new_or
 inline ramp_new_order_response_message(new_order_response_message_record, new_order_response_message_base) {
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 8 -> new_order_response_message_record.matching_engine[new_order_response_message_at] = (new_order_response_message_base + 0 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 8 -> new_order_response_message_record.matching_engine_time[new_order_response_message_at] = (new_order_response_message_base + 0 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -168,7 +168,7 @@ inline ramp_new_order_response_message(new_order_response_message_record, new_or
   od;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 4 -> new_order_response_message_record.instrument_id_binary_u_4[new_order_response_message_at] = (new_order_response_message_base + 33 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 4 -> new_order_response_message_record.instrument_id[new_order_response_message_at] = (new_order_response_message_base + 33 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -176,7 +176,7 @@ inline ramp_new_order_response_message(new_order_response_message_record, new_or
   :: new_order_response_message_at < 8 -> new_order_response_message_record.order_id[new_order_response_message_at] = (new_order_response_message_base + 37 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
-  new_order_response_message_record.status = (new_order_response_message_base + 45 + 1) % 256;
+  new_order_response_message_record.order_status = (new_order_response_message_base + 45 + 1) % 256;
   new_order_response_message_at = 0;
   do
   :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = (new_order_response_message_base + 46 + new_order_response_message_at + 1) % 256; new_order_response_message_at = new_order_response_message_at + 1
@@ -189,7 +189,7 @@ inline ramp_new_order_response_message(new_order_response_message_record, new_or
 inline encode_new_order_response_message(new_order_response_message_record) {
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 8 -> wire[at] = new_order_response_message_record.matching_engine[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 8 -> wire[at] = new_order_response_message_record.matching_engine_time[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -204,7 +204,7 @@ inline encode_new_order_response_message(new_order_response_message_record) {
   od;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 4 -> wire[at] = new_order_response_message_record.instrument_id_binary_u_4[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 4 -> wire[at] = new_order_response_message_record.instrument_id[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -212,7 +212,7 @@ inline encode_new_order_response_message(new_order_response_message_record) {
   :: new_order_response_message_at < 8 -> wire[at] = new_order_response_message_record.order_id[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_response_message_record.status; at = at + 1;
+  wire[at] = new_order_response_message_record.order_status; at = at + 1;
   new_order_response_message_at = 0;
   do
   :: new_order_response_message_at < 10 -> wire[at] = new_order_response_message_record.reserved_10[new_order_response_message_at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
@@ -225,7 +225,7 @@ inline encode_new_order_response_message(new_order_response_message_record) {
 inline decode_new_order_response_message(new_order_response_message_record) {
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 8 -> new_order_response_message_record.matching_engine[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 8 -> new_order_response_message_record.matching_engine_time[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -240,7 +240,7 @@ inline decode_new_order_response_message(new_order_response_message_record) {
   od;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 4 -> new_order_response_message_record.instrument_id_binary_u_4[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 4 -> new_order_response_message_record.instrument_id[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -248,7 +248,7 @@ inline decode_new_order_response_message(new_order_response_message_record) {
   :: new_order_response_message_at < 8 -> new_order_response_message_record.order_id[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
-  new_order_response_message_record.status = wire[at]; at = at + 1;
+  new_order_response_message_record.order_status = wire[at]; at = at + 1;
   new_order_response_message_at = 0;
   do
   :: new_order_response_message_at < 10 -> new_order_response_message_record.reserved_10[new_order_response_message_at] = wire[at]; at = at + 1; new_order_response_message_at = new_order_response_message_at + 1
@@ -261,7 +261,7 @@ inline decode_new_order_response_message(new_order_response_message_record) {
 inline equal_new_order_response_message(new_order_response_message_read, new_order_response_message_written) {
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 8 -> assert(new_order_response_message_read.matching_engine[new_order_response_message_at] == new_order_response_message_written.matching_engine[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 8 -> assert(new_order_response_message_read.matching_engine_time[new_order_response_message_at] == new_order_response_message_written.matching_engine_time[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -276,7 +276,7 @@ inline equal_new_order_response_message(new_order_response_message_read, new_ord
   od;
   new_order_response_message_at = 0;
   do
-  :: new_order_response_message_at < 4 -> assert(new_order_response_message_read.instrument_id_binary_u_4[new_order_response_message_at] == new_order_response_message_written.instrument_id_binary_u_4[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
+  :: new_order_response_message_at < 4 -> assert(new_order_response_message_read.instrument_id[new_order_response_message_at] == new_order_response_message_written.instrument_id[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
   new_order_response_message_at = 0;
@@ -284,7 +284,7 @@ inline equal_new_order_response_message(new_order_response_message_read, new_ord
   :: new_order_response_message_at < 8 -> assert(new_order_response_message_read.order_id[new_order_response_message_at] == new_order_response_message_written.order_id[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
   :: else -> break
   od;
-  assert(new_order_response_message_read.status == new_order_response_message_written.status);
+  assert(new_order_response_message_read.order_status == new_order_response_message_written.order_status);
   new_order_response_message_at = 0;
   do
   :: new_order_response_message_at < 10 -> assert(new_order_response_message_read.reserved_10[new_order_response_message_at] == new_order_response_message_written.reserved_10[new_order_response_message_at]); new_order_response_message_at = new_order_response_message_at + 1
@@ -301,10 +301,10 @@ typedef ModifyOrderResponse {
   byte mp_id[5];
   byte client_order_id[20];
   byte original_client_order_id[20];
-  byte instrument_id_binary_u_4[4];
+  byte instrument_id[4];
   byte order_id[8];
   byte leaves_qty[4];
-  byte status;
+  byte modify_status;
   byte reserved_10[10]
 };
 
@@ -334,7 +334,7 @@ inline fill_modify_order_response(modify_order_response_record, modify_order_res
   od;
   modify_order_response_at = 0;
   do
-  :: modify_order_response_at < 4 -> modify_order_response_record.instrument_id_binary_u_4[modify_order_response_at] = modify_order_response_value; modify_order_response_at = modify_order_response_at + 1
+  :: modify_order_response_at < 4 -> modify_order_response_record.instrument_id[modify_order_response_at] = modify_order_response_value; modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
   modify_order_response_at = 0;
@@ -347,7 +347,7 @@ inline fill_modify_order_response(modify_order_response_record, modify_order_res
   :: modify_order_response_at < 4 -> modify_order_response_record.leaves_qty[modify_order_response_at] = modify_order_response_value; modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
-  modify_order_response_record.status = modify_order_response_value;
+  modify_order_response_record.modify_status = modify_order_response_value;
   modify_order_response_at = 0;
   do
   :: modify_order_response_at < 10 -> modify_order_response_record.reserved_10[modify_order_response_at] = modify_order_response_value; modify_order_response_at = modify_order_response_at + 1
@@ -380,7 +380,7 @@ inline ramp_modify_order_response(modify_order_response_record, modify_order_res
   od;
   modify_order_response_at = 0;
   do
-  :: modify_order_response_at < 4 -> modify_order_response_record.instrument_id_binary_u_4[modify_order_response_at] = (modify_order_response_base + 53 + modify_order_response_at + 1) % 256; modify_order_response_at = modify_order_response_at + 1
+  :: modify_order_response_at < 4 -> modify_order_response_record.instrument_id[modify_order_response_at] = (modify_order_response_base + 53 + modify_order_response_at + 1) % 256; modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
   modify_order_response_at = 0;
@@ -393,7 +393,7 @@ inline ramp_modify_order_response(modify_order_response_record, modify_order_res
   :: modify_order_response_at < 4 -> modify_order_response_record.leaves_qty[modify_order_response_at] = (modify_order_response_base + 65 + modify_order_response_at + 1) % 256; modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
-  modify_order_response_record.status = (modify_order_response_base + 69 + 1) % 256;
+  modify_order_response_record.modify_status = (modify_order_response_base + 69 + 1) % 256;
   modify_order_response_at = 0;
   do
   :: modify_order_response_at < 10 -> modify_order_response_record.reserved_10[modify_order_response_at] = (modify_order_response_base + 70 + modify_order_response_at + 1) % 256; modify_order_response_at = modify_order_response_at + 1
@@ -426,7 +426,7 @@ inline encode_modify_order_response(modify_order_response_record) {
   od;
   modify_order_response_at = 0;
   do
-  :: modify_order_response_at < 4 -> wire[at] = modify_order_response_record.instrument_id_binary_u_4[modify_order_response_at]; at = at + 1; modify_order_response_at = modify_order_response_at + 1
+  :: modify_order_response_at < 4 -> wire[at] = modify_order_response_record.instrument_id[modify_order_response_at]; at = at + 1; modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
   modify_order_response_at = 0;
@@ -439,7 +439,7 @@ inline encode_modify_order_response(modify_order_response_record) {
   :: modify_order_response_at < 4 -> wire[at] = modify_order_response_record.leaves_qty[modify_order_response_at]; at = at + 1; modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
-  wire[at] = modify_order_response_record.status; at = at + 1;
+  wire[at] = modify_order_response_record.modify_status; at = at + 1;
   modify_order_response_at = 0;
   do
   :: modify_order_response_at < 10 -> wire[at] = modify_order_response_record.reserved_10[modify_order_response_at]; at = at + 1; modify_order_response_at = modify_order_response_at + 1
@@ -472,7 +472,7 @@ inline decode_modify_order_response(modify_order_response_record) {
   od;
   modify_order_response_at = 0;
   do
-  :: modify_order_response_at < 4 -> modify_order_response_record.instrument_id_binary_u_4[modify_order_response_at] = wire[at]; at = at + 1; modify_order_response_at = modify_order_response_at + 1
+  :: modify_order_response_at < 4 -> modify_order_response_record.instrument_id[modify_order_response_at] = wire[at]; at = at + 1; modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
   modify_order_response_at = 0;
@@ -485,7 +485,7 @@ inline decode_modify_order_response(modify_order_response_record) {
   :: modify_order_response_at < 4 -> modify_order_response_record.leaves_qty[modify_order_response_at] = wire[at]; at = at + 1; modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
-  modify_order_response_record.status = wire[at]; at = at + 1;
+  modify_order_response_record.modify_status = wire[at]; at = at + 1;
   modify_order_response_at = 0;
   do
   :: modify_order_response_at < 10 -> modify_order_response_record.reserved_10[modify_order_response_at] = wire[at]; at = at + 1; modify_order_response_at = modify_order_response_at + 1
@@ -518,7 +518,7 @@ inline equal_modify_order_response(modify_order_response_read, modify_order_resp
   od;
   modify_order_response_at = 0;
   do
-  :: modify_order_response_at < 4 -> assert(modify_order_response_read.instrument_id_binary_u_4[modify_order_response_at] == modify_order_response_written.instrument_id_binary_u_4[modify_order_response_at]); modify_order_response_at = modify_order_response_at + 1
+  :: modify_order_response_at < 4 -> assert(modify_order_response_read.instrument_id[modify_order_response_at] == modify_order_response_written.instrument_id[modify_order_response_at]); modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
   modify_order_response_at = 0;
@@ -531,7 +531,7 @@ inline equal_modify_order_response(modify_order_response_read, modify_order_resp
   :: modify_order_response_at < 4 -> assert(modify_order_response_read.leaves_qty[modify_order_response_at] == modify_order_response_written.leaves_qty[modify_order_response_at]); modify_order_response_at = modify_order_response_at + 1
   :: else -> break
   od;
-  assert(modify_order_response_read.status == modify_order_response_written.status);
+  assert(modify_order_response_read.modify_status == modify_order_response_written.modify_status);
   modify_order_response_at = 0;
   do
   :: modify_order_response_at < 10 -> assert(modify_order_response_read.reserved_10[modify_order_response_at] == modify_order_response_written.reserved_10[modify_order_response_at]); modify_order_response_at = modify_order_response_at + 1
@@ -540,17 +540,18 @@ inline equal_modify_order_response(modify_order_response_read, modify_order_resp
   skip
 }
 
-/* ---- Cancel Order Response: 66 bytes ----------------------------------------- */
+/* ---- Cancel Order Response: 76 bytes ----------------------------------------- */
 
 /* provides response to an Order Cancel Request */
 typedef CancelOrderResponse {
   byte matching_engine_time[8];
   byte mp_id[5];
   byte client_order_id[20];
-  byte original_client_order[20];
-  byte instrument_id_binary_u_4[4];
+  byte original_client_order_id[20];
+  byte instrument_id[4];
   byte order_id[8];
-  byte status
+  byte cancel_status;
+  byte reserved_10[10]
 };
 
 int cancel_order_response_at;
@@ -574,12 +575,12 @@ inline fill_cancel_order_response(cancel_order_response_record, cancel_order_res
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 20 -> cancel_order_response_record.original_client_order[cancel_order_response_at] = cancel_order_response_value; cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 20 -> cancel_order_response_record.original_client_order_id[cancel_order_response_at] = cancel_order_response_value; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 4 -> cancel_order_response_record.instrument_id_binary_u_4[cancel_order_response_at] = cancel_order_response_value; cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 4 -> cancel_order_response_record.instrument_id[cancel_order_response_at] = cancel_order_response_value; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
@@ -587,7 +588,12 @@ inline fill_cancel_order_response(cancel_order_response_record, cancel_order_res
   :: cancel_order_response_at < 8 -> cancel_order_response_record.order_id[cancel_order_response_at] = cancel_order_response_value; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
-  cancel_order_response_record.status = cancel_order_response_value;
+  cancel_order_response_record.cancel_status = cancel_order_response_value;
+  cancel_order_response_at = 0;
+  do
+  :: cancel_order_response_at < 10 -> cancel_order_response_record.reserved_10[cancel_order_response_at] = cancel_order_response_value; cancel_order_response_at = cancel_order_response_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -610,12 +616,12 @@ inline ramp_cancel_order_response(cancel_order_response_record, cancel_order_res
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 20 -> cancel_order_response_record.original_client_order[cancel_order_response_at] = (cancel_order_response_base + 33 + cancel_order_response_at + 1) % 256; cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 20 -> cancel_order_response_record.original_client_order_id[cancel_order_response_at] = (cancel_order_response_base + 33 + cancel_order_response_at + 1) % 256; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 4 -> cancel_order_response_record.instrument_id_binary_u_4[cancel_order_response_at] = (cancel_order_response_base + 53 + cancel_order_response_at + 1) % 256; cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 4 -> cancel_order_response_record.instrument_id[cancel_order_response_at] = (cancel_order_response_base + 53 + cancel_order_response_at + 1) % 256; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
@@ -623,11 +629,16 @@ inline ramp_cancel_order_response(cancel_order_response_record, cancel_order_res
   :: cancel_order_response_at < 8 -> cancel_order_response_record.order_id[cancel_order_response_at] = (cancel_order_response_base + 57 + cancel_order_response_at + 1) % 256; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
-  cancel_order_response_record.status = (cancel_order_response_base + 65 + 1) % 256;
+  cancel_order_response_record.cancel_status = (cancel_order_response_base + 65 + 1) % 256;
+  cancel_order_response_at = 0;
+  do
+  :: cancel_order_response_at < 10 -> cancel_order_response_record.reserved_10[cancel_order_response_at] = (cancel_order_response_base + 66 + cancel_order_response_at + 1) % 256; cancel_order_response_at = cancel_order_response_at + 1
+  :: else -> break
+  od;
   skip
 }
 
-/* Cancel Order Response to the wire, 66 bytes from where the cursor stands */
+/* Cancel Order Response to the wire, 76 bytes from where the cursor stands */
 inline encode_cancel_order_response(cancel_order_response_record) {
   cancel_order_response_at = 0;
   do
@@ -646,12 +657,12 @@ inline encode_cancel_order_response(cancel_order_response_record) {
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 20 -> wire[at] = cancel_order_response_record.original_client_order[cancel_order_response_at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 20 -> wire[at] = cancel_order_response_record.original_client_order_id[cancel_order_response_at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 4 -> wire[at] = cancel_order_response_record.instrument_id_binary_u_4[cancel_order_response_at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 4 -> wire[at] = cancel_order_response_record.instrument_id[cancel_order_response_at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
@@ -659,11 +670,16 @@ inline encode_cancel_order_response(cancel_order_response_record) {
   :: cancel_order_response_at < 8 -> wire[at] = cancel_order_response_record.order_id[cancel_order_response_at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
-  wire[at] = cancel_order_response_record.status; at = at + 1;
+  wire[at] = cancel_order_response_record.cancel_status; at = at + 1;
+  cancel_order_response_at = 0;
+  do
+  :: cancel_order_response_at < 10 -> wire[at] = cancel_order_response_record.reserved_10[cancel_order_response_at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
+  :: else -> break
+  od;
   skip
 }
 
-/* Cancel Order Response off the wire, 66 bytes from where the cursor stands */
+/* Cancel Order Response off the wire, 76 bytes from where the cursor stands */
 inline decode_cancel_order_response(cancel_order_response_record) {
   cancel_order_response_at = 0;
   do
@@ -682,12 +698,12 @@ inline decode_cancel_order_response(cancel_order_response_record) {
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 20 -> cancel_order_response_record.original_client_order[cancel_order_response_at] = wire[at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 20 -> cancel_order_response_record.original_client_order_id[cancel_order_response_at] = wire[at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 4 -> cancel_order_response_record.instrument_id_binary_u_4[cancel_order_response_at] = wire[at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 4 -> cancel_order_response_record.instrument_id[cancel_order_response_at] = wire[at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
@@ -695,7 +711,12 @@ inline decode_cancel_order_response(cancel_order_response_record) {
   :: cancel_order_response_at < 8 -> cancel_order_response_record.order_id[cancel_order_response_at] = wire[at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
-  cancel_order_response_record.status = wire[at]; at = at + 1;
+  cancel_order_response_record.cancel_status = wire[at]; at = at + 1;
+  cancel_order_response_at = 0;
+  do
+  :: cancel_order_response_at < 10 -> cancel_order_response_record.reserved_10[cancel_order_response_at] = wire[at]; at = at + 1; cancel_order_response_at = cancel_order_response_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -718,12 +739,12 @@ inline equal_cancel_order_response(cancel_order_response_read, cancel_order_resp
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 20 -> assert(cancel_order_response_read.original_client_order[cancel_order_response_at] == cancel_order_response_written.original_client_order[cancel_order_response_at]); cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 20 -> assert(cancel_order_response_read.original_client_order_id[cancel_order_response_at] == cancel_order_response_written.original_client_order_id[cancel_order_response_at]); cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
   do
-  :: cancel_order_response_at < 4 -> assert(cancel_order_response_read.instrument_id_binary_u_4[cancel_order_response_at] == cancel_order_response_written.instrument_id_binary_u_4[cancel_order_response_at]); cancel_order_response_at = cancel_order_response_at + 1
+  :: cancel_order_response_at < 4 -> assert(cancel_order_response_read.instrument_id[cancel_order_response_at] == cancel_order_response_written.instrument_id[cancel_order_response_at]); cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
   cancel_order_response_at = 0;
@@ -731,7 +752,12 @@ inline equal_cancel_order_response(cancel_order_response_read, cancel_order_resp
   :: cancel_order_response_at < 8 -> assert(cancel_order_response_read.order_id[cancel_order_response_at] == cancel_order_response_written.order_id[cancel_order_response_at]); cancel_order_response_at = cancel_order_response_at + 1
   :: else -> break
   od;
-  assert(cancel_order_response_read.status == cancel_order_response_written.status);
+  assert(cancel_order_response_read.cancel_status == cancel_order_response_written.cancel_status);
+  cancel_order_response_at = 0;
+  do
+  :: cancel_order_response_at < 10 -> assert(cancel_order_response_read.reserved_10[cancel_order_response_at] == cancel_order_response_written.reserved_10[cancel_order_response_at]); cancel_order_response_at = cancel_order_response_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -742,7 +768,7 @@ typedef MassCancelResponse {
   byte matching_engine_time[8];
   byte mp_id[5];
   byte client_order_id[20];
-  byte status;
+  byte mass_cancel_status;
   byte reserved_10[10]
 };
 
@@ -765,7 +791,7 @@ inline fill_mass_cancel_response(mass_cancel_response_record, mass_cancel_respon
   :: mass_cancel_response_at < 20 -> mass_cancel_response_record.client_order_id[mass_cancel_response_at] = mass_cancel_response_value; mass_cancel_response_at = mass_cancel_response_at + 1
   :: else -> break
   od;
-  mass_cancel_response_record.status = mass_cancel_response_value;
+  mass_cancel_response_record.mass_cancel_status = mass_cancel_response_value;
   mass_cancel_response_at = 0;
   do
   :: mass_cancel_response_at < 10 -> mass_cancel_response_record.reserved_10[mass_cancel_response_at] = mass_cancel_response_value; mass_cancel_response_at = mass_cancel_response_at + 1
@@ -791,7 +817,7 @@ inline ramp_mass_cancel_response(mass_cancel_response_record, mass_cancel_respon
   :: mass_cancel_response_at < 20 -> mass_cancel_response_record.client_order_id[mass_cancel_response_at] = (mass_cancel_response_base + 13 + mass_cancel_response_at + 1) % 256; mass_cancel_response_at = mass_cancel_response_at + 1
   :: else -> break
   od;
-  mass_cancel_response_record.status = (mass_cancel_response_base + 33 + 1) % 256;
+  mass_cancel_response_record.mass_cancel_status = (mass_cancel_response_base + 33 + 1) % 256;
   mass_cancel_response_at = 0;
   do
   :: mass_cancel_response_at < 10 -> mass_cancel_response_record.reserved_10[mass_cancel_response_at] = (mass_cancel_response_base + 34 + mass_cancel_response_at + 1) % 256; mass_cancel_response_at = mass_cancel_response_at + 1
@@ -817,7 +843,7 @@ inline encode_mass_cancel_response(mass_cancel_response_record) {
   :: mass_cancel_response_at < 20 -> wire[at] = mass_cancel_response_record.client_order_id[mass_cancel_response_at]; at = at + 1; mass_cancel_response_at = mass_cancel_response_at + 1
   :: else -> break
   od;
-  wire[at] = mass_cancel_response_record.status; at = at + 1;
+  wire[at] = mass_cancel_response_record.mass_cancel_status; at = at + 1;
   mass_cancel_response_at = 0;
   do
   :: mass_cancel_response_at < 10 -> wire[at] = mass_cancel_response_record.reserved_10[mass_cancel_response_at]; at = at + 1; mass_cancel_response_at = mass_cancel_response_at + 1
@@ -843,7 +869,7 @@ inline decode_mass_cancel_response(mass_cancel_response_record) {
   :: mass_cancel_response_at < 20 -> mass_cancel_response_record.client_order_id[mass_cancel_response_at] = wire[at]; at = at + 1; mass_cancel_response_at = mass_cancel_response_at + 1
   :: else -> break
   od;
-  mass_cancel_response_record.status = wire[at]; at = at + 1;
+  mass_cancel_response_record.mass_cancel_status = wire[at]; at = at + 1;
   mass_cancel_response_at = 0;
   do
   :: mass_cancel_response_at < 10 -> mass_cancel_response_record.reserved_10[mass_cancel_response_at] = wire[at]; at = at + 1; mass_cancel_response_at = mass_cancel_response_at + 1
@@ -869,7 +895,7 @@ inline equal_mass_cancel_response(mass_cancel_response_read, mass_cancel_respons
   :: mass_cancel_response_at < 20 -> assert(mass_cancel_response_read.client_order_id[mass_cancel_response_at] == mass_cancel_response_written.client_order_id[mass_cancel_response_at]); mass_cancel_response_at = mass_cancel_response_at + 1
   :: else -> break
   od;
-  assert(mass_cancel_response_read.status == mass_cancel_response_written.status);
+  assert(mass_cancel_response_read.mass_cancel_status == mass_cancel_response_written.mass_cancel_status);
   mass_cancel_response_at = 0;
   do
   :: mass_cancel_response_at < 10 -> assert(mass_cancel_response_read.reserved_10[mass_cancel_response_at] == mass_cancel_response_written.reserved_10[mass_cancel_response_at]); mass_cancel_response_at = mass_cancel_response_at + 1
@@ -878,15 +904,15 @@ inline equal_mass_cancel_response(mass_cancel_response_read, mass_cancel_respons
   skip
 }
 
-/* ---- Strategy Creation Response Message: 70 bytes ---------------------------- */
+/* ---- Strategy Creation Response Message: 54 bytes ---------------------------- */
 
 /* response to the Strategy Creation Request */
 typedef StrategyCreationResponseMessage {
   byte matching_engine_time[8];
   byte mp_id[5];
   byte client_order_id[20];
-  byte instrument_id_string_20[20];
-  byte status;
+  byte instrument_id[4];
+  byte strategy_creation_status;
   byte reserved_16[16]
 };
 
@@ -911,10 +937,10 @@ inline fill_strategy_creation_response_message(strategy_creation_response_messag
   od;
   strategy_creation_response_message_at = 0;
   do
-  :: strategy_creation_response_message_at < 20 -> strategy_creation_response_message_record.instrument_id_string_20[strategy_creation_response_message_at] = strategy_creation_response_message_value; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
+  :: strategy_creation_response_message_at < 4 -> strategy_creation_response_message_record.instrument_id[strategy_creation_response_message_at] = strategy_creation_response_message_value; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
   :: else -> break
   od;
-  strategy_creation_response_message_record.status = strategy_creation_response_message_value;
+  strategy_creation_response_message_record.strategy_creation_status = strategy_creation_response_message_value;
   strategy_creation_response_message_at = 0;
   do
   :: strategy_creation_response_message_at < 16 -> strategy_creation_response_message_record.reserved_16[strategy_creation_response_message_at] = strategy_creation_response_message_value; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
@@ -942,19 +968,19 @@ inline ramp_strategy_creation_response_message(strategy_creation_response_messag
   od;
   strategy_creation_response_message_at = 0;
   do
-  :: strategy_creation_response_message_at < 20 -> strategy_creation_response_message_record.instrument_id_string_20[strategy_creation_response_message_at] = (strategy_creation_response_message_base + 33 + strategy_creation_response_message_at + 1) % 256; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
+  :: strategy_creation_response_message_at < 4 -> strategy_creation_response_message_record.instrument_id[strategy_creation_response_message_at] = (strategy_creation_response_message_base + 33 + strategy_creation_response_message_at + 1) % 256; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
   :: else -> break
   od;
-  strategy_creation_response_message_record.status = (strategy_creation_response_message_base + 53 + 1) % 256;
+  strategy_creation_response_message_record.strategy_creation_status = (strategy_creation_response_message_base + 37 + 1) % 256;
   strategy_creation_response_message_at = 0;
   do
-  :: strategy_creation_response_message_at < 16 -> strategy_creation_response_message_record.reserved_16[strategy_creation_response_message_at] = (strategy_creation_response_message_base + 54 + strategy_creation_response_message_at + 1) % 256; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
+  :: strategy_creation_response_message_at < 16 -> strategy_creation_response_message_record.reserved_16[strategy_creation_response_message_at] = (strategy_creation_response_message_base + 38 + strategy_creation_response_message_at + 1) % 256; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Strategy Creation Response Message to the wire, 70 bytes from where the cursor stands */
+/* Strategy Creation Response Message to the wire, 54 bytes from where the cursor stands */
 inline encode_strategy_creation_response_message(strategy_creation_response_message_record) {
   strategy_creation_response_message_at = 0;
   do
@@ -973,10 +999,10 @@ inline encode_strategy_creation_response_message(strategy_creation_response_mess
   od;
   strategy_creation_response_message_at = 0;
   do
-  :: strategy_creation_response_message_at < 20 -> wire[at] = strategy_creation_response_message_record.instrument_id_string_20[strategy_creation_response_message_at]; at = at + 1; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
+  :: strategy_creation_response_message_at < 4 -> wire[at] = strategy_creation_response_message_record.instrument_id[strategy_creation_response_message_at]; at = at + 1; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
   :: else -> break
   od;
-  wire[at] = strategy_creation_response_message_record.status; at = at + 1;
+  wire[at] = strategy_creation_response_message_record.strategy_creation_status; at = at + 1;
   strategy_creation_response_message_at = 0;
   do
   :: strategy_creation_response_message_at < 16 -> wire[at] = strategy_creation_response_message_record.reserved_16[strategy_creation_response_message_at]; at = at + 1; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
@@ -985,7 +1011,7 @@ inline encode_strategy_creation_response_message(strategy_creation_response_mess
   skip
 }
 
-/* Strategy Creation Response Message off the wire, 70 bytes from where the cursor stands */
+/* Strategy Creation Response Message off the wire, 54 bytes from where the cursor stands */
 inline decode_strategy_creation_response_message(strategy_creation_response_message_record) {
   strategy_creation_response_message_at = 0;
   do
@@ -1004,10 +1030,10 @@ inline decode_strategy_creation_response_message(strategy_creation_response_mess
   od;
   strategy_creation_response_message_at = 0;
   do
-  :: strategy_creation_response_message_at < 20 -> strategy_creation_response_message_record.instrument_id_string_20[strategy_creation_response_message_at] = wire[at]; at = at + 1; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
+  :: strategy_creation_response_message_at < 4 -> strategy_creation_response_message_record.instrument_id[strategy_creation_response_message_at] = wire[at]; at = at + 1; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
   :: else -> break
   od;
-  strategy_creation_response_message_record.status = wire[at]; at = at + 1;
+  strategy_creation_response_message_record.strategy_creation_status = wire[at]; at = at + 1;
   strategy_creation_response_message_at = 0;
   do
   :: strategy_creation_response_message_at < 16 -> strategy_creation_response_message_record.reserved_16[strategy_creation_response_message_at] = wire[at]; at = at + 1; strategy_creation_response_message_at = strategy_creation_response_message_at + 1
@@ -1035,10 +1061,10 @@ inline equal_strategy_creation_response_message(strategy_creation_response_messa
   od;
   strategy_creation_response_message_at = 0;
   do
-  :: strategy_creation_response_message_at < 20 -> assert(strategy_creation_response_message_read.instrument_id_string_20[strategy_creation_response_message_at] == strategy_creation_response_message_written.instrument_id_string_20[strategy_creation_response_message_at]); strategy_creation_response_message_at = strategy_creation_response_message_at + 1
+  :: strategy_creation_response_message_at < 4 -> assert(strategy_creation_response_message_read.instrument_id[strategy_creation_response_message_at] == strategy_creation_response_message_written.instrument_id[strategy_creation_response_message_at]); strategy_creation_response_message_at = strategy_creation_response_message_at + 1
   :: else -> break
   od;
-  assert(strategy_creation_response_message_read.status == strategy_creation_response_message_written.status);
+  assert(strategy_creation_response_message_read.strategy_creation_status == strategy_creation_response_message_written.strategy_creation_status);
   strategy_creation_response_message_at = 0;
   do
   :: strategy_creation_response_message_at < 16 -> assert(strategy_creation_response_message_read.reserved_16[strategy_creation_response_message_at] == strategy_creation_response_message_written.reserved_16[strategy_creation_response_message_at]); strategy_creation_response_message_at = strategy_creation_response_message_at + 1
@@ -1179,7 +1205,7 @@ typedef CancelReduceSizeOrderNotification {
   byte operator_id[18];
   byte operator_location[6];
   byte client_order_id[20];
-  byte instrument_id_binary_u_4[4];
+  byte instrument_id[4];
   byte order_id[8];
   byte client_send_time[8];
   byte leaves_qty[4];
@@ -1220,7 +1246,7 @@ inline fill_cancel_reduce_size_order_notification(cancel_reduce_size_order_notif
   od;
   cancel_reduce_size_order_notification_at = 0;
   do
-  :: cancel_reduce_size_order_notification_at < 4 -> cancel_reduce_size_order_notification_record.instrument_id_binary_u_4[cancel_reduce_size_order_notification_at] = cancel_reduce_size_order_notification_value; cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
+  :: cancel_reduce_size_order_notification_at < 4 -> cancel_reduce_size_order_notification_record.instrument_id[cancel_reduce_size_order_notification_at] = cancel_reduce_size_order_notification_value; cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
   :: else -> break
   od;
   cancel_reduce_size_order_notification_at = 0;
@@ -1286,7 +1312,7 @@ inline ramp_cancel_reduce_size_order_notification(cancel_reduce_size_order_notif
   od;
   cancel_reduce_size_order_notification_at = 0;
   do
-  :: cancel_reduce_size_order_notification_at < 4 -> cancel_reduce_size_order_notification_record.instrument_id_binary_u_4[cancel_reduce_size_order_notification_at] = (cancel_reduce_size_order_notification_base + 57 + cancel_reduce_size_order_notification_at + 1) % 256; cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
+  :: cancel_reduce_size_order_notification_at < 4 -> cancel_reduce_size_order_notification_record.instrument_id[cancel_reduce_size_order_notification_at] = (cancel_reduce_size_order_notification_base + 57 + cancel_reduce_size_order_notification_at + 1) % 256; cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
   :: else -> break
   od;
   cancel_reduce_size_order_notification_at = 0;
@@ -1352,7 +1378,7 @@ inline encode_cancel_reduce_size_order_notification(cancel_reduce_size_order_not
   od;
   cancel_reduce_size_order_notification_at = 0;
   do
-  :: cancel_reduce_size_order_notification_at < 4 -> wire[at] = cancel_reduce_size_order_notification_record.instrument_id_binary_u_4[cancel_reduce_size_order_notification_at]; at = at + 1; cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
+  :: cancel_reduce_size_order_notification_at < 4 -> wire[at] = cancel_reduce_size_order_notification_record.instrument_id[cancel_reduce_size_order_notification_at]; at = at + 1; cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
   :: else -> break
   od;
   cancel_reduce_size_order_notification_at = 0;
@@ -1418,7 +1444,7 @@ inline decode_cancel_reduce_size_order_notification(cancel_reduce_size_order_not
   od;
   cancel_reduce_size_order_notification_at = 0;
   do
-  :: cancel_reduce_size_order_notification_at < 4 -> cancel_reduce_size_order_notification_record.instrument_id_binary_u_4[cancel_reduce_size_order_notification_at] = wire[at]; at = at + 1; cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
+  :: cancel_reduce_size_order_notification_at < 4 -> cancel_reduce_size_order_notification_record.instrument_id[cancel_reduce_size_order_notification_at] = wire[at]; at = at + 1; cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
   :: else -> break
   od;
   cancel_reduce_size_order_notification_at = 0;
@@ -1484,7 +1510,7 @@ inline equal_cancel_reduce_size_order_notification(cancel_reduce_size_order_noti
   od;
   cancel_reduce_size_order_notification_at = 0;
   do
-  :: cancel_reduce_size_order_notification_at < 4 -> assert(cancel_reduce_size_order_notification_read.instrument_id_binary_u_4[cancel_reduce_size_order_notification_at] == cancel_reduce_size_order_notification_written.instrument_id_binary_u_4[cancel_reduce_size_order_notification_at]); cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
+  :: cancel_reduce_size_order_notification_at < 4 -> assert(cancel_reduce_size_order_notification_read.instrument_id[cancel_reduce_size_order_notification_at] == cancel_reduce_size_order_notification_written.instrument_id[cancel_reduce_size_order_notification_at]); cancel_reduce_size_order_notification_at = cancel_reduce_size_order_notification_at + 1
   :: else -> break
   od;
   cancel_reduce_size_order_notification_at = 0;
@@ -1526,7 +1552,7 @@ inline equal_cancel_reduce_size_order_notification(cancel_reduce_size_order_noti
 /* used to notify the firms about order status updates */
 typedef OrderStatusUpdateNotification {
   byte matching_engine_time[8];
-  byte instrument_id_binary_u_4[4];
+  byte instrument_id[4];
   byte order_id[8];
   byte update_status;
   byte reserved_32[32]
@@ -1543,7 +1569,7 @@ inline fill_order_status_update_notification(order_status_update_notification_re
   od;
   order_status_update_notification_at = 0;
   do
-  :: order_status_update_notification_at < 4 -> order_status_update_notification_record.instrument_id_binary_u_4[order_status_update_notification_at] = order_status_update_notification_value; order_status_update_notification_at = order_status_update_notification_at + 1
+  :: order_status_update_notification_at < 4 -> order_status_update_notification_record.instrument_id[order_status_update_notification_at] = order_status_update_notification_value; order_status_update_notification_at = order_status_update_notification_at + 1
   :: else -> break
   od;
   order_status_update_notification_at = 0;
@@ -1569,7 +1595,7 @@ inline ramp_order_status_update_notification(order_status_update_notification_re
   od;
   order_status_update_notification_at = 0;
   do
-  :: order_status_update_notification_at < 4 -> order_status_update_notification_record.instrument_id_binary_u_4[order_status_update_notification_at] = (order_status_update_notification_base + 8 + order_status_update_notification_at + 1) % 256; order_status_update_notification_at = order_status_update_notification_at + 1
+  :: order_status_update_notification_at < 4 -> order_status_update_notification_record.instrument_id[order_status_update_notification_at] = (order_status_update_notification_base + 8 + order_status_update_notification_at + 1) % 256; order_status_update_notification_at = order_status_update_notification_at + 1
   :: else -> break
   od;
   order_status_update_notification_at = 0;
@@ -1595,7 +1621,7 @@ inline encode_order_status_update_notification(order_status_update_notification_
   od;
   order_status_update_notification_at = 0;
   do
-  :: order_status_update_notification_at < 4 -> wire[at] = order_status_update_notification_record.instrument_id_binary_u_4[order_status_update_notification_at]; at = at + 1; order_status_update_notification_at = order_status_update_notification_at + 1
+  :: order_status_update_notification_at < 4 -> wire[at] = order_status_update_notification_record.instrument_id[order_status_update_notification_at]; at = at + 1; order_status_update_notification_at = order_status_update_notification_at + 1
   :: else -> break
   od;
   order_status_update_notification_at = 0;
@@ -1621,7 +1647,7 @@ inline decode_order_status_update_notification(order_status_update_notification_
   od;
   order_status_update_notification_at = 0;
   do
-  :: order_status_update_notification_at < 4 -> order_status_update_notification_record.instrument_id_binary_u_4[order_status_update_notification_at] = wire[at]; at = at + 1; order_status_update_notification_at = order_status_update_notification_at + 1
+  :: order_status_update_notification_at < 4 -> order_status_update_notification_record.instrument_id[order_status_update_notification_at] = wire[at]; at = at + 1; order_status_update_notification_at = order_status_update_notification_at + 1
   :: else -> break
   od;
   order_status_update_notification_at = 0;
@@ -1647,7 +1673,7 @@ inline equal_order_status_update_notification(order_status_update_notification_r
   od;
   order_status_update_notification_at = 0;
   do
-  :: order_status_update_notification_at < 4 -> assert(order_status_update_notification_read.instrument_id_binary_u_4[order_status_update_notification_at] == order_status_update_notification_written.instrument_id_binary_u_4[order_status_update_notification_at]); order_status_update_notification_at = order_status_update_notification_at + 1
+  :: order_status_update_notification_at < 4 -> assert(order_status_update_notification_read.instrument_id[order_status_update_notification_at] == order_status_update_notification_written.instrument_id[order_status_update_notification_at]); order_status_update_notification_at = order_status_update_notification_at + 1
   :: else -> break
   od;
   order_status_update_notification_at = 0;
@@ -1675,7 +1701,7 @@ typedef CancelOrderRequestMessage {
   byte order_id[8];
   byte client_order_id[20];
   byte original_client_order_id[20];
-  byte instrument_id_binary_u_4[4];
+  byte instrument_id[4];
   byte reserved_10[10]
 };
 
@@ -1720,7 +1746,7 @@ inline fill_cancel_order_request_message(cancel_order_request_message_record, ca
   od;
   cancel_order_request_message_at = 0;
   do
-  :: cancel_order_request_message_at < 4 -> cancel_order_request_message_record.instrument_id_binary_u_4[cancel_order_request_message_at] = cancel_order_request_message_value; cancel_order_request_message_at = cancel_order_request_message_at + 1
+  :: cancel_order_request_message_at < 4 -> cancel_order_request_message_record.instrument_id[cancel_order_request_message_at] = cancel_order_request_message_value; cancel_order_request_message_at = cancel_order_request_message_at + 1
   :: else -> break
   od;
   cancel_order_request_message_at = 0;
@@ -1770,7 +1796,7 @@ inline ramp_cancel_order_request_message(cancel_order_request_message_record, ca
   od;
   cancel_order_request_message_at = 0;
   do
-  :: cancel_order_request_message_at < 4 -> cancel_order_request_message_record.instrument_id_binary_u_4[cancel_order_request_message_at] = (cancel_order_request_message_base + 85 + cancel_order_request_message_at + 1) % 256; cancel_order_request_message_at = cancel_order_request_message_at + 1
+  :: cancel_order_request_message_at < 4 -> cancel_order_request_message_record.instrument_id[cancel_order_request_message_at] = (cancel_order_request_message_base + 85 + cancel_order_request_message_at + 1) % 256; cancel_order_request_message_at = cancel_order_request_message_at + 1
   :: else -> break
   od;
   cancel_order_request_message_at = 0;
@@ -1820,7 +1846,7 @@ inline encode_cancel_order_request_message(cancel_order_request_message_record) 
   od;
   cancel_order_request_message_at = 0;
   do
-  :: cancel_order_request_message_at < 4 -> wire[at] = cancel_order_request_message_record.instrument_id_binary_u_4[cancel_order_request_message_at]; at = at + 1; cancel_order_request_message_at = cancel_order_request_message_at + 1
+  :: cancel_order_request_message_at < 4 -> wire[at] = cancel_order_request_message_record.instrument_id[cancel_order_request_message_at]; at = at + 1; cancel_order_request_message_at = cancel_order_request_message_at + 1
   :: else -> break
   od;
   cancel_order_request_message_at = 0;
@@ -1870,7 +1896,7 @@ inline decode_cancel_order_request_message(cancel_order_request_message_record) 
   od;
   cancel_order_request_message_at = 0;
   do
-  :: cancel_order_request_message_at < 4 -> cancel_order_request_message_record.instrument_id_binary_u_4[cancel_order_request_message_at] = wire[at]; at = at + 1; cancel_order_request_message_at = cancel_order_request_message_at + 1
+  :: cancel_order_request_message_at < 4 -> cancel_order_request_message_record.instrument_id[cancel_order_request_message_at] = wire[at]; at = at + 1; cancel_order_request_message_at = cancel_order_request_message_at + 1
   :: else -> break
   od;
   cancel_order_request_message_at = 0;
@@ -1920,7 +1946,7 @@ inline equal_cancel_order_request_message(cancel_order_request_message_read, can
   od;
   cancel_order_request_message_at = 0;
   do
-  :: cancel_order_request_message_at < 4 -> assert(cancel_order_request_message_read.instrument_id_binary_u_4[cancel_order_request_message_at] == cancel_order_request_message_written.instrument_id_binary_u_4[cancel_order_request_message_at]); cancel_order_request_message_at = cancel_order_request_message_at + 1
+  :: cancel_order_request_message_at < 4 -> assert(cancel_order_request_message_read.instrument_id[cancel_order_request_message_at] == cancel_order_request_message_written.instrument_id[cancel_order_request_message_at]); cancel_order_request_message_at = cancel_order_request_message_at + 1
   :: else -> break
   od;
   cancel_order_request_message_at = 0;
@@ -2438,7 +2464,7 @@ inline equal_login_response(login_response_read, login_response_written) {
 
 /* ---- Retransmission Request: 16 bytes ---------------------------------------- */
 
-/* The SesM server sends a Login response packet in response a Login request packet from the client */
+/* The SesM client uses this packet to request the server to retransmit a range of packets */
 typedef RetransmissionRequest {
   byte start_sequence_number[8];
   byte end_sequence_number[8]
@@ -2639,10 +2665,10 @@ proctype check_cancel_order_response() {
   atomic {
     at = 0;
     encode_cancel_order_response(cancel_order_response_sent);
-    assert(at == 66);
+    assert(at == 76);
     at = 0;
     decode_cancel_order_response(cancel_order_response_got);
-    assert(at == 66);
+    assert(at == 76);
     equal_cancel_order_response(cancel_order_response_got, cancel_order_response_sent)
   }
 }
@@ -2701,10 +2727,10 @@ proctype check_strategy_creation_response_message() {
   atomic {
     at = 0;
     encode_strategy_creation_response_message(strategy_creation_response_message_sent);
-    assert(at == 70);
+    assert(at == 54);
     at = 0;
     decode_strategy_creation_response_message(strategy_creation_response_message_got);
-    assert(at == 70);
+    assert(at == 54);
     equal_strategy_creation_response_message(strategy_creation_response_message_got, strategy_creation_response_message_sent)
   }
 }

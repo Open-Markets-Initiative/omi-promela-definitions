@@ -584,7 +584,7 @@ typedef OrderAckMessage {
   byte aiq[3];
   byte side;
   byte price_price_8[8];
-  byte order_qty_quantity_non_zero[4];
+  byte order_qty[4];
   byte leaves_qty[4];
   byte effective_limit_price[8];
   byte display_price[8];
@@ -683,7 +683,7 @@ inline fill_order_ack_message(order_ack_message_record, order_ack_message_value)
   od;
   order_ack_message_at = 0;
   do
-  :: order_ack_message_at < 4 -> order_ack_message_record.order_qty_quantity_non_zero[order_ack_message_at] = order_ack_message_value; order_ack_message_at = order_ack_message_at + 1
+  :: order_ack_message_at < 4 -> order_ack_message_record.order_qty[order_ack_message_at] = order_ack_message_value; order_ack_message_at = order_ack_message_at + 1
   :: else -> break
   od;
   order_ack_message_at = 0;
@@ -795,7 +795,7 @@ inline ramp_order_ack_message(order_ack_message_record, order_ack_message_base) 
   od;
   order_ack_message_at = 0;
   do
-  :: order_ack_message_at < 4 -> order_ack_message_record.order_qty_quantity_non_zero[order_ack_message_at] = (order_ack_message_base + 112 + order_ack_message_at + 1) % 256; order_ack_message_at = order_ack_message_at + 1
+  :: order_ack_message_at < 4 -> order_ack_message_record.order_qty[order_ack_message_at] = (order_ack_message_base + 112 + order_ack_message_at + 1) % 256; order_ack_message_at = order_ack_message_at + 1
   :: else -> break
   od;
   order_ack_message_at = 0;
@@ -907,7 +907,7 @@ inline encode_order_ack_message(order_ack_message_record) {
   od;
   order_ack_message_at = 0;
   do
-  :: order_ack_message_at < 4 -> wire[at] = order_ack_message_record.order_qty_quantity_non_zero[order_ack_message_at]; at = at + 1; order_ack_message_at = order_ack_message_at + 1
+  :: order_ack_message_at < 4 -> wire[at] = order_ack_message_record.order_qty[order_ack_message_at]; at = at + 1; order_ack_message_at = order_ack_message_at + 1
   :: else -> break
   od;
   order_ack_message_at = 0;
@@ -1019,7 +1019,7 @@ inline decode_order_ack_message(order_ack_message_record) {
   od;
   order_ack_message_at = 0;
   do
-  :: order_ack_message_at < 4 -> order_ack_message_record.order_qty_quantity_non_zero[order_ack_message_at] = wire[at]; at = at + 1; order_ack_message_at = order_ack_message_at + 1
+  :: order_ack_message_at < 4 -> order_ack_message_record.order_qty[order_ack_message_at] = wire[at]; at = at + 1; order_ack_message_at = order_ack_message_at + 1
   :: else -> break
   od;
   order_ack_message_at = 0;
@@ -1131,7 +1131,7 @@ inline equal_order_ack_message(order_ack_message_read, order_ack_message_written
   od;
   order_ack_message_at = 0;
   do
-  :: order_ack_message_at < 4 -> assert(order_ack_message_read.order_qty_quantity_non_zero[order_ack_message_at] == order_ack_message_written.order_qty_quantity_non_zero[order_ack_message_at]); order_ack_message_at = order_ack_message_at + 1
+  :: order_ack_message_at < 4 -> assert(order_ack_message_read.order_qty[order_ack_message_at] == order_ack_message_written.order_qty[order_ack_message_at]); order_ack_message_at = order_ack_message_at + 1
   :: else -> break
   od;
   order_ack_message_at = 0;
@@ -1165,7 +1165,7 @@ typedef UnsolicitedModifyAckMessage {
   byte orig_cl_ord_id[8];
   byte order_id[8];
   byte price_price_8[8];
-  byte order_qty_quantity_non_zero[4];
+  byte order_qty[4];
   byte leaves_qty[4];
   byte effective_limit_price[8];
   byte display_price[8];
@@ -1210,7 +1210,7 @@ inline fill_unsolicited_modify_ack_message(unsolicited_modify_ack_message_record
   od;
   unsolicited_modify_ack_message_at = 0;
   do
-  :: unsolicited_modify_ack_message_at < 4 -> unsolicited_modify_ack_message_record.order_qty_quantity_non_zero[unsolicited_modify_ack_message_at] = unsolicited_modify_ack_message_value; unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
+  :: unsolicited_modify_ack_message_at < 4 -> unsolicited_modify_ack_message_record.order_qty[unsolicited_modify_ack_message_at] = unsolicited_modify_ack_message_value; unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
   :: else -> break
   od;
   unsolicited_modify_ack_message_at = 0;
@@ -1268,7 +1268,7 @@ inline ramp_unsolicited_modify_ack_message(unsolicited_modify_ack_message_record
   od;
   unsolicited_modify_ack_message_at = 0;
   do
-  :: unsolicited_modify_ack_message_at < 4 -> unsolicited_modify_ack_message_record.order_qty_quantity_non_zero[unsolicited_modify_ack_message_at] = (unsolicited_modify_ack_message_base + 40 + unsolicited_modify_ack_message_at + 1) % 256; unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
+  :: unsolicited_modify_ack_message_at < 4 -> unsolicited_modify_ack_message_record.order_qty[unsolicited_modify_ack_message_at] = (unsolicited_modify_ack_message_base + 40 + unsolicited_modify_ack_message_at + 1) % 256; unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
   :: else -> break
   od;
   unsolicited_modify_ack_message_at = 0;
@@ -1326,7 +1326,7 @@ inline encode_unsolicited_modify_ack_message(unsolicited_modify_ack_message_reco
   od;
   unsolicited_modify_ack_message_at = 0;
   do
-  :: unsolicited_modify_ack_message_at < 4 -> wire[at] = unsolicited_modify_ack_message_record.order_qty_quantity_non_zero[unsolicited_modify_ack_message_at]; at = at + 1; unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
+  :: unsolicited_modify_ack_message_at < 4 -> wire[at] = unsolicited_modify_ack_message_record.order_qty[unsolicited_modify_ack_message_at]; at = at + 1; unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
   :: else -> break
   od;
   unsolicited_modify_ack_message_at = 0;
@@ -1384,7 +1384,7 @@ inline decode_unsolicited_modify_ack_message(unsolicited_modify_ack_message_reco
   od;
   unsolicited_modify_ack_message_at = 0;
   do
-  :: unsolicited_modify_ack_message_at < 4 -> unsolicited_modify_ack_message_record.order_qty_quantity_non_zero[unsolicited_modify_ack_message_at] = wire[at]; at = at + 1; unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
+  :: unsolicited_modify_ack_message_at < 4 -> unsolicited_modify_ack_message_record.order_qty[unsolicited_modify_ack_message_at] = wire[at]; at = at + 1; unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
   :: else -> break
   od;
   unsolicited_modify_ack_message_at = 0;
@@ -1442,7 +1442,7 @@ inline equal_unsolicited_modify_ack_message(unsolicited_modify_ack_message_read,
   od;
   unsolicited_modify_ack_message_at = 0;
   do
-  :: unsolicited_modify_ack_message_at < 4 -> assert(unsolicited_modify_ack_message_read.order_qty_quantity_non_zero[unsolicited_modify_ack_message_at] == unsolicited_modify_ack_message_written.order_qty_quantity_non_zero[unsolicited_modify_ack_message_at]); unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
+  :: unsolicited_modify_ack_message_at < 4 -> assert(unsolicited_modify_ack_message_read.order_qty[unsolicited_modify_ack_message_at] == unsolicited_modify_ack_message_written.order_qty[unsolicited_modify_ack_message_at]); unsolicited_modify_ack_message_at = unsolicited_modify_ack_message_at + 1
   :: else -> break
   od;
   unsolicited_modify_ack_message_at = 0;
@@ -1975,7 +1975,7 @@ typedef NewIocQuoteAckMessage {
   byte order_id[8];
   byte ack_type;
   byte price_price_4[4];
-  byte order_qty_quantity_non_zero[4];
+  byte order_qty[4];
   byte reason_code;
   byte throttle_indicator
 };
@@ -2028,7 +2028,7 @@ inline fill_new_ioc_quote_ack_message(new_ioc_quote_ack_message_record, new_ioc_
   od;
   new_ioc_quote_ack_message_at = 0;
   do
-  :: new_ioc_quote_ack_message_at < 4 -> new_ioc_quote_ack_message_record.order_qty_quantity_non_zero[new_ioc_quote_ack_message_at] = new_ioc_quote_ack_message_value; new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
+  :: new_ioc_quote_ack_message_at < 4 -> new_ioc_quote_ack_message_record.order_qty[new_ioc_quote_ack_message_at] = new_ioc_quote_ack_message_value; new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
   :: else -> break
   od;
   new_ioc_quote_ack_message_record.reason_code = new_ioc_quote_ack_message_value;
@@ -2082,7 +2082,7 @@ inline ramp_new_ioc_quote_ack_message(new_ioc_quote_ack_message_record, new_ioc_
   od;
   new_ioc_quote_ack_message_at = 0;
   do
-  :: new_ioc_quote_ack_message_at < 4 -> new_ioc_quote_ack_message_record.order_qty_quantity_non_zero[new_ioc_quote_ack_message_at] = (new_ioc_quote_ack_message_base + 45 + new_ioc_quote_ack_message_at + 1) % 256; new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
+  :: new_ioc_quote_ack_message_at < 4 -> new_ioc_quote_ack_message_record.order_qty[new_ioc_quote_ack_message_at] = (new_ioc_quote_ack_message_base + 45 + new_ioc_quote_ack_message_at + 1) % 256; new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
   :: else -> break
   od;
   new_ioc_quote_ack_message_record.reason_code = (new_ioc_quote_ack_message_base + 49 + 1) % 256;
@@ -2136,7 +2136,7 @@ inline encode_new_ioc_quote_ack_message(new_ioc_quote_ack_message_record) {
   od;
   new_ioc_quote_ack_message_at = 0;
   do
-  :: new_ioc_quote_ack_message_at < 4 -> wire[at] = new_ioc_quote_ack_message_record.order_qty_quantity_non_zero[new_ioc_quote_ack_message_at]; at = at + 1; new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
+  :: new_ioc_quote_ack_message_at < 4 -> wire[at] = new_ioc_quote_ack_message_record.order_qty[new_ioc_quote_ack_message_at]; at = at + 1; new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
   :: else -> break
   od;
   wire[at] = new_ioc_quote_ack_message_record.reason_code; at = at + 1;
@@ -2190,7 +2190,7 @@ inline decode_new_ioc_quote_ack_message(new_ioc_quote_ack_message_record) {
   od;
   new_ioc_quote_ack_message_at = 0;
   do
-  :: new_ioc_quote_ack_message_at < 4 -> new_ioc_quote_ack_message_record.order_qty_quantity_non_zero[new_ioc_quote_ack_message_at] = wire[at]; at = at + 1; new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
+  :: new_ioc_quote_ack_message_at < 4 -> new_ioc_quote_ack_message_record.order_qty[new_ioc_quote_ack_message_at] = wire[at]; at = at + 1; new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
   :: else -> break
   od;
   new_ioc_quote_ack_message_record.reason_code = wire[at]; at = at + 1;
@@ -2244,7 +2244,7 @@ inline equal_new_ioc_quote_ack_message(new_ioc_quote_ack_message_read, new_ioc_q
   od;
   new_ioc_quote_ack_message_at = 0;
   do
-  :: new_ioc_quote_ack_message_at < 4 -> assert(new_ioc_quote_ack_message_read.order_qty_quantity_non_zero[new_ioc_quote_ack_message_at] == new_ioc_quote_ack_message_written.order_qty_quantity_non_zero[new_ioc_quote_ack_message_at]); new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
+  :: new_ioc_quote_ack_message_at < 4 -> assert(new_ioc_quote_ack_message_read.order_qty[new_ioc_quote_ack_message_at] == new_ioc_quote_ack_message_written.order_qty[new_ioc_quote_ack_message_at]); new_ioc_quote_ack_message_at = new_ioc_quote_ack_message_at + 1
   :: else -> break
   od;
   assert(new_ioc_quote_ack_message_read.reason_code == new_ioc_quote_ack_message_written.reason_code);

@@ -26,136 +26,13 @@
 /* ---- The wire ---------------------------------------------------------------- */
 
 /* the widest record this protocol states, which is the most a check writes at once */
-#define WIRE 74
+#define WIRE 57
 
 /* the bytes a record is written to and read back from */
 byte wire[WIRE];
 
 /* where the next byte is written or read, so a nested record carries on from its holder */
 int at;
-
-/* ---- Logon Message: 68 bytes ------------------------------------------------- */
-
-/* LogonMessage */
-typedef LogonMessage {
-  byte client_id[16];
-  byte secret[48];
-  byte reset_seq_num;
-  byte schema_version[2];
-  byte session_cancel_on_disconnect
-};
-
-int logon_message_at;
-
-/* every byte of Logon Message set to one value */
-inline fill_logon_message(logon_message_record, logon_message_value) {
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 16 -> logon_message_record.client_id[logon_message_at] = logon_message_value; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 48 -> logon_message_record.secret[logon_message_at] = logon_message_value; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_record.reset_seq_num = logon_message_value;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 2 -> logon_message_record.schema_version[logon_message_at] = logon_message_value; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_record.session_cancel_on_disconnect = logon_message_value;
-  skip
-}
-
-/* each byte of Logon Message set to where it lies, so a field read out of place says so */
-inline ramp_logon_message(logon_message_record, logon_message_base) {
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 16 -> logon_message_record.client_id[logon_message_at] = (logon_message_base + 0 + logon_message_at + 1) % 256; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 48 -> logon_message_record.secret[logon_message_at] = (logon_message_base + 16 + logon_message_at + 1) % 256; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_record.reset_seq_num = (logon_message_base + 64 + 1) % 256;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 2 -> logon_message_record.schema_version[logon_message_at] = (logon_message_base + 65 + logon_message_at + 1) % 256; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_record.session_cancel_on_disconnect = (logon_message_base + 67 + 1) % 256;
-  skip
-}
-
-/* Logon Message to the wire, 68 bytes from where the cursor stands */
-inline encode_logon_message(logon_message_record) {
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 16 -> wire[at] = logon_message_record.client_id[logon_message_at]; at = at + 1; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 48 -> wire[at] = logon_message_record.secret[logon_message_at]; at = at + 1; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  wire[at] = logon_message_record.reset_seq_num; at = at + 1;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 2 -> wire[at] = logon_message_record.schema_version[logon_message_at]; at = at + 1; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  wire[at] = logon_message_record.session_cancel_on_disconnect; at = at + 1;
-  skip
-}
-
-/* Logon Message off the wire, 68 bytes from where the cursor stands */
-inline decode_logon_message(logon_message_record) {
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 16 -> logon_message_record.client_id[logon_message_at] = wire[at]; at = at + 1; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 48 -> logon_message_record.secret[logon_message_at] = wire[at]; at = at + 1; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_record.reset_seq_num = wire[at]; at = at + 1;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 2 -> logon_message_record.schema_version[logon_message_at] = wire[at]; at = at + 1; logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_record.session_cancel_on_disconnect = wire[at]; at = at + 1;
-  skip
-}
-
-/* what was read of Logon Message is what was written, byte for byte */
-inline equal_logon_message(logon_message_read, logon_message_written) {
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 16 -> assert(logon_message_read.client_id[logon_message_at] == logon_message_written.client_id[logon_message_at]); logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 48 -> assert(logon_message_read.secret[logon_message_at] == logon_message_written.secret[logon_message_at]); logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  assert(logon_message_read.reset_seq_num == logon_message_written.reset_seq_num);
-  logon_message_at = 0;
-  do
-  :: logon_message_at < 2 -> assert(logon_message_read.schema_version[logon_message_at] == logon_message_written.schema_version[logon_message_at]); logon_message_at = logon_message_at + 1
-  :: else -> break
-  od;
-  assert(logon_message_read.session_cancel_on_disconnect == logon_message_written.session_cancel_on_disconnect);
-  skip
-}
 
 /* ---- Logon Conf Message: 6 bytes --------------------------------------------- */
 
@@ -573,7 +450,7 @@ inline equal_quantity(quantity_read, quantity_written) {
 
 /* NewOrderRequestMessage */
 typedef ShowQty {
-  byte mantissa[8];
+  byte mantissa_optional[8];
   byte exponent
 };
 
@@ -583,7 +460,7 @@ int show_qty_at;
 inline fill_show_qty(show_qty_record, show_qty_value) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> show_qty_record.mantissa[show_qty_at] = show_qty_value; show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> show_qty_record.mantissa_optional[show_qty_at] = show_qty_value; show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   show_qty_record.exponent = show_qty_value;
@@ -594,7 +471,7 @@ inline fill_show_qty(show_qty_record, show_qty_value) {
 inline ramp_show_qty(show_qty_record, show_qty_base) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> show_qty_record.mantissa[show_qty_at] = (show_qty_base + 0 + show_qty_at + 1) % 256; show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> show_qty_record.mantissa_optional[show_qty_at] = (show_qty_base + 0 + show_qty_at + 1) % 256; show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   show_qty_record.exponent = (show_qty_base + 8 + 1) % 256;
@@ -605,7 +482,7 @@ inline ramp_show_qty(show_qty_record, show_qty_base) {
 inline encode_show_qty(show_qty_record) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> wire[at] = show_qty_record.mantissa[show_qty_at]; at = at + 1; show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> wire[at] = show_qty_record.mantissa_optional[show_qty_at]; at = at + 1; show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   wire[at] = show_qty_record.exponent; at = at + 1;
@@ -616,7 +493,7 @@ inline encode_show_qty(show_qty_record) {
 inline decode_show_qty(show_qty_record) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> show_qty_record.mantissa[show_qty_at] = wire[at]; at = at + 1; show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> show_qty_record.mantissa_optional[show_qty_at] = wire[at]; at = at + 1; show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   show_qty_record.exponent = wire[at]; at = at + 1;
@@ -627,7 +504,7 @@ inline decode_show_qty(show_qty_record) {
 inline equal_show_qty(show_qty_read, show_qty_written) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> assert(show_qty_read.mantissa[show_qty_at] == show_qty_written.mantissa[show_qty_at]); show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> assert(show_qty_read.mantissa_optional[show_qty_at] == show_qty_written.mantissa_optional[show_qty_at]); show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   assert(show_qty_read.exponent == show_qty_written.exponent);
@@ -1647,233 +1524,6 @@ inline equal_fill_qty(fill_qty_read, fill_qty_written) {
   :: else -> break
   od;
   assert(fill_qty_read.exponent == fill_qty_written.exponent);
-  skip
-}
-
-/* ---- Cancel Order Response Message: 74 bytes --------------------------------- */
-
-/* CancelOrderResponseMessage */
-typedef CancelOrderResponseMessage {
-  byte timestamp[8];
-  byte exec_id[8];
-  byte client_order_id[8];
-  byte correlation_id[8];
-  byte order_id[8];
-  byte instrument_id[8];
-  byte receive_time[8];
-  Quantity quantity;
-  TotalFilled total_filled
-};
-
-int cancel_order_response_message_at;
-
-/* every byte of Cancel Order Response Message set to one value */
-inline fill_cancel_order_response_message(cancel_order_response_message_record, cancel_order_response_message_value) {
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.timestamp[cancel_order_response_message_at] = cancel_order_response_message_value; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.exec_id[cancel_order_response_message_at] = cancel_order_response_message_value; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.client_order_id[cancel_order_response_message_at] = cancel_order_response_message_value; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.correlation_id[cancel_order_response_message_at] = cancel_order_response_message_value; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.order_id[cancel_order_response_message_at] = cancel_order_response_message_value; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.instrument_id[cancel_order_response_message_at] = cancel_order_response_message_value; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.receive_time[cancel_order_response_message_at] = cancel_order_response_message_value; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  fill_quantity(cancel_order_response_message_record.quantity, cancel_order_response_message_value);
-  fill_total_filled(cancel_order_response_message_record.total_filled, cancel_order_response_message_value);
-  skip
-}
-
-/* each byte of Cancel Order Response Message set to where it lies, so a field read out of place says so */
-inline ramp_cancel_order_response_message(cancel_order_response_message_record, cancel_order_response_message_base) {
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.timestamp[cancel_order_response_message_at] = (cancel_order_response_message_base + 0 + cancel_order_response_message_at + 1) % 256; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.exec_id[cancel_order_response_message_at] = (cancel_order_response_message_base + 8 + cancel_order_response_message_at + 1) % 256; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.client_order_id[cancel_order_response_message_at] = (cancel_order_response_message_base + 16 + cancel_order_response_message_at + 1) % 256; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.correlation_id[cancel_order_response_message_at] = (cancel_order_response_message_base + 24 + cancel_order_response_message_at + 1) % 256; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.order_id[cancel_order_response_message_at] = (cancel_order_response_message_base + 32 + cancel_order_response_message_at + 1) % 256; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.instrument_id[cancel_order_response_message_at] = (cancel_order_response_message_base + 40 + cancel_order_response_message_at + 1) % 256; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.receive_time[cancel_order_response_message_at] = (cancel_order_response_message_base + 48 + cancel_order_response_message_at + 1) % 256; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  ramp_quantity(cancel_order_response_message_record.quantity, cancel_order_response_message_base + 56);
-  ramp_total_filled(cancel_order_response_message_record.total_filled, cancel_order_response_message_base + 65);
-  skip
-}
-
-/* Cancel Order Response Message to the wire, 74 bytes from where the cursor stands */
-inline encode_cancel_order_response_message(cancel_order_response_message_record) {
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> wire[at] = cancel_order_response_message_record.timestamp[cancel_order_response_message_at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> wire[at] = cancel_order_response_message_record.exec_id[cancel_order_response_message_at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> wire[at] = cancel_order_response_message_record.client_order_id[cancel_order_response_message_at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> wire[at] = cancel_order_response_message_record.correlation_id[cancel_order_response_message_at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> wire[at] = cancel_order_response_message_record.order_id[cancel_order_response_message_at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> wire[at] = cancel_order_response_message_record.instrument_id[cancel_order_response_message_at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> wire[at] = cancel_order_response_message_record.receive_time[cancel_order_response_message_at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  encode_quantity(cancel_order_response_message_record.quantity);
-  encode_total_filled(cancel_order_response_message_record.total_filled);
-  skip
-}
-
-/* Cancel Order Response Message off the wire, 74 bytes from where the cursor stands */
-inline decode_cancel_order_response_message(cancel_order_response_message_record) {
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.timestamp[cancel_order_response_message_at] = wire[at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.exec_id[cancel_order_response_message_at] = wire[at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.client_order_id[cancel_order_response_message_at] = wire[at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.correlation_id[cancel_order_response_message_at] = wire[at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.order_id[cancel_order_response_message_at] = wire[at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.instrument_id[cancel_order_response_message_at] = wire[at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> cancel_order_response_message_record.receive_time[cancel_order_response_message_at] = wire[at]; at = at + 1; cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  decode_quantity(cancel_order_response_message_record.quantity);
-  decode_total_filled(cancel_order_response_message_record.total_filled);
-  skip
-}
-
-/* what was read of Cancel Order Response Message is what was written, byte for byte */
-inline equal_cancel_order_response_message(cancel_order_response_message_read, cancel_order_response_message_written) {
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> assert(cancel_order_response_message_read.timestamp[cancel_order_response_message_at] == cancel_order_response_message_written.timestamp[cancel_order_response_message_at]); cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> assert(cancel_order_response_message_read.exec_id[cancel_order_response_message_at] == cancel_order_response_message_written.exec_id[cancel_order_response_message_at]); cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> assert(cancel_order_response_message_read.client_order_id[cancel_order_response_message_at] == cancel_order_response_message_written.client_order_id[cancel_order_response_message_at]); cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> assert(cancel_order_response_message_read.correlation_id[cancel_order_response_message_at] == cancel_order_response_message_written.correlation_id[cancel_order_response_message_at]); cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> assert(cancel_order_response_message_read.order_id[cancel_order_response_message_at] == cancel_order_response_message_written.order_id[cancel_order_response_message_at]); cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> assert(cancel_order_response_message_read.instrument_id[cancel_order_response_message_at] == cancel_order_response_message_written.instrument_id[cancel_order_response_message_at]); cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_response_message_at = 0;
-  do
-  :: cancel_order_response_message_at < 8 -> assert(cancel_order_response_message_read.receive_time[cancel_order_response_message_at] == cancel_order_response_message_written.receive_time[cancel_order_response_message_at]); cancel_order_response_message_at = cancel_order_response_message_at + 1
-  :: else -> break
-  od;
-  equal_quantity(cancel_order_response_message_read.quantity, cancel_order_response_message_written.quantity);
-  equal_total_filled(cancel_order_response_message_read.total_filled, cancel_order_response_message_written.total_filled);
   skip
 }
 
@@ -3342,38 +2992,194 @@ inline equal_orders_mmp_unfrozen_message(orders_mmp_unfrozen_message_read, order
   skip
 }
 
-/* ---- What spin checks -------------------------------------------------------- */
+/* ---- Position Moved Message: 52 bytes ---------------------------------------- */
 
-/* Logon Message: encoded, read back, and compared */
-proctype check_logon_message() {
-  LogonMessage logon_message_sent;
-  LogonMessage logon_message_got;
-  int pattern;
+/* PositionMovedMessage */
+typedef PositionMovedMessage {
+  byte timestamp[8];
+  byte exec_id[8];
+  byte instrument_id[8];
+  byte match_id[8];
+  byte price[8];
+  Quantity quantity;
+  byte side;
+  byte role;
+  byte reason_position_move_reason
+};
 
-  if
-  :: pattern = 0
-  :: pattern = 1
-  :: pattern = 2
-  :: pattern = 3
-  fi;
+int position_moved_message_at;
 
-  if
-  :: pattern == 0 -> fill_logon_message(logon_message_sent, 0)
-  :: pattern == 1 -> fill_logon_message(logon_message_sent, 32)
-  :: pattern == 2 -> fill_logon_message(logon_message_sent, 255)
-  :: else -> ramp_logon_message(logon_message_sent, 0)
-  fi;
-
-  atomic {
-    at = 0;
-    encode_logon_message(logon_message_sent);
-    assert(at == 68);
-    at = 0;
-    decode_logon_message(logon_message_got);
-    assert(at == 68);
-    equal_logon_message(logon_message_got, logon_message_sent)
-  }
+/* every byte of Position Moved Message set to one value */
+inline fill_position_moved_message(position_moved_message_record, position_moved_message_value) {
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.timestamp[position_moved_message_at] = position_moved_message_value; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.exec_id[position_moved_message_at] = position_moved_message_value; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.instrument_id[position_moved_message_at] = position_moved_message_value; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.match_id[position_moved_message_at] = position_moved_message_value; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.price[position_moved_message_at] = position_moved_message_value; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  fill_quantity(position_moved_message_record.quantity, position_moved_message_value);
+  position_moved_message_record.side = position_moved_message_value;
+  position_moved_message_record.role = position_moved_message_value;
+  position_moved_message_record.reason_position_move_reason = position_moved_message_value;
+  skip
 }
+
+/* each byte of Position Moved Message set to where it lies, so a field read out of place says so */
+inline ramp_position_moved_message(position_moved_message_record, position_moved_message_base) {
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.timestamp[position_moved_message_at] = (position_moved_message_base + 0 + position_moved_message_at + 1) % 256; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.exec_id[position_moved_message_at] = (position_moved_message_base + 8 + position_moved_message_at + 1) % 256; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.instrument_id[position_moved_message_at] = (position_moved_message_base + 16 + position_moved_message_at + 1) % 256; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.match_id[position_moved_message_at] = (position_moved_message_base + 24 + position_moved_message_at + 1) % 256; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.price[position_moved_message_at] = (position_moved_message_base + 32 + position_moved_message_at + 1) % 256; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  ramp_quantity(position_moved_message_record.quantity, position_moved_message_base + 40);
+  position_moved_message_record.side = (position_moved_message_base + 49 + 1) % 256;
+  position_moved_message_record.role = (position_moved_message_base + 50 + 1) % 256;
+  position_moved_message_record.reason_position_move_reason = (position_moved_message_base + 51 + 1) % 256;
+  skip
+}
+
+/* Position Moved Message to the wire, 52 bytes from where the cursor stands */
+inline encode_position_moved_message(position_moved_message_record) {
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> wire[at] = position_moved_message_record.timestamp[position_moved_message_at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> wire[at] = position_moved_message_record.exec_id[position_moved_message_at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> wire[at] = position_moved_message_record.instrument_id[position_moved_message_at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> wire[at] = position_moved_message_record.match_id[position_moved_message_at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> wire[at] = position_moved_message_record.price[position_moved_message_at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  encode_quantity(position_moved_message_record.quantity);
+  wire[at] = position_moved_message_record.side; at = at + 1;
+  wire[at] = position_moved_message_record.role; at = at + 1;
+  wire[at] = position_moved_message_record.reason_position_move_reason; at = at + 1;
+  skip
+}
+
+/* Position Moved Message off the wire, 52 bytes from where the cursor stands */
+inline decode_position_moved_message(position_moved_message_record) {
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.timestamp[position_moved_message_at] = wire[at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.exec_id[position_moved_message_at] = wire[at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.instrument_id[position_moved_message_at] = wire[at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.match_id[position_moved_message_at] = wire[at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> position_moved_message_record.price[position_moved_message_at] = wire[at]; at = at + 1; position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  decode_quantity(position_moved_message_record.quantity);
+  position_moved_message_record.side = wire[at]; at = at + 1;
+  position_moved_message_record.role = wire[at]; at = at + 1;
+  position_moved_message_record.reason_position_move_reason = wire[at]; at = at + 1;
+  skip
+}
+
+/* what was read of Position Moved Message is what was written, byte for byte */
+inline equal_position_moved_message(position_moved_message_read, position_moved_message_written) {
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> assert(position_moved_message_read.timestamp[position_moved_message_at] == position_moved_message_written.timestamp[position_moved_message_at]); position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> assert(position_moved_message_read.exec_id[position_moved_message_at] == position_moved_message_written.exec_id[position_moved_message_at]); position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> assert(position_moved_message_read.instrument_id[position_moved_message_at] == position_moved_message_written.instrument_id[position_moved_message_at]); position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> assert(position_moved_message_read.match_id[position_moved_message_at] == position_moved_message_written.match_id[position_moved_message_at]); position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  position_moved_message_at = 0;
+  do
+  :: position_moved_message_at < 8 -> assert(position_moved_message_read.price[position_moved_message_at] == position_moved_message_written.price[position_moved_message_at]); position_moved_message_at = position_moved_message_at + 1
+  :: else -> break
+  od;
+  equal_quantity(position_moved_message_read.quantity, position_moved_message_written.quantity);
+  assert(position_moved_message_read.side == position_moved_message_written.side);
+  assert(position_moved_message_read.role == position_moved_message_written.role);
+  assert(position_moved_message_read.reason_position_move_reason == position_moved_message_written.reason_position_move_reason);
+  skip
+}
+
+/* ---- What spin checks -------------------------------------------------------- */
 
 /* Logon Conf Message: encoded, read back, and compared */
 proctype check_logon_conf_message() {
@@ -3964,37 +3770,6 @@ proctype check_fill_qty() {
   }
 }
 
-/* Cancel Order Response Message: encoded, read back, and compared */
-proctype check_cancel_order_response_message() {
-  CancelOrderResponseMessage cancel_order_response_message_sent;
-  CancelOrderResponseMessage cancel_order_response_message_got;
-  int pattern;
-
-  if
-  :: pattern = 0
-  :: pattern = 1
-  :: pattern = 2
-  :: pattern = 3
-  fi;
-
-  if
-  :: pattern == 0 -> fill_cancel_order_response_message(cancel_order_response_message_sent, 0)
-  :: pattern == 1 -> fill_cancel_order_response_message(cancel_order_response_message_sent, 32)
-  :: pattern == 2 -> fill_cancel_order_response_message(cancel_order_response_message_sent, 255)
-  :: else -> ramp_cancel_order_response_message(cancel_order_response_message_sent, 0)
-  fi;
-
-  atomic {
-    at = 0;
-    encode_cancel_order_response_message(cancel_order_response_message_sent);
-    assert(at == 74);
-    at = 0;
-    decode_cancel_order_response_message(cancel_order_response_message_got);
-    assert(at == 74);
-    equal_cancel_order_response_message(cancel_order_response_message_got, cancel_order_response_message_sent)
-  }
-}
-
 /* Bid Filled Qty: encoded, read back, and compared */
 proctype check_bid_filled_qty() {
   BidFilledQty bid_filled_qty_sent;
@@ -4336,10 +4111,40 @@ proctype check_orders_mmp_unfrozen_message() {
   }
 }
 
+/* Position Moved Message: encoded, read back, and compared */
+proctype check_position_moved_message() {
+  PositionMovedMessage position_moved_message_sent;
+  PositionMovedMessage position_moved_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_position_moved_message(position_moved_message_sent, 0)
+  :: pattern == 1 -> fill_position_moved_message(position_moved_message_sent, 32)
+  :: pattern == 2 -> fill_position_moved_message(position_moved_message_sent, 255)
+  :: else -> ramp_position_moved_message(position_moved_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_position_moved_message(position_moved_message_sent);
+    assert(at == 52);
+    at = 0;
+    decode_position_moved_message(position_moved_message_got);
+    assert(at == 52);
+    equal_position_moved_message(position_moved_message_got, position_moved_message_sent)
+  }
+}
+
 /* one checking process, chosen nondeterministically, so every one of them runs */
 init {
   if
-  :: run check_logon_message()
   :: run check_logon_conf_message()
   :: run check_heartbeat_message()
   :: run check_test_request_message()
@@ -4359,7 +4164,6 @@ init {
   :: run check_total_filled()
   :: run check_visible_qty()
   :: run check_fill_qty()
-  :: run check_cancel_order_response_message()
   :: run check_bid_filled_qty()
   :: run check_ask_filled_qty()
   :: run check_mass_cancel_response_message()
@@ -4371,5 +4175,6 @@ init {
   :: run check_orders_mmp_triggered_message()
   :: run check_mass_quote_mmp_unfrozen_message()
   :: run check_orders_mmp_unfrozen_message()
+  :: run check_position_moved_message()
   fi
 }

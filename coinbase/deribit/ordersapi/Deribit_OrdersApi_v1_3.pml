@@ -515,7 +515,7 @@ inline equal_quantity(quantity_read, quantity_written) {
 
 /* NewOrderRequestMessage */
 typedef ShowQty {
-  byte mantissa[8];
+  byte mantissa_optional[8];
   byte exponent
 };
 
@@ -525,7 +525,7 @@ int show_qty_at;
 inline fill_show_qty(show_qty_record, show_qty_value) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> show_qty_record.mantissa[show_qty_at] = show_qty_value; show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> show_qty_record.mantissa_optional[show_qty_at] = show_qty_value; show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   show_qty_record.exponent = show_qty_value;
@@ -536,7 +536,7 @@ inline fill_show_qty(show_qty_record, show_qty_value) {
 inline ramp_show_qty(show_qty_record, show_qty_base) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> show_qty_record.mantissa[show_qty_at] = (show_qty_base + 0 + show_qty_at + 1) % 256; show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> show_qty_record.mantissa_optional[show_qty_at] = (show_qty_base + 0 + show_qty_at + 1) % 256; show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   show_qty_record.exponent = (show_qty_base + 8 + 1) % 256;
@@ -547,7 +547,7 @@ inline ramp_show_qty(show_qty_record, show_qty_base) {
 inline encode_show_qty(show_qty_record) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> wire[at] = show_qty_record.mantissa[show_qty_at]; at = at + 1; show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> wire[at] = show_qty_record.mantissa_optional[show_qty_at]; at = at + 1; show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   wire[at] = show_qty_record.exponent; at = at + 1;
@@ -558,7 +558,7 @@ inline encode_show_qty(show_qty_record) {
 inline decode_show_qty(show_qty_record) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> show_qty_record.mantissa[show_qty_at] = wire[at]; at = at + 1; show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> show_qty_record.mantissa_optional[show_qty_at] = wire[at]; at = at + 1; show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   show_qty_record.exponent = wire[at]; at = at + 1;
@@ -569,7 +569,7 @@ inline decode_show_qty(show_qty_record) {
 inline equal_show_qty(show_qty_read, show_qty_written) {
   show_qty_at = 0;
   do
-  :: show_qty_at < 8 -> assert(show_qty_read.mantissa[show_qty_at] == show_qty_written.mantissa[show_qty_at]); show_qty_at = show_qty_at + 1
+  :: show_qty_at < 8 -> assert(show_qty_read.mantissa_optional[show_qty_at] == show_qty_written.mantissa_optional[show_qty_at]); show_qty_at = show_qty_at + 1
   :: else -> break
   od;
   assert(show_qty_read.exponent == show_qty_written.exponent);

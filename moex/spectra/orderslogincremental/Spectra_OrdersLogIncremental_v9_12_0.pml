@@ -38,7 +38,7 @@ int at;
 /* MarketDataDummyMessage */
 typedef IncrementalPacketHeader {
   byte transact_time[8];
-  byte exchange_trading_session_id[4]
+  byte exchange_trading_session_id_optional[4]
 };
 
 int incremental_packet_header_at;
@@ -52,7 +52,7 @@ inline fill_incremental_packet_header(incremental_packet_header_record, incremen
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id[incremental_packet_header_at] = incremental_packet_header_value; incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id_optional[incremental_packet_header_at] = incremental_packet_header_value; incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -67,7 +67,7 @@ inline ramp_incremental_packet_header(incremental_packet_header_record, incremen
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id[incremental_packet_header_at] = (incremental_packet_header_base + 8 + incremental_packet_header_at + 1) % 256; incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id_optional[incremental_packet_header_at] = (incremental_packet_header_base + 8 + incremental_packet_header_at + 1) % 256; incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -82,7 +82,7 @@ inline encode_incremental_packet_header(incremental_packet_header_record) {
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> wire[at] = incremental_packet_header_record.exchange_trading_session_id[incremental_packet_header_at]; at = at + 1; incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> wire[at] = incremental_packet_header_record.exchange_trading_session_id_optional[incremental_packet_header_at]; at = at + 1; incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -97,7 +97,7 @@ inline decode_incremental_packet_header(incremental_packet_header_record) {
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id[incremental_packet_header_at] = wire[at]; at = at + 1; incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id_optional[incremental_packet_header_at] = wire[at]; at = at + 1; incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -112,7 +112,7 @@ inline equal_incremental_packet_header(incremental_packet_header_read, increment
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> assert(incremental_packet_header_read.exchange_trading_session_id[incremental_packet_header_at] == incremental_packet_header_written.exchange_trading_session_id[incremental_packet_header_at]); incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> assert(incremental_packet_header_read.exchange_trading_session_id_optional[incremental_packet_header_at] == incremental_packet_header_written.exchange_trading_session_id_optional[incremental_packet_header_at]); incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -383,7 +383,7 @@ inline equal_group_size(group_size_read, group_size_written) {
 
 /* EmptyBookMessage */
 typedef EmptyBookMessage {
-  byte last_msg_seq_num_processed_u_int_32_null_optional[4]
+  byte last_msg_seq_num_processed_optional[4]
 };
 
 int empty_book_message_at;
@@ -392,7 +392,7 @@ int empty_book_message_at;
 inline fill_empty_book_message(empty_book_message_record, empty_book_message_value) {
   empty_book_message_at = 0;
   do
-  :: empty_book_message_at < 4 -> empty_book_message_record.last_msg_seq_num_processed_u_int_32_null_optional[empty_book_message_at] = empty_book_message_value; empty_book_message_at = empty_book_message_at + 1
+  :: empty_book_message_at < 4 -> empty_book_message_record.last_msg_seq_num_processed_optional[empty_book_message_at] = empty_book_message_value; empty_book_message_at = empty_book_message_at + 1
   :: else -> break
   od;
   skip
@@ -402,7 +402,7 @@ inline fill_empty_book_message(empty_book_message_record, empty_book_message_val
 inline ramp_empty_book_message(empty_book_message_record, empty_book_message_base) {
   empty_book_message_at = 0;
   do
-  :: empty_book_message_at < 4 -> empty_book_message_record.last_msg_seq_num_processed_u_int_32_null_optional[empty_book_message_at] = (empty_book_message_base + 0 + empty_book_message_at + 1) % 256; empty_book_message_at = empty_book_message_at + 1
+  :: empty_book_message_at < 4 -> empty_book_message_record.last_msg_seq_num_processed_optional[empty_book_message_at] = (empty_book_message_base + 0 + empty_book_message_at + 1) % 256; empty_book_message_at = empty_book_message_at + 1
   :: else -> break
   od;
   skip
@@ -412,7 +412,7 @@ inline ramp_empty_book_message(empty_book_message_record, empty_book_message_bas
 inline encode_empty_book_message(empty_book_message_record) {
   empty_book_message_at = 0;
   do
-  :: empty_book_message_at < 4 -> wire[at] = empty_book_message_record.last_msg_seq_num_processed_u_int_32_null_optional[empty_book_message_at]; at = at + 1; empty_book_message_at = empty_book_message_at + 1
+  :: empty_book_message_at < 4 -> wire[at] = empty_book_message_record.last_msg_seq_num_processed_optional[empty_book_message_at]; at = at + 1; empty_book_message_at = empty_book_message_at + 1
   :: else -> break
   od;
   skip
@@ -422,7 +422,7 @@ inline encode_empty_book_message(empty_book_message_record) {
 inline decode_empty_book_message(empty_book_message_record) {
   empty_book_message_at = 0;
   do
-  :: empty_book_message_at < 4 -> empty_book_message_record.last_msg_seq_num_processed_u_int_32_null_optional[empty_book_message_at] = wire[at]; at = at + 1; empty_book_message_at = empty_book_message_at + 1
+  :: empty_book_message_at < 4 -> empty_book_message_record.last_msg_seq_num_processed_optional[empty_book_message_at] = wire[at]; at = at + 1; empty_book_message_at = empty_book_message_at + 1
   :: else -> break
   od;
   skip
@@ -432,7 +432,7 @@ inline decode_empty_book_message(empty_book_message_record) {
 inline equal_empty_book_message(empty_book_message_read, empty_book_message_written) {
   empty_book_message_at = 0;
   do
-  :: empty_book_message_at < 4 -> assert(empty_book_message_read.last_msg_seq_num_processed_u_int_32_null_optional[empty_book_message_at] == empty_book_message_written.last_msg_seq_num_processed_u_int_32_null_optional[empty_book_message_at]); empty_book_message_at = empty_book_message_at + 1
+  :: empty_book_message_at < 4 -> assert(empty_book_message_read.last_msg_seq_num_processed_optional[empty_book_message_at] == empty_book_message_written.last_msg_seq_num_processed_optional[empty_book_message_at]); empty_book_message_at = empty_book_message_at + 1
   :: else -> break
   od;
   skip

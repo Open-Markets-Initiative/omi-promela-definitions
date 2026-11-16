@@ -561,7 +561,7 @@ typedef NewOrderSingleMessage {
   byte aiq[3];
   byte side;
   byte price_price_8_optional[8];
-  byte order_qty_quantity_non_zero[4]
+  byte order_qty[4]
 };
 
 int new_order_single_message_at;
@@ -639,7 +639,7 @@ inline fill_new_order_single_message(new_order_single_message_record, new_order_
   od;
   new_order_single_message_at = 0;
   do
-  :: new_order_single_message_at < 4 -> new_order_single_message_record.order_qty_quantity_non_zero[new_order_single_message_at] = new_order_single_message_value; new_order_single_message_at = new_order_single_message_at + 1
+  :: new_order_single_message_at < 4 -> new_order_single_message_record.order_qty[new_order_single_message_at] = new_order_single_message_value; new_order_single_message_at = new_order_single_message_at + 1
   :: else -> break
   od;
   skip
@@ -718,7 +718,7 @@ inline ramp_new_order_single_message(new_order_single_message_record, new_order_
   od;
   new_order_single_message_at = 0;
   do
-  :: new_order_single_message_at < 4 -> new_order_single_message_record.order_qty_quantity_non_zero[new_order_single_message_at] = (new_order_single_message_base + 88 + new_order_single_message_at + 1) % 256; new_order_single_message_at = new_order_single_message_at + 1
+  :: new_order_single_message_at < 4 -> new_order_single_message_record.order_qty[new_order_single_message_at] = (new_order_single_message_base + 88 + new_order_single_message_at + 1) % 256; new_order_single_message_at = new_order_single_message_at + 1
   :: else -> break
   od;
   skip
@@ -797,7 +797,7 @@ inline encode_new_order_single_message(new_order_single_message_record) {
   od;
   new_order_single_message_at = 0;
   do
-  :: new_order_single_message_at < 4 -> wire[at] = new_order_single_message_record.order_qty_quantity_non_zero[new_order_single_message_at]; at = at + 1; new_order_single_message_at = new_order_single_message_at + 1
+  :: new_order_single_message_at < 4 -> wire[at] = new_order_single_message_record.order_qty[new_order_single_message_at]; at = at + 1; new_order_single_message_at = new_order_single_message_at + 1
   :: else -> break
   od;
   skip
@@ -876,7 +876,7 @@ inline decode_new_order_single_message(new_order_single_message_record) {
   od;
   new_order_single_message_at = 0;
   do
-  :: new_order_single_message_at < 4 -> new_order_single_message_record.order_qty_quantity_non_zero[new_order_single_message_at] = wire[at]; at = at + 1; new_order_single_message_at = new_order_single_message_at + 1
+  :: new_order_single_message_at < 4 -> new_order_single_message_record.order_qty[new_order_single_message_at] = wire[at]; at = at + 1; new_order_single_message_at = new_order_single_message_at + 1
   :: else -> break
   od;
   skip
@@ -955,7 +955,7 @@ inline equal_new_order_single_message(new_order_single_message_read, new_order_s
   od;
   new_order_single_message_at = 0;
   do
-  :: new_order_single_message_at < 4 -> assert(new_order_single_message_read.order_qty_quantity_non_zero[new_order_single_message_at] == new_order_single_message_written.order_qty_quantity_non_zero[new_order_single_message_at]); new_order_single_message_at = new_order_single_message_at + 1
+  :: new_order_single_message_at < 4 -> assert(new_order_single_message_read.order_qty[new_order_single_message_at] == new_order_single_message_written.order_qty[new_order_single_message_at]); new_order_single_message_at = new_order_single_message_at + 1
   :: else -> break
   od;
   skip
@@ -987,7 +987,7 @@ typedef OrderCancelReplaceRequestMessage {
   byte aiq[3];
   byte side_optional;
   byte price_price_8_optional[8];
-  byte order_qty_quantity_non_zero[4]
+  byte order_qty[4]
 };
 
 int order_cancel_replace_request_message_at;
@@ -1070,7 +1070,7 @@ inline fill_order_cancel_replace_request_message(order_cancel_replace_request_me
   od;
   order_cancel_replace_request_message_at = 0;
   do
-  :: order_cancel_replace_request_message_at < 4 -> order_cancel_replace_request_message_record.order_qty_quantity_non_zero[order_cancel_replace_request_message_at] = order_cancel_replace_request_message_value; order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
+  :: order_cancel_replace_request_message_at < 4 -> order_cancel_replace_request_message_record.order_qty[order_cancel_replace_request_message_at] = order_cancel_replace_request_message_value; order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1154,7 +1154,7 @@ inline ramp_order_cancel_replace_request_message(order_cancel_replace_request_me
   od;
   order_cancel_replace_request_message_at = 0;
   do
-  :: order_cancel_replace_request_message_at < 4 -> order_cancel_replace_request_message_record.order_qty_quantity_non_zero[order_cancel_replace_request_message_at] = (order_cancel_replace_request_message_base + 96 + order_cancel_replace_request_message_at + 1) % 256; order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
+  :: order_cancel_replace_request_message_at < 4 -> order_cancel_replace_request_message_record.order_qty[order_cancel_replace_request_message_at] = (order_cancel_replace_request_message_base + 96 + order_cancel_replace_request_message_at + 1) % 256; order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1238,7 +1238,7 @@ inline encode_order_cancel_replace_request_message(order_cancel_replace_request_
   od;
   order_cancel_replace_request_message_at = 0;
   do
-  :: order_cancel_replace_request_message_at < 4 -> wire[at] = order_cancel_replace_request_message_record.order_qty_quantity_non_zero[order_cancel_replace_request_message_at]; at = at + 1; order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
+  :: order_cancel_replace_request_message_at < 4 -> wire[at] = order_cancel_replace_request_message_record.order_qty[order_cancel_replace_request_message_at]; at = at + 1; order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1322,7 +1322,7 @@ inline decode_order_cancel_replace_request_message(order_cancel_replace_request_
   od;
   order_cancel_replace_request_message_at = 0;
   do
-  :: order_cancel_replace_request_message_at < 4 -> order_cancel_replace_request_message_record.order_qty_quantity_non_zero[order_cancel_replace_request_message_at] = wire[at]; at = at + 1; order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
+  :: order_cancel_replace_request_message_at < 4 -> order_cancel_replace_request_message_record.order_qty[order_cancel_replace_request_message_at] = wire[at]; at = at + 1; order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -1406,7 +1406,7 @@ inline equal_order_cancel_replace_request_message(order_cancel_replace_request_m
   od;
   order_cancel_replace_request_message_at = 0;
   do
-  :: order_cancel_replace_request_message_at < 4 -> assert(order_cancel_replace_request_message_read.order_qty_quantity_non_zero[order_cancel_replace_request_message_at] == order_cancel_replace_request_message_written.order_qty_quantity_non_zero[order_cancel_replace_request_message_at]); order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
+  :: order_cancel_replace_request_message_at < 4 -> assert(order_cancel_replace_request_message_read.order_qty[order_cancel_replace_request_message_at] == order_cancel_replace_request_message_written.order_qty[order_cancel_replace_request_message_at]); order_cancel_replace_request_message_at = order_cancel_replace_request_message_at + 1
   :: else -> break
   od;
   skip

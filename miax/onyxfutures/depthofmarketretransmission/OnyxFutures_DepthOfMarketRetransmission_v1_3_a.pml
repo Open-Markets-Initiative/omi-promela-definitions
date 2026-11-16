@@ -3062,7 +3062,7 @@ inline equal_login_response(login_response_read, login_response_written) {
 
 /* ---- Retransmission Request: 16 bytes ---------------------------------------- */
 
-/* The SesM server sends a Login response packet in response a Login request packet from the client */
+/* The SesM client uses this packet to request the server to retransmit a range of packets */
 typedef RetransmissionRequest {
   byte start_sequence_number[8];
   byte end_sequence_number[8]

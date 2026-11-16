@@ -2154,7 +2154,7 @@ typedef UnderlyingTradingStatusMessage {
   byte underlying_symbol[11];
   byte trading_status;
   byte event_reason;
-  byte seconds_part[4];
+  byte expected_event_time_seconds_part[4];
   byte expected_event_time_nano_seconds_part[4]
 };
 
@@ -2176,7 +2176,7 @@ inline fill_underlying_trading_status_message(underlying_trading_status_message_
   underlying_trading_status_message_record.event_reason = underlying_trading_status_message_value;
   underlying_trading_status_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.seconds_part[underlying_trading_status_message_at] = underlying_trading_status_message_value; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.expected_event_time_seconds_part[underlying_trading_status_message_at] = underlying_trading_status_message_value; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
   :: else -> break
   od;
   underlying_trading_status_message_at = 0;
@@ -2203,7 +2203,7 @@ inline ramp_underlying_trading_status_message(underlying_trading_status_message_
   underlying_trading_status_message_record.event_reason = (underlying_trading_status_message_base + 16 + 1) % 256;
   underlying_trading_status_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.seconds_part[underlying_trading_status_message_at] = (underlying_trading_status_message_base + 17 + underlying_trading_status_message_at + 1) % 256; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.expected_event_time_seconds_part[underlying_trading_status_message_at] = (underlying_trading_status_message_base + 17 + underlying_trading_status_message_at + 1) % 256; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
   :: else -> break
   od;
   underlying_trading_status_message_at = 0;
@@ -2230,7 +2230,7 @@ inline encode_underlying_trading_status_message(underlying_trading_status_messag
   wire[at] = underlying_trading_status_message_record.event_reason; at = at + 1;
   underlying_trading_status_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> wire[at] = underlying_trading_status_message_record.seconds_part[underlying_trading_status_message_at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_message_at < 4 -> wire[at] = underlying_trading_status_message_record.expected_event_time_seconds_part[underlying_trading_status_message_at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
   :: else -> break
   od;
   underlying_trading_status_message_at = 0;
@@ -2257,7 +2257,7 @@ inline decode_underlying_trading_status_message(underlying_trading_status_messag
   underlying_trading_status_message_record.event_reason = wire[at]; at = at + 1;
   underlying_trading_status_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.seconds_part[underlying_trading_status_message_at] = wire[at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_message_at < 4 -> underlying_trading_status_message_record.expected_event_time_seconds_part[underlying_trading_status_message_at] = wire[at]; at = at + 1; underlying_trading_status_message_at = underlying_trading_status_message_at + 1
   :: else -> break
   od;
   underlying_trading_status_message_at = 0;
@@ -2284,7 +2284,7 @@ inline equal_underlying_trading_status_message(underlying_trading_status_message
   assert(underlying_trading_status_message_read.event_reason == underlying_trading_status_message_written.event_reason);
   underlying_trading_status_message_at = 0;
   do
-  :: underlying_trading_status_message_at < 4 -> assert(underlying_trading_status_message_read.seconds_part[underlying_trading_status_message_at] == underlying_trading_status_message_written.seconds_part[underlying_trading_status_message_at]); underlying_trading_status_message_at = underlying_trading_status_message_at + 1
+  :: underlying_trading_status_message_at < 4 -> assert(underlying_trading_status_message_read.expected_event_time_seconds_part[underlying_trading_status_message_at] == underlying_trading_status_message_written.expected_event_time_seconds_part[underlying_trading_status_message_at]); underlying_trading_status_message_at = underlying_trading_status_message_at + 1
   :: else -> break
   od;
   underlying_trading_status_message_at = 0;

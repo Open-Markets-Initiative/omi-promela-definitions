@@ -1316,7 +1316,7 @@ inline equal_simple_top_of_market_offer_wide_message(simple_top_of_market_offer_
 
 /* ---- Simple Double Sided Top Of Market Compact Message: 22 bytes ------------- */
 
-/* This is the message format that will be used, in the refresh service only, to disseminate both sides of the MIAX Top of Market for options with low premiums and small aggregate MIAX Best Bid or Offer (MBBO) size. */
+/* This is the message format that will be used in the real-time feed and refresh service to disseminate both sides of the MIAX Simple Top of Market for options with low premiums and small aggregate MIAX Best Bid or Offer (MBBO) size. */
 typedef SimpleDoubleSidedTopOfMarketCompactMessage {
   byte nanoseconds[4];
   byte product_id[4];
@@ -1569,7 +1569,7 @@ inline equal_simple_double_sided_top_of_market_compact_message(simple_double_sid
 
 /* ---- Simple Double Sided Top Of Market Wide Message: 34 bytes ---------------- */
 
-/* This is the message format that will be used to disseminate the “seconds” part of the timestamp that is applicable to all messages that are sent in the current second.This is the message format that will be used, in the refresh service only, to disseminate both sides of the MIAX Top of Market for options with high premiums or large aggregate MIAX Best Bid or Offer (MBBO) sizes. */
+/* This is the message format that will be used in the real-time feed and refresh service to disseminate both sides of the MIAX Simple Top of Market for options with high premiums or large aggregate MIAX Best Bid or Offer (MBBO) sizes. */
 typedef SimpleDoubleSidedTopOfMarketWideMessage {
   byte nanoseconds[4];
   byte product_id[4];

@@ -593,7 +593,7 @@ inline equal_gap_fill_message(gap_fill_message_read, gap_fill_message_written) {
 /* RejectMessage */
 typedef RejectMessage {
   byte ref_sequence_number[4];
-  byte reason_reject_reason[4];
+  byte reject_reason[4];
   byte details[64]
 };
 
@@ -608,7 +608,7 @@ inline fill_reject_message(reject_message_record, reject_message_value) {
   od;
   reject_message_at = 0;
   do
-  :: reject_message_at < 4 -> reject_message_record.reason_reject_reason[reject_message_at] = reject_message_value; reject_message_at = reject_message_at + 1
+  :: reject_message_at < 4 -> reject_message_record.reject_reason[reject_message_at] = reject_message_value; reject_message_at = reject_message_at + 1
   :: else -> break
   od;
   reject_message_at = 0;
@@ -628,7 +628,7 @@ inline ramp_reject_message(reject_message_record, reject_message_base) {
   od;
   reject_message_at = 0;
   do
-  :: reject_message_at < 4 -> reject_message_record.reason_reject_reason[reject_message_at] = (reject_message_base + 4 + reject_message_at + 1) % 256; reject_message_at = reject_message_at + 1
+  :: reject_message_at < 4 -> reject_message_record.reject_reason[reject_message_at] = (reject_message_base + 4 + reject_message_at + 1) % 256; reject_message_at = reject_message_at + 1
   :: else -> break
   od;
   reject_message_at = 0;
@@ -648,7 +648,7 @@ inline encode_reject_message(reject_message_record) {
   od;
   reject_message_at = 0;
   do
-  :: reject_message_at < 4 -> wire[at] = reject_message_record.reason_reject_reason[reject_message_at]; at = at + 1; reject_message_at = reject_message_at + 1
+  :: reject_message_at < 4 -> wire[at] = reject_message_record.reject_reason[reject_message_at]; at = at + 1; reject_message_at = reject_message_at + 1
   :: else -> break
   od;
   reject_message_at = 0;
@@ -668,7 +668,7 @@ inline decode_reject_message(reject_message_record) {
   od;
   reject_message_at = 0;
   do
-  :: reject_message_at < 4 -> reject_message_record.reason_reject_reason[reject_message_at] = wire[at]; at = at + 1; reject_message_at = reject_message_at + 1
+  :: reject_message_at < 4 -> reject_message_record.reject_reason[reject_message_at] = wire[at]; at = at + 1; reject_message_at = reject_message_at + 1
   :: else -> break
   od;
   reject_message_at = 0;
@@ -688,7 +688,7 @@ inline equal_reject_message(reject_message_read, reject_message_written) {
   od;
   reject_message_at = 0;
   do
-  :: reject_message_at < 4 -> assert(reject_message_read.reason_reject_reason[reject_message_at] == reject_message_written.reason_reject_reason[reject_message_at]); reject_message_at = reject_message_at + 1
+  :: reject_message_at < 4 -> assert(reject_message_read.reject_reason[reject_message_at] == reject_message_written.reject_reason[reject_message_at]); reject_message_at = reject_message_at + 1
   :: else -> break
   od;
   reject_message_at = 0;

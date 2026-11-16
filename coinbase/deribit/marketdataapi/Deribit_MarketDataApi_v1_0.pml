@@ -202,14 +202,98 @@ inline equal_index_definition_message(index_definition_message_read, index_defin
   skip
 }
 
-/* ---- Instrument Info Message: 40 bytes --------------------------------------- */
+/* ---- Index Info Message: 16 bytes -------------------------------------------- */
+
+/* IndexInfoMessage */
+typedef IndexInfoMessage {
+  byte index_id[8];
+  byte index_price[8]
+};
+
+int index_info_message_at;
+
+/* every byte of Index Info Message set to one value */
+inline fill_index_info_message(index_info_message_record, index_info_message_value) {
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> index_info_message_record.index_id[index_info_message_at] = index_info_message_value; index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> index_info_message_record.index_price[index_info_message_at] = index_info_message_value; index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Index Info Message set to where it lies, so a field read out of place says so */
+inline ramp_index_info_message(index_info_message_record, index_info_message_base) {
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> index_info_message_record.index_id[index_info_message_at] = (index_info_message_base + 0 + index_info_message_at + 1) % 256; index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> index_info_message_record.index_price[index_info_message_at] = (index_info_message_base + 8 + index_info_message_at + 1) % 256; index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Index Info Message to the wire, 16 bytes from where the cursor stands */
+inline encode_index_info_message(index_info_message_record) {
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> wire[at] = index_info_message_record.index_id[index_info_message_at]; at = at + 1; index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> wire[at] = index_info_message_record.index_price[index_info_message_at]; at = at + 1; index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Index Info Message off the wire, 16 bytes from where the cursor stands */
+inline decode_index_info_message(index_info_message_record) {
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> index_info_message_record.index_id[index_info_message_at] = wire[at]; at = at + 1; index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> index_info_message_record.index_price[index_info_message_at] = wire[at]; at = at + 1; index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Index Info Message is what was written, byte for byte */
+inline equal_index_info_message(index_info_message_read, index_info_message_written) {
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> assert(index_info_message_read.index_id[index_info_message_at] == index_info_message_written.index_id[index_info_message_at]); index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  index_info_message_at = 0;
+  do
+  :: index_info_message_at < 8 -> assert(index_info_message_read.index_price[index_info_message_at] == index_info_message_written.index_price[index_info_message_at]); index_info_message_at = index_info_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Instrument Info Message: 32 bytes --------------------------------------- */
 
 /* InstrumentInfoMessage */
 typedef InstrumentInfoMessage {
   byte instrument_id[8];
   byte min_sell_price[8];
   byte max_buy_price[8];
-  byte index_price[8];
   byte mark_price[8]
 };
 
@@ -230,11 +314,6 @@ inline fill_instrument_info_message(instrument_info_message_record, instrument_i
   instrument_info_message_at = 0;
   do
   :: instrument_info_message_at < 8 -> instrument_info_message_record.max_buy_price[instrument_info_message_at] = instrument_info_message_value; instrument_info_message_at = instrument_info_message_at + 1
-  :: else -> break
-  od;
-  instrument_info_message_at = 0;
-  do
-  :: instrument_info_message_at < 8 -> instrument_info_message_record.index_price[instrument_info_message_at] = instrument_info_message_value; instrument_info_message_at = instrument_info_message_at + 1
   :: else -> break
   od;
   instrument_info_message_at = 0;
@@ -264,18 +343,13 @@ inline ramp_instrument_info_message(instrument_info_message_record, instrument_i
   od;
   instrument_info_message_at = 0;
   do
-  :: instrument_info_message_at < 8 -> instrument_info_message_record.index_price[instrument_info_message_at] = (instrument_info_message_base + 24 + instrument_info_message_at + 1) % 256; instrument_info_message_at = instrument_info_message_at + 1
-  :: else -> break
-  od;
-  instrument_info_message_at = 0;
-  do
-  :: instrument_info_message_at < 8 -> instrument_info_message_record.mark_price[instrument_info_message_at] = (instrument_info_message_base + 32 + instrument_info_message_at + 1) % 256; instrument_info_message_at = instrument_info_message_at + 1
+  :: instrument_info_message_at < 8 -> instrument_info_message_record.mark_price[instrument_info_message_at] = (instrument_info_message_base + 24 + instrument_info_message_at + 1) % 256; instrument_info_message_at = instrument_info_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Instrument Info Message to the wire, 40 bytes from where the cursor stands */
+/* Instrument Info Message to the wire, 32 bytes from where the cursor stands */
 inline encode_instrument_info_message(instrument_info_message_record) {
   instrument_info_message_at = 0;
   do
@@ -294,18 +368,13 @@ inline encode_instrument_info_message(instrument_info_message_record) {
   od;
   instrument_info_message_at = 0;
   do
-  :: instrument_info_message_at < 8 -> wire[at] = instrument_info_message_record.index_price[instrument_info_message_at]; at = at + 1; instrument_info_message_at = instrument_info_message_at + 1
-  :: else -> break
-  od;
-  instrument_info_message_at = 0;
-  do
   :: instrument_info_message_at < 8 -> wire[at] = instrument_info_message_record.mark_price[instrument_info_message_at]; at = at + 1; instrument_info_message_at = instrument_info_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Instrument Info Message off the wire, 40 bytes from where the cursor stands */
+/* Instrument Info Message off the wire, 32 bytes from where the cursor stands */
 inline decode_instrument_info_message(instrument_info_message_record) {
   instrument_info_message_at = 0;
   do
@@ -320,11 +389,6 @@ inline decode_instrument_info_message(instrument_info_message_record) {
   instrument_info_message_at = 0;
   do
   :: instrument_info_message_at < 8 -> instrument_info_message_record.max_buy_price[instrument_info_message_at] = wire[at]; at = at + 1; instrument_info_message_at = instrument_info_message_at + 1
-  :: else -> break
-  od;
-  instrument_info_message_at = 0;
-  do
-  :: instrument_info_message_at < 8 -> instrument_info_message_record.index_price[instrument_info_message_at] = wire[at]; at = at + 1; instrument_info_message_at = instrument_info_message_at + 1
   :: else -> break
   od;
   instrument_info_message_at = 0;
@@ -354,18 +418,13 @@ inline equal_instrument_info_message(instrument_info_message_read, instrument_in
   od;
   instrument_info_message_at = 0;
   do
-  :: instrument_info_message_at < 8 -> assert(instrument_info_message_read.index_price[instrument_info_message_at] == instrument_info_message_written.index_price[instrument_info_message_at]); instrument_info_message_at = instrument_info_message_at + 1
-  :: else -> break
-  od;
-  instrument_info_message_at = 0;
-  do
   :: instrument_info_message_at < 8 -> assert(instrument_info_message_read.mark_price[instrument_info_message_at] == instrument_info_message_written.mark_price[instrument_info_message_at]); instrument_info_message_at = instrument_info_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* ---- Instrument Ref Message: 48 bytes ---------------------------------------- */
+/* ---- Instrument Ref Message: 56 bytes ---------------------------------------- */
 
 /* InstrumentRefMessage */
 typedef InstrumentRefMessage {
@@ -374,7 +433,8 @@ typedef InstrumentRefMessage {
   byte funding_8h[8];
   byte estimated_delivery_price[8];
   byte delivery_price[8];
-  byte settlement_price[8]
+  byte settlement_price[8];
+  byte open_interest[8]
 };
 
 int instrument_ref_message_at;
@@ -409,6 +469,11 @@ inline fill_instrument_ref_message(instrument_ref_message_record, instrument_ref
   instrument_ref_message_at = 0;
   do
   :: instrument_ref_message_at < 8 -> instrument_ref_message_record.settlement_price[instrument_ref_message_at] = instrument_ref_message_value; instrument_ref_message_at = instrument_ref_message_at + 1
+  :: else -> break
+  od;
+  instrument_ref_message_at = 0;
+  do
+  :: instrument_ref_message_at < 8 -> instrument_ref_message_record.open_interest[instrument_ref_message_at] = instrument_ref_message_value; instrument_ref_message_at = instrument_ref_message_at + 1
   :: else -> break
   od;
   skip
@@ -446,10 +511,15 @@ inline ramp_instrument_ref_message(instrument_ref_message_record, instrument_ref
   :: instrument_ref_message_at < 8 -> instrument_ref_message_record.settlement_price[instrument_ref_message_at] = (instrument_ref_message_base + 40 + instrument_ref_message_at + 1) % 256; instrument_ref_message_at = instrument_ref_message_at + 1
   :: else -> break
   od;
+  instrument_ref_message_at = 0;
+  do
+  :: instrument_ref_message_at < 8 -> instrument_ref_message_record.open_interest[instrument_ref_message_at] = (instrument_ref_message_base + 48 + instrument_ref_message_at + 1) % 256; instrument_ref_message_at = instrument_ref_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
-/* Instrument Ref Message to the wire, 48 bytes from where the cursor stands */
+/* Instrument Ref Message to the wire, 56 bytes from where the cursor stands */
 inline encode_instrument_ref_message(instrument_ref_message_record) {
   instrument_ref_message_at = 0;
   do
@@ -481,10 +551,15 @@ inline encode_instrument_ref_message(instrument_ref_message_record) {
   :: instrument_ref_message_at < 8 -> wire[at] = instrument_ref_message_record.settlement_price[instrument_ref_message_at]; at = at + 1; instrument_ref_message_at = instrument_ref_message_at + 1
   :: else -> break
   od;
+  instrument_ref_message_at = 0;
+  do
+  :: instrument_ref_message_at < 8 -> wire[at] = instrument_ref_message_record.open_interest[instrument_ref_message_at]; at = at + 1; instrument_ref_message_at = instrument_ref_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
-/* Instrument Ref Message off the wire, 48 bytes from where the cursor stands */
+/* Instrument Ref Message off the wire, 56 bytes from where the cursor stands */
 inline decode_instrument_ref_message(instrument_ref_message_record) {
   instrument_ref_message_at = 0;
   do
@@ -514,6 +589,11 @@ inline decode_instrument_ref_message(instrument_ref_message_record) {
   instrument_ref_message_at = 0;
   do
   :: instrument_ref_message_at < 8 -> instrument_ref_message_record.settlement_price[instrument_ref_message_at] = wire[at]; at = at + 1; instrument_ref_message_at = instrument_ref_message_at + 1
+  :: else -> break
+  od;
+  instrument_ref_message_at = 0;
+  do
+  :: instrument_ref_message_at < 8 -> instrument_ref_message_record.open_interest[instrument_ref_message_at] = wire[at]; at = at + 1; instrument_ref_message_at = instrument_ref_message_at + 1
   :: else -> break
   od;
   skip
@@ -549,6 +629,11 @@ inline equal_instrument_ref_message(instrument_ref_message_read, instrument_ref_
   instrument_ref_message_at = 0;
   do
   :: instrument_ref_message_at < 8 -> assert(instrument_ref_message_read.settlement_price[instrument_ref_message_at] == instrument_ref_message_written.settlement_price[instrument_ref_message_at]); instrument_ref_message_at = instrument_ref_message_at + 1
+  :: else -> break
+  od;
+  instrument_ref_message_at = 0;
+  do
+  :: instrument_ref_message_at < 8 -> assert(instrument_ref_message_read.open_interest[instrument_ref_message_at] == instrument_ref_message_written.open_interest[instrument_ref_message_at]); instrument_ref_message_at = instrument_ref_message_at + 1
   :: else -> break
   od;
   skip
@@ -1838,6 +1923,37 @@ proctype check_index_definition_message() {
   }
 }
 
+/* Index Info Message: encoded, read back, and compared */
+proctype check_index_info_message() {
+  IndexInfoMessage index_info_message_sent;
+  IndexInfoMessage index_info_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_index_info_message(index_info_message_sent, 0)
+  :: pattern == 1 -> fill_index_info_message(index_info_message_sent, 32)
+  :: pattern == 2 -> fill_index_info_message(index_info_message_sent, 255)
+  :: else -> ramp_index_info_message(index_info_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_index_info_message(index_info_message_sent);
+    assert(at == 16);
+    at = 0;
+    decode_index_info_message(index_info_message_got);
+    assert(at == 16);
+    equal_index_info_message(index_info_message_got, index_info_message_sent)
+  }
+}
+
 /* Instrument Info Message: encoded, read back, and compared */
 proctype check_instrument_info_message() {
   InstrumentInfoMessage instrument_info_message_sent;
@@ -1861,10 +1977,10 @@ proctype check_instrument_info_message() {
   atomic {
     at = 0;
     encode_instrument_info_message(instrument_info_message_sent);
-    assert(at == 40);
+    assert(at == 32);
     at = 0;
     decode_instrument_info_message(instrument_info_message_got);
-    assert(at == 40);
+    assert(at == 32);
     equal_instrument_info_message(instrument_info_message_got, instrument_info_message_sent)
   }
 }
@@ -1892,10 +2008,10 @@ proctype check_instrument_ref_message() {
   atomic {
     at = 0;
     encode_instrument_ref_message(instrument_ref_message_sent);
-    assert(at == 48);
+    assert(at == 56);
     at = 0;
     decode_instrument_ref_message(instrument_ref_message_got);
-    assert(at == 48);
+    assert(at == 56);
     equal_instrument_ref_message(instrument_ref_message_got, instrument_ref_message_sent)
   }
 }
@@ -2277,6 +2393,7 @@ init {
   if
   :: run check_group_size_encoding()
   :: run check_index_definition_message()
+  :: run check_index_info_message()
   :: run check_instrument_info_message()
   :: run check_instrument_ref_message()
   :: run check_instrument_status_update_message()

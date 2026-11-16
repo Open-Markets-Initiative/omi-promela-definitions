@@ -39,7 +39,7 @@ int at;
 /* MarketDataDummyMessage */
 typedef IncrementalPacketHeader {
   byte transact_time[8];
-  byte exchange_trading_session_id[4]
+  byte exchange_trading_session_id_optional[4]
 };
 
 int incremental_packet_header_at;
@@ -53,7 +53,7 @@ inline fill_incremental_packet_header(incremental_packet_header_record, incremen
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id[incremental_packet_header_at] = incremental_packet_header_value; incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id_optional[incremental_packet_header_at] = incremental_packet_header_value; incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -68,7 +68,7 @@ inline ramp_incremental_packet_header(incremental_packet_header_record, incremen
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id[incremental_packet_header_at] = (incremental_packet_header_base + 8 + incremental_packet_header_at + 1) % 256; incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id_optional[incremental_packet_header_at] = (incremental_packet_header_base + 8 + incremental_packet_header_at + 1) % 256; incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -83,7 +83,7 @@ inline encode_incremental_packet_header(incremental_packet_header_record) {
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> wire[at] = incremental_packet_header_record.exchange_trading_session_id[incremental_packet_header_at]; at = at + 1; incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> wire[at] = incremental_packet_header_record.exchange_trading_session_id_optional[incremental_packet_header_at]; at = at + 1; incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -98,7 +98,7 @@ inline decode_incremental_packet_header(incremental_packet_header_record) {
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id[incremental_packet_header_at] = wire[at]; at = at + 1; incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> incremental_packet_header_record.exchange_trading_session_id_optional[incremental_packet_header_at] = wire[at]; at = at + 1; incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -113,7 +113,7 @@ inline equal_incremental_packet_header(incremental_packet_header_read, increment
   od;
   incremental_packet_header_at = 0;
   do
-  :: incremental_packet_header_at < 4 -> assert(incremental_packet_header_read.exchange_trading_session_id[incremental_packet_header_at] == incremental_packet_header_written.exchange_trading_session_id[incremental_packet_header_at]); incremental_packet_header_at = incremental_packet_header_at + 1
+  :: incremental_packet_header_at < 4 -> assert(incremental_packet_header_read.exchange_trading_session_id_optional[incremental_packet_header_at] == incremental_packet_header_written.exchange_trading_session_id_optional[incremental_packet_header_at]); incremental_packet_header_at = incremental_packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -958,9 +958,9 @@ typedef SecurityGroupStatusMessage {
   byte security_group_id[8];
   byte halt_type;
   byte trade_mode_mask[4];
-  byte group_mask_int_64_null_optional[8];
-  byte section_id_int_32_null_optional[4];
-  byte base_contract_id_int_32_null_optional[4];
+  byte group_mask_optional[8];
+  byte section_id_optional[4];
+  byte base_contract_id_optional[4];
   byte security_trading_status;
   byte status_change_time[8]
 };
@@ -982,17 +982,17 @@ inline fill_security_group_status_message(security_group_status_message_record, 
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 8 -> security_group_status_message_record.group_mask_int_64_null_optional[security_group_status_message_at] = security_group_status_message_value; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 8 -> security_group_status_message_record.group_mask_optional[security_group_status_message_at] = security_group_status_message_value; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> security_group_status_message_record.section_id_int_32_null_optional[security_group_status_message_at] = security_group_status_message_value; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> security_group_status_message_record.section_id_optional[security_group_status_message_at] = security_group_status_message_value; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> security_group_status_message_record.base_contract_id_int_32_null_optional[security_group_status_message_at] = security_group_status_message_value; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> security_group_status_message_record.base_contract_id_optional[security_group_status_message_at] = security_group_status_message_value; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_record.security_trading_status = security_group_status_message_value;
@@ -1019,17 +1019,17 @@ inline ramp_security_group_status_message(security_group_status_message_record, 
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 8 -> security_group_status_message_record.group_mask_int_64_null_optional[security_group_status_message_at] = (security_group_status_message_base + 13 + security_group_status_message_at + 1) % 256; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 8 -> security_group_status_message_record.group_mask_optional[security_group_status_message_at] = (security_group_status_message_base + 13 + security_group_status_message_at + 1) % 256; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> security_group_status_message_record.section_id_int_32_null_optional[security_group_status_message_at] = (security_group_status_message_base + 21 + security_group_status_message_at + 1) % 256; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> security_group_status_message_record.section_id_optional[security_group_status_message_at] = (security_group_status_message_base + 21 + security_group_status_message_at + 1) % 256; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> security_group_status_message_record.base_contract_id_int_32_null_optional[security_group_status_message_at] = (security_group_status_message_base + 25 + security_group_status_message_at + 1) % 256; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> security_group_status_message_record.base_contract_id_optional[security_group_status_message_at] = (security_group_status_message_base + 25 + security_group_status_message_at + 1) % 256; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_record.security_trading_status = (security_group_status_message_base + 29 + 1) % 256;
@@ -1056,17 +1056,17 @@ inline encode_security_group_status_message(security_group_status_message_record
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 8 -> wire[at] = security_group_status_message_record.group_mask_int_64_null_optional[security_group_status_message_at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 8 -> wire[at] = security_group_status_message_record.group_mask_optional[security_group_status_message_at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> wire[at] = security_group_status_message_record.section_id_int_32_null_optional[security_group_status_message_at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> wire[at] = security_group_status_message_record.section_id_optional[security_group_status_message_at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> wire[at] = security_group_status_message_record.base_contract_id_int_32_null_optional[security_group_status_message_at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> wire[at] = security_group_status_message_record.base_contract_id_optional[security_group_status_message_at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   wire[at] = security_group_status_message_record.security_trading_status; at = at + 1;
@@ -1093,17 +1093,17 @@ inline decode_security_group_status_message(security_group_status_message_record
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 8 -> security_group_status_message_record.group_mask_int_64_null_optional[security_group_status_message_at] = wire[at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 8 -> security_group_status_message_record.group_mask_optional[security_group_status_message_at] = wire[at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> security_group_status_message_record.section_id_int_32_null_optional[security_group_status_message_at] = wire[at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> security_group_status_message_record.section_id_optional[security_group_status_message_at] = wire[at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> security_group_status_message_record.base_contract_id_int_32_null_optional[security_group_status_message_at] = wire[at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> security_group_status_message_record.base_contract_id_optional[security_group_status_message_at] = wire[at]; at = at + 1; security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_record.security_trading_status = wire[at]; at = at + 1;
@@ -1130,17 +1130,17 @@ inline equal_security_group_status_message(security_group_status_message_read, s
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 8 -> assert(security_group_status_message_read.group_mask_int_64_null_optional[security_group_status_message_at] == security_group_status_message_written.group_mask_int_64_null_optional[security_group_status_message_at]); security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 8 -> assert(security_group_status_message_read.group_mask_optional[security_group_status_message_at] == security_group_status_message_written.group_mask_optional[security_group_status_message_at]); security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> assert(security_group_status_message_read.section_id_int_32_null_optional[security_group_status_message_at] == security_group_status_message_written.section_id_int_32_null_optional[security_group_status_message_at]); security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> assert(security_group_status_message_read.section_id_optional[security_group_status_message_at] == security_group_status_message_written.section_id_optional[security_group_status_message_at]); security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   security_group_status_message_at = 0;
   do
-  :: security_group_status_message_at < 4 -> assert(security_group_status_message_read.base_contract_id_int_32_null_optional[security_group_status_message_at] == security_group_status_message_written.base_contract_id_int_32_null_optional[security_group_status_message_at]); security_group_status_message_at = security_group_status_message_at + 1
+  :: security_group_status_message_at < 4 -> assert(security_group_status_message_read.base_contract_id_optional[security_group_status_message_at] == security_group_status_message_written.base_contract_id_optional[security_group_status_message_at]); security_group_status_message_at = security_group_status_message_at + 1
   :: else -> break
   od;
   assert(security_group_status_message_read.security_trading_status == security_group_status_message_written.security_trading_status);
