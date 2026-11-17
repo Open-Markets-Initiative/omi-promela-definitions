@@ -532,7 +532,7 @@ inline equal_trading_schedule_message(trading_schedule_message_read, trading_sch
 typedef PriceTickSizeMessage {
   byte timestamp[4];
   byte tick_size_table_id[4];
-  byte tick_size_integer_4[4];
+  byte price_tick_size[4];
   byte price_start[4]
 };
 
@@ -552,7 +552,7 @@ inline fill_price_tick_size_message(price_tick_size_message_record, price_tick_s
   od;
   price_tick_size_message_at = 0;
   do
-  :: price_tick_size_message_at < 4 -> price_tick_size_message_record.tick_size_integer_4[price_tick_size_message_at] = price_tick_size_message_value; price_tick_size_message_at = price_tick_size_message_at + 1
+  :: price_tick_size_message_at < 4 -> price_tick_size_message_record.price_tick_size[price_tick_size_message_at] = price_tick_size_message_value; price_tick_size_message_at = price_tick_size_message_at + 1
   :: else -> break
   od;
   price_tick_size_message_at = 0;
@@ -577,7 +577,7 @@ inline ramp_price_tick_size_message(price_tick_size_message_record, price_tick_s
   od;
   price_tick_size_message_at = 0;
   do
-  :: price_tick_size_message_at < 4 -> price_tick_size_message_record.tick_size_integer_4[price_tick_size_message_at] = (price_tick_size_message_base + 8 + price_tick_size_message_at + 1) % 256; price_tick_size_message_at = price_tick_size_message_at + 1
+  :: price_tick_size_message_at < 4 -> price_tick_size_message_record.price_tick_size[price_tick_size_message_at] = (price_tick_size_message_base + 8 + price_tick_size_message_at + 1) % 256; price_tick_size_message_at = price_tick_size_message_at + 1
   :: else -> break
   od;
   price_tick_size_message_at = 0;
@@ -602,7 +602,7 @@ inline encode_price_tick_size_message(price_tick_size_message_record) {
   od;
   price_tick_size_message_at = 0;
   do
-  :: price_tick_size_message_at < 4 -> wire[at] = price_tick_size_message_record.tick_size_integer_4[price_tick_size_message_at]; at = at + 1; price_tick_size_message_at = price_tick_size_message_at + 1
+  :: price_tick_size_message_at < 4 -> wire[at] = price_tick_size_message_record.price_tick_size[price_tick_size_message_at]; at = at + 1; price_tick_size_message_at = price_tick_size_message_at + 1
   :: else -> break
   od;
   price_tick_size_message_at = 0;
@@ -627,7 +627,7 @@ inline decode_price_tick_size_message(price_tick_size_message_record) {
   od;
   price_tick_size_message_at = 0;
   do
-  :: price_tick_size_message_at < 4 -> price_tick_size_message_record.tick_size_integer_4[price_tick_size_message_at] = wire[at]; at = at + 1; price_tick_size_message_at = price_tick_size_message_at + 1
+  :: price_tick_size_message_at < 4 -> price_tick_size_message_record.price_tick_size[price_tick_size_message_at] = wire[at]; at = at + 1; price_tick_size_message_at = price_tick_size_message_at + 1
   :: else -> break
   od;
   price_tick_size_message_at = 0;
@@ -652,7 +652,7 @@ inline equal_price_tick_size_message(price_tick_size_message_read, price_tick_si
   od;
   price_tick_size_message_at = 0;
   do
-  :: price_tick_size_message_at < 4 -> assert(price_tick_size_message_read.tick_size_integer_4[price_tick_size_message_at] == price_tick_size_message_written.tick_size_integer_4[price_tick_size_message_at]); price_tick_size_message_at = price_tick_size_message_at + 1
+  :: price_tick_size_message_at < 4 -> assert(price_tick_size_message_read.price_tick_size[price_tick_size_message_at] == price_tick_size_message_written.price_tick_size[price_tick_size_message_at]); price_tick_size_message_at = price_tick_size_message_at + 1
   :: else -> break
   od;
   price_tick_size_message_at = 0;
@@ -669,7 +669,7 @@ inline equal_price_tick_size_message(price_tick_size_message_read, price_tick_si
 typedef QuantityTickSizeMessage {
   byte timestamp[4];
   byte tick_size_table_id[4];
-  byte tick_size_integer_8[8];
+  byte quantity_tick_size[8];
   byte quantity_start[8]
 };
 
@@ -689,7 +689,7 @@ inline fill_quantity_tick_size_message(quantity_tick_size_message_record, quanti
   od;
   quantity_tick_size_message_at = 0;
   do
-  :: quantity_tick_size_message_at < 8 -> quantity_tick_size_message_record.tick_size_integer_8[quantity_tick_size_message_at] = quantity_tick_size_message_value; quantity_tick_size_message_at = quantity_tick_size_message_at + 1
+  :: quantity_tick_size_message_at < 8 -> quantity_tick_size_message_record.quantity_tick_size[quantity_tick_size_message_at] = quantity_tick_size_message_value; quantity_tick_size_message_at = quantity_tick_size_message_at + 1
   :: else -> break
   od;
   quantity_tick_size_message_at = 0;
@@ -714,7 +714,7 @@ inline ramp_quantity_tick_size_message(quantity_tick_size_message_record, quanti
   od;
   quantity_tick_size_message_at = 0;
   do
-  :: quantity_tick_size_message_at < 8 -> quantity_tick_size_message_record.tick_size_integer_8[quantity_tick_size_message_at] = (quantity_tick_size_message_base + 8 + quantity_tick_size_message_at + 1) % 256; quantity_tick_size_message_at = quantity_tick_size_message_at + 1
+  :: quantity_tick_size_message_at < 8 -> quantity_tick_size_message_record.quantity_tick_size[quantity_tick_size_message_at] = (quantity_tick_size_message_base + 8 + quantity_tick_size_message_at + 1) % 256; quantity_tick_size_message_at = quantity_tick_size_message_at + 1
   :: else -> break
   od;
   quantity_tick_size_message_at = 0;
@@ -739,7 +739,7 @@ inline encode_quantity_tick_size_message(quantity_tick_size_message_record) {
   od;
   quantity_tick_size_message_at = 0;
   do
-  :: quantity_tick_size_message_at < 8 -> wire[at] = quantity_tick_size_message_record.tick_size_integer_8[quantity_tick_size_message_at]; at = at + 1; quantity_tick_size_message_at = quantity_tick_size_message_at + 1
+  :: quantity_tick_size_message_at < 8 -> wire[at] = quantity_tick_size_message_record.quantity_tick_size[quantity_tick_size_message_at]; at = at + 1; quantity_tick_size_message_at = quantity_tick_size_message_at + 1
   :: else -> break
   od;
   quantity_tick_size_message_at = 0;
@@ -764,7 +764,7 @@ inline decode_quantity_tick_size_message(quantity_tick_size_message_record) {
   od;
   quantity_tick_size_message_at = 0;
   do
-  :: quantity_tick_size_message_at < 8 -> quantity_tick_size_message_record.tick_size_integer_8[quantity_tick_size_message_at] = wire[at]; at = at + 1; quantity_tick_size_message_at = quantity_tick_size_message_at + 1
+  :: quantity_tick_size_message_at < 8 -> quantity_tick_size_message_record.quantity_tick_size[quantity_tick_size_message_at] = wire[at]; at = at + 1; quantity_tick_size_message_at = quantity_tick_size_message_at + 1
   :: else -> break
   od;
   quantity_tick_size_message_at = 0;
@@ -789,7 +789,7 @@ inline equal_quantity_tick_size_message(quantity_tick_size_message_read, quantit
   od;
   quantity_tick_size_message_at = 0;
   do
-  :: quantity_tick_size_message_at < 8 -> assert(quantity_tick_size_message_read.tick_size_integer_8[quantity_tick_size_message_at] == quantity_tick_size_message_written.tick_size_integer_8[quantity_tick_size_message_at]); quantity_tick_size_message_at = quantity_tick_size_message_at + 1
+  :: quantity_tick_size_message_at < 8 -> assert(quantity_tick_size_message_read.quantity_tick_size[quantity_tick_size_message_at] == quantity_tick_size_message_written.quantity_tick_size[quantity_tick_size_message_at]); quantity_tick_size_message_at = quantity_tick_size_message_at + 1
   :: else -> break
   od;
   quantity_tick_size_message_at = 0;

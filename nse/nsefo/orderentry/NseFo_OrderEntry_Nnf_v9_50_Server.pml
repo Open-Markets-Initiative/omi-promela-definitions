@@ -1353,6 +1353,273 @@ inline equal_inner_header(inner_header_read, inner_header_written) {
   skip
 }
 
+/* ---- Download Header: 40 bytes ----------------------------------------------- */
+
+/* MESSAGE_HEADER of the downloaded message */
+typedef DownloadHeader {
+  byte inner_transaction_code[2];
+  byte inner_log_time[4];
+  byte inner_alpha_char[2];
+  byte inner_trader_id[4];
+  byte inner_error_code[2];
+  byte inner_timestamp[8];
+  byte inner_time_stamp_1[8];
+  byte inner_time_stamp_2[8];
+  byte inner_message_length[2]
+};
+
+int download_header_at;
+
+/* every byte of Download Header set to one value */
+inline fill_download_header(download_header_record, download_header_value) {
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_transaction_code[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> download_header_record.inner_log_time[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_alpha_char[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> download_header_record.inner_trader_id[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_error_code[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_timestamp[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_time_stamp_1[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_time_stamp_2[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_message_length[download_header_at] = download_header_value; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Download Header set to where it lies, so a field read out of place says so */
+inline ramp_download_header(download_header_record, download_header_base) {
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_transaction_code[download_header_at] = (download_header_base + 0 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> download_header_record.inner_log_time[download_header_at] = (download_header_base + 2 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_alpha_char[download_header_at] = (download_header_base + 6 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> download_header_record.inner_trader_id[download_header_at] = (download_header_base + 8 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_error_code[download_header_at] = (download_header_base + 12 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_timestamp[download_header_at] = (download_header_base + 14 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_time_stamp_1[download_header_at] = (download_header_base + 22 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_time_stamp_2[download_header_at] = (download_header_base + 30 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_message_length[download_header_at] = (download_header_base + 38 + download_header_at + 1) % 256; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Download Header to the wire, 40 bytes from where the cursor stands */
+inline encode_download_header(download_header_record) {
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> wire[at] = download_header_record.inner_transaction_code[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> wire[at] = download_header_record.inner_log_time[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> wire[at] = download_header_record.inner_alpha_char[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> wire[at] = download_header_record.inner_trader_id[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> wire[at] = download_header_record.inner_error_code[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> wire[at] = download_header_record.inner_timestamp[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> wire[at] = download_header_record.inner_time_stamp_1[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> wire[at] = download_header_record.inner_time_stamp_2[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> wire[at] = download_header_record.inner_message_length[download_header_at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Download Header off the wire, 40 bytes from where the cursor stands */
+inline decode_download_header(download_header_record) {
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_transaction_code[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> download_header_record.inner_log_time[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_alpha_char[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> download_header_record.inner_trader_id[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_error_code[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_timestamp[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_time_stamp_1[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> download_header_record.inner_time_stamp_2[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> download_header_record.inner_message_length[download_header_at] = wire[at]; at = at + 1; download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Download Header is what was written, byte for byte */
+inline equal_download_header(download_header_read, download_header_written) {
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> assert(download_header_read.inner_transaction_code[download_header_at] == download_header_written.inner_transaction_code[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> assert(download_header_read.inner_log_time[download_header_at] == download_header_written.inner_log_time[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> assert(download_header_read.inner_alpha_char[download_header_at] == download_header_written.inner_alpha_char[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 4 -> assert(download_header_read.inner_trader_id[download_header_at] == download_header_written.inner_trader_id[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> assert(download_header_read.inner_error_code[download_header_at] == download_header_written.inner_error_code[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> assert(download_header_read.inner_timestamp[download_header_at] == download_header_written.inner_timestamp[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> assert(download_header_read.inner_time_stamp_1[download_header_at] == download_header_written.inner_time_stamp_1[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 8 -> assert(download_header_read.inner_time_stamp_2[download_header_at] == download_header_written.inner_time_stamp_2[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  download_header_at = 0;
+  do
+  :: download_header_at < 2 -> assert(download_header_read.inner_message_length[download_header_at] == download_header_written.inner_message_length[download_header_at]); download_header_at = download_header_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
 /* ---- Contract Desc: 28 bytes ------------------------------------------------- */
 
 /* CONTRACT_DESC */
@@ -3602,6 +3869,37 @@ proctype check_inner_header() {
   }
 }
 
+/* Download Header: encoded, read back, and compared */
+proctype check_download_header() {
+  DownloadHeader download_header_sent;
+  DownloadHeader download_header_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_download_header(download_header_sent, 0)
+  :: pattern == 1 -> fill_download_header(download_header_sent, 32)
+  :: pattern == 2 -> fill_download_header(download_header_sent, 255)
+  :: else -> ramp_download_header(download_header_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_download_header(download_header_sent);
+    assert(at == 40);
+    at = 0;
+    decode_download_header(download_header_got);
+    assert(at == 40);
+    equal_download_header(download_header_got, download_header_sent)
+  }
+}
+
 /* Contract Desc: encoded, read back, and compared */
 proctype check_contract_desc() {
   ContractDesc contract_desc_sent;
@@ -4080,6 +4378,7 @@ init {
   :: run check_update_local_database_header_message()
   :: run check_update_local_database_trailer_message()
   :: run check_inner_header()
+  :: run check_download_header()
   :: run check_contract_desc()
   :: run check_control_message_to_trader_message()
   :: run check_report_header_body()

@@ -2243,7 +2243,7 @@ inline equal_get_mass_quote_mmp_status_response_message(get_mass_quote_mmp_statu
 typedef GetMassQuoteMmpStatusRejectMessage {
   byte timestamp[8];
   byte correlation_id[8];
-  byte reason_mmp_status_reject_reason
+  byte mmp_status_reject_reason
 };
 
 int get_mass_quote_mmp_status_reject_message_at;
@@ -2260,7 +2260,7 @@ inline fill_get_mass_quote_mmp_status_reject_message(get_mass_quote_mmp_status_r
   :: get_mass_quote_mmp_status_reject_message_at < 8 -> get_mass_quote_mmp_status_reject_message_record.correlation_id[get_mass_quote_mmp_status_reject_message_at] = get_mass_quote_mmp_status_reject_message_value; get_mass_quote_mmp_status_reject_message_at = get_mass_quote_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  get_mass_quote_mmp_status_reject_message_record.reason_mmp_status_reject_reason = get_mass_quote_mmp_status_reject_message_value;
+  get_mass_quote_mmp_status_reject_message_record.mmp_status_reject_reason = get_mass_quote_mmp_status_reject_message_value;
   skip
 }
 
@@ -2276,7 +2276,7 @@ inline ramp_get_mass_quote_mmp_status_reject_message(get_mass_quote_mmp_status_r
   :: get_mass_quote_mmp_status_reject_message_at < 8 -> get_mass_quote_mmp_status_reject_message_record.correlation_id[get_mass_quote_mmp_status_reject_message_at] = (get_mass_quote_mmp_status_reject_message_base + 8 + get_mass_quote_mmp_status_reject_message_at + 1) % 256; get_mass_quote_mmp_status_reject_message_at = get_mass_quote_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  get_mass_quote_mmp_status_reject_message_record.reason_mmp_status_reject_reason = (get_mass_quote_mmp_status_reject_message_base + 16 + 1) % 256;
+  get_mass_quote_mmp_status_reject_message_record.mmp_status_reject_reason = (get_mass_quote_mmp_status_reject_message_base + 16 + 1) % 256;
   skip
 }
 
@@ -2292,7 +2292,7 @@ inline encode_get_mass_quote_mmp_status_reject_message(get_mass_quote_mmp_status
   :: get_mass_quote_mmp_status_reject_message_at < 8 -> wire[at] = get_mass_quote_mmp_status_reject_message_record.correlation_id[get_mass_quote_mmp_status_reject_message_at]; at = at + 1; get_mass_quote_mmp_status_reject_message_at = get_mass_quote_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  wire[at] = get_mass_quote_mmp_status_reject_message_record.reason_mmp_status_reject_reason; at = at + 1;
+  wire[at] = get_mass_quote_mmp_status_reject_message_record.mmp_status_reject_reason; at = at + 1;
   skip
 }
 
@@ -2308,7 +2308,7 @@ inline decode_get_mass_quote_mmp_status_reject_message(get_mass_quote_mmp_status
   :: get_mass_quote_mmp_status_reject_message_at < 8 -> get_mass_quote_mmp_status_reject_message_record.correlation_id[get_mass_quote_mmp_status_reject_message_at] = wire[at]; at = at + 1; get_mass_quote_mmp_status_reject_message_at = get_mass_quote_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  get_mass_quote_mmp_status_reject_message_record.reason_mmp_status_reject_reason = wire[at]; at = at + 1;
+  get_mass_quote_mmp_status_reject_message_record.mmp_status_reject_reason = wire[at]; at = at + 1;
   skip
 }
 
@@ -2324,7 +2324,7 @@ inline equal_get_mass_quote_mmp_status_reject_message(get_mass_quote_mmp_status_
   :: get_mass_quote_mmp_status_reject_message_at < 8 -> assert(get_mass_quote_mmp_status_reject_message_read.correlation_id[get_mass_quote_mmp_status_reject_message_at] == get_mass_quote_mmp_status_reject_message_written.correlation_id[get_mass_quote_mmp_status_reject_message_at]); get_mass_quote_mmp_status_reject_message_at = get_mass_quote_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  assert(get_mass_quote_mmp_status_reject_message_read.reason_mmp_status_reject_reason == get_mass_quote_mmp_status_reject_message_written.reason_mmp_status_reject_reason);
+  assert(get_mass_quote_mmp_status_reject_message_read.mmp_status_reject_reason == get_mass_quote_mmp_status_reject_message_written.mmp_status_reject_reason);
   skip
 }
 
@@ -2471,7 +2471,7 @@ inline equal_get_orders_mmp_status_response_message(get_orders_mmp_status_respon
 typedef GetOrdersMmpStatusRejectMessage {
   byte timestamp[8];
   byte correlation_id[8];
-  byte reason_mmp_status_reject_reason
+  byte mmp_status_reject_reason
 };
 
 int get_orders_mmp_status_reject_message_at;
@@ -2488,7 +2488,7 @@ inline fill_get_orders_mmp_status_reject_message(get_orders_mmp_status_reject_me
   :: get_orders_mmp_status_reject_message_at < 8 -> get_orders_mmp_status_reject_message_record.correlation_id[get_orders_mmp_status_reject_message_at] = get_orders_mmp_status_reject_message_value; get_orders_mmp_status_reject_message_at = get_orders_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  get_orders_mmp_status_reject_message_record.reason_mmp_status_reject_reason = get_orders_mmp_status_reject_message_value;
+  get_orders_mmp_status_reject_message_record.mmp_status_reject_reason = get_orders_mmp_status_reject_message_value;
   skip
 }
 
@@ -2504,7 +2504,7 @@ inline ramp_get_orders_mmp_status_reject_message(get_orders_mmp_status_reject_me
   :: get_orders_mmp_status_reject_message_at < 8 -> get_orders_mmp_status_reject_message_record.correlation_id[get_orders_mmp_status_reject_message_at] = (get_orders_mmp_status_reject_message_base + 8 + get_orders_mmp_status_reject_message_at + 1) % 256; get_orders_mmp_status_reject_message_at = get_orders_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  get_orders_mmp_status_reject_message_record.reason_mmp_status_reject_reason = (get_orders_mmp_status_reject_message_base + 16 + 1) % 256;
+  get_orders_mmp_status_reject_message_record.mmp_status_reject_reason = (get_orders_mmp_status_reject_message_base + 16 + 1) % 256;
   skip
 }
 
@@ -2520,7 +2520,7 @@ inline encode_get_orders_mmp_status_reject_message(get_orders_mmp_status_reject_
   :: get_orders_mmp_status_reject_message_at < 8 -> wire[at] = get_orders_mmp_status_reject_message_record.correlation_id[get_orders_mmp_status_reject_message_at]; at = at + 1; get_orders_mmp_status_reject_message_at = get_orders_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  wire[at] = get_orders_mmp_status_reject_message_record.reason_mmp_status_reject_reason; at = at + 1;
+  wire[at] = get_orders_mmp_status_reject_message_record.mmp_status_reject_reason; at = at + 1;
   skip
 }
 
@@ -2536,7 +2536,7 @@ inline decode_get_orders_mmp_status_reject_message(get_orders_mmp_status_reject_
   :: get_orders_mmp_status_reject_message_at < 8 -> get_orders_mmp_status_reject_message_record.correlation_id[get_orders_mmp_status_reject_message_at] = wire[at]; at = at + 1; get_orders_mmp_status_reject_message_at = get_orders_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  get_orders_mmp_status_reject_message_record.reason_mmp_status_reject_reason = wire[at]; at = at + 1;
+  get_orders_mmp_status_reject_message_record.mmp_status_reject_reason = wire[at]; at = at + 1;
   skip
 }
 
@@ -2552,7 +2552,7 @@ inline equal_get_orders_mmp_status_reject_message(get_orders_mmp_status_reject_m
   :: get_orders_mmp_status_reject_message_at < 8 -> assert(get_orders_mmp_status_reject_message_read.correlation_id[get_orders_mmp_status_reject_message_at] == get_orders_mmp_status_reject_message_written.correlation_id[get_orders_mmp_status_reject_message_at]); get_orders_mmp_status_reject_message_at = get_orders_mmp_status_reject_message_at + 1
   :: else -> break
   od;
-  assert(get_orders_mmp_status_reject_message_read.reason_mmp_status_reject_reason == get_orders_mmp_status_reject_message_written.reason_mmp_status_reject_reason);
+  assert(get_orders_mmp_status_reject_message_read.mmp_status_reject_reason == get_orders_mmp_status_reject_message_written.mmp_status_reject_reason);
   skip
 }
 

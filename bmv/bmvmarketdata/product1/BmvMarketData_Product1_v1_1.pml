@@ -614,7 +614,7 @@ inline equal_weighted_average_price_settlement_prices_message(weighted_average_p
 typedef CapitalTradesMessage {
   byte instrument_number[4];
   byte trade_time[8];
-  byte volume_int_324[4];
+  byte volume[4];
   byte price[8];
   byte concertation_type;
   byte trade_number[4];
@@ -643,7 +643,7 @@ inline fill_capital_trades_message(capital_trades_message_record, capital_trades
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume_int_324[capital_trades_message_at] = capital_trades_message_value; capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume[capital_trades_message_at] = capital_trades_message_value; capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -693,7 +693,7 @@ inline ramp_capital_trades_message(capital_trades_message_record, capital_trades
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume_int_324[capital_trades_message_at] = (capital_trades_message_base + 12 + capital_trades_message_at + 1) % 256; capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume[capital_trades_message_at] = (capital_trades_message_base + 12 + capital_trades_message_at + 1) % 256; capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -743,7 +743,7 @@ inline encode_capital_trades_message(capital_trades_message_record) {
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> wire[at] = capital_trades_message_record.volume_int_324[capital_trades_message_at]; at = at + 1; capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> wire[at] = capital_trades_message_record.volume[capital_trades_message_at]; at = at + 1; capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -793,7 +793,7 @@ inline decode_capital_trades_message(capital_trades_message_record) {
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume_int_324[capital_trades_message_at] = wire[at]; at = at + 1; capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume[capital_trades_message_at] = wire[at]; at = at + 1; capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -843,7 +843,7 @@ inline equal_capital_trades_message(capital_trades_message_read, capital_trades_
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> assert(capital_trades_message_read.volume_int_324[capital_trades_message_at] == capital_trades_message_written.volume_int_324[capital_trades_message_at]); capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> assert(capital_trades_message_read.volume[capital_trades_message_at] == capital_trades_message_written.volume[capital_trades_message_at]); capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -885,7 +885,7 @@ inline equal_capital_trades_message(capital_trades_message_read, capital_trades_
 typedef ProbableAllocationPriceMessage {
   byte instrument_number[4];
   byte probable_allocation_price[8];
-  byte volume_int_324[4]
+  byte volume[4]
 };
 
 int probable_allocation_price_message_at;
@@ -904,7 +904,7 @@ inline fill_probable_allocation_price_message(probable_allocation_price_message_
   od;
   probable_allocation_price_message_at = 0;
   do
-  :: probable_allocation_price_message_at < 4 -> probable_allocation_price_message_record.volume_int_324[probable_allocation_price_message_at] = probable_allocation_price_message_value; probable_allocation_price_message_at = probable_allocation_price_message_at + 1
+  :: probable_allocation_price_message_at < 4 -> probable_allocation_price_message_record.volume[probable_allocation_price_message_at] = probable_allocation_price_message_value; probable_allocation_price_message_at = probable_allocation_price_message_at + 1
   :: else -> break
   od;
   skip
@@ -924,7 +924,7 @@ inline ramp_probable_allocation_price_message(probable_allocation_price_message_
   od;
   probable_allocation_price_message_at = 0;
   do
-  :: probable_allocation_price_message_at < 4 -> probable_allocation_price_message_record.volume_int_324[probable_allocation_price_message_at] = (probable_allocation_price_message_base + 12 + probable_allocation_price_message_at + 1) % 256; probable_allocation_price_message_at = probable_allocation_price_message_at + 1
+  :: probable_allocation_price_message_at < 4 -> probable_allocation_price_message_record.volume[probable_allocation_price_message_at] = (probable_allocation_price_message_base + 12 + probable_allocation_price_message_at + 1) % 256; probable_allocation_price_message_at = probable_allocation_price_message_at + 1
   :: else -> break
   od;
   skip
@@ -944,7 +944,7 @@ inline encode_probable_allocation_price_message(probable_allocation_price_messag
   od;
   probable_allocation_price_message_at = 0;
   do
-  :: probable_allocation_price_message_at < 4 -> wire[at] = probable_allocation_price_message_record.volume_int_324[probable_allocation_price_message_at]; at = at + 1; probable_allocation_price_message_at = probable_allocation_price_message_at + 1
+  :: probable_allocation_price_message_at < 4 -> wire[at] = probable_allocation_price_message_record.volume[probable_allocation_price_message_at]; at = at + 1; probable_allocation_price_message_at = probable_allocation_price_message_at + 1
   :: else -> break
   od;
   skip
@@ -964,7 +964,7 @@ inline decode_probable_allocation_price_message(probable_allocation_price_messag
   od;
   probable_allocation_price_message_at = 0;
   do
-  :: probable_allocation_price_message_at < 4 -> probable_allocation_price_message_record.volume_int_324[probable_allocation_price_message_at] = wire[at]; at = at + 1; probable_allocation_price_message_at = probable_allocation_price_message_at + 1
+  :: probable_allocation_price_message_at < 4 -> probable_allocation_price_message_record.volume[probable_allocation_price_message_at] = wire[at]; at = at + 1; probable_allocation_price_message_at = probable_allocation_price_message_at + 1
   :: else -> break
   od;
   skip
@@ -984,7 +984,7 @@ inline equal_probable_allocation_price_message(probable_allocation_price_message
   od;
   probable_allocation_price_message_at = 0;
   do
-  :: probable_allocation_price_message_at < 4 -> assert(probable_allocation_price_message_read.volume_int_324[probable_allocation_price_message_at] == probable_allocation_price_message_written.volume_int_324[probable_allocation_price_message_at]); probable_allocation_price_message_at = probable_allocation_price_message_at + 1
+  :: probable_allocation_price_message_at < 4 -> assert(probable_allocation_price_message_read.volume[probable_allocation_price_message_at] == probable_allocation_price_message_written.volume[probable_allocation_price_message_at]); probable_allocation_price_message_at = probable_allocation_price_message_at + 1
   :: else -> break
   od;
   skip
@@ -1413,7 +1413,7 @@ inline equal_mutual_fund_trades_message(mutual_fund_trades_message_read, mutual_
 typedef TradabilityMessage {
   byte instrument_number[4];
   byte number_of_operations[4];
-  byte volume_int_648[8];
+  byte volume_long[8];
   byte amount[8];
   byte opening_price[8];
   byte maximum[8];
@@ -1438,7 +1438,7 @@ inline fill_tradability_message(tradability_message_record, tradability_message_
   od;
   tradability_message_at = 0;
   do
-  :: tradability_message_at < 8 -> tradability_message_record.volume_int_648[tradability_message_at] = tradability_message_value; tradability_message_at = tradability_message_at + 1
+  :: tradability_message_at < 8 -> tradability_message_record.volume_long[tradability_message_at] = tradability_message_value; tradability_message_at = tradability_message_at + 1
   :: else -> break
   od;
   tradability_message_at = 0;
@@ -1488,7 +1488,7 @@ inline ramp_tradability_message(tradability_message_record, tradability_message_
   od;
   tradability_message_at = 0;
   do
-  :: tradability_message_at < 8 -> tradability_message_record.volume_int_648[tradability_message_at] = (tradability_message_base + 8 + tradability_message_at + 1) % 256; tradability_message_at = tradability_message_at + 1
+  :: tradability_message_at < 8 -> tradability_message_record.volume_long[tradability_message_at] = (tradability_message_base + 8 + tradability_message_at + 1) % 256; tradability_message_at = tradability_message_at + 1
   :: else -> break
   od;
   tradability_message_at = 0;
@@ -1538,7 +1538,7 @@ inline encode_tradability_message(tradability_message_record) {
   od;
   tradability_message_at = 0;
   do
-  :: tradability_message_at < 8 -> wire[at] = tradability_message_record.volume_int_648[tradability_message_at]; at = at + 1; tradability_message_at = tradability_message_at + 1
+  :: tradability_message_at < 8 -> wire[at] = tradability_message_record.volume_long[tradability_message_at]; at = at + 1; tradability_message_at = tradability_message_at + 1
   :: else -> break
   od;
   tradability_message_at = 0;
@@ -1588,7 +1588,7 @@ inline decode_tradability_message(tradability_message_record) {
   od;
   tradability_message_at = 0;
   do
-  :: tradability_message_at < 8 -> tradability_message_record.volume_int_648[tradability_message_at] = wire[at]; at = at + 1; tradability_message_at = tradability_message_at + 1
+  :: tradability_message_at < 8 -> tradability_message_record.volume_long[tradability_message_at] = wire[at]; at = at + 1; tradability_message_at = tradability_message_at + 1
   :: else -> break
   od;
   tradability_message_at = 0;
@@ -1638,7 +1638,7 @@ inline equal_tradability_message(tradability_message_read, tradability_message_w
   od;
   tradability_message_at = 0;
   do
-  :: tradability_message_at < 8 -> assert(tradability_message_read.volume_int_648[tradability_message_at] == tradability_message_written.volume_int_648[tradability_message_at]); tradability_message_at = tradability_message_at + 1
+  :: tradability_message_at < 8 -> assert(tradability_message_read.volume_long[tradability_message_at] == tradability_message_written.volume_long[tradability_message_at]); tradability_message_at = tradability_message_at + 1
   :: else -> break
   od;
   tradability_message_at = 0;
@@ -1682,7 +1682,7 @@ typedef VirtualTradesMessage {
   byte virtual_trades_status;
   byte operation_type;
   byte number[4];
-  byte volume_int_324[4];
+  byte volume[4];
   byte concertation;
   byte buy[5];
   byte sell[5]
@@ -1706,7 +1706,7 @@ inline fill_virtual_trades_message(virtual_trades_message_record, virtual_trades
   od;
   virtual_trades_message_at = 0;
   do
-  :: virtual_trades_message_at < 4 -> virtual_trades_message_record.volume_int_324[virtual_trades_message_at] = virtual_trades_message_value; virtual_trades_message_at = virtual_trades_message_at + 1
+  :: virtual_trades_message_at < 4 -> virtual_trades_message_record.volume[virtual_trades_message_at] = virtual_trades_message_value; virtual_trades_message_at = virtual_trades_message_at + 1
   :: else -> break
   od;
   virtual_trades_message_record.concertation = virtual_trades_message_value;
@@ -1739,7 +1739,7 @@ inline ramp_virtual_trades_message(virtual_trades_message_record, virtual_trades
   od;
   virtual_trades_message_at = 0;
   do
-  :: virtual_trades_message_at < 4 -> virtual_trades_message_record.volume_int_324[virtual_trades_message_at] = (virtual_trades_message_base + 10 + virtual_trades_message_at + 1) % 256; virtual_trades_message_at = virtual_trades_message_at + 1
+  :: virtual_trades_message_at < 4 -> virtual_trades_message_record.volume[virtual_trades_message_at] = (virtual_trades_message_base + 10 + virtual_trades_message_at + 1) % 256; virtual_trades_message_at = virtual_trades_message_at + 1
   :: else -> break
   od;
   virtual_trades_message_record.concertation = (virtual_trades_message_base + 14 + 1) % 256;
@@ -1772,7 +1772,7 @@ inline encode_virtual_trades_message(virtual_trades_message_record) {
   od;
   virtual_trades_message_at = 0;
   do
-  :: virtual_trades_message_at < 4 -> wire[at] = virtual_trades_message_record.volume_int_324[virtual_trades_message_at]; at = at + 1; virtual_trades_message_at = virtual_trades_message_at + 1
+  :: virtual_trades_message_at < 4 -> wire[at] = virtual_trades_message_record.volume[virtual_trades_message_at]; at = at + 1; virtual_trades_message_at = virtual_trades_message_at + 1
   :: else -> break
   od;
   wire[at] = virtual_trades_message_record.concertation; at = at + 1;
@@ -1805,7 +1805,7 @@ inline decode_virtual_trades_message(virtual_trades_message_record) {
   od;
   virtual_trades_message_at = 0;
   do
-  :: virtual_trades_message_at < 4 -> virtual_trades_message_record.volume_int_324[virtual_trades_message_at] = wire[at]; at = at + 1; virtual_trades_message_at = virtual_trades_message_at + 1
+  :: virtual_trades_message_at < 4 -> virtual_trades_message_record.volume[virtual_trades_message_at] = wire[at]; at = at + 1; virtual_trades_message_at = virtual_trades_message_at + 1
   :: else -> break
   od;
   virtual_trades_message_record.concertation = wire[at]; at = at + 1;
@@ -1838,7 +1838,7 @@ inline equal_virtual_trades_message(virtual_trades_message_read, virtual_trades_
   od;
   virtual_trades_message_at = 0;
   do
-  :: virtual_trades_message_at < 4 -> assert(virtual_trades_message_read.volume_int_324[virtual_trades_message_at] == virtual_trades_message_written.volume_int_324[virtual_trades_message_at]); virtual_trades_message_at = virtual_trades_message_at + 1
+  :: virtual_trades_message_at < 4 -> assert(virtual_trades_message_read.volume[virtual_trades_message_at] == virtual_trades_message_written.volume[virtual_trades_message_at]); virtual_trades_message_at = virtual_trades_message_at + 1
   :: else -> break
   od;
   assert(virtual_trades_message_read.concertation == virtual_trades_message_written.concertation);
@@ -1863,7 +1863,7 @@ typedef OrderAdditionMessage {
   byte date_and_time[8];
   byte number[4];
   byte direction;
-  byte volume_int_324[4];
+  byte volume[4];
   byte price[8];
   byte participant[5]
 };
@@ -1890,7 +1890,7 @@ inline fill_order_addition_message(order_addition_message_record, order_addition
   order_addition_message_record.direction = order_addition_message_value;
   order_addition_message_at = 0;
   do
-  :: order_addition_message_at < 4 -> order_addition_message_record.volume_int_324[order_addition_message_at] = order_addition_message_value; order_addition_message_at = order_addition_message_at + 1
+  :: order_addition_message_at < 4 -> order_addition_message_record.volume[order_addition_message_at] = order_addition_message_value; order_addition_message_at = order_addition_message_at + 1
   :: else -> break
   od;
   order_addition_message_at = 0;
@@ -1926,7 +1926,7 @@ inline ramp_order_addition_message(order_addition_message_record, order_addition
   order_addition_message_record.direction = (order_addition_message_base + 16 + 1) % 256;
   order_addition_message_at = 0;
   do
-  :: order_addition_message_at < 4 -> order_addition_message_record.volume_int_324[order_addition_message_at] = (order_addition_message_base + 17 + order_addition_message_at + 1) % 256; order_addition_message_at = order_addition_message_at + 1
+  :: order_addition_message_at < 4 -> order_addition_message_record.volume[order_addition_message_at] = (order_addition_message_base + 17 + order_addition_message_at + 1) % 256; order_addition_message_at = order_addition_message_at + 1
   :: else -> break
   od;
   order_addition_message_at = 0;
@@ -1962,7 +1962,7 @@ inline encode_order_addition_message(order_addition_message_record) {
   wire[at] = order_addition_message_record.direction; at = at + 1;
   order_addition_message_at = 0;
   do
-  :: order_addition_message_at < 4 -> wire[at] = order_addition_message_record.volume_int_324[order_addition_message_at]; at = at + 1; order_addition_message_at = order_addition_message_at + 1
+  :: order_addition_message_at < 4 -> wire[at] = order_addition_message_record.volume[order_addition_message_at]; at = at + 1; order_addition_message_at = order_addition_message_at + 1
   :: else -> break
   od;
   order_addition_message_at = 0;
@@ -1998,7 +1998,7 @@ inline decode_order_addition_message(order_addition_message_record) {
   order_addition_message_record.direction = wire[at]; at = at + 1;
   order_addition_message_at = 0;
   do
-  :: order_addition_message_at < 4 -> order_addition_message_record.volume_int_324[order_addition_message_at] = wire[at]; at = at + 1; order_addition_message_at = order_addition_message_at + 1
+  :: order_addition_message_at < 4 -> order_addition_message_record.volume[order_addition_message_at] = wire[at]; at = at + 1; order_addition_message_at = order_addition_message_at + 1
   :: else -> break
   od;
   order_addition_message_at = 0;
@@ -2034,7 +2034,7 @@ inline equal_order_addition_message(order_addition_message_read, order_addition_
   assert(order_addition_message_read.direction == order_addition_message_written.direction);
   order_addition_message_at = 0;
   do
-  :: order_addition_message_at < 4 -> assert(order_addition_message_read.volume_int_324[order_addition_message_at] == order_addition_message_written.volume_int_324[order_addition_message_at]); order_addition_message_at = order_addition_message_at + 1
+  :: order_addition_message_at < 4 -> assert(order_addition_message_read.volume[order_addition_message_at] == order_addition_message_written.volume[order_addition_message_at]); order_addition_message_at = order_addition_message_at + 1
   :: else -> break
   od;
   order_addition_message_at = 0;
@@ -2057,7 +2057,7 @@ typedef ExecutionOfOrdersMessage {
   byte instrument_number[4];
   byte date[8];
   byte number[4];
-  byte volume_int_324[4];
+  byte volume[4];
   byte trade_number[4];
   byte execution_price[8]
 };
@@ -2083,7 +2083,7 @@ inline fill_execution_of_orders_message(execution_of_orders_message_record, exec
   od;
   execution_of_orders_message_at = 0;
   do
-  :: execution_of_orders_message_at < 4 -> execution_of_orders_message_record.volume_int_324[execution_of_orders_message_at] = execution_of_orders_message_value; execution_of_orders_message_at = execution_of_orders_message_at + 1
+  :: execution_of_orders_message_at < 4 -> execution_of_orders_message_record.volume[execution_of_orders_message_at] = execution_of_orders_message_value; execution_of_orders_message_at = execution_of_orders_message_at + 1
   :: else -> break
   od;
   execution_of_orders_message_at = 0;
@@ -2118,7 +2118,7 @@ inline ramp_execution_of_orders_message(execution_of_orders_message_record, exec
   od;
   execution_of_orders_message_at = 0;
   do
-  :: execution_of_orders_message_at < 4 -> execution_of_orders_message_record.volume_int_324[execution_of_orders_message_at] = (execution_of_orders_message_base + 16 + execution_of_orders_message_at + 1) % 256; execution_of_orders_message_at = execution_of_orders_message_at + 1
+  :: execution_of_orders_message_at < 4 -> execution_of_orders_message_record.volume[execution_of_orders_message_at] = (execution_of_orders_message_base + 16 + execution_of_orders_message_at + 1) % 256; execution_of_orders_message_at = execution_of_orders_message_at + 1
   :: else -> break
   od;
   execution_of_orders_message_at = 0;
@@ -2153,7 +2153,7 @@ inline encode_execution_of_orders_message(execution_of_orders_message_record) {
   od;
   execution_of_orders_message_at = 0;
   do
-  :: execution_of_orders_message_at < 4 -> wire[at] = execution_of_orders_message_record.volume_int_324[execution_of_orders_message_at]; at = at + 1; execution_of_orders_message_at = execution_of_orders_message_at + 1
+  :: execution_of_orders_message_at < 4 -> wire[at] = execution_of_orders_message_record.volume[execution_of_orders_message_at]; at = at + 1; execution_of_orders_message_at = execution_of_orders_message_at + 1
   :: else -> break
   od;
   execution_of_orders_message_at = 0;
@@ -2188,7 +2188,7 @@ inline decode_execution_of_orders_message(execution_of_orders_message_record) {
   od;
   execution_of_orders_message_at = 0;
   do
-  :: execution_of_orders_message_at < 4 -> execution_of_orders_message_record.volume_int_324[execution_of_orders_message_at] = wire[at]; at = at + 1; execution_of_orders_message_at = execution_of_orders_message_at + 1
+  :: execution_of_orders_message_at < 4 -> execution_of_orders_message_record.volume[execution_of_orders_message_at] = wire[at]; at = at + 1; execution_of_orders_message_at = execution_of_orders_message_at + 1
   :: else -> break
   od;
   execution_of_orders_message_at = 0;
@@ -2223,7 +2223,7 @@ inline equal_execution_of_orders_message(execution_of_orders_message_read, execu
   od;
   execution_of_orders_message_at = 0;
   do
-  :: execution_of_orders_message_at < 4 -> assert(execution_of_orders_message_read.volume_int_324[execution_of_orders_message_at] == execution_of_orders_message_written.volume_int_324[execution_of_orders_message_at]); execution_of_orders_message_at = execution_of_orders_message_at + 1
+  :: execution_of_orders_message_at < 4 -> assert(execution_of_orders_message_read.volume[execution_of_orders_message_at] == execution_of_orders_message_written.volume[execution_of_orders_message_at]); execution_of_orders_message_at = execution_of_orders_message_at + 1
   :: else -> break
   od;
   execution_of_orders_message_at = 0;
@@ -2360,7 +2360,7 @@ typedef OrderChangeMessage {
   byte new_date[8];
   byte new_number[4];
   byte direction;
-  byte volume_int_324[4];
+  byte volume[4];
   byte price[8]
 };
 
@@ -2396,7 +2396,7 @@ inline fill_order_change_message(order_change_message_record, order_change_messa
   order_change_message_record.direction = order_change_message_value;
   order_change_message_at = 0;
   do
-  :: order_change_message_at < 4 -> order_change_message_record.volume_int_324[order_change_message_at] = order_change_message_value; order_change_message_at = order_change_message_at + 1
+  :: order_change_message_at < 4 -> order_change_message_record.volume[order_change_message_at] = order_change_message_value; order_change_message_at = order_change_message_at + 1
   :: else -> break
   od;
   order_change_message_at = 0;
@@ -2437,7 +2437,7 @@ inline ramp_order_change_message(order_change_message_record, order_change_messa
   order_change_message_record.direction = (order_change_message_base + 28 + 1) % 256;
   order_change_message_at = 0;
   do
-  :: order_change_message_at < 4 -> order_change_message_record.volume_int_324[order_change_message_at] = (order_change_message_base + 29 + order_change_message_at + 1) % 256; order_change_message_at = order_change_message_at + 1
+  :: order_change_message_at < 4 -> order_change_message_record.volume[order_change_message_at] = (order_change_message_base + 29 + order_change_message_at + 1) % 256; order_change_message_at = order_change_message_at + 1
   :: else -> break
   od;
   order_change_message_at = 0;
@@ -2478,7 +2478,7 @@ inline encode_order_change_message(order_change_message_record) {
   wire[at] = order_change_message_record.direction; at = at + 1;
   order_change_message_at = 0;
   do
-  :: order_change_message_at < 4 -> wire[at] = order_change_message_record.volume_int_324[order_change_message_at]; at = at + 1; order_change_message_at = order_change_message_at + 1
+  :: order_change_message_at < 4 -> wire[at] = order_change_message_record.volume[order_change_message_at]; at = at + 1; order_change_message_at = order_change_message_at + 1
   :: else -> break
   od;
   order_change_message_at = 0;
@@ -2519,7 +2519,7 @@ inline decode_order_change_message(order_change_message_record) {
   order_change_message_record.direction = wire[at]; at = at + 1;
   order_change_message_at = 0;
   do
-  :: order_change_message_at < 4 -> order_change_message_record.volume_int_324[order_change_message_at] = wire[at]; at = at + 1; order_change_message_at = order_change_message_at + 1
+  :: order_change_message_at < 4 -> order_change_message_record.volume[order_change_message_at] = wire[at]; at = at + 1; order_change_message_at = order_change_message_at + 1
   :: else -> break
   od;
   order_change_message_at = 0;
@@ -2560,7 +2560,7 @@ inline equal_order_change_message(order_change_message_read, order_change_messag
   assert(order_change_message_read.direction == order_change_message_written.direction);
   order_change_message_at = 0;
   do
-  :: order_change_message_at < 4 -> assert(order_change_message_read.volume_int_324[order_change_message_at] == order_change_message_written.volume_int_324[order_change_message_at]); order_change_message_at = order_change_message_at + 1
+  :: order_change_message_at < 4 -> assert(order_change_message_read.volume[order_change_message_at] == order_change_message_written.volume[order_change_message_at]); order_change_message_at = order_change_message_at + 1
   :: else -> break
   od;
   order_change_message_at = 0;

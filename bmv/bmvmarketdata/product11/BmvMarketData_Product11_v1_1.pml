@@ -438,7 +438,7 @@ inline equal_trade_cancellation_message(trade_cancellation_message_read, trade_c
 typedef CapitalTradesMessage {
   byte instrument_number[4];
   byte trade_time[8];
-  byte volume_int_324[4];
+  byte volume[4];
   byte price[8];
   byte concertation_type;
   byte trade_number[4];
@@ -467,7 +467,7 @@ inline fill_capital_trades_message(capital_trades_message_record, capital_trades
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume_int_324[capital_trades_message_at] = capital_trades_message_value; capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume[capital_trades_message_at] = capital_trades_message_value; capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -517,7 +517,7 @@ inline ramp_capital_trades_message(capital_trades_message_record, capital_trades
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume_int_324[capital_trades_message_at] = (capital_trades_message_base + 12 + capital_trades_message_at + 1) % 256; capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume[capital_trades_message_at] = (capital_trades_message_base + 12 + capital_trades_message_at + 1) % 256; capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -567,7 +567,7 @@ inline encode_capital_trades_message(capital_trades_message_record) {
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> wire[at] = capital_trades_message_record.volume_int_324[capital_trades_message_at]; at = at + 1; capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> wire[at] = capital_trades_message_record.volume[capital_trades_message_at]; at = at + 1; capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -617,7 +617,7 @@ inline decode_capital_trades_message(capital_trades_message_record) {
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume_int_324[capital_trades_message_at] = wire[at]; at = at + 1; capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> capital_trades_message_record.volume[capital_trades_message_at] = wire[at]; at = at + 1; capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -667,7 +667,7 @@ inline equal_capital_trades_message(capital_trades_message_read, capital_trades_
   od;
   capital_trades_message_at = 0;
   do
-  :: capital_trades_message_at < 4 -> assert(capital_trades_message_read.volume_int_324[capital_trades_message_at] == capital_trades_message_written.volume_int_324[capital_trades_message_at]); capital_trades_message_at = capital_trades_message_at + 1
+  :: capital_trades_message_at < 4 -> assert(capital_trades_message_read.volume[capital_trades_message_at] == capital_trades_message_written.volume[capital_trades_message_at]); capital_trades_message_at = capital_trades_message_at + 1
   :: else -> break
   od;
   capital_trades_message_at = 0;
@@ -994,7 +994,7 @@ inline equal_registry_operations_message(registry_operations_message_read, regis
 typedef PublicOfferingsMessage {
   byte instrument_number[4];
   byte number[4];
-  byte volume_int_648[8];
+  byte volume_long[8];
   byte discount_rate_or_price[8];
   byte rate_of_return[4];
   byte term_days[2];
@@ -1023,7 +1023,7 @@ inline fill_public_offerings_message(public_offerings_message_record, public_off
   od;
   public_offerings_message_at = 0;
   do
-  :: public_offerings_message_at < 8 -> public_offerings_message_record.volume_int_648[public_offerings_message_at] = public_offerings_message_value; public_offerings_message_at = public_offerings_message_at + 1
+  :: public_offerings_message_at < 8 -> public_offerings_message_record.volume_long[public_offerings_message_at] = public_offerings_message_value; public_offerings_message_at = public_offerings_message_at + 1
   :: else -> break
   od;
   public_offerings_message_at = 0;
@@ -1085,7 +1085,7 @@ inline ramp_public_offerings_message(public_offerings_message_record, public_off
   od;
   public_offerings_message_at = 0;
   do
-  :: public_offerings_message_at < 8 -> public_offerings_message_record.volume_int_648[public_offerings_message_at] = (public_offerings_message_base + 8 + public_offerings_message_at + 1) % 256; public_offerings_message_at = public_offerings_message_at + 1
+  :: public_offerings_message_at < 8 -> public_offerings_message_record.volume_long[public_offerings_message_at] = (public_offerings_message_base + 8 + public_offerings_message_at + 1) % 256; public_offerings_message_at = public_offerings_message_at + 1
   :: else -> break
   od;
   public_offerings_message_at = 0;
@@ -1147,7 +1147,7 @@ inline encode_public_offerings_message(public_offerings_message_record) {
   od;
   public_offerings_message_at = 0;
   do
-  :: public_offerings_message_at < 8 -> wire[at] = public_offerings_message_record.volume_int_648[public_offerings_message_at]; at = at + 1; public_offerings_message_at = public_offerings_message_at + 1
+  :: public_offerings_message_at < 8 -> wire[at] = public_offerings_message_record.volume_long[public_offerings_message_at]; at = at + 1; public_offerings_message_at = public_offerings_message_at + 1
   :: else -> break
   od;
   public_offerings_message_at = 0;
@@ -1209,7 +1209,7 @@ inline decode_public_offerings_message(public_offerings_message_record) {
   od;
   public_offerings_message_at = 0;
   do
-  :: public_offerings_message_at < 8 -> public_offerings_message_record.volume_int_648[public_offerings_message_at] = wire[at]; at = at + 1; public_offerings_message_at = public_offerings_message_at + 1
+  :: public_offerings_message_at < 8 -> public_offerings_message_record.volume_long[public_offerings_message_at] = wire[at]; at = at + 1; public_offerings_message_at = public_offerings_message_at + 1
   :: else -> break
   od;
   public_offerings_message_at = 0;
@@ -1271,7 +1271,7 @@ inline equal_public_offerings_message(public_offerings_message_read, public_offe
   od;
   public_offerings_message_at = 0;
   do
-  :: public_offerings_message_at < 8 -> assert(public_offerings_message_read.volume_int_648[public_offerings_message_at] == public_offerings_message_written.volume_int_648[public_offerings_message_at]); public_offerings_message_at = public_offerings_message_at + 1
+  :: public_offerings_message_at < 8 -> assert(public_offerings_message_read.volume_long[public_offerings_message_at] == public_offerings_message_written.volume_long[public_offerings_message_at]); public_offerings_message_at = public_offerings_message_at + 1
   :: else -> break
   od;
   public_offerings_message_at = 0;

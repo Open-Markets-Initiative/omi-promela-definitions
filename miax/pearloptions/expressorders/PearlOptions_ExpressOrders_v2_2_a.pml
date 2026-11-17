@@ -746,7 +746,7 @@ typedef ArmProtectionSettingsNotification {
   byte mpid[4];
   byte underlying_symbol[11];
   byte allowable_engagement_percentage[4];
-  byte counting_period_binary_u_2[2];
+  byte counting_period[2];
   byte action;
   byte source;
   byte market_maker_origin_multiplier[2];
@@ -784,7 +784,7 @@ inline fill_arm_protection_settings_notification(arm_protection_settings_notific
   od;
   arm_protection_settings_notification_at = 0;
   do
-  :: arm_protection_settings_notification_at < 2 -> arm_protection_settings_notification_record.counting_period_binary_u_2[arm_protection_settings_notification_at] = arm_protection_settings_notification_value; arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
+  :: arm_protection_settings_notification_at < 2 -> arm_protection_settings_notification_record.counting_period[arm_protection_settings_notification_at] = arm_protection_settings_notification_value; arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm_protection_settings_notification_record.action = arm_protection_settings_notification_value;
@@ -851,7 +851,7 @@ inline ramp_arm_protection_settings_notification(arm_protection_settings_notific
   od;
   arm_protection_settings_notification_at = 0;
   do
-  :: arm_protection_settings_notification_at < 2 -> arm_protection_settings_notification_record.counting_period_binary_u_2[arm_protection_settings_notification_at] = (arm_protection_settings_notification_base + 27 + arm_protection_settings_notification_at + 1) % 256; arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
+  :: arm_protection_settings_notification_at < 2 -> arm_protection_settings_notification_record.counting_period[arm_protection_settings_notification_at] = (arm_protection_settings_notification_base + 27 + arm_protection_settings_notification_at + 1) % 256; arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm_protection_settings_notification_record.action = (arm_protection_settings_notification_base + 29 + 1) % 256;
@@ -918,7 +918,7 @@ inline encode_arm_protection_settings_notification(arm_protection_settings_notif
   od;
   arm_protection_settings_notification_at = 0;
   do
-  :: arm_protection_settings_notification_at < 2 -> wire[at] = arm_protection_settings_notification_record.counting_period_binary_u_2[arm_protection_settings_notification_at]; at = at + 1; arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
+  :: arm_protection_settings_notification_at < 2 -> wire[at] = arm_protection_settings_notification_record.counting_period[arm_protection_settings_notification_at]; at = at + 1; arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
   :: else -> break
   od;
   wire[at] = arm_protection_settings_notification_record.action; at = at + 1;
@@ -985,7 +985,7 @@ inline decode_arm_protection_settings_notification(arm_protection_settings_notif
   od;
   arm_protection_settings_notification_at = 0;
   do
-  :: arm_protection_settings_notification_at < 2 -> arm_protection_settings_notification_record.counting_period_binary_u_2[arm_protection_settings_notification_at] = wire[at]; at = at + 1; arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
+  :: arm_protection_settings_notification_at < 2 -> arm_protection_settings_notification_record.counting_period[arm_protection_settings_notification_at] = wire[at]; at = at + 1; arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm_protection_settings_notification_record.action = wire[at]; at = at + 1;
@@ -1052,7 +1052,7 @@ inline equal_arm_protection_settings_notification(arm_protection_settings_notifi
   od;
   arm_protection_settings_notification_at = 0;
   do
-  :: arm_protection_settings_notification_at < 2 -> assert(arm_protection_settings_notification_read.counting_period_binary_u_2[arm_protection_settings_notification_at] == arm_protection_settings_notification_written.counting_period_binary_u_2[arm_protection_settings_notification_at]); arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
+  :: arm_protection_settings_notification_at < 2 -> assert(arm_protection_settings_notification_read.counting_period[arm_protection_settings_notification_at] == arm_protection_settings_notification_written.counting_period[arm_protection_settings_notification_at]); arm_protection_settings_notification_at = arm_protection_settings_notification_at + 1
   :: else -> break
   od;
   assert(arm_protection_settings_notification_read.action == arm_protection_settings_notification_written.action);
@@ -1103,8 +1103,8 @@ typedef Arm2UnderlyingLevelProtectionSettingsNotification {
   byte mpid[4];
   byte action;
   byte underlying_symbol[11];
-  byte arm_threshold_count_binary_u_4[4];
-  byte counting_period_binary_u_4[4];
+  byte arm_threshold_count[4];
+  byte arm_2_counting_period[4];
   byte reserved_16[16]
 };
 
@@ -1130,12 +1130,12 @@ inline fill_arm2_underlying_level_protection_settings_notification(arm2_underlyi
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_notification_at] = arm2_underlying_level_protection_settings_notification_value; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_threshold_count[arm2_underlying_level_protection_settings_notification_at] = arm2_underlying_level_protection_settings_notification_value; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.counting_period_binary_u_4[arm2_underlying_level_protection_settings_notification_at] = arm2_underlying_level_protection_settings_notification_value; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_2_counting_period[arm2_underlying_level_protection_settings_notification_at] = arm2_underlying_level_protection_settings_notification_value; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
@@ -1166,12 +1166,12 @@ inline ramp_arm2_underlying_level_protection_settings_notification(arm2_underlyi
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_notification_at] = (arm2_underlying_level_protection_settings_notification_base + 24 + arm2_underlying_level_protection_settings_notification_at + 1) % 256; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_threshold_count[arm2_underlying_level_protection_settings_notification_at] = (arm2_underlying_level_protection_settings_notification_base + 24 + arm2_underlying_level_protection_settings_notification_at + 1) % 256; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.counting_period_binary_u_4[arm2_underlying_level_protection_settings_notification_at] = (arm2_underlying_level_protection_settings_notification_base + 28 + arm2_underlying_level_protection_settings_notification_at + 1) % 256; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_2_counting_period[arm2_underlying_level_protection_settings_notification_at] = (arm2_underlying_level_protection_settings_notification_base + 28 + arm2_underlying_level_protection_settings_notification_at + 1) % 256; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
@@ -1202,12 +1202,12 @@ inline encode_arm2_underlying_level_protection_settings_notification(arm2_underl
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> wire[at] = arm2_underlying_level_protection_settings_notification_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_notification_at]; at = at + 1; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> wire[at] = arm2_underlying_level_protection_settings_notification_record.arm_threshold_count[arm2_underlying_level_protection_settings_notification_at]; at = at + 1; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> wire[at] = arm2_underlying_level_protection_settings_notification_record.counting_period_binary_u_4[arm2_underlying_level_protection_settings_notification_at]; at = at + 1; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> wire[at] = arm2_underlying_level_protection_settings_notification_record.arm_2_counting_period[arm2_underlying_level_protection_settings_notification_at]; at = at + 1; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
@@ -1238,12 +1238,12 @@ inline decode_arm2_underlying_level_protection_settings_notification(arm2_underl
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_notification_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_threshold_count[arm2_underlying_level_protection_settings_notification_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.counting_period_binary_u_4[arm2_underlying_level_protection_settings_notification_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> arm2_underlying_level_protection_settings_notification_record.arm_2_counting_period[arm2_underlying_level_protection_settings_notification_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
@@ -1274,12 +1274,12 @@ inline equal_arm2_underlying_level_protection_settings_notification(arm2_underly
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> assert(arm2_underlying_level_protection_settings_notification_read.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_notification_at] == arm2_underlying_level_protection_settings_notification_written.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_notification_at]); arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> assert(arm2_underlying_level_protection_settings_notification_read.arm_threshold_count[arm2_underlying_level_protection_settings_notification_at] == arm2_underlying_level_protection_settings_notification_written.arm_threshold_count[arm2_underlying_level_protection_settings_notification_at]); arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_notification_at < 4 -> assert(arm2_underlying_level_protection_settings_notification_read.counting_period_binary_u_4[arm2_underlying_level_protection_settings_notification_at] == arm2_underlying_level_protection_settings_notification_written.counting_period_binary_u_4[arm2_underlying_level_protection_settings_notification_at]); arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
+  :: arm2_underlying_level_protection_settings_notification_at < 4 -> assert(arm2_underlying_level_protection_settings_notification_read.arm_2_counting_period[arm2_underlying_level_protection_settings_notification_at] == arm2_underlying_level_protection_settings_notification_written.arm_2_counting_period[arm2_underlying_level_protection_settings_notification_at]); arm2_underlying_level_protection_settings_notification_at = arm2_underlying_level_protection_settings_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_notification_at = 0;
@@ -1473,8 +1473,8 @@ typedef Arm2UnderlyingLevelProtectionNotification {
   byte mpid[4];
   byte underlying_symbol[11];
   byte notification_type;
-  byte arm_threshold_count_binary_u_4[4];
-  byte counting_period_binary_u_4[4];
+  byte arm_threshold_count[4];
+  byte arm_2_counting_period[4];
   byte reserved_16[16]
 };
 
@@ -1500,12 +1500,12 @@ inline fill_arm2_underlying_level_protection_notification(arm2_underlying_level_
   arm2_underlying_level_protection_notification_record.notification_type = arm2_underlying_level_protection_notification_value;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_notification_at] = arm2_underlying_level_protection_notification_value; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_threshold_count[arm2_underlying_level_protection_notification_at] = arm2_underlying_level_protection_notification_value; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.counting_period_binary_u_4[arm2_underlying_level_protection_notification_at] = arm2_underlying_level_protection_notification_value; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_2_counting_period[arm2_underlying_level_protection_notification_at] = arm2_underlying_level_protection_notification_value; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
@@ -1536,12 +1536,12 @@ inline ramp_arm2_underlying_level_protection_notification(arm2_underlying_level_
   arm2_underlying_level_protection_notification_record.notification_type = (arm2_underlying_level_protection_notification_base + 23 + 1) % 256;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_notification_at] = (arm2_underlying_level_protection_notification_base + 24 + arm2_underlying_level_protection_notification_at + 1) % 256; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_threshold_count[arm2_underlying_level_protection_notification_at] = (arm2_underlying_level_protection_notification_base + 24 + arm2_underlying_level_protection_notification_at + 1) % 256; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.counting_period_binary_u_4[arm2_underlying_level_protection_notification_at] = (arm2_underlying_level_protection_notification_base + 28 + arm2_underlying_level_protection_notification_at + 1) % 256; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_2_counting_period[arm2_underlying_level_protection_notification_at] = (arm2_underlying_level_protection_notification_base + 28 + arm2_underlying_level_protection_notification_at + 1) % 256; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
@@ -1572,12 +1572,12 @@ inline encode_arm2_underlying_level_protection_notification(arm2_underlying_leve
   wire[at] = arm2_underlying_level_protection_notification_record.notification_type; at = at + 1;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> wire[at] = arm2_underlying_level_protection_notification_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_notification_at]; at = at + 1; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> wire[at] = arm2_underlying_level_protection_notification_record.arm_threshold_count[arm2_underlying_level_protection_notification_at]; at = at + 1; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> wire[at] = arm2_underlying_level_protection_notification_record.counting_period_binary_u_4[arm2_underlying_level_protection_notification_at]; at = at + 1; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> wire[at] = arm2_underlying_level_protection_notification_record.arm_2_counting_period[arm2_underlying_level_protection_notification_at]; at = at + 1; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
@@ -1608,12 +1608,12 @@ inline decode_arm2_underlying_level_protection_notification(arm2_underlying_leve
   arm2_underlying_level_protection_notification_record.notification_type = wire[at]; at = at + 1;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_notification_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_threshold_count[arm2_underlying_level_protection_notification_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.counting_period_binary_u_4[arm2_underlying_level_protection_notification_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> arm2_underlying_level_protection_notification_record.arm_2_counting_period[arm2_underlying_level_protection_notification_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
@@ -1644,12 +1644,12 @@ inline equal_arm2_underlying_level_protection_notification(arm2_underlying_level
   assert(arm2_underlying_level_protection_notification_read.notification_type == arm2_underlying_level_protection_notification_written.notification_type);
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> assert(arm2_underlying_level_protection_notification_read.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_notification_at] == arm2_underlying_level_protection_notification_written.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_notification_at]); arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> assert(arm2_underlying_level_protection_notification_read.arm_threshold_count[arm2_underlying_level_protection_notification_at] == arm2_underlying_level_protection_notification_written.arm_threshold_count[arm2_underlying_level_protection_notification_at]); arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
   do
-  :: arm2_underlying_level_protection_notification_at < 4 -> assert(arm2_underlying_level_protection_notification_read.counting_period_binary_u_4[arm2_underlying_level_protection_notification_at] == arm2_underlying_level_protection_notification_written.counting_period_binary_u_4[arm2_underlying_level_protection_notification_at]); arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
+  :: arm2_underlying_level_protection_notification_at < 4 -> assert(arm2_underlying_level_protection_notification_read.arm_2_counting_period[arm2_underlying_level_protection_notification_at] == arm2_underlying_level_protection_notification_written.arm_2_counting_period[arm2_underlying_level_protection_notification_at]); arm2_underlying_level_protection_notification_at = arm2_underlying_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_notification_at = 0;
@@ -1665,8 +1665,8 @@ inline equal_arm2_underlying_level_protection_notification(arm2_underlying_level
 /* This message format will be used to notify firms about ARM2 Firm Level protection events */
 typedef Arm2FirmLevelProtectionNotification {
   byte notification_time[8];
-  byte arm_threshold_count_binary_4u_4[4];
-  byte counting_period_binary_4u_4[4];
+  byte arm_threshold_count[4];
+  byte arm_2_counting_period[4];
   byte notification_type;
   byte reserved_16[16]
 };
@@ -1682,12 +1682,12 @@ inline fill_arm2_firm_level_protection_notification(arm2_firm_level_protection_n
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_threshold_count_binary_4u_4[arm2_firm_level_protection_notification_at] = arm2_firm_level_protection_notification_value; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_threshold_count[arm2_firm_level_protection_notification_at] = arm2_firm_level_protection_notification_value; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.counting_period_binary_4u_4[arm2_firm_level_protection_notification_at] = arm2_firm_level_protection_notification_value; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_2_counting_period[arm2_firm_level_protection_notification_at] = arm2_firm_level_protection_notification_value; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_firm_level_protection_notification_record.notification_type = arm2_firm_level_protection_notification_value;
@@ -1708,12 +1708,12 @@ inline ramp_arm2_firm_level_protection_notification(arm2_firm_level_protection_n
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_threshold_count_binary_4u_4[arm2_firm_level_protection_notification_at] = (arm2_firm_level_protection_notification_base + 8 + arm2_firm_level_protection_notification_at + 1) % 256; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_threshold_count[arm2_firm_level_protection_notification_at] = (arm2_firm_level_protection_notification_base + 8 + arm2_firm_level_protection_notification_at + 1) % 256; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.counting_period_binary_4u_4[arm2_firm_level_protection_notification_at] = (arm2_firm_level_protection_notification_base + 12 + arm2_firm_level_protection_notification_at + 1) % 256; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_2_counting_period[arm2_firm_level_protection_notification_at] = (arm2_firm_level_protection_notification_base + 12 + arm2_firm_level_protection_notification_at + 1) % 256; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_firm_level_protection_notification_record.notification_type = (arm2_firm_level_protection_notification_base + 16 + 1) % 256;
@@ -1734,12 +1734,12 @@ inline encode_arm2_firm_level_protection_notification(arm2_firm_level_protection
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> wire[at] = arm2_firm_level_protection_notification_record.arm_threshold_count_binary_4u_4[arm2_firm_level_protection_notification_at]; at = at + 1; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> wire[at] = arm2_firm_level_protection_notification_record.arm_threshold_count[arm2_firm_level_protection_notification_at]; at = at + 1; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> wire[at] = arm2_firm_level_protection_notification_record.counting_period_binary_4u_4[arm2_firm_level_protection_notification_at]; at = at + 1; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> wire[at] = arm2_firm_level_protection_notification_record.arm_2_counting_period[arm2_firm_level_protection_notification_at]; at = at + 1; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   wire[at] = arm2_firm_level_protection_notification_record.notification_type; at = at + 1;
@@ -1760,12 +1760,12 @@ inline decode_arm2_firm_level_protection_notification(arm2_firm_level_protection
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_threshold_count_binary_4u_4[arm2_firm_level_protection_notification_at] = wire[at]; at = at + 1; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_threshold_count[arm2_firm_level_protection_notification_at] = wire[at]; at = at + 1; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.counting_period_binary_4u_4[arm2_firm_level_protection_notification_at] = wire[at]; at = at + 1; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> arm2_firm_level_protection_notification_record.arm_2_counting_period[arm2_firm_level_protection_notification_at] = wire[at]; at = at + 1; arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_firm_level_protection_notification_record.notification_type = wire[at]; at = at + 1;
@@ -1786,12 +1786,12 @@ inline equal_arm2_firm_level_protection_notification(arm2_firm_level_protection_
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> assert(arm2_firm_level_protection_notification_read.arm_threshold_count_binary_4u_4[arm2_firm_level_protection_notification_at] == arm2_firm_level_protection_notification_written.arm_threshold_count_binary_4u_4[arm2_firm_level_protection_notification_at]); arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> assert(arm2_firm_level_protection_notification_read.arm_threshold_count[arm2_firm_level_protection_notification_at] == arm2_firm_level_protection_notification_written.arm_threshold_count[arm2_firm_level_protection_notification_at]); arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   arm2_firm_level_protection_notification_at = 0;
   do
-  :: arm2_firm_level_protection_notification_at < 4 -> assert(arm2_firm_level_protection_notification_read.counting_period_binary_4u_4[arm2_firm_level_protection_notification_at] == arm2_firm_level_protection_notification_written.counting_period_binary_4u_4[arm2_firm_level_protection_notification_at]); arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
+  :: arm2_firm_level_protection_notification_at < 4 -> assert(arm2_firm_level_protection_notification_read.arm_2_counting_period[arm2_firm_level_protection_notification_at] == arm2_firm_level_protection_notification_written.arm_2_counting_period[arm2_firm_level_protection_notification_at]); arm2_firm_level_protection_notification_at = arm2_firm_level_protection_notification_at + 1
   :: else -> break
   od;
   assert(arm2_firm_level_protection_notification_read.notification_type == arm2_firm_level_protection_notification_written.notification_type);
@@ -2374,7 +2374,7 @@ typedef ArmSettingsUpdateRequest {
   byte action;
   byte underlying_symbol[11];
   byte allowable_engagement_percentage[4];
-  byte counting_period_binary_u_2[2];
+  byte counting_period[2];
   byte market_maker_origin_multiplier[2];
   byte away_market_maker_origin_multiplier[2];
   byte broker_dealer_origin_multiplier[2];
@@ -2411,7 +2411,7 @@ inline fill_arm_settings_update_request(arm_settings_update_request_record, arm_
   od;
   arm_settings_update_request_at = 0;
   do
-  :: arm_settings_update_request_at < 2 -> arm_settings_update_request_record.counting_period_binary_u_2[arm_settings_update_request_at] = arm_settings_update_request_value; arm_settings_update_request_at = arm_settings_update_request_at + 1
+  :: arm_settings_update_request_at < 2 -> arm_settings_update_request_record.counting_period[arm_settings_update_request_at] = arm_settings_update_request_value; arm_settings_update_request_at = arm_settings_update_request_at + 1
   :: else -> break
   od;
   arm_settings_update_request_at = 0;
@@ -2477,7 +2477,7 @@ inline ramp_arm_settings_update_request(arm_settings_update_request_record, arm_
   od;
   arm_settings_update_request_at = 0;
   do
-  :: arm_settings_update_request_at < 2 -> arm_settings_update_request_record.counting_period_binary_u_2[arm_settings_update_request_at] = (arm_settings_update_request_base + 24 + arm_settings_update_request_at + 1) % 256; arm_settings_update_request_at = arm_settings_update_request_at + 1
+  :: arm_settings_update_request_at < 2 -> arm_settings_update_request_record.counting_period[arm_settings_update_request_at] = (arm_settings_update_request_base + 24 + arm_settings_update_request_at + 1) % 256; arm_settings_update_request_at = arm_settings_update_request_at + 1
   :: else -> break
   od;
   arm_settings_update_request_at = 0;
@@ -2543,7 +2543,7 @@ inline encode_arm_settings_update_request(arm_settings_update_request_record) {
   od;
   arm_settings_update_request_at = 0;
   do
-  :: arm_settings_update_request_at < 2 -> wire[at] = arm_settings_update_request_record.counting_period_binary_u_2[arm_settings_update_request_at]; at = at + 1; arm_settings_update_request_at = arm_settings_update_request_at + 1
+  :: arm_settings_update_request_at < 2 -> wire[at] = arm_settings_update_request_record.counting_period[arm_settings_update_request_at]; at = at + 1; arm_settings_update_request_at = arm_settings_update_request_at + 1
   :: else -> break
   od;
   arm_settings_update_request_at = 0;
@@ -2609,7 +2609,7 @@ inline decode_arm_settings_update_request(arm_settings_update_request_record) {
   od;
   arm_settings_update_request_at = 0;
   do
-  :: arm_settings_update_request_at < 2 -> arm_settings_update_request_record.counting_period_binary_u_2[arm_settings_update_request_at] = wire[at]; at = at + 1; arm_settings_update_request_at = arm_settings_update_request_at + 1
+  :: arm_settings_update_request_at < 2 -> arm_settings_update_request_record.counting_period[arm_settings_update_request_at] = wire[at]; at = at + 1; arm_settings_update_request_at = arm_settings_update_request_at + 1
   :: else -> break
   od;
   arm_settings_update_request_at = 0;
@@ -2675,7 +2675,7 @@ inline equal_arm_settings_update_request(arm_settings_update_request_read, arm_s
   od;
   arm_settings_update_request_at = 0;
   do
-  :: arm_settings_update_request_at < 2 -> assert(arm_settings_update_request_read.counting_period_binary_u_2[arm_settings_update_request_at] == arm_settings_update_request_written.counting_period_binary_u_2[arm_settings_update_request_at]); arm_settings_update_request_at = arm_settings_update_request_at + 1
+  :: arm_settings_update_request_at < 2 -> assert(arm_settings_update_request_read.counting_period[arm_settings_update_request_at] == arm_settings_update_request_written.counting_period[arm_settings_update_request_at]); arm_settings_update_request_at = arm_settings_update_request_at + 1
   :: else -> break
   od;
   arm_settings_update_request_at = 0;
@@ -2841,8 +2841,8 @@ typedef Arm2UnderlyingLevelProtectionSettingsUpdateRequest {
   byte mpid[4];
   byte action;
   byte underlying_symbol[11];
-  byte arm_threshold_count_binary_u_4[4];
-  byte counting_period_binary_u_4[4]
+  byte arm_threshold_count[4];
+  byte arm_2_counting_period[4]
 };
 
 int arm2_underlying_level_protection_settings_update_request_at;
@@ -2867,12 +2867,12 @@ inline fill_arm2_underlying_level_protection_settings_update_request(arm2_underl
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_update_request_at] = arm2_underlying_level_protection_settings_update_request_value; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_threshold_count[arm2_underlying_level_protection_settings_update_request_at] = arm2_underlying_level_protection_settings_update_request_value; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.counting_period_binary_u_4[arm2_underlying_level_protection_settings_update_request_at] = arm2_underlying_level_protection_settings_update_request_value; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_2_counting_period[arm2_underlying_level_protection_settings_update_request_at] = arm2_underlying_level_protection_settings_update_request_value; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   skip
@@ -2898,12 +2898,12 @@ inline ramp_arm2_underlying_level_protection_settings_update_request(arm2_underl
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_update_request_at] = (arm2_underlying_level_protection_settings_update_request_base + 20 + arm2_underlying_level_protection_settings_update_request_at + 1) % 256; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_threshold_count[arm2_underlying_level_protection_settings_update_request_at] = (arm2_underlying_level_protection_settings_update_request_base + 20 + arm2_underlying_level_protection_settings_update_request_at + 1) % 256; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.counting_period_binary_u_4[arm2_underlying_level_protection_settings_update_request_at] = (arm2_underlying_level_protection_settings_update_request_base + 24 + arm2_underlying_level_protection_settings_update_request_at + 1) % 256; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_2_counting_period[arm2_underlying_level_protection_settings_update_request_at] = (arm2_underlying_level_protection_settings_update_request_base + 24 + arm2_underlying_level_protection_settings_update_request_at + 1) % 256; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   skip
@@ -2929,12 +2929,12 @@ inline encode_arm2_underlying_level_protection_settings_update_request(arm2_unde
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> wire[at] = arm2_underlying_level_protection_settings_update_request_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_update_request_at]; at = at + 1; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> wire[at] = arm2_underlying_level_protection_settings_update_request_record.arm_threshold_count[arm2_underlying_level_protection_settings_update_request_at]; at = at + 1; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> wire[at] = arm2_underlying_level_protection_settings_update_request_record.counting_period_binary_u_4[arm2_underlying_level_protection_settings_update_request_at]; at = at + 1; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> wire[at] = arm2_underlying_level_protection_settings_update_request_record.arm_2_counting_period[arm2_underlying_level_protection_settings_update_request_at]; at = at + 1; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   skip
@@ -2960,12 +2960,12 @@ inline decode_arm2_underlying_level_protection_settings_update_request(arm2_unde
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_update_request_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_threshold_count[arm2_underlying_level_protection_settings_update_request_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.counting_period_binary_u_4[arm2_underlying_level_protection_settings_update_request_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> arm2_underlying_level_protection_settings_update_request_record.arm_2_counting_period[arm2_underlying_level_protection_settings_update_request_at] = wire[at]; at = at + 1; arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   skip
@@ -2991,12 +2991,12 @@ inline equal_arm2_underlying_level_protection_settings_update_request(arm2_under
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> assert(arm2_underlying_level_protection_settings_update_request_read.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_update_request_at] == arm2_underlying_level_protection_settings_update_request_written.arm_threshold_count_binary_u_4[arm2_underlying_level_protection_settings_update_request_at]); arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> assert(arm2_underlying_level_protection_settings_update_request_read.arm_threshold_count[arm2_underlying_level_protection_settings_update_request_at] == arm2_underlying_level_protection_settings_update_request_written.arm_threshold_count[arm2_underlying_level_protection_settings_update_request_at]); arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   arm2_underlying_level_protection_settings_update_request_at = 0;
   do
-  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> assert(arm2_underlying_level_protection_settings_update_request_read.counting_period_binary_u_4[arm2_underlying_level_protection_settings_update_request_at] == arm2_underlying_level_protection_settings_update_request_written.counting_period_binary_u_4[arm2_underlying_level_protection_settings_update_request_at]); arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
+  :: arm2_underlying_level_protection_settings_update_request_at < 4 -> assert(arm2_underlying_level_protection_settings_update_request_read.arm_2_counting_period[arm2_underlying_level_protection_settings_update_request_at] == arm2_underlying_level_protection_settings_update_request_written.arm_2_counting_period[arm2_underlying_level_protection_settings_update_request_at]); arm2_underlying_level_protection_settings_update_request_at = arm2_underlying_level_protection_settings_update_request_at + 1
   :: else -> break
   od;
   skip

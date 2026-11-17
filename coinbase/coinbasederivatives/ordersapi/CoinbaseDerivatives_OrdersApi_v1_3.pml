@@ -188,7 +188,7 @@ inline equal_logon_conf_message(logon_conf_message_read, logon_conf_message_writ
 
 /* LogoutMessage */
 typedef LogoutMessage {
-  byte reason[64]
+  byte logout_reason[64]
 };
 
 int logout_message_at;
@@ -197,7 +197,7 @@ int logout_message_at;
 inline fill_logout_message(logout_message_record, logout_message_value) {
   logout_message_at = 0;
   do
-  :: logout_message_at < 64 -> logout_message_record.reason[logout_message_at] = logout_message_value; logout_message_at = logout_message_at + 1
+  :: logout_message_at < 64 -> logout_message_record.logout_reason[logout_message_at] = logout_message_value; logout_message_at = logout_message_at + 1
   :: else -> break
   od;
   skip
@@ -207,7 +207,7 @@ inline fill_logout_message(logout_message_record, logout_message_value) {
 inline ramp_logout_message(logout_message_record, logout_message_base) {
   logout_message_at = 0;
   do
-  :: logout_message_at < 64 -> logout_message_record.reason[logout_message_at] = (logout_message_base + 0 + logout_message_at + 1) % 256; logout_message_at = logout_message_at + 1
+  :: logout_message_at < 64 -> logout_message_record.logout_reason[logout_message_at] = (logout_message_base + 0 + logout_message_at + 1) % 256; logout_message_at = logout_message_at + 1
   :: else -> break
   od;
   skip
@@ -217,7 +217,7 @@ inline ramp_logout_message(logout_message_record, logout_message_base) {
 inline encode_logout_message(logout_message_record) {
   logout_message_at = 0;
   do
-  :: logout_message_at < 64 -> wire[at] = logout_message_record.reason[logout_message_at]; at = at + 1; logout_message_at = logout_message_at + 1
+  :: logout_message_at < 64 -> wire[at] = logout_message_record.logout_reason[logout_message_at]; at = at + 1; logout_message_at = logout_message_at + 1
   :: else -> break
   od;
   skip
@@ -227,7 +227,7 @@ inline encode_logout_message(logout_message_record) {
 inline decode_logout_message(logout_message_record) {
   logout_message_at = 0;
   do
-  :: logout_message_at < 64 -> logout_message_record.reason[logout_message_at] = wire[at]; at = at + 1; logout_message_at = logout_message_at + 1
+  :: logout_message_at < 64 -> logout_message_record.logout_reason[logout_message_at] = wire[at]; at = at + 1; logout_message_at = logout_message_at + 1
   :: else -> break
   od;
   skip
@@ -237,7 +237,7 @@ inline decode_logout_message(logout_message_record) {
 inline equal_logout_message(logout_message_read, logout_message_written) {
   logout_message_at = 0;
   do
-  :: logout_message_at < 64 -> assert(logout_message_read.reason[logout_message_at] == logout_message_written.reason[logout_message_at]); logout_message_at = logout_message_at + 1
+  :: logout_message_at < 64 -> assert(logout_message_read.logout_reason[logout_message_at] == logout_message_written.logout_reason[logout_message_at]); logout_message_at = logout_message_at + 1
   :: else -> break
   od;
   skip
@@ -247,7 +247,7 @@ inline equal_logout_message(logout_message_read, logout_message_written) {
 
 /* LoggedOutMessage */
 typedef LoggedOutMessage {
-  byte reason[64]
+  byte logout_reason[64]
 };
 
 int logged_out_message_at;
@@ -256,7 +256,7 @@ int logged_out_message_at;
 inline fill_logged_out_message(logged_out_message_record, logged_out_message_value) {
   logged_out_message_at = 0;
   do
-  :: logged_out_message_at < 64 -> logged_out_message_record.reason[logged_out_message_at] = logged_out_message_value; logged_out_message_at = logged_out_message_at + 1
+  :: logged_out_message_at < 64 -> logged_out_message_record.logout_reason[logged_out_message_at] = logged_out_message_value; logged_out_message_at = logged_out_message_at + 1
   :: else -> break
   od;
   skip
@@ -266,7 +266,7 @@ inline fill_logged_out_message(logged_out_message_record, logged_out_message_val
 inline ramp_logged_out_message(logged_out_message_record, logged_out_message_base) {
   logged_out_message_at = 0;
   do
-  :: logged_out_message_at < 64 -> logged_out_message_record.reason[logged_out_message_at] = (logged_out_message_base + 0 + logged_out_message_at + 1) % 256; logged_out_message_at = logged_out_message_at + 1
+  :: logged_out_message_at < 64 -> logged_out_message_record.logout_reason[logged_out_message_at] = (logged_out_message_base + 0 + logged_out_message_at + 1) % 256; logged_out_message_at = logged_out_message_at + 1
   :: else -> break
   od;
   skip
@@ -276,7 +276,7 @@ inline ramp_logged_out_message(logged_out_message_record, logged_out_message_bas
 inline encode_logged_out_message(logged_out_message_record) {
   logged_out_message_at = 0;
   do
-  :: logged_out_message_at < 64 -> wire[at] = logged_out_message_record.reason[logged_out_message_at]; at = at + 1; logged_out_message_at = logged_out_message_at + 1
+  :: logged_out_message_at < 64 -> wire[at] = logged_out_message_record.logout_reason[logged_out_message_at]; at = at + 1; logged_out_message_at = logged_out_message_at + 1
   :: else -> break
   od;
   skip
@@ -286,7 +286,7 @@ inline encode_logged_out_message(logged_out_message_record) {
 inline decode_logged_out_message(logged_out_message_record) {
   logged_out_message_at = 0;
   do
-  :: logged_out_message_at < 64 -> logged_out_message_record.reason[logged_out_message_at] = wire[at]; at = at + 1; logged_out_message_at = logged_out_message_at + 1
+  :: logged_out_message_at < 64 -> logged_out_message_record.logout_reason[logged_out_message_at] = wire[at]; at = at + 1; logged_out_message_at = logged_out_message_at + 1
   :: else -> break
   od;
   skip
@@ -296,7 +296,7 @@ inline decode_logged_out_message(logged_out_message_record) {
 inline equal_logged_out_message(logged_out_message_read, logged_out_message_written) {
   logged_out_message_at = 0;
   do
-  :: logged_out_message_at < 64 -> assert(logged_out_message_read.reason[logged_out_message_at] == logged_out_message_written.reason[logged_out_message_at]); logged_out_message_at = logged_out_message_at + 1
+  :: logged_out_message_at < 64 -> assert(logged_out_message_read.logout_reason[logged_out_message_at] == logged_out_message_written.logout_reason[logged_out_message_at]); logged_out_message_at = logged_out_message_at + 1
   :: else -> break
   od;
   skip

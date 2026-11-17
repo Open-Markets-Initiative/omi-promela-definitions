@@ -102,7 +102,7 @@ inline equal_sesm_packet_header(sesm_packet_header_read, sesm_packet_header_writ
 typedef SystemState {
   byte notification_time[8];
   byte ctd_version[8];
-  byte session_i_d[4];
+  byte trading_session_id[4];
   byte system_status
 };
 
@@ -122,7 +122,7 @@ inline fill_system_state(system_state_record, system_state_value) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> system_state_record.session_i_d[system_state_at] = system_state_value; system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> system_state_record.trading_session_id[system_state_at] = system_state_value; system_state_at = system_state_at + 1
   :: else -> break
   od;
   system_state_record.system_status = system_state_value;
@@ -143,7 +143,7 @@ inline ramp_system_state(system_state_record, system_state_base) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> system_state_record.session_i_d[system_state_at] = (system_state_base + 16 + system_state_at + 1) % 256; system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> system_state_record.trading_session_id[system_state_at] = (system_state_base + 16 + system_state_at + 1) % 256; system_state_at = system_state_at + 1
   :: else -> break
   od;
   system_state_record.system_status = (system_state_base + 20 + 1) % 256;
@@ -164,7 +164,7 @@ inline encode_system_state(system_state_record) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> wire[at] = system_state_record.session_i_d[system_state_at]; at = at + 1; system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> wire[at] = system_state_record.trading_session_id[system_state_at]; at = at + 1; system_state_at = system_state_at + 1
   :: else -> break
   od;
   wire[at] = system_state_record.system_status; at = at + 1;
@@ -185,7 +185,7 @@ inline decode_system_state(system_state_record) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> system_state_record.session_i_d[system_state_at] = wire[at]; at = at + 1; system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> system_state_record.trading_session_id[system_state_at] = wire[at]; at = at + 1; system_state_at = system_state_at + 1
   :: else -> break
   od;
   system_state_record.system_status = wire[at]; at = at + 1;
@@ -206,7 +206,7 @@ inline equal_system_state(system_state_read, system_state_written) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> assert(system_state_read.session_i_d[system_state_at] == system_state_written.session_i_d[system_state_at]); system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> assert(system_state_read.trading_session_id[system_state_at] == system_state_written.trading_session_id[system_state_at]); system_state_at = system_state_at + 1
   :: else -> break
   od;
   assert(system_state_read.system_status == system_state_written.system_status);
@@ -230,7 +230,7 @@ typedef TradeMessage {
   byte reference_trade_id[4];
   byte reference_correction_number;
   byte correction_type;
-  byte event_id_binary_u_4[4];
+  byte event_id[4];
   byte strategy_id[4];
   byte reserved_12[12];
   byte product_id[4];
@@ -351,7 +351,7 @@ inline fill_trade_message(trade_message_record, trade_message_value) {
   trade_message_record.correction_type = trade_message_value;
   trade_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.event_id_binary_u_4[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 4 -> trade_message_record.event_id[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -605,7 +605,7 @@ inline ramp_trade_message(trade_message_record, trade_message_base) {
   trade_message_record.correction_type = (trade_message_base + 52 + 1) % 256;
   trade_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.event_id_binary_u_4[trade_message_at] = (trade_message_base + 53 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 4 -> trade_message_record.event_id[trade_message_at] = (trade_message_base + 53 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -859,7 +859,7 @@ inline encode_trade_message(trade_message_record) {
   wire[at] = trade_message_record.correction_type; at = at + 1;
   trade_message_at = 0;
   do
-  :: trade_message_at < 4 -> wire[at] = trade_message_record.event_id_binary_u_4[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 4 -> wire[at] = trade_message_record.event_id[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -1113,7 +1113,7 @@ inline decode_trade_message(trade_message_record) {
   trade_message_record.correction_type = wire[at]; at = at + 1;
   trade_message_at = 0;
   do
-  :: trade_message_at < 4 -> trade_message_record.event_id_binary_u_4[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 4 -> trade_message_record.event_id[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -1367,7 +1367,7 @@ inline equal_trade_message(trade_message_read, trade_message_written) {
   assert(trade_message_read.correction_type == trade_message_written.correction_type);
   trade_message_at = 0;
   do
-  :: trade_message_at < 4 -> assert(trade_message_read.event_id_binary_u_4[trade_message_at] == trade_message_written.event_id_binary_u_4[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: trade_message_at < 4 -> assert(trade_message_read.event_id[trade_message_at] == trade_message_written.event_id[trade_message_at]); trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -1583,7 +1583,7 @@ typedef RiskNotificationMessage {
   byte metric_type;
   byte protection_type;
   byte event_type;
-  byte event_id_binary_4u_4[4];
+  byte event_id[4];
   byte configured_counting_time_period[4];
   byte configured_max_quantity[4];
   byte current_quantity[4];
@@ -1621,7 +1621,7 @@ inline fill_risk_notification_message(risk_notification_message_record, risk_not
   risk_notification_message_record.event_type = risk_notification_message_value;
   risk_notification_message_at = 0;
   do
-  :: risk_notification_message_at < 4 -> risk_notification_message_record.event_id_binary_4u_4[risk_notification_message_at] = risk_notification_message_value; risk_notification_message_at = risk_notification_message_at + 1
+  :: risk_notification_message_at < 4 -> risk_notification_message_record.event_id[risk_notification_message_at] = risk_notification_message_value; risk_notification_message_at = risk_notification_message_at + 1
   :: else -> break
   od;
   risk_notification_message_at = 0;
@@ -1680,7 +1680,7 @@ inline ramp_risk_notification_message(risk_notification_message_record, risk_not
   risk_notification_message_record.event_type = (risk_notification_message_base + 106 + 1) % 256;
   risk_notification_message_at = 0;
   do
-  :: risk_notification_message_at < 4 -> risk_notification_message_record.event_id_binary_4u_4[risk_notification_message_at] = (risk_notification_message_base + 107 + risk_notification_message_at + 1) % 256; risk_notification_message_at = risk_notification_message_at + 1
+  :: risk_notification_message_at < 4 -> risk_notification_message_record.event_id[risk_notification_message_at] = (risk_notification_message_base + 107 + risk_notification_message_at + 1) % 256; risk_notification_message_at = risk_notification_message_at + 1
   :: else -> break
   od;
   risk_notification_message_at = 0;
@@ -1739,7 +1739,7 @@ inline encode_risk_notification_message(risk_notification_message_record) {
   wire[at] = risk_notification_message_record.event_type; at = at + 1;
   risk_notification_message_at = 0;
   do
-  :: risk_notification_message_at < 4 -> wire[at] = risk_notification_message_record.event_id_binary_4u_4[risk_notification_message_at]; at = at + 1; risk_notification_message_at = risk_notification_message_at + 1
+  :: risk_notification_message_at < 4 -> wire[at] = risk_notification_message_record.event_id[risk_notification_message_at]; at = at + 1; risk_notification_message_at = risk_notification_message_at + 1
   :: else -> break
   od;
   risk_notification_message_at = 0;
@@ -1798,7 +1798,7 @@ inline decode_risk_notification_message(risk_notification_message_record) {
   risk_notification_message_record.event_type = wire[at]; at = at + 1;
   risk_notification_message_at = 0;
   do
-  :: risk_notification_message_at < 4 -> risk_notification_message_record.event_id_binary_4u_4[risk_notification_message_at] = wire[at]; at = at + 1; risk_notification_message_at = risk_notification_message_at + 1
+  :: risk_notification_message_at < 4 -> risk_notification_message_record.event_id[risk_notification_message_at] = wire[at]; at = at + 1; risk_notification_message_at = risk_notification_message_at + 1
   :: else -> break
   od;
   risk_notification_message_at = 0;
@@ -1857,7 +1857,7 @@ inline equal_risk_notification_message(risk_notification_message_read, risk_noti
   assert(risk_notification_message_read.event_type == risk_notification_message_written.event_type);
   risk_notification_message_at = 0;
   do
-  :: risk_notification_message_at < 4 -> assert(risk_notification_message_read.event_id_binary_4u_4[risk_notification_message_at] == risk_notification_message_written.event_id_binary_4u_4[risk_notification_message_at]); risk_notification_message_at = risk_notification_message_at + 1
+  :: risk_notification_message_at < 4 -> assert(risk_notification_message_read.event_id[risk_notification_message_at] == risk_notification_message_written.event_id[risk_notification_message_at]); risk_notification_message_at = risk_notification_message_at + 1
   :: else -> break
   od;
   risk_notification_message_at = 0;

@@ -102,7 +102,7 @@ inline equal_sesm_packet_header(sesm_packet_header_read, sesm_packet_header_writ
 typedef SystemState {
   byte notification_time[8];
   byte ctd_version[8];
-  byte session_i_d[4];
+  byte trading_session_id[4];
   byte system_status
 };
 
@@ -122,7 +122,7 @@ inline fill_system_state(system_state_record, system_state_value) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> system_state_record.session_i_d[system_state_at] = system_state_value; system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> system_state_record.trading_session_id[system_state_at] = system_state_value; system_state_at = system_state_at + 1
   :: else -> break
   od;
   system_state_record.system_status = system_state_value;
@@ -143,7 +143,7 @@ inline ramp_system_state(system_state_record, system_state_base) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> system_state_record.session_i_d[system_state_at] = (system_state_base + 16 + system_state_at + 1) % 256; system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> system_state_record.trading_session_id[system_state_at] = (system_state_base + 16 + system_state_at + 1) % 256; system_state_at = system_state_at + 1
   :: else -> break
   od;
   system_state_record.system_status = (system_state_base + 20 + 1) % 256;
@@ -164,7 +164,7 @@ inline encode_system_state(system_state_record) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> wire[at] = system_state_record.session_i_d[system_state_at]; at = at + 1; system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> wire[at] = system_state_record.trading_session_id[system_state_at]; at = at + 1; system_state_at = system_state_at + 1
   :: else -> break
   od;
   wire[at] = system_state_record.system_status; at = at + 1;
@@ -185,7 +185,7 @@ inline decode_system_state(system_state_record) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> system_state_record.session_i_d[system_state_at] = wire[at]; at = at + 1; system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> system_state_record.trading_session_id[system_state_at] = wire[at]; at = at + 1; system_state_at = system_state_at + 1
   :: else -> break
   od;
   system_state_record.system_status = wire[at]; at = at + 1;
@@ -206,7 +206,7 @@ inline equal_system_state(system_state_read, system_state_written) {
   od;
   system_state_at = 0;
   do
-  :: system_state_at < 4 -> assert(system_state_read.session_i_d[system_state_at] == system_state_written.session_i_d[system_state_at]); system_state_at = system_state_at + 1
+  :: system_state_at < 4 -> assert(system_state_read.trading_session_id[system_state_at] == system_state_written.trading_session_id[system_state_at]); system_state_at = system_state_at + 1
   :: else -> break
   od;
   assert(system_state_read.system_status == system_state_written.system_status);
