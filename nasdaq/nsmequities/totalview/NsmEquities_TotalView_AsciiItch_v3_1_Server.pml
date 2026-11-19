@@ -387,7 +387,7 @@ inline equal_system_event_message(system_event_message_read, system_event_messag
 
 /* At the start of each trading day, NASDAQ disseminates stock directory messages for all active symbols in Single Book. */
 typedef StockDirectoryMessage {
-  byte stock_alpha_6[6];
+  byte stock[6];
   byte market_category;
   byte financial_status_indicator;
   byte round_lot_size[6];
@@ -400,7 +400,7 @@ int stock_directory_message_at;
 inline fill_stock_directory_message(stock_directory_message_record, stock_directory_message_value) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 6 -> stock_directory_message_record.stock_alpha_6[stock_directory_message_at] = stock_directory_message_value; stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 6 -> stock_directory_message_record.stock[stock_directory_message_at] = stock_directory_message_value; stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   stock_directory_message_record.market_category = stock_directory_message_value;
@@ -418,7 +418,7 @@ inline fill_stock_directory_message(stock_directory_message_record, stock_direct
 inline ramp_stock_directory_message(stock_directory_message_record, stock_directory_message_base) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 6 -> stock_directory_message_record.stock_alpha_6[stock_directory_message_at] = (stock_directory_message_base + 0 + stock_directory_message_at + 1) % 256; stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 6 -> stock_directory_message_record.stock[stock_directory_message_at] = (stock_directory_message_base + 0 + stock_directory_message_at + 1) % 256; stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   stock_directory_message_record.market_category = (stock_directory_message_base + 6 + 1) % 256;
@@ -436,7 +436,7 @@ inline ramp_stock_directory_message(stock_directory_message_record, stock_direct
 inline encode_stock_directory_message(stock_directory_message_record) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 6 -> wire[at] = stock_directory_message_record.stock_alpha_6[stock_directory_message_at]; at = at + 1; stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 6 -> wire[at] = stock_directory_message_record.stock[stock_directory_message_at]; at = at + 1; stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   wire[at] = stock_directory_message_record.market_category; at = at + 1;
@@ -454,7 +454,7 @@ inline encode_stock_directory_message(stock_directory_message_record) {
 inline decode_stock_directory_message(stock_directory_message_record) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 6 -> stock_directory_message_record.stock_alpha_6[stock_directory_message_at] = wire[at]; at = at + 1; stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 6 -> stock_directory_message_record.stock[stock_directory_message_at] = wire[at]; at = at + 1; stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   stock_directory_message_record.market_category = wire[at]; at = at + 1;
@@ -472,7 +472,7 @@ inline decode_stock_directory_message(stock_directory_message_record) {
 inline equal_stock_directory_message(stock_directory_message_read, stock_directory_message_written) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 6 -> assert(stock_directory_message_read.stock_alpha_6[stock_directory_message_at] == stock_directory_message_written.stock_alpha_6[stock_directory_message_at]); stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 6 -> assert(stock_directory_message_read.stock[stock_directory_message_at] == stock_directory_message_written.stock[stock_directory_message_at]); stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   assert(stock_directory_message_read.market_category == stock_directory_message_written.market_category);
@@ -490,7 +490,7 @@ inline equal_stock_directory_message(stock_directory_message_read, stock_directo
 
 /* NASDAQ uses this administrative message to indicate the current trading status of a security to the trading community. */
 typedef StockTradingActionMessage {
-  byte stock_alpha_6[6];
+  byte stock[6];
   byte trading_state;
   byte reserved_1;
   byte reason[4]
@@ -502,7 +502,7 @@ int stock_trading_action_message_at;
 inline fill_stock_trading_action_message(stock_trading_action_message_record, stock_trading_action_message_value) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 6 -> stock_trading_action_message_record.stock_alpha_6[stock_trading_action_message_at] = stock_trading_action_message_value; stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 6 -> stock_trading_action_message_record.stock[stock_trading_action_message_at] = stock_trading_action_message_value; stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   stock_trading_action_message_record.trading_state = stock_trading_action_message_value;
@@ -519,7 +519,7 @@ inline fill_stock_trading_action_message(stock_trading_action_message_record, st
 inline ramp_stock_trading_action_message(stock_trading_action_message_record, stock_trading_action_message_base) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 6 -> stock_trading_action_message_record.stock_alpha_6[stock_trading_action_message_at] = (stock_trading_action_message_base + 0 + stock_trading_action_message_at + 1) % 256; stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 6 -> stock_trading_action_message_record.stock[stock_trading_action_message_at] = (stock_trading_action_message_base + 0 + stock_trading_action_message_at + 1) % 256; stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   stock_trading_action_message_record.trading_state = (stock_trading_action_message_base + 6 + 1) % 256;
@@ -536,7 +536,7 @@ inline ramp_stock_trading_action_message(stock_trading_action_message_record, st
 inline encode_stock_trading_action_message(stock_trading_action_message_record) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 6 -> wire[at] = stock_trading_action_message_record.stock_alpha_6[stock_trading_action_message_at]; at = at + 1; stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 6 -> wire[at] = stock_trading_action_message_record.stock[stock_trading_action_message_at]; at = at + 1; stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   wire[at] = stock_trading_action_message_record.trading_state; at = at + 1;
@@ -553,7 +553,7 @@ inline encode_stock_trading_action_message(stock_trading_action_message_record) 
 inline decode_stock_trading_action_message(stock_trading_action_message_record) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 6 -> stock_trading_action_message_record.stock_alpha_6[stock_trading_action_message_at] = wire[at]; at = at + 1; stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 6 -> stock_trading_action_message_record.stock[stock_trading_action_message_at] = wire[at]; at = at + 1; stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   stock_trading_action_message_record.trading_state = wire[at]; at = at + 1;
@@ -570,7 +570,7 @@ inline decode_stock_trading_action_message(stock_trading_action_message_record) 
 inline equal_stock_trading_action_message(stock_trading_action_message_read, stock_trading_action_message_written) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 6 -> assert(stock_trading_action_message_read.stock_alpha_6[stock_trading_action_message_at] == stock_trading_action_message_written.stock_alpha_6[stock_trading_action_message_at]); stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 6 -> assert(stock_trading_action_message_read.stock[stock_trading_action_message_at] == stock_trading_action_message_written.stock[stock_trading_action_message_at]); stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   assert(stock_trading_action_message_read.trading_state == stock_trading_action_message_written.trading_state);
@@ -588,7 +588,7 @@ inline equal_stock_trading_action_message(stock_trading_action_message_read, sto
 /* At the start of each trading day, NASDAQ disseminates a spin of market participant position messages. Throughout the day, NASDAQ will send out this message only if NASDAQ Operations changes the status of a market participant firm in an issue. */
 typedef MarketParticipantPositionMessage {
   byte mpid[4];
-  byte stock_alphanumeric_6[6];
+  byte stock[6];
   byte primary_market_maker;
   byte market_maker_mode;
   byte market_participant_state
@@ -605,7 +605,7 @@ inline fill_market_participant_position_message(market_participant_position_mess
   od;
   market_participant_position_message_at = 0;
   do
-  :: market_participant_position_message_at < 6 -> market_participant_position_message_record.stock_alphanumeric_6[market_participant_position_message_at] = market_participant_position_message_value; market_participant_position_message_at = market_participant_position_message_at + 1
+  :: market_participant_position_message_at < 6 -> market_participant_position_message_record.stock[market_participant_position_message_at] = market_participant_position_message_value; market_participant_position_message_at = market_participant_position_message_at + 1
   :: else -> break
   od;
   market_participant_position_message_record.primary_market_maker = market_participant_position_message_value;
@@ -623,7 +623,7 @@ inline ramp_market_participant_position_message(market_participant_position_mess
   od;
   market_participant_position_message_at = 0;
   do
-  :: market_participant_position_message_at < 6 -> market_participant_position_message_record.stock_alphanumeric_6[market_participant_position_message_at] = (market_participant_position_message_base + 4 + market_participant_position_message_at + 1) % 256; market_participant_position_message_at = market_participant_position_message_at + 1
+  :: market_participant_position_message_at < 6 -> market_participant_position_message_record.stock[market_participant_position_message_at] = (market_participant_position_message_base + 4 + market_participant_position_message_at + 1) % 256; market_participant_position_message_at = market_participant_position_message_at + 1
   :: else -> break
   od;
   market_participant_position_message_record.primary_market_maker = (market_participant_position_message_base + 10 + 1) % 256;
@@ -641,7 +641,7 @@ inline encode_market_participant_position_message(market_participant_position_me
   od;
   market_participant_position_message_at = 0;
   do
-  :: market_participant_position_message_at < 6 -> wire[at] = market_participant_position_message_record.stock_alphanumeric_6[market_participant_position_message_at]; at = at + 1; market_participant_position_message_at = market_participant_position_message_at + 1
+  :: market_participant_position_message_at < 6 -> wire[at] = market_participant_position_message_record.stock[market_participant_position_message_at]; at = at + 1; market_participant_position_message_at = market_participant_position_message_at + 1
   :: else -> break
   od;
   wire[at] = market_participant_position_message_record.primary_market_maker; at = at + 1;
@@ -659,7 +659,7 @@ inline decode_market_participant_position_message(market_participant_position_me
   od;
   market_participant_position_message_at = 0;
   do
-  :: market_participant_position_message_at < 6 -> market_participant_position_message_record.stock_alphanumeric_6[market_participant_position_message_at] = wire[at]; at = at + 1; market_participant_position_message_at = market_participant_position_message_at + 1
+  :: market_participant_position_message_at < 6 -> market_participant_position_message_record.stock[market_participant_position_message_at] = wire[at]; at = at + 1; market_participant_position_message_at = market_participant_position_message_at + 1
   :: else -> break
   od;
   market_participant_position_message_record.primary_market_maker = wire[at]; at = at + 1;
@@ -677,7 +677,7 @@ inline equal_market_participant_position_message(market_participant_position_mes
   od;
   market_participant_position_message_at = 0;
   do
-  :: market_participant_position_message_at < 6 -> assert(market_participant_position_message_read.stock_alphanumeric_6[market_participant_position_message_at] == market_participant_position_message_written.stock_alphanumeric_6[market_participant_position_message_at]); market_participant_position_message_at = market_participant_position_message_at + 1
+  :: market_participant_position_message_at < 6 -> assert(market_participant_position_message_read.stock[market_participant_position_message_at] == market_participant_position_message_written.stock[market_participant_position_message_at]); market_participant_position_message_at = market_participant_position_message_at + 1
   :: else -> break
   od;
   assert(market_participant_position_message_read.primary_market_maker == market_participant_position_message_written.primary_market_maker);
@@ -692,8 +692,8 @@ inline equal_market_participant_position_message(market_participant_position_mes
 typedef AddOrderMessage {
   byte order_reference_number[12];
   byte side;
-  byte shares_numeric_6[6];
-  byte stock_alpha_6[6];
+  byte shares[6];
+  byte stock[6];
   byte price[10]
 };
 
@@ -709,12 +709,12 @@ inline fill_add_order_message(add_order_message_record, add_order_message_value)
   add_order_message_record.side = add_order_message_value;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> add_order_message_record.shares_numeric_6[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> add_order_message_record.shares[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> add_order_message_record.stock_alpha_6[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> add_order_message_record.stock[add_order_message_at] = add_order_message_value; add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
@@ -735,12 +735,12 @@ inline ramp_add_order_message(add_order_message_record, add_order_message_base) 
   add_order_message_record.side = (add_order_message_base + 12 + 1) % 256;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> add_order_message_record.shares_numeric_6[add_order_message_at] = (add_order_message_base + 13 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> add_order_message_record.shares[add_order_message_at] = (add_order_message_base + 13 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> add_order_message_record.stock_alpha_6[add_order_message_at] = (add_order_message_base + 19 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> add_order_message_record.stock[add_order_message_at] = (add_order_message_base + 19 + add_order_message_at + 1) % 256; add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
@@ -761,12 +761,12 @@ inline encode_add_order_message(add_order_message_record) {
   wire[at] = add_order_message_record.side; at = at + 1;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> wire[at] = add_order_message_record.shares_numeric_6[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> wire[at] = add_order_message_record.shares[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> wire[at] = add_order_message_record.stock_alpha_6[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> wire[at] = add_order_message_record.stock[add_order_message_at]; at = at + 1; add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
@@ -787,12 +787,12 @@ inline decode_add_order_message(add_order_message_record) {
   add_order_message_record.side = wire[at]; at = at + 1;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> add_order_message_record.shares_numeric_6[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> add_order_message_record.shares[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> add_order_message_record.stock_alpha_6[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> add_order_message_record.stock[add_order_message_at] = wire[at]; at = at + 1; add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
@@ -813,12 +813,12 @@ inline equal_add_order_message(add_order_message_read, add_order_message_written
   assert(add_order_message_read.side == add_order_message_written.side);
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> assert(add_order_message_read.shares_numeric_6[add_order_message_at] == add_order_message_written.shares_numeric_6[add_order_message_at]); add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> assert(add_order_message_read.shares[add_order_message_at] == add_order_message_written.shares[add_order_message_at]); add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
   do
-  :: add_order_message_at < 6 -> assert(add_order_message_read.stock_alpha_6[add_order_message_at] == add_order_message_written.stock_alpha_6[add_order_message_at]); add_order_message_at = add_order_message_at + 1
+  :: add_order_message_at < 6 -> assert(add_order_message_read.stock[add_order_message_at] == add_order_message_written.stock[add_order_message_at]); add_order_message_at = add_order_message_at + 1
   :: else -> break
   od;
   add_order_message_at = 0;
@@ -835,8 +835,8 @@ inline equal_add_order_message(add_order_message_read, add_order_message_written
 typedef AddOrderWithMpidMessage {
   byte order_reference_number[12];
   byte side;
-  byte shares_numeric_6[6];
-  byte stock_alpha_6[6];
+  byte shares[6];
+  byte stock[6];
   byte price[10];
   byte attribution[4]
 };
@@ -853,12 +853,12 @@ inline fill_add_order_with_mpid_message(add_order_with_mpid_message_record, add_
   add_order_with_mpid_message_record.side = add_order_with_mpid_message_value;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.shares_numeric_6[add_order_with_mpid_message_at] = add_order_with_mpid_message_value; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.shares[add_order_with_mpid_message_at] = add_order_with_mpid_message_value; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.stock_alpha_6[add_order_with_mpid_message_at] = add_order_with_mpid_message_value; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.stock[add_order_with_mpid_message_at] = add_order_with_mpid_message_value; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
@@ -884,12 +884,12 @@ inline ramp_add_order_with_mpid_message(add_order_with_mpid_message_record, add_
   add_order_with_mpid_message_record.side = (add_order_with_mpid_message_base + 12 + 1) % 256;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.shares_numeric_6[add_order_with_mpid_message_at] = (add_order_with_mpid_message_base + 13 + add_order_with_mpid_message_at + 1) % 256; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.shares[add_order_with_mpid_message_at] = (add_order_with_mpid_message_base + 13 + add_order_with_mpid_message_at + 1) % 256; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.stock_alpha_6[add_order_with_mpid_message_at] = (add_order_with_mpid_message_base + 19 + add_order_with_mpid_message_at + 1) % 256; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.stock[add_order_with_mpid_message_at] = (add_order_with_mpid_message_base + 19 + add_order_with_mpid_message_at + 1) % 256; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
@@ -915,12 +915,12 @@ inline encode_add_order_with_mpid_message(add_order_with_mpid_message_record) {
   wire[at] = add_order_with_mpid_message_record.side; at = at + 1;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> wire[at] = add_order_with_mpid_message_record.shares_numeric_6[add_order_with_mpid_message_at]; at = at + 1; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> wire[at] = add_order_with_mpid_message_record.shares[add_order_with_mpid_message_at]; at = at + 1; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> wire[at] = add_order_with_mpid_message_record.stock_alpha_6[add_order_with_mpid_message_at]; at = at + 1; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> wire[at] = add_order_with_mpid_message_record.stock[add_order_with_mpid_message_at]; at = at + 1; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
@@ -946,12 +946,12 @@ inline decode_add_order_with_mpid_message(add_order_with_mpid_message_record) {
   add_order_with_mpid_message_record.side = wire[at]; at = at + 1;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.shares_numeric_6[add_order_with_mpid_message_at] = wire[at]; at = at + 1; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.shares[add_order_with_mpid_message_at] = wire[at]; at = at + 1; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.stock_alpha_6[add_order_with_mpid_message_at] = wire[at]; at = at + 1; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> add_order_with_mpid_message_record.stock[add_order_with_mpid_message_at] = wire[at]; at = at + 1; add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
@@ -977,12 +977,12 @@ inline equal_add_order_with_mpid_message(add_order_with_mpid_message_read, add_o
   assert(add_order_with_mpid_message_read.side == add_order_with_mpid_message_written.side);
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> assert(add_order_with_mpid_message_read.shares_numeric_6[add_order_with_mpid_message_at] == add_order_with_mpid_message_written.shares_numeric_6[add_order_with_mpid_message_at]); add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> assert(add_order_with_mpid_message_read.shares[add_order_with_mpid_message_at] == add_order_with_mpid_message_written.shares[add_order_with_mpid_message_at]); add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
   do
-  :: add_order_with_mpid_message_at < 6 -> assert(add_order_with_mpid_message_read.stock_alpha_6[add_order_with_mpid_message_at] == add_order_with_mpid_message_written.stock_alpha_6[add_order_with_mpid_message_at]); add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
+  :: add_order_with_mpid_message_at < 6 -> assert(add_order_with_mpid_message_read.stock[add_order_with_mpid_message_at] == add_order_with_mpid_message_written.stock[add_order_with_mpid_message_at]); add_order_with_mpid_message_at = add_order_with_mpid_message_at + 1
   :: else -> break
   od;
   add_order_with_mpid_message_at = 0;
@@ -1402,7 +1402,7 @@ inline equal_order_delete_message(order_delete_message_read, order_delete_messag
 typedef OrderReplaceMessage {
   byte original_order_reference_number[12];
   byte new_order_reference_number[12];
-  byte shares_numeric_6[6];
+  byte shares[6];
   byte price[10]
 };
 
@@ -1422,7 +1422,7 @@ inline fill_order_replace_message(order_replace_message_record, order_replace_me
   od;
   order_replace_message_at = 0;
   do
-  :: order_replace_message_at < 6 -> order_replace_message_record.shares_numeric_6[order_replace_message_at] = order_replace_message_value; order_replace_message_at = order_replace_message_at + 1
+  :: order_replace_message_at < 6 -> order_replace_message_record.shares[order_replace_message_at] = order_replace_message_value; order_replace_message_at = order_replace_message_at + 1
   :: else -> break
   od;
   order_replace_message_at = 0;
@@ -1447,7 +1447,7 @@ inline ramp_order_replace_message(order_replace_message_record, order_replace_me
   od;
   order_replace_message_at = 0;
   do
-  :: order_replace_message_at < 6 -> order_replace_message_record.shares_numeric_6[order_replace_message_at] = (order_replace_message_base + 24 + order_replace_message_at + 1) % 256; order_replace_message_at = order_replace_message_at + 1
+  :: order_replace_message_at < 6 -> order_replace_message_record.shares[order_replace_message_at] = (order_replace_message_base + 24 + order_replace_message_at + 1) % 256; order_replace_message_at = order_replace_message_at + 1
   :: else -> break
   od;
   order_replace_message_at = 0;
@@ -1472,7 +1472,7 @@ inline encode_order_replace_message(order_replace_message_record) {
   od;
   order_replace_message_at = 0;
   do
-  :: order_replace_message_at < 6 -> wire[at] = order_replace_message_record.shares_numeric_6[order_replace_message_at]; at = at + 1; order_replace_message_at = order_replace_message_at + 1
+  :: order_replace_message_at < 6 -> wire[at] = order_replace_message_record.shares[order_replace_message_at]; at = at + 1; order_replace_message_at = order_replace_message_at + 1
   :: else -> break
   od;
   order_replace_message_at = 0;
@@ -1497,7 +1497,7 @@ inline decode_order_replace_message(order_replace_message_record) {
   od;
   order_replace_message_at = 0;
   do
-  :: order_replace_message_at < 6 -> order_replace_message_record.shares_numeric_6[order_replace_message_at] = wire[at]; at = at + 1; order_replace_message_at = order_replace_message_at + 1
+  :: order_replace_message_at < 6 -> order_replace_message_record.shares[order_replace_message_at] = wire[at]; at = at + 1; order_replace_message_at = order_replace_message_at + 1
   :: else -> break
   od;
   order_replace_message_at = 0;
@@ -1522,7 +1522,7 @@ inline equal_order_replace_message(order_replace_message_read, order_replace_mes
   od;
   order_replace_message_at = 0;
   do
-  :: order_replace_message_at < 6 -> assert(order_replace_message_read.shares_numeric_6[order_replace_message_at] == order_replace_message_written.shares_numeric_6[order_replace_message_at]); order_replace_message_at = order_replace_message_at + 1
+  :: order_replace_message_at < 6 -> assert(order_replace_message_read.shares[order_replace_message_at] == order_replace_message_written.shares[order_replace_message_at]); order_replace_message_at = order_replace_message_at + 1
   :: else -> break
   od;
   order_replace_message_at = 0;
@@ -1539,8 +1539,8 @@ inline equal_order_replace_message(order_replace_message_read, order_replace_mes
 typedef TradeMessage {
   byte order_reference_number[12];
   byte side;
-  byte shares_numeric_6[6];
-  byte stock_alpha_6[6];
+  byte shares[6];
+  byte stock[6];
   byte price[10];
   byte match_number[12]
 };
@@ -1557,12 +1557,12 @@ inline fill_trade_message(trade_message_record, trade_message_value) {
   trade_message_record.side = trade_message_value;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> trade_message_record.shares_numeric_6[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> trade_message_record.shares[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> trade_message_record.stock_alpha_6[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> trade_message_record.stock[trade_message_at] = trade_message_value; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -1588,12 +1588,12 @@ inline ramp_trade_message(trade_message_record, trade_message_base) {
   trade_message_record.side = (trade_message_base + 12 + 1) % 256;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> trade_message_record.shares_numeric_6[trade_message_at] = (trade_message_base + 13 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> trade_message_record.shares[trade_message_at] = (trade_message_base + 13 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> trade_message_record.stock_alpha_6[trade_message_at] = (trade_message_base + 19 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> trade_message_record.stock[trade_message_at] = (trade_message_base + 19 + trade_message_at + 1) % 256; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -1619,12 +1619,12 @@ inline encode_trade_message(trade_message_record) {
   wire[at] = trade_message_record.side; at = at + 1;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> wire[at] = trade_message_record.shares_numeric_6[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> wire[at] = trade_message_record.shares[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> wire[at] = trade_message_record.stock_alpha_6[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> wire[at] = trade_message_record.stock[trade_message_at]; at = at + 1; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -1650,12 +1650,12 @@ inline decode_trade_message(trade_message_record) {
   trade_message_record.side = wire[at]; at = at + 1;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> trade_message_record.shares_numeric_6[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> trade_message_record.shares[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> trade_message_record.stock_alpha_6[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> trade_message_record.stock[trade_message_at] = wire[at]; at = at + 1; trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -1681,12 +1681,12 @@ inline equal_trade_message(trade_message_read, trade_message_written) {
   assert(trade_message_read.side == trade_message_written.side);
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> assert(trade_message_read.shares_numeric_6[trade_message_at] == trade_message_written.shares_numeric_6[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> assert(trade_message_read.shares[trade_message_at] == trade_message_written.shares[trade_message_at]); trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
   do
-  :: trade_message_at < 6 -> assert(trade_message_read.stock_alpha_6[trade_message_at] == trade_message_written.stock_alpha_6[trade_message_at]); trade_message_at = trade_message_at + 1
+  :: trade_message_at < 6 -> assert(trade_message_read.stock[trade_message_at] == trade_message_written.stock[trade_message_at]); trade_message_at = trade_message_at + 1
   :: else -> break
   od;
   trade_message_at = 0;
@@ -1706,8 +1706,8 @@ inline equal_trade_message(trade_message_read, trade_message_written) {
 
 /* Cross Trade message indicates that NASDAQ has completed its cross process for a specific security. */
 typedef CrossTradeMessage {
-  byte shares_numeric_9[9];
-  byte stock_alpha_6[6];
+  byte cross_shares[9];
+  byte stock[6];
   byte cross_price[10];
   byte match_number[12];
   byte cross_type
@@ -1719,12 +1719,12 @@ int cross_trade_message_at;
 inline fill_cross_trade_message(cross_trade_message_record, cross_trade_message_value) {
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 9 -> cross_trade_message_record.shares_numeric_9[cross_trade_message_at] = cross_trade_message_value; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 9 -> cross_trade_message_record.cross_shares[cross_trade_message_at] = cross_trade_message_value; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 6 -> cross_trade_message_record.stock_alpha_6[cross_trade_message_at] = cross_trade_message_value; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 6 -> cross_trade_message_record.stock[cross_trade_message_at] = cross_trade_message_value; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -1745,12 +1745,12 @@ inline fill_cross_trade_message(cross_trade_message_record, cross_trade_message_
 inline ramp_cross_trade_message(cross_trade_message_record, cross_trade_message_base) {
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 9 -> cross_trade_message_record.shares_numeric_9[cross_trade_message_at] = (cross_trade_message_base + 0 + cross_trade_message_at + 1) % 256; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 9 -> cross_trade_message_record.cross_shares[cross_trade_message_at] = (cross_trade_message_base + 0 + cross_trade_message_at + 1) % 256; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 6 -> cross_trade_message_record.stock_alpha_6[cross_trade_message_at] = (cross_trade_message_base + 9 + cross_trade_message_at + 1) % 256; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 6 -> cross_trade_message_record.stock[cross_trade_message_at] = (cross_trade_message_base + 9 + cross_trade_message_at + 1) % 256; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -1771,12 +1771,12 @@ inline ramp_cross_trade_message(cross_trade_message_record, cross_trade_message_
 inline encode_cross_trade_message(cross_trade_message_record) {
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 9 -> wire[at] = cross_trade_message_record.shares_numeric_9[cross_trade_message_at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 9 -> wire[at] = cross_trade_message_record.cross_shares[cross_trade_message_at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 6 -> wire[at] = cross_trade_message_record.stock_alpha_6[cross_trade_message_at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 6 -> wire[at] = cross_trade_message_record.stock[cross_trade_message_at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -1797,12 +1797,12 @@ inline encode_cross_trade_message(cross_trade_message_record) {
 inline decode_cross_trade_message(cross_trade_message_record) {
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 9 -> cross_trade_message_record.shares_numeric_9[cross_trade_message_at] = wire[at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 9 -> cross_trade_message_record.cross_shares[cross_trade_message_at] = wire[at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 6 -> cross_trade_message_record.stock_alpha_6[cross_trade_message_at] = wire[at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 6 -> cross_trade_message_record.stock[cross_trade_message_at] = wire[at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -1823,12 +1823,12 @@ inline decode_cross_trade_message(cross_trade_message_record) {
 inline equal_cross_trade_message(cross_trade_message_read, cross_trade_message_written) {
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 9 -> assert(cross_trade_message_read.shares_numeric_9[cross_trade_message_at] == cross_trade_message_written.shares_numeric_9[cross_trade_message_at]); cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 9 -> assert(cross_trade_message_read.cross_shares[cross_trade_message_at] == cross_trade_message_written.cross_shares[cross_trade_message_at]); cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 6 -> assert(cross_trade_message_read.stock_alpha_6[cross_trade_message_at] == cross_trade_message_written.stock_alpha_6[cross_trade_message_at]); cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 6 -> assert(cross_trade_message_read.stock[cross_trade_message_at] == cross_trade_message_written.stock[cross_trade_message_at]); cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -1911,7 +1911,7 @@ typedef NetOrderImbalanceIndicatorMessage {
   byte paired_shares[9];
   byte imbalance_shares[9];
   byte imbalance_direction;
-  byte stock_alpha_6[6];
+  byte stock[6];
   byte far_price[10];
   byte near_price[10];
   byte current_reference_price[10];
@@ -1936,7 +1936,7 @@ inline fill_net_order_imbalance_indicator_message(net_order_imbalance_indicator_
   net_order_imbalance_indicator_message_record.imbalance_direction = net_order_imbalance_indicator_message_value;
   net_order_imbalance_indicator_message_at = 0;
   do
-  :: net_order_imbalance_indicator_message_at < 6 -> net_order_imbalance_indicator_message_record.stock_alpha_6[net_order_imbalance_indicator_message_at] = net_order_imbalance_indicator_message_value; net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
+  :: net_order_imbalance_indicator_message_at < 6 -> net_order_imbalance_indicator_message_record.stock[net_order_imbalance_indicator_message_at] = net_order_imbalance_indicator_message_value; net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
   :: else -> break
   od;
   net_order_imbalance_indicator_message_at = 0;
@@ -1974,7 +1974,7 @@ inline ramp_net_order_imbalance_indicator_message(net_order_imbalance_indicator_
   net_order_imbalance_indicator_message_record.imbalance_direction = (net_order_imbalance_indicator_message_base + 18 + 1) % 256;
   net_order_imbalance_indicator_message_at = 0;
   do
-  :: net_order_imbalance_indicator_message_at < 6 -> net_order_imbalance_indicator_message_record.stock_alpha_6[net_order_imbalance_indicator_message_at] = (net_order_imbalance_indicator_message_base + 19 + net_order_imbalance_indicator_message_at + 1) % 256; net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
+  :: net_order_imbalance_indicator_message_at < 6 -> net_order_imbalance_indicator_message_record.stock[net_order_imbalance_indicator_message_at] = (net_order_imbalance_indicator_message_base + 19 + net_order_imbalance_indicator_message_at + 1) % 256; net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
   :: else -> break
   od;
   net_order_imbalance_indicator_message_at = 0;
@@ -2012,7 +2012,7 @@ inline encode_net_order_imbalance_indicator_message(net_order_imbalance_indicato
   wire[at] = net_order_imbalance_indicator_message_record.imbalance_direction; at = at + 1;
   net_order_imbalance_indicator_message_at = 0;
   do
-  :: net_order_imbalance_indicator_message_at < 6 -> wire[at] = net_order_imbalance_indicator_message_record.stock_alpha_6[net_order_imbalance_indicator_message_at]; at = at + 1; net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
+  :: net_order_imbalance_indicator_message_at < 6 -> wire[at] = net_order_imbalance_indicator_message_record.stock[net_order_imbalance_indicator_message_at]; at = at + 1; net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
   :: else -> break
   od;
   net_order_imbalance_indicator_message_at = 0;
@@ -2050,7 +2050,7 @@ inline decode_net_order_imbalance_indicator_message(net_order_imbalance_indicato
   net_order_imbalance_indicator_message_record.imbalance_direction = wire[at]; at = at + 1;
   net_order_imbalance_indicator_message_at = 0;
   do
-  :: net_order_imbalance_indicator_message_at < 6 -> net_order_imbalance_indicator_message_record.stock_alpha_6[net_order_imbalance_indicator_message_at] = wire[at]; at = at + 1; net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
+  :: net_order_imbalance_indicator_message_at < 6 -> net_order_imbalance_indicator_message_record.stock[net_order_imbalance_indicator_message_at] = wire[at]; at = at + 1; net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
   :: else -> break
   od;
   net_order_imbalance_indicator_message_at = 0;
@@ -2088,7 +2088,7 @@ inline equal_net_order_imbalance_indicator_message(net_order_imbalance_indicator
   assert(net_order_imbalance_indicator_message_read.imbalance_direction == net_order_imbalance_indicator_message_written.imbalance_direction);
   net_order_imbalance_indicator_message_at = 0;
   do
-  :: net_order_imbalance_indicator_message_at < 6 -> assert(net_order_imbalance_indicator_message_read.stock_alpha_6[net_order_imbalance_indicator_message_at] == net_order_imbalance_indicator_message_written.stock_alpha_6[net_order_imbalance_indicator_message_at]); net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
+  :: net_order_imbalance_indicator_message_at < 6 -> assert(net_order_imbalance_indicator_message_read.stock[net_order_imbalance_indicator_message_at] == net_order_imbalance_indicator_message_written.stock[net_order_imbalance_indicator_message_at]); net_order_imbalance_indicator_message_at = net_order_imbalance_indicator_message_at + 1
   :: else -> break
   od;
   net_order_imbalance_indicator_message_at = 0;

@@ -296,7 +296,7 @@ typedef AddOrderLongMessage {
   byte order_id[8];
   byte side_indicator;
   byte quantity_long[4];
-  byte symbol_short[8];
+  byte symbol_long[8];
   byte price_long[8]
 };
 
@@ -322,7 +322,7 @@ inline fill_add_order_long_message(add_order_long_message_record, add_order_long
   od;
   add_order_long_message_at = 0;
   do
-  :: add_order_long_message_at < 8 -> add_order_long_message_record.symbol_short[add_order_long_message_at] = add_order_long_message_value; add_order_long_message_at = add_order_long_message_at + 1
+  :: add_order_long_message_at < 8 -> add_order_long_message_record.symbol_long[add_order_long_message_at] = add_order_long_message_value; add_order_long_message_at = add_order_long_message_at + 1
   :: else -> break
   od;
   add_order_long_message_at = 0;
@@ -353,7 +353,7 @@ inline ramp_add_order_long_message(add_order_long_message_record, add_order_long
   od;
   add_order_long_message_at = 0;
   do
-  :: add_order_long_message_at < 8 -> add_order_long_message_record.symbol_short[add_order_long_message_at] = (add_order_long_message_base + 17 + add_order_long_message_at + 1) % 256; add_order_long_message_at = add_order_long_message_at + 1
+  :: add_order_long_message_at < 8 -> add_order_long_message_record.symbol_long[add_order_long_message_at] = (add_order_long_message_base + 17 + add_order_long_message_at + 1) % 256; add_order_long_message_at = add_order_long_message_at + 1
   :: else -> break
   od;
   add_order_long_message_at = 0;
@@ -384,7 +384,7 @@ inline encode_add_order_long_message(add_order_long_message_record) {
   od;
   add_order_long_message_at = 0;
   do
-  :: add_order_long_message_at < 8 -> wire[at] = add_order_long_message_record.symbol_short[add_order_long_message_at]; at = at + 1; add_order_long_message_at = add_order_long_message_at + 1
+  :: add_order_long_message_at < 8 -> wire[at] = add_order_long_message_record.symbol_long[add_order_long_message_at]; at = at + 1; add_order_long_message_at = add_order_long_message_at + 1
   :: else -> break
   od;
   add_order_long_message_at = 0;
@@ -415,7 +415,7 @@ inline decode_add_order_long_message(add_order_long_message_record) {
   od;
   add_order_long_message_at = 0;
   do
-  :: add_order_long_message_at < 8 -> add_order_long_message_record.symbol_short[add_order_long_message_at] = wire[at]; at = at + 1; add_order_long_message_at = add_order_long_message_at + 1
+  :: add_order_long_message_at < 8 -> add_order_long_message_record.symbol_long[add_order_long_message_at] = wire[at]; at = at + 1; add_order_long_message_at = add_order_long_message_at + 1
   :: else -> break
   od;
   add_order_long_message_at = 0;
@@ -446,7 +446,7 @@ inline equal_add_order_long_message(add_order_long_message_read, add_order_long_
   od;
   add_order_long_message_at = 0;
   do
-  :: add_order_long_message_at < 8 -> assert(add_order_long_message_read.symbol_short[add_order_long_message_at] == add_order_long_message_written.symbol_short[add_order_long_message_at]); add_order_long_message_at = add_order_long_message_at + 1
+  :: add_order_long_message_at < 8 -> assert(add_order_long_message_read.symbol_long[add_order_long_message_at] == add_order_long_message_written.symbol_long[add_order_long_message_at]); add_order_long_message_at = add_order_long_message_at + 1
   :: else -> break
   od;
   add_order_long_message_at = 0;
@@ -465,7 +465,7 @@ typedef AddOrderShortMessage {
   byte order_id[8];
   byte side_indicator;
   byte quantity_short[2];
-  byte symbol_alphanumeric_6[6];
+  byte symbol_short[6];
   byte price_short[2]
 };
 
@@ -491,7 +491,7 @@ inline fill_add_order_short_message(add_order_short_message_record, add_order_sh
   od;
   add_order_short_message_at = 0;
   do
-  :: add_order_short_message_at < 6 -> add_order_short_message_record.symbol_alphanumeric_6[add_order_short_message_at] = add_order_short_message_value; add_order_short_message_at = add_order_short_message_at + 1
+  :: add_order_short_message_at < 6 -> add_order_short_message_record.symbol_short[add_order_short_message_at] = add_order_short_message_value; add_order_short_message_at = add_order_short_message_at + 1
   :: else -> break
   od;
   add_order_short_message_at = 0;
@@ -522,7 +522,7 @@ inline ramp_add_order_short_message(add_order_short_message_record, add_order_sh
   od;
   add_order_short_message_at = 0;
   do
-  :: add_order_short_message_at < 6 -> add_order_short_message_record.symbol_alphanumeric_6[add_order_short_message_at] = (add_order_short_message_base + 15 + add_order_short_message_at + 1) % 256; add_order_short_message_at = add_order_short_message_at + 1
+  :: add_order_short_message_at < 6 -> add_order_short_message_record.symbol_short[add_order_short_message_at] = (add_order_short_message_base + 15 + add_order_short_message_at + 1) % 256; add_order_short_message_at = add_order_short_message_at + 1
   :: else -> break
   od;
   add_order_short_message_at = 0;
@@ -553,7 +553,7 @@ inline encode_add_order_short_message(add_order_short_message_record) {
   od;
   add_order_short_message_at = 0;
   do
-  :: add_order_short_message_at < 6 -> wire[at] = add_order_short_message_record.symbol_alphanumeric_6[add_order_short_message_at]; at = at + 1; add_order_short_message_at = add_order_short_message_at + 1
+  :: add_order_short_message_at < 6 -> wire[at] = add_order_short_message_record.symbol_short[add_order_short_message_at]; at = at + 1; add_order_short_message_at = add_order_short_message_at + 1
   :: else -> break
   od;
   add_order_short_message_at = 0;
@@ -584,7 +584,7 @@ inline decode_add_order_short_message(add_order_short_message_record) {
   od;
   add_order_short_message_at = 0;
   do
-  :: add_order_short_message_at < 6 -> add_order_short_message_record.symbol_alphanumeric_6[add_order_short_message_at] = wire[at]; at = at + 1; add_order_short_message_at = add_order_short_message_at + 1
+  :: add_order_short_message_at < 6 -> add_order_short_message_record.symbol_short[add_order_short_message_at] = wire[at]; at = at + 1; add_order_short_message_at = add_order_short_message_at + 1
   :: else -> break
   od;
   add_order_short_message_at = 0;
@@ -615,7 +615,7 @@ inline equal_add_order_short_message(add_order_short_message_read, add_order_sho
   od;
   add_order_short_message_at = 0;
   do
-  :: add_order_short_message_at < 6 -> assert(add_order_short_message_read.symbol_alphanumeric_6[add_order_short_message_at] == add_order_short_message_written.symbol_alphanumeric_6[add_order_short_message_at]); add_order_short_message_at = add_order_short_message_at + 1
+  :: add_order_short_message_at < 6 -> assert(add_order_short_message_read.symbol_short[add_order_short_message_at] == add_order_short_message_written.symbol_short[add_order_short_message_at]); add_order_short_message_at = add_order_short_message_at + 1
   :: else -> break
   od;
   add_order_short_message_at = 0;
@@ -1657,7 +1657,7 @@ typedef TradeLongMessage {
   byte order_id[8];
   byte side_indicator;
   byte shares_long[4];
-  byte symbol_short[8];
+  byte symbol_long[8];
   byte price_long[8];
   byte execution_id[8];
   TradeFlags trade_flags
@@ -1685,7 +1685,7 @@ inline fill_trade_long_message(trade_long_message_record, trade_long_message_val
   od;
   trade_long_message_at = 0;
   do
-  :: trade_long_message_at < 8 -> trade_long_message_record.symbol_short[trade_long_message_at] = trade_long_message_value; trade_long_message_at = trade_long_message_at + 1
+  :: trade_long_message_at < 8 -> trade_long_message_record.symbol_long[trade_long_message_at] = trade_long_message_value; trade_long_message_at = trade_long_message_at + 1
   :: else -> break
   od;
   trade_long_message_at = 0;
@@ -1722,7 +1722,7 @@ inline ramp_trade_long_message(trade_long_message_record, trade_long_message_bas
   od;
   trade_long_message_at = 0;
   do
-  :: trade_long_message_at < 8 -> trade_long_message_record.symbol_short[trade_long_message_at] = (trade_long_message_base + 17 + trade_long_message_at + 1) % 256; trade_long_message_at = trade_long_message_at + 1
+  :: trade_long_message_at < 8 -> trade_long_message_record.symbol_long[trade_long_message_at] = (trade_long_message_base + 17 + trade_long_message_at + 1) % 256; trade_long_message_at = trade_long_message_at + 1
   :: else -> break
   od;
   trade_long_message_at = 0;
@@ -1759,7 +1759,7 @@ inline encode_trade_long_message(trade_long_message_record) {
   od;
   trade_long_message_at = 0;
   do
-  :: trade_long_message_at < 8 -> wire[at] = trade_long_message_record.symbol_short[trade_long_message_at]; at = at + 1; trade_long_message_at = trade_long_message_at + 1
+  :: trade_long_message_at < 8 -> wire[at] = trade_long_message_record.symbol_long[trade_long_message_at]; at = at + 1; trade_long_message_at = trade_long_message_at + 1
   :: else -> break
   od;
   trade_long_message_at = 0;
@@ -1796,7 +1796,7 @@ inline decode_trade_long_message(trade_long_message_record) {
   od;
   trade_long_message_at = 0;
   do
-  :: trade_long_message_at < 8 -> trade_long_message_record.symbol_short[trade_long_message_at] = wire[at]; at = at + 1; trade_long_message_at = trade_long_message_at + 1
+  :: trade_long_message_at < 8 -> trade_long_message_record.symbol_long[trade_long_message_at] = wire[at]; at = at + 1; trade_long_message_at = trade_long_message_at + 1
   :: else -> break
   od;
   trade_long_message_at = 0;
@@ -1833,7 +1833,7 @@ inline equal_trade_long_message(trade_long_message_read, trade_long_message_writ
   od;
   trade_long_message_at = 0;
   do
-  :: trade_long_message_at < 8 -> assert(trade_long_message_read.symbol_short[trade_long_message_at] == trade_long_message_written.symbol_short[trade_long_message_at]); trade_long_message_at = trade_long_message_at + 1
+  :: trade_long_message_at < 8 -> assert(trade_long_message_read.symbol_long[trade_long_message_at] == trade_long_message_written.symbol_long[trade_long_message_at]); trade_long_message_at = trade_long_message_at + 1
   :: else -> break
   od;
   trade_long_message_at = 0;
@@ -1858,7 +1858,7 @@ typedef TradeShortMessage {
   byte order_id[8];
   byte side_indicator;
   byte shares_short[2];
-  byte symbol_alphanumeric_6[6];
+  byte symbol_short[6];
   byte price_short[2];
   byte execution_id[8];
   TradeFlags trade_flags
@@ -1886,7 +1886,7 @@ inline fill_trade_short_message(trade_short_message_record, trade_short_message_
   od;
   trade_short_message_at = 0;
   do
-  :: trade_short_message_at < 6 -> trade_short_message_record.symbol_alphanumeric_6[trade_short_message_at] = trade_short_message_value; trade_short_message_at = trade_short_message_at + 1
+  :: trade_short_message_at < 6 -> trade_short_message_record.symbol_short[trade_short_message_at] = trade_short_message_value; trade_short_message_at = trade_short_message_at + 1
   :: else -> break
   od;
   trade_short_message_at = 0;
@@ -1923,7 +1923,7 @@ inline ramp_trade_short_message(trade_short_message_record, trade_short_message_
   od;
   trade_short_message_at = 0;
   do
-  :: trade_short_message_at < 6 -> trade_short_message_record.symbol_alphanumeric_6[trade_short_message_at] = (trade_short_message_base + 15 + trade_short_message_at + 1) % 256; trade_short_message_at = trade_short_message_at + 1
+  :: trade_short_message_at < 6 -> trade_short_message_record.symbol_short[trade_short_message_at] = (trade_short_message_base + 15 + trade_short_message_at + 1) % 256; trade_short_message_at = trade_short_message_at + 1
   :: else -> break
   od;
   trade_short_message_at = 0;
@@ -1960,7 +1960,7 @@ inline encode_trade_short_message(trade_short_message_record) {
   od;
   trade_short_message_at = 0;
   do
-  :: trade_short_message_at < 6 -> wire[at] = trade_short_message_record.symbol_alphanumeric_6[trade_short_message_at]; at = at + 1; trade_short_message_at = trade_short_message_at + 1
+  :: trade_short_message_at < 6 -> wire[at] = trade_short_message_record.symbol_short[trade_short_message_at]; at = at + 1; trade_short_message_at = trade_short_message_at + 1
   :: else -> break
   od;
   trade_short_message_at = 0;
@@ -1997,7 +1997,7 @@ inline decode_trade_short_message(trade_short_message_record) {
   od;
   trade_short_message_at = 0;
   do
-  :: trade_short_message_at < 6 -> trade_short_message_record.symbol_alphanumeric_6[trade_short_message_at] = wire[at]; at = at + 1; trade_short_message_at = trade_short_message_at + 1
+  :: trade_short_message_at < 6 -> trade_short_message_record.symbol_short[trade_short_message_at] = wire[at]; at = at + 1; trade_short_message_at = trade_short_message_at + 1
   :: else -> break
   od;
   trade_short_message_at = 0;
@@ -2034,7 +2034,7 @@ inline equal_trade_short_message(trade_short_message_read, trade_short_message_w
   od;
   trade_short_message_at = 0;
   do
-  :: trade_short_message_at < 6 -> assert(trade_short_message_read.symbol_alphanumeric_6[trade_short_message_at] == trade_short_message_written.symbol_alphanumeric_6[trade_short_message_at]); trade_short_message_at = trade_short_message_at + 1
+  :: trade_short_message_at < 6 -> assert(trade_short_message_read.symbol_short[trade_short_message_at] == trade_short_message_written.symbol_short[trade_short_message_at]); trade_short_message_at = trade_short_message_at + 1
   :: else -> break
   od;
   trade_short_message_at = 0;
@@ -2239,7 +2239,7 @@ inline equal_trade_report_flags(trade_report_flags_read, trade_report_flags_writ
 typedef TradeReportMessage {
   byte time_offset[4];
   byte shares_extended[8];
-  byte symbol_short[8];
+  byte symbol_long[8];
   byte price_long[8];
   byte trade_id[8];
   byte trade_timestamp[8];
@@ -2264,7 +2264,7 @@ inline fill_trade_report_message(trade_report_message_record, trade_report_messa
   od;
   trade_report_message_at = 0;
   do
-  :: trade_report_message_at < 8 -> trade_report_message_record.symbol_short[trade_report_message_at] = trade_report_message_value; trade_report_message_at = trade_report_message_at + 1
+  :: trade_report_message_at < 8 -> trade_report_message_record.symbol_long[trade_report_message_at] = trade_report_message_value; trade_report_message_at = trade_report_message_at + 1
   :: else -> break
   od;
   trade_report_message_at = 0;
@@ -2310,7 +2310,7 @@ inline ramp_trade_report_message(trade_report_message_record, trade_report_messa
   od;
   trade_report_message_at = 0;
   do
-  :: trade_report_message_at < 8 -> trade_report_message_record.symbol_short[trade_report_message_at] = (trade_report_message_base + 12 + trade_report_message_at + 1) % 256; trade_report_message_at = trade_report_message_at + 1
+  :: trade_report_message_at < 8 -> trade_report_message_record.symbol_long[trade_report_message_at] = (trade_report_message_base + 12 + trade_report_message_at + 1) % 256; trade_report_message_at = trade_report_message_at + 1
   :: else -> break
   od;
   trade_report_message_at = 0;
@@ -2356,7 +2356,7 @@ inline encode_trade_report_message(trade_report_message_record) {
   od;
   trade_report_message_at = 0;
   do
-  :: trade_report_message_at < 8 -> wire[at] = trade_report_message_record.symbol_short[trade_report_message_at]; at = at + 1; trade_report_message_at = trade_report_message_at + 1
+  :: trade_report_message_at < 8 -> wire[at] = trade_report_message_record.symbol_long[trade_report_message_at]; at = at + 1; trade_report_message_at = trade_report_message_at + 1
   :: else -> break
   od;
   trade_report_message_at = 0;
@@ -2402,7 +2402,7 @@ inline decode_trade_report_message(trade_report_message_record) {
   od;
   trade_report_message_at = 0;
   do
-  :: trade_report_message_at < 8 -> trade_report_message_record.symbol_short[trade_report_message_at] = wire[at]; at = at + 1; trade_report_message_at = trade_report_message_at + 1
+  :: trade_report_message_at < 8 -> trade_report_message_record.symbol_long[trade_report_message_at] = wire[at]; at = at + 1; trade_report_message_at = trade_report_message_at + 1
   :: else -> break
   od;
   trade_report_message_at = 0;
@@ -2448,7 +2448,7 @@ inline equal_trade_report_message(trade_report_message_read, trade_report_messag
   od;
   trade_report_message_at = 0;
   do
-  :: trade_report_message_at < 8 -> assert(trade_report_message_read.symbol_short[trade_report_message_at] == trade_report_message_written.symbol_short[trade_report_message_at]); trade_report_message_at = trade_report_message_at + 1
+  :: trade_report_message_at < 8 -> assert(trade_report_message_read.symbol_long[trade_report_message_at] == trade_report_message_written.symbol_long[trade_report_message_at]); trade_report_message_at = trade_report_message_at + 1
   :: else -> break
   od;
   trade_report_message_at = 0;
@@ -2544,7 +2544,7 @@ inline equal_end_of_session_message(end_of_session_message_read, end_of_session_
 /* Trading Status */
 typedef TradingStatusMessage {
   byte time_offset[4];
-  byte symbol_short[8];
+  byte symbol_long[8];
   byte status;
   byte reserved_3[3]
 };
@@ -2560,7 +2560,7 @@ inline fill_trading_status_message(trading_status_message_record, trading_status
   od;
   trading_status_message_at = 0;
   do
-  :: trading_status_message_at < 8 -> trading_status_message_record.symbol_short[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
+  :: trading_status_message_at < 8 -> trading_status_message_record.symbol_long[trading_status_message_at] = trading_status_message_value; trading_status_message_at = trading_status_message_at + 1
   :: else -> break
   od;
   trading_status_message_record.status = trading_status_message_value;
@@ -2581,7 +2581,7 @@ inline ramp_trading_status_message(trading_status_message_record, trading_status
   od;
   trading_status_message_at = 0;
   do
-  :: trading_status_message_at < 8 -> trading_status_message_record.symbol_short[trading_status_message_at] = (trading_status_message_base + 4 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
+  :: trading_status_message_at < 8 -> trading_status_message_record.symbol_long[trading_status_message_at] = (trading_status_message_base + 4 + trading_status_message_at + 1) % 256; trading_status_message_at = trading_status_message_at + 1
   :: else -> break
   od;
   trading_status_message_record.status = (trading_status_message_base + 12 + 1) % 256;
@@ -2602,7 +2602,7 @@ inline encode_trading_status_message(trading_status_message_record) {
   od;
   trading_status_message_at = 0;
   do
-  :: trading_status_message_at < 8 -> wire[at] = trading_status_message_record.symbol_short[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: trading_status_message_at < 8 -> wire[at] = trading_status_message_record.symbol_long[trading_status_message_at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
   :: else -> break
   od;
   wire[at] = trading_status_message_record.status; at = at + 1;
@@ -2623,7 +2623,7 @@ inline decode_trading_status_message(trading_status_message_record) {
   od;
   trading_status_message_at = 0;
   do
-  :: trading_status_message_at < 8 -> trading_status_message_record.symbol_short[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
+  :: trading_status_message_at < 8 -> trading_status_message_record.symbol_long[trading_status_message_at] = wire[at]; at = at + 1; trading_status_message_at = trading_status_message_at + 1
   :: else -> break
   od;
   trading_status_message_record.status = wire[at]; at = at + 1;
@@ -2644,7 +2644,7 @@ inline equal_trading_status_message(trading_status_message_read, trading_status_
   od;
   trading_status_message_at = 0;
   do
-  :: trading_status_message_at < 8 -> assert(trading_status_message_read.symbol_short[trading_status_message_at] == trading_status_message_written.symbol_short[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
+  :: trading_status_message_at < 8 -> assert(trading_status_message_read.symbol_long[trading_status_message_at] == trading_status_message_written.symbol_long[trading_status_message_at]); trading_status_message_at = trading_status_message_at + 1
   :: else -> break
   od;
   assert(trading_status_message_read.status == trading_status_message_written.status);
@@ -2661,7 +2661,7 @@ inline equal_trading_status_message(trading_status_message_read, trading_status_
 /* Statistics Message */
 typedef StatisticsMessage {
   byte time_offset[4];
-  byte symbol_short[8];
+  byte symbol_long[8];
   byte price_long[8];
   byte statistic_type;
   byte price_determination
@@ -2678,7 +2678,7 @@ inline fill_statistics_message(statistics_message_record, statistics_message_val
   od;
   statistics_message_at = 0;
   do
-  :: statistics_message_at < 8 -> statistics_message_record.symbol_short[statistics_message_at] = statistics_message_value; statistics_message_at = statistics_message_at + 1
+  :: statistics_message_at < 8 -> statistics_message_record.symbol_long[statistics_message_at] = statistics_message_value; statistics_message_at = statistics_message_at + 1
   :: else -> break
   od;
   statistics_message_at = 0;
@@ -2700,7 +2700,7 @@ inline ramp_statistics_message(statistics_message_record, statistics_message_bas
   od;
   statistics_message_at = 0;
   do
-  :: statistics_message_at < 8 -> statistics_message_record.symbol_short[statistics_message_at] = (statistics_message_base + 4 + statistics_message_at + 1) % 256; statistics_message_at = statistics_message_at + 1
+  :: statistics_message_at < 8 -> statistics_message_record.symbol_long[statistics_message_at] = (statistics_message_base + 4 + statistics_message_at + 1) % 256; statistics_message_at = statistics_message_at + 1
   :: else -> break
   od;
   statistics_message_at = 0;
@@ -2722,7 +2722,7 @@ inline encode_statistics_message(statistics_message_record) {
   od;
   statistics_message_at = 0;
   do
-  :: statistics_message_at < 8 -> wire[at] = statistics_message_record.symbol_short[statistics_message_at]; at = at + 1; statistics_message_at = statistics_message_at + 1
+  :: statistics_message_at < 8 -> wire[at] = statistics_message_record.symbol_long[statistics_message_at]; at = at + 1; statistics_message_at = statistics_message_at + 1
   :: else -> break
   od;
   statistics_message_at = 0;
@@ -2744,7 +2744,7 @@ inline decode_statistics_message(statistics_message_record) {
   od;
   statistics_message_at = 0;
   do
-  :: statistics_message_at < 8 -> statistics_message_record.symbol_short[statistics_message_at] = wire[at]; at = at + 1; statistics_message_at = statistics_message_at + 1
+  :: statistics_message_at < 8 -> statistics_message_record.symbol_long[statistics_message_at] = wire[at]; at = at + 1; statistics_message_at = statistics_message_at + 1
   :: else -> break
   od;
   statistics_message_at = 0;
@@ -2766,7 +2766,7 @@ inline equal_statistics_message(statistics_message_read, statistics_message_writ
   od;
   statistics_message_at = 0;
   do
-  :: statistics_message_at < 8 -> assert(statistics_message_read.symbol_short[statistics_message_at] == statistics_message_written.symbol_short[statistics_message_at]); statistics_message_at = statistics_message_at + 1
+  :: statistics_message_at < 8 -> assert(statistics_message_read.symbol_long[statistics_message_at] == statistics_message_written.symbol_long[statistics_message_at]); statistics_message_at = statistics_message_at + 1
   :: else -> break
   od;
   statistics_message_at = 0;
@@ -2784,7 +2784,7 @@ inline equal_statistics_message(statistics_message_read, statistics_message_writ
 /* Auction Update Message */
 typedef AuctionUpdateMessage {
   byte time_offset[4];
-  byte symbol_short[8];
+  byte symbol_long[8];
   byte auction_type;
   byte reference_price[8];
   byte buy_shares[4];
@@ -2804,7 +2804,7 @@ inline fill_auction_update_message(auction_update_message_record, auction_update
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 8 -> auction_update_message_record.symbol_short[auction_update_message_at] = auction_update_message_value; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 8 -> auction_update_message_record.symbol_long[auction_update_message_at] = auction_update_message_value; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   auction_update_message_record.auction_type = auction_update_message_value;
@@ -2845,7 +2845,7 @@ inline ramp_auction_update_message(auction_update_message_record, auction_update
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 8 -> auction_update_message_record.symbol_short[auction_update_message_at] = (auction_update_message_base + 4 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 8 -> auction_update_message_record.symbol_long[auction_update_message_at] = (auction_update_message_base + 4 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   auction_update_message_record.auction_type = (auction_update_message_base + 12 + 1) % 256;
@@ -2886,7 +2886,7 @@ inline encode_auction_update_message(auction_update_message_record) {
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 8 -> wire[at] = auction_update_message_record.symbol_short[auction_update_message_at]; at = at + 1; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 8 -> wire[at] = auction_update_message_record.symbol_long[auction_update_message_at]; at = at + 1; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   wire[at] = auction_update_message_record.auction_type; at = at + 1;
@@ -2927,7 +2927,7 @@ inline decode_auction_update_message(auction_update_message_record) {
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 8 -> auction_update_message_record.symbol_short[auction_update_message_at] = wire[at]; at = at + 1; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 8 -> auction_update_message_record.symbol_long[auction_update_message_at] = wire[at]; at = at + 1; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   auction_update_message_record.auction_type = wire[at]; at = at + 1;
@@ -2968,7 +2968,7 @@ inline equal_auction_update_message(auction_update_message_read, auction_update_
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 8 -> assert(auction_update_message_read.symbol_short[auction_update_message_at] == auction_update_message_written.symbol_short[auction_update_message_at]); auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 8 -> assert(auction_update_message_read.symbol_long[auction_update_message_at] == auction_update_message_written.symbol_long[auction_update_message_at]); auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   assert(auction_update_message_read.auction_type == auction_update_message_written.auction_type);
@@ -3005,9 +3005,9 @@ inline equal_auction_update_message(auction_update_message_read, auction_update_
 /* Auction Summary Message */
 typedef AuctionSummaryMessage {
   byte time_offset[4];
-  byte symbol_short[8];
+  byte symbol_long[8];
   byte auction_type;
-  byte price_binary_8[8];
+  byte price_long[8];
   byte shares_long[4]
 };
 
@@ -3022,13 +3022,13 @@ inline fill_auction_summary_message(auction_summary_message_record, auction_summ
   od;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> auction_summary_message_record.symbol_short[auction_summary_message_at] = auction_summary_message_value; auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> auction_summary_message_record.symbol_long[auction_summary_message_at] = auction_summary_message_value; auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   auction_summary_message_record.auction_type = auction_summary_message_value;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> auction_summary_message_record.price_binary_8[auction_summary_message_at] = auction_summary_message_value; auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> auction_summary_message_record.price_long[auction_summary_message_at] = auction_summary_message_value; auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   auction_summary_message_at = 0;
@@ -3048,13 +3048,13 @@ inline ramp_auction_summary_message(auction_summary_message_record, auction_summ
   od;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> auction_summary_message_record.symbol_short[auction_summary_message_at] = (auction_summary_message_base + 4 + auction_summary_message_at + 1) % 256; auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> auction_summary_message_record.symbol_long[auction_summary_message_at] = (auction_summary_message_base + 4 + auction_summary_message_at + 1) % 256; auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   auction_summary_message_record.auction_type = (auction_summary_message_base + 12 + 1) % 256;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> auction_summary_message_record.price_binary_8[auction_summary_message_at] = (auction_summary_message_base + 13 + auction_summary_message_at + 1) % 256; auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> auction_summary_message_record.price_long[auction_summary_message_at] = (auction_summary_message_base + 13 + auction_summary_message_at + 1) % 256; auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   auction_summary_message_at = 0;
@@ -3074,13 +3074,13 @@ inline encode_auction_summary_message(auction_summary_message_record) {
   od;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> wire[at] = auction_summary_message_record.symbol_short[auction_summary_message_at]; at = at + 1; auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> wire[at] = auction_summary_message_record.symbol_long[auction_summary_message_at]; at = at + 1; auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   wire[at] = auction_summary_message_record.auction_type; at = at + 1;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> wire[at] = auction_summary_message_record.price_binary_8[auction_summary_message_at]; at = at + 1; auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> wire[at] = auction_summary_message_record.price_long[auction_summary_message_at]; at = at + 1; auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   auction_summary_message_at = 0;
@@ -3100,13 +3100,13 @@ inline decode_auction_summary_message(auction_summary_message_record) {
   od;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> auction_summary_message_record.symbol_short[auction_summary_message_at] = wire[at]; at = at + 1; auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> auction_summary_message_record.symbol_long[auction_summary_message_at] = wire[at]; at = at + 1; auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   auction_summary_message_record.auction_type = wire[at]; at = at + 1;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> auction_summary_message_record.price_binary_8[auction_summary_message_at] = wire[at]; at = at + 1; auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> auction_summary_message_record.price_long[auction_summary_message_at] = wire[at]; at = at + 1; auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   auction_summary_message_at = 0;
@@ -3126,13 +3126,13 @@ inline equal_auction_summary_message(auction_summary_message_read, auction_summa
   od;
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> assert(auction_summary_message_read.symbol_short[auction_summary_message_at] == auction_summary_message_written.symbol_short[auction_summary_message_at]); auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> assert(auction_summary_message_read.symbol_long[auction_summary_message_at] == auction_summary_message_written.symbol_long[auction_summary_message_at]); auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   assert(auction_summary_message_read.auction_type == auction_summary_message_written.auction_type);
   auction_summary_message_at = 0;
   do
-  :: auction_summary_message_at < 8 -> assert(auction_summary_message_read.price_binary_8[auction_summary_message_at] == auction_summary_message_written.price_binary_8[auction_summary_message_at]); auction_summary_message_at = auction_summary_message_at + 1
+  :: auction_summary_message_at < 8 -> assert(auction_summary_message_read.price_long[auction_summary_message_at] == auction_summary_message_written.price_long[auction_summary_message_at]); auction_summary_message_at = auction_summary_message_at + 1
   :: else -> break
   od;
   auction_summary_message_at = 0;

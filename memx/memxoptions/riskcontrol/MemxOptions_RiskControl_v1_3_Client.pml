@@ -556,8 +556,8 @@ inline equal_risk_settings_query_message(risk_settings_query_message_read, risk_
 /* ActiveRiskThresholdChangeReqMessage */
 typedef ActiveRiskThresholdChangeReqMessage {
   byte cl_ord_id[20];
-  byte underlier_active_risk_threshold_change_req_underlier[6];
-  byte efid_active_risk_threshold_change_req_efid[4];
+  byte underlier[6];
+  byte efid[4];
   byte threshold_quantity[4]
 };
 
@@ -572,12 +572,12 @@ inline fill_active_risk_threshold_change_req_message(active_risk_threshold_chang
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 6 -> active_risk_threshold_change_req_message_record.underlier_active_risk_threshold_change_req_underlier[active_risk_threshold_change_req_message_at] = active_risk_threshold_change_req_message_value; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 6 -> active_risk_threshold_change_req_message_record.underlier[active_risk_threshold_change_req_message_at] = active_risk_threshold_change_req_message_value; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 4 -> active_risk_threshold_change_req_message_record.efid_active_risk_threshold_change_req_efid[active_risk_threshold_change_req_message_at] = active_risk_threshold_change_req_message_value; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 4 -> active_risk_threshold_change_req_message_record.efid[active_risk_threshold_change_req_message_at] = active_risk_threshold_change_req_message_value; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
@@ -597,12 +597,12 @@ inline ramp_active_risk_threshold_change_req_message(active_risk_threshold_chang
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 6 -> active_risk_threshold_change_req_message_record.underlier_active_risk_threshold_change_req_underlier[active_risk_threshold_change_req_message_at] = (active_risk_threshold_change_req_message_base + 20 + active_risk_threshold_change_req_message_at + 1) % 256; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 6 -> active_risk_threshold_change_req_message_record.underlier[active_risk_threshold_change_req_message_at] = (active_risk_threshold_change_req_message_base + 20 + active_risk_threshold_change_req_message_at + 1) % 256; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 4 -> active_risk_threshold_change_req_message_record.efid_active_risk_threshold_change_req_efid[active_risk_threshold_change_req_message_at] = (active_risk_threshold_change_req_message_base + 26 + active_risk_threshold_change_req_message_at + 1) % 256; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 4 -> active_risk_threshold_change_req_message_record.efid[active_risk_threshold_change_req_message_at] = (active_risk_threshold_change_req_message_base + 26 + active_risk_threshold_change_req_message_at + 1) % 256; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
@@ -622,12 +622,12 @@ inline encode_active_risk_threshold_change_req_message(active_risk_threshold_cha
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 6 -> wire[at] = active_risk_threshold_change_req_message_record.underlier_active_risk_threshold_change_req_underlier[active_risk_threshold_change_req_message_at]; at = at + 1; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 6 -> wire[at] = active_risk_threshold_change_req_message_record.underlier[active_risk_threshold_change_req_message_at]; at = at + 1; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 4 -> wire[at] = active_risk_threshold_change_req_message_record.efid_active_risk_threshold_change_req_efid[active_risk_threshold_change_req_message_at]; at = at + 1; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 4 -> wire[at] = active_risk_threshold_change_req_message_record.efid[active_risk_threshold_change_req_message_at]; at = at + 1; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
@@ -647,12 +647,12 @@ inline decode_active_risk_threshold_change_req_message(active_risk_threshold_cha
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 6 -> active_risk_threshold_change_req_message_record.underlier_active_risk_threshold_change_req_underlier[active_risk_threshold_change_req_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 6 -> active_risk_threshold_change_req_message_record.underlier[active_risk_threshold_change_req_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 4 -> active_risk_threshold_change_req_message_record.efid_active_risk_threshold_change_req_efid[active_risk_threshold_change_req_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 4 -> active_risk_threshold_change_req_message_record.efid[active_risk_threshold_change_req_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
@@ -672,12 +672,12 @@ inline equal_active_risk_threshold_change_req_message(active_risk_threshold_chan
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 6 -> assert(active_risk_threshold_change_req_message_read.underlier_active_risk_threshold_change_req_underlier[active_risk_threshold_change_req_message_at] == active_risk_threshold_change_req_message_written.underlier_active_risk_threshold_change_req_underlier[active_risk_threshold_change_req_message_at]); active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 6 -> assert(active_risk_threshold_change_req_message_read.underlier[active_risk_threshold_change_req_message_at] == active_risk_threshold_change_req_message_written.underlier[active_risk_threshold_change_req_message_at]); active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;
   do
-  :: active_risk_threshold_change_req_message_at < 4 -> assert(active_risk_threshold_change_req_message_read.efid_active_risk_threshold_change_req_efid[active_risk_threshold_change_req_message_at] == active_risk_threshold_change_req_message_written.efid_active_risk_threshold_change_req_efid[active_risk_threshold_change_req_message_at]); active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
+  :: active_risk_threshold_change_req_message_at < 4 -> assert(active_risk_threshold_change_req_message_read.efid[active_risk_threshold_change_req_message_at] == active_risk_threshold_change_req_message_written.efid[active_risk_threshold_change_req_message_at]); active_risk_threshold_change_req_message_at = active_risk_threshold_change_req_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_req_message_at = 0;

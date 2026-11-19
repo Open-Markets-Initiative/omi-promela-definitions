@@ -246,7 +246,7 @@ inline equal_system_event_message(system_event_message_read, system_event_messag
 
 /* At the start of each trading day, NASDAQ disseminates stock directory messages for all active symbols. */
 typedef StockDirectoryMessage {
-  byte stock_alphanumeric_8[8];
+  byte stock[8];
   byte market_category;
   byte financial_status_indicator;
   byte round_lot_size[6];
@@ -268,7 +268,7 @@ int stock_directory_message_at;
 inline fill_stock_directory_message(stock_directory_message_record, stock_directory_message_value) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 8 -> stock_directory_message_record.stock_alphanumeric_8[stock_directory_message_at] = stock_directory_message_value; stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 8 -> stock_directory_message_record.stock[stock_directory_message_at] = stock_directory_message_value; stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   stock_directory_message_record.market_category = stock_directory_message_value;
@@ -303,7 +303,7 @@ inline fill_stock_directory_message(stock_directory_message_record, stock_direct
 inline ramp_stock_directory_message(stock_directory_message_record, stock_directory_message_base) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 8 -> stock_directory_message_record.stock_alphanumeric_8[stock_directory_message_at] = (stock_directory_message_base + 0 + stock_directory_message_at + 1) % 256; stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 8 -> stock_directory_message_record.stock[stock_directory_message_at] = (stock_directory_message_base + 0 + stock_directory_message_at + 1) % 256; stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   stock_directory_message_record.market_category = (stock_directory_message_base + 8 + 1) % 256;
@@ -338,7 +338,7 @@ inline ramp_stock_directory_message(stock_directory_message_record, stock_direct
 inline encode_stock_directory_message(stock_directory_message_record) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 8 -> wire[at] = stock_directory_message_record.stock_alphanumeric_8[stock_directory_message_at]; at = at + 1; stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 8 -> wire[at] = stock_directory_message_record.stock[stock_directory_message_at]; at = at + 1; stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   wire[at] = stock_directory_message_record.market_category; at = at + 1;
@@ -373,7 +373,7 @@ inline encode_stock_directory_message(stock_directory_message_record) {
 inline decode_stock_directory_message(stock_directory_message_record) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 8 -> stock_directory_message_record.stock_alphanumeric_8[stock_directory_message_at] = wire[at]; at = at + 1; stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 8 -> stock_directory_message_record.stock[stock_directory_message_at] = wire[at]; at = at + 1; stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   stock_directory_message_record.market_category = wire[at]; at = at + 1;
@@ -408,7 +408,7 @@ inline decode_stock_directory_message(stock_directory_message_record) {
 inline equal_stock_directory_message(stock_directory_message_read, stock_directory_message_written) {
   stock_directory_message_at = 0;
   do
-  :: stock_directory_message_at < 8 -> assert(stock_directory_message_read.stock_alphanumeric_8[stock_directory_message_at] == stock_directory_message_written.stock_alphanumeric_8[stock_directory_message_at]); stock_directory_message_at = stock_directory_message_at + 1
+  :: stock_directory_message_at < 8 -> assert(stock_directory_message_read.stock[stock_directory_message_at] == stock_directory_message_written.stock[stock_directory_message_at]); stock_directory_message_at = stock_directory_message_at + 1
   :: else -> break
   od;
   assert(stock_directory_message_read.market_category == stock_directory_message_written.market_category);
@@ -443,7 +443,7 @@ inline equal_stock_directory_message(stock_directory_message_read, stock_directo
 
 /* NASDAQ uses this administrative message to indicate the current trading status of a security to the trading community. */
 typedef StockTradingActionMessage {
-  byte stock_alphanumeric_8[8];
+  byte stock[8];
   byte current_trading_state;
   byte reason[4];
   byte tracking_id[13]
@@ -455,7 +455,7 @@ int stock_trading_action_message_at;
 inline fill_stock_trading_action_message(stock_trading_action_message_record, stock_trading_action_message_value) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 8 -> stock_trading_action_message_record.stock_alphanumeric_8[stock_trading_action_message_at] = stock_trading_action_message_value; stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 8 -> stock_trading_action_message_record.stock[stock_trading_action_message_at] = stock_trading_action_message_value; stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   stock_trading_action_message_record.current_trading_state = stock_trading_action_message_value;
@@ -476,7 +476,7 @@ inline fill_stock_trading_action_message(stock_trading_action_message_record, st
 inline ramp_stock_trading_action_message(stock_trading_action_message_record, stock_trading_action_message_base) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 8 -> stock_trading_action_message_record.stock_alphanumeric_8[stock_trading_action_message_at] = (stock_trading_action_message_base + 0 + stock_trading_action_message_at + 1) % 256; stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 8 -> stock_trading_action_message_record.stock[stock_trading_action_message_at] = (stock_trading_action_message_base + 0 + stock_trading_action_message_at + 1) % 256; stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   stock_trading_action_message_record.current_trading_state = (stock_trading_action_message_base + 8 + 1) % 256;
@@ -497,7 +497,7 @@ inline ramp_stock_trading_action_message(stock_trading_action_message_record, st
 inline encode_stock_trading_action_message(stock_trading_action_message_record) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 8 -> wire[at] = stock_trading_action_message_record.stock_alphanumeric_8[stock_trading_action_message_at]; at = at + 1; stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 8 -> wire[at] = stock_trading_action_message_record.stock[stock_trading_action_message_at]; at = at + 1; stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   wire[at] = stock_trading_action_message_record.current_trading_state; at = at + 1;
@@ -518,7 +518,7 @@ inline encode_stock_trading_action_message(stock_trading_action_message_record) 
 inline decode_stock_trading_action_message(stock_trading_action_message_record) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 8 -> stock_trading_action_message_record.stock_alphanumeric_8[stock_trading_action_message_at] = wire[at]; at = at + 1; stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 8 -> stock_trading_action_message_record.stock[stock_trading_action_message_at] = wire[at]; at = at + 1; stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   stock_trading_action_message_record.current_trading_state = wire[at]; at = at + 1;
@@ -539,7 +539,7 @@ inline decode_stock_trading_action_message(stock_trading_action_message_record) 
 inline equal_stock_trading_action_message(stock_trading_action_message_read, stock_trading_action_message_written) {
   stock_trading_action_message_at = 0;
   do
-  :: stock_trading_action_message_at < 8 -> assert(stock_trading_action_message_read.stock_alphanumeric_8[stock_trading_action_message_at] == stock_trading_action_message_written.stock_alphanumeric_8[stock_trading_action_message_at]); stock_trading_action_message_at = stock_trading_action_message_at + 1
+  :: stock_trading_action_message_at < 8 -> assert(stock_trading_action_message_read.stock[stock_trading_action_message_at] == stock_trading_action_message_written.stock[stock_trading_action_message_at]); stock_trading_action_message_at = stock_trading_action_message_at + 1
   :: else -> break
   od;
   assert(stock_trading_action_message_read.current_trading_state == stock_trading_action_message_written.current_trading_state);
@@ -560,7 +560,7 @@ inline equal_stock_trading_action_message(stock_trading_action_message_read, sto
 
 /* Denotes the Reg SHO Short Sale Price Test Restriction status for the issue at the time of the message dissemination. */
 typedef RegShoRestrictionMessage {
-  byte stock_alpha_8[8];
+  byte stock[8];
   byte reg_sho_action
 };
 
@@ -570,7 +570,7 @@ int reg_sho_restriction_message_at;
 inline fill_reg_sho_restriction_message(reg_sho_restriction_message_record, reg_sho_restriction_message_value) {
   reg_sho_restriction_message_at = 0;
   do
-  :: reg_sho_restriction_message_at < 8 -> reg_sho_restriction_message_record.stock_alpha_8[reg_sho_restriction_message_at] = reg_sho_restriction_message_value; reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
+  :: reg_sho_restriction_message_at < 8 -> reg_sho_restriction_message_record.stock[reg_sho_restriction_message_at] = reg_sho_restriction_message_value; reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
   :: else -> break
   od;
   reg_sho_restriction_message_record.reg_sho_action = reg_sho_restriction_message_value;
@@ -581,7 +581,7 @@ inline fill_reg_sho_restriction_message(reg_sho_restriction_message_record, reg_
 inline ramp_reg_sho_restriction_message(reg_sho_restriction_message_record, reg_sho_restriction_message_base) {
   reg_sho_restriction_message_at = 0;
   do
-  :: reg_sho_restriction_message_at < 8 -> reg_sho_restriction_message_record.stock_alpha_8[reg_sho_restriction_message_at] = (reg_sho_restriction_message_base + 0 + reg_sho_restriction_message_at + 1) % 256; reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
+  :: reg_sho_restriction_message_at < 8 -> reg_sho_restriction_message_record.stock[reg_sho_restriction_message_at] = (reg_sho_restriction_message_base + 0 + reg_sho_restriction_message_at + 1) % 256; reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
   :: else -> break
   od;
   reg_sho_restriction_message_record.reg_sho_action = (reg_sho_restriction_message_base + 8 + 1) % 256;
@@ -592,7 +592,7 @@ inline ramp_reg_sho_restriction_message(reg_sho_restriction_message_record, reg_
 inline encode_reg_sho_restriction_message(reg_sho_restriction_message_record) {
   reg_sho_restriction_message_at = 0;
   do
-  :: reg_sho_restriction_message_at < 8 -> wire[at] = reg_sho_restriction_message_record.stock_alpha_8[reg_sho_restriction_message_at]; at = at + 1; reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
+  :: reg_sho_restriction_message_at < 8 -> wire[at] = reg_sho_restriction_message_record.stock[reg_sho_restriction_message_at]; at = at + 1; reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
   :: else -> break
   od;
   wire[at] = reg_sho_restriction_message_record.reg_sho_action; at = at + 1;
@@ -603,7 +603,7 @@ inline encode_reg_sho_restriction_message(reg_sho_restriction_message_record) {
 inline decode_reg_sho_restriction_message(reg_sho_restriction_message_record) {
   reg_sho_restriction_message_at = 0;
   do
-  :: reg_sho_restriction_message_at < 8 -> reg_sho_restriction_message_record.stock_alpha_8[reg_sho_restriction_message_at] = wire[at]; at = at + 1; reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
+  :: reg_sho_restriction_message_at < 8 -> reg_sho_restriction_message_record.stock[reg_sho_restriction_message_at] = wire[at]; at = at + 1; reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
   :: else -> break
   od;
   reg_sho_restriction_message_record.reg_sho_action = wire[at]; at = at + 1;
@@ -614,7 +614,7 @@ inline decode_reg_sho_restriction_message(reg_sho_restriction_message_record) {
 inline equal_reg_sho_restriction_message(reg_sho_restriction_message_read, reg_sho_restriction_message_written) {
   reg_sho_restriction_message_at = 0;
   do
-  :: reg_sho_restriction_message_at < 8 -> assert(reg_sho_restriction_message_read.stock_alpha_8[reg_sho_restriction_message_at] == reg_sho_restriction_message_written.stock_alpha_8[reg_sho_restriction_message_at]); reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
+  :: reg_sho_restriction_message_at < 8 -> assert(reg_sho_restriction_message_read.stock[reg_sho_restriction_message_at] == reg_sho_restriction_message_written.stock[reg_sho_restriction_message_at]); reg_sho_restriction_message_at = reg_sho_restriction_message_at + 1
   :: else -> break
   od;
   assert(reg_sho_restriction_message_read.reg_sho_action == reg_sho_restriction_message_written.reg_sho_action);
@@ -628,7 +628,7 @@ typedef NoiiMessage {
   byte paired_shares[9];
   byte imbalance_shares[9];
   byte imbalance_direction;
-  byte stock_alpha_8[8];
+  byte stock[8];
   byte far_price[10];
   byte near_price[10];
   byte current_reference_price[10];
@@ -653,7 +653,7 @@ inline fill_noii_message(noii_message_record, noii_message_value) {
   noii_message_record.imbalance_direction = noii_message_value;
   noii_message_at = 0;
   do
-  :: noii_message_at < 8 -> noii_message_record.stock_alpha_8[noii_message_at] = noii_message_value; noii_message_at = noii_message_at + 1
+  :: noii_message_at < 8 -> noii_message_record.stock[noii_message_at] = noii_message_value; noii_message_at = noii_message_at + 1
   :: else -> break
   od;
   noii_message_at = 0;
@@ -691,7 +691,7 @@ inline ramp_noii_message(noii_message_record, noii_message_base) {
   noii_message_record.imbalance_direction = (noii_message_base + 18 + 1) % 256;
   noii_message_at = 0;
   do
-  :: noii_message_at < 8 -> noii_message_record.stock_alpha_8[noii_message_at] = (noii_message_base + 19 + noii_message_at + 1) % 256; noii_message_at = noii_message_at + 1
+  :: noii_message_at < 8 -> noii_message_record.stock[noii_message_at] = (noii_message_base + 19 + noii_message_at + 1) % 256; noii_message_at = noii_message_at + 1
   :: else -> break
   od;
   noii_message_at = 0;
@@ -729,7 +729,7 @@ inline encode_noii_message(noii_message_record) {
   wire[at] = noii_message_record.imbalance_direction; at = at + 1;
   noii_message_at = 0;
   do
-  :: noii_message_at < 8 -> wire[at] = noii_message_record.stock_alpha_8[noii_message_at]; at = at + 1; noii_message_at = noii_message_at + 1
+  :: noii_message_at < 8 -> wire[at] = noii_message_record.stock[noii_message_at]; at = at + 1; noii_message_at = noii_message_at + 1
   :: else -> break
   od;
   noii_message_at = 0;
@@ -767,7 +767,7 @@ inline decode_noii_message(noii_message_record) {
   noii_message_record.imbalance_direction = wire[at]; at = at + 1;
   noii_message_at = 0;
   do
-  :: noii_message_at < 8 -> noii_message_record.stock_alpha_8[noii_message_at] = wire[at]; at = at + 1; noii_message_at = noii_message_at + 1
+  :: noii_message_at < 8 -> noii_message_record.stock[noii_message_at] = wire[at]; at = at + 1; noii_message_at = noii_message_at + 1
   :: else -> break
   od;
   noii_message_at = 0;
@@ -805,7 +805,7 @@ inline equal_noii_message(noii_message_read, noii_message_written) {
   assert(noii_message_read.imbalance_direction == noii_message_written.imbalance_direction);
   noii_message_at = 0;
   do
-  :: noii_message_at < 8 -> assert(noii_message_read.stock_alpha_8[noii_message_at] == noii_message_written.stock_alpha_8[noii_message_at]); noii_message_at = noii_message_at + 1
+  :: noii_message_at < 8 -> assert(noii_message_read.stock[noii_message_at] == noii_message_written.stock[noii_message_at]); noii_message_at = noii_message_at + 1
   :: else -> break
   od;
   noii_message_at = 0;
@@ -833,7 +833,7 @@ inline equal_noii_message(noii_message_read, noii_message_written) {
 /* Cross Trade message indicates that NASDAQ has completed its cross process for a specific security. */
 typedef CrossTradeMessage {
   byte shares[9];
-  byte stock_alpha_8[8];
+  byte stock[8];
   byte cross_price[10];
   byte match_number[12];
   byte cross_type;
@@ -851,7 +851,7 @@ inline fill_cross_trade_message(cross_trade_message_record, cross_trade_message_
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 8 -> cross_trade_message_record.stock_alpha_8[cross_trade_message_at] = cross_trade_message_value; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 8 -> cross_trade_message_record.stock[cross_trade_message_at] = cross_trade_message_value; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -882,7 +882,7 @@ inline ramp_cross_trade_message(cross_trade_message_record, cross_trade_message_
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 8 -> cross_trade_message_record.stock_alpha_8[cross_trade_message_at] = (cross_trade_message_base + 9 + cross_trade_message_at + 1) % 256; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 8 -> cross_trade_message_record.stock[cross_trade_message_at] = (cross_trade_message_base + 9 + cross_trade_message_at + 1) % 256; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -913,7 +913,7 @@ inline encode_cross_trade_message(cross_trade_message_record) {
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 8 -> wire[at] = cross_trade_message_record.stock_alpha_8[cross_trade_message_at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 8 -> wire[at] = cross_trade_message_record.stock[cross_trade_message_at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -944,7 +944,7 @@ inline decode_cross_trade_message(cross_trade_message_record) {
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 8 -> cross_trade_message_record.stock_alpha_8[cross_trade_message_at] = wire[at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 8 -> cross_trade_message_record.stock[cross_trade_message_at] = wire[at]; at = at + 1; cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -975,7 +975,7 @@ inline equal_cross_trade_message(cross_trade_message_read, cross_trade_message_w
   od;
   cross_trade_message_at = 0;
   do
-  :: cross_trade_message_at < 8 -> assert(cross_trade_message_read.stock_alpha_8[cross_trade_message_at] == cross_trade_message_written.stock_alpha_8[cross_trade_message_at]); cross_trade_message_at = cross_trade_message_at + 1
+  :: cross_trade_message_at < 8 -> assert(cross_trade_message_read.stock[cross_trade_message_at] == cross_trade_message_written.stock[cross_trade_message_at]); cross_trade_message_at = cross_trade_message_at + 1
   :: else -> break
   od;
   cross_trade_message_at = 0;
@@ -1001,7 +1001,7 @@ inline equal_cross_trade_message(cross_trade_message_read, cross_trade_message_w
 
 /* Denotes the IPO release time for quotation and the IPO price for the issue. */
 typedef IpoQuotingPeriodUpdateMessage {
-  byte stock_alphanumeric_8[8];
+  byte stock[8];
   byte ipo_quotation_release_time[6];
   byte ipo_quotation_release_qualifier;
   byte ipo_price[10]
@@ -1013,7 +1013,7 @@ int ipo_quoting_period_update_message_at;
 inline fill_ipo_quoting_period_update_message(ipo_quoting_period_update_message_record, ipo_quoting_period_update_message_value) {
   ipo_quoting_period_update_message_at = 0;
   do
-  :: ipo_quoting_period_update_message_at < 8 -> ipo_quoting_period_update_message_record.stock_alphanumeric_8[ipo_quoting_period_update_message_at] = ipo_quoting_period_update_message_value; ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
+  :: ipo_quoting_period_update_message_at < 8 -> ipo_quoting_period_update_message_record.stock[ipo_quoting_period_update_message_at] = ipo_quoting_period_update_message_value; ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
   :: else -> break
   od;
   ipo_quoting_period_update_message_at = 0;
@@ -1034,7 +1034,7 @@ inline fill_ipo_quoting_period_update_message(ipo_quoting_period_update_message_
 inline ramp_ipo_quoting_period_update_message(ipo_quoting_period_update_message_record, ipo_quoting_period_update_message_base) {
   ipo_quoting_period_update_message_at = 0;
   do
-  :: ipo_quoting_period_update_message_at < 8 -> ipo_quoting_period_update_message_record.stock_alphanumeric_8[ipo_quoting_period_update_message_at] = (ipo_quoting_period_update_message_base + 0 + ipo_quoting_period_update_message_at + 1) % 256; ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
+  :: ipo_quoting_period_update_message_at < 8 -> ipo_quoting_period_update_message_record.stock[ipo_quoting_period_update_message_at] = (ipo_quoting_period_update_message_base + 0 + ipo_quoting_period_update_message_at + 1) % 256; ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
   :: else -> break
   od;
   ipo_quoting_period_update_message_at = 0;
@@ -1055,7 +1055,7 @@ inline ramp_ipo_quoting_period_update_message(ipo_quoting_period_update_message_
 inline encode_ipo_quoting_period_update_message(ipo_quoting_period_update_message_record) {
   ipo_quoting_period_update_message_at = 0;
   do
-  :: ipo_quoting_period_update_message_at < 8 -> wire[at] = ipo_quoting_period_update_message_record.stock_alphanumeric_8[ipo_quoting_period_update_message_at]; at = at + 1; ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
+  :: ipo_quoting_period_update_message_at < 8 -> wire[at] = ipo_quoting_period_update_message_record.stock[ipo_quoting_period_update_message_at]; at = at + 1; ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
   :: else -> break
   od;
   ipo_quoting_period_update_message_at = 0;
@@ -1076,7 +1076,7 @@ inline encode_ipo_quoting_period_update_message(ipo_quoting_period_update_messag
 inline decode_ipo_quoting_period_update_message(ipo_quoting_period_update_message_record) {
   ipo_quoting_period_update_message_at = 0;
   do
-  :: ipo_quoting_period_update_message_at < 8 -> ipo_quoting_period_update_message_record.stock_alphanumeric_8[ipo_quoting_period_update_message_at] = wire[at]; at = at + 1; ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
+  :: ipo_quoting_period_update_message_at < 8 -> ipo_quoting_period_update_message_record.stock[ipo_quoting_period_update_message_at] = wire[at]; at = at + 1; ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
   :: else -> break
   od;
   ipo_quoting_period_update_message_at = 0;
@@ -1097,7 +1097,7 @@ inline decode_ipo_quoting_period_update_message(ipo_quoting_period_update_messag
 inline equal_ipo_quoting_period_update_message(ipo_quoting_period_update_message_read, ipo_quoting_period_update_message_written) {
   ipo_quoting_period_update_message_at = 0;
   do
-  :: ipo_quoting_period_update_message_at < 8 -> assert(ipo_quoting_period_update_message_read.stock_alphanumeric_8[ipo_quoting_period_update_message_at] == ipo_quoting_period_update_message_written.stock_alphanumeric_8[ipo_quoting_period_update_message_at]); ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
+  :: ipo_quoting_period_update_message_at < 8 -> assert(ipo_quoting_period_update_message_read.stock[ipo_quoting_period_update_message_at] == ipo_quoting_period_update_message_written.stock[ipo_quoting_period_update_message_at]); ipo_quoting_period_update_message_at = ipo_quoting_period_update_message_at + 1
   :: else -> break
   od;
   ipo_quoting_period_update_message_at = 0;

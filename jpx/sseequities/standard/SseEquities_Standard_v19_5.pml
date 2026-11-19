@@ -566,7 +566,7 @@ typedef StatusInformationMessage {
   byte reserved_2[2];
   byte change_flag;
   StatusInformation status_information;
-  byte time_c_12[12];
+  byte precise_time[12];
   byte reserved_4[4]
 };
 
@@ -583,7 +583,7 @@ inline fill_status_information_message(status_information_message_record, status
   fill_status_information(status_information_message_record.status_information, status_information_message_value);
   status_information_message_at = 0;
   do
-  :: status_information_message_at < 12 -> status_information_message_record.time_c_12[status_information_message_at] = status_information_message_value; status_information_message_at = status_information_message_at + 1
+  :: status_information_message_at < 12 -> status_information_message_record.precise_time[status_information_message_at] = status_information_message_value; status_information_message_at = status_information_message_at + 1
   :: else -> break
   od;
   status_information_message_at = 0;
@@ -605,7 +605,7 @@ inline ramp_status_information_message(status_information_message_record, status
   ramp_status_information(status_information_message_record.status_information, status_information_message_base + 3);
   status_information_message_at = 0;
   do
-  :: status_information_message_at < 12 -> status_information_message_record.time_c_12[status_information_message_at] = (status_information_message_base + 8 + status_information_message_at + 1) % 256; status_information_message_at = status_information_message_at + 1
+  :: status_information_message_at < 12 -> status_information_message_record.precise_time[status_information_message_at] = (status_information_message_base + 8 + status_information_message_at + 1) % 256; status_information_message_at = status_information_message_at + 1
   :: else -> break
   od;
   status_information_message_at = 0;
@@ -627,7 +627,7 @@ inline encode_status_information_message(status_information_message_record) {
   encode_status_information(status_information_message_record.status_information);
   status_information_message_at = 0;
   do
-  :: status_information_message_at < 12 -> wire[at] = status_information_message_record.time_c_12[status_information_message_at]; at = at + 1; status_information_message_at = status_information_message_at + 1
+  :: status_information_message_at < 12 -> wire[at] = status_information_message_record.precise_time[status_information_message_at]; at = at + 1; status_information_message_at = status_information_message_at + 1
   :: else -> break
   od;
   status_information_message_at = 0;
@@ -649,7 +649,7 @@ inline decode_status_information_message(status_information_message_record) {
   decode_status_information(status_information_message_record.status_information);
   status_information_message_at = 0;
   do
-  :: status_information_message_at < 12 -> status_information_message_record.time_c_12[status_information_message_at] = wire[at]; at = at + 1; status_information_message_at = status_information_message_at + 1
+  :: status_information_message_at < 12 -> status_information_message_record.precise_time[status_information_message_at] = wire[at]; at = at + 1; status_information_message_at = status_information_message_at + 1
   :: else -> break
   od;
   status_information_message_at = 0;
@@ -671,7 +671,7 @@ inline equal_status_information_message(status_information_message_read, status_
   equal_status_information(status_information_message_read.status_information, status_information_message_written.status_information);
   status_information_message_at = 0;
   do
-  :: status_information_message_at < 12 -> assert(status_information_message_read.time_c_12[status_information_message_at] == status_information_message_written.time_c_12[status_information_message_at]); status_information_message_at = status_information_message_at + 1
+  :: status_information_message_at < 12 -> assert(status_information_message_read.precise_time[status_information_message_at] == status_information_message_written.precise_time[status_information_message_at]); status_information_message_at = status_information_message_at + 1
   :: else -> break
   od;
   status_information_message_at = 0;
@@ -687,21 +687,21 @@ inline equal_status_information_message(status_information_message_read, status_
 /* Price */
 typedef Price {
   byte unit_flag;
-  byte price_c_14[14];
+  byte price_value[14];
   byte sign
 };
 
 int price_at;
 
 /* every byte of Price set to one value */
-inline fill_price(price_record, price_value) {
-  price_record.unit_flag = price_value;
+inline fill_price(price_record, price_value_) {
+  price_record.unit_flag = price_value_;
   price_at = 0;
   do
-  :: price_at < 14 -> price_record.price_c_14[price_at] = price_value; price_at = price_at + 1
+  :: price_at < 14 -> price_record.price_value[price_at] = price_value_; price_at = price_at + 1
   :: else -> break
   od;
-  price_record.sign = price_value;
+  price_record.sign = price_value_;
   skip
 }
 
@@ -710,7 +710,7 @@ inline ramp_price(price_record, price_base) {
   price_record.unit_flag = (price_base + 0 + 1) % 256;
   price_at = 0;
   do
-  :: price_at < 14 -> price_record.price_c_14[price_at] = (price_base + 1 + price_at + 1) % 256; price_at = price_at + 1
+  :: price_at < 14 -> price_record.price_value[price_at] = (price_base + 1 + price_at + 1) % 256; price_at = price_at + 1
   :: else -> break
   od;
   price_record.sign = (price_base + 15 + 1) % 256;
@@ -722,7 +722,7 @@ inline encode_price(price_record) {
   wire[at] = price_record.unit_flag; at = at + 1;
   price_at = 0;
   do
-  :: price_at < 14 -> wire[at] = price_record.price_c_14[price_at]; at = at + 1; price_at = price_at + 1
+  :: price_at < 14 -> wire[at] = price_record.price_value[price_at]; at = at + 1; price_at = price_at + 1
   :: else -> break
   od;
   wire[at] = price_record.sign; at = at + 1;
@@ -734,7 +734,7 @@ inline decode_price(price_record) {
   price_record.unit_flag = wire[at]; at = at + 1;
   price_at = 0;
   do
-  :: price_at < 14 -> price_record.price_c_14[price_at] = wire[at]; at = at + 1; price_at = price_at + 1
+  :: price_at < 14 -> price_record.price_value[price_at] = wire[at]; at = at + 1; price_at = price_at + 1
   :: else -> break
   od;
   price_record.sign = wire[at]; at = at + 1;
@@ -746,7 +746,7 @@ inline equal_price(price_read, price_written) {
   assert(price_read.unit_flag == price_written.unit_flag);
   price_at = 0;
   do
-  :: price_at < 14 -> assert(price_read.price_c_14[price_at] == price_written.price_c_14[price_at]); price_at = price_at + 1
+  :: price_at < 14 -> assert(price_read.price_value[price_at] == price_written.price_value[price_at]); price_at = price_at + 1
   :: else -> break
   od;
   assert(price_read.sign == price_written.sign);
@@ -758,7 +758,7 @@ inline equal_price(price_read, price_written) {
 /* Open */
 typedef Open {
   Price price;
-  byte time_c_6[6];
+  byte time[6];
   byte change_flag
 };
 
@@ -769,7 +769,7 @@ inline fill_open(open_record, open_value) {
   fill_price(open_record.price, open_value);
   open_at = 0;
   do
-  :: open_at < 6 -> open_record.time_c_6[open_at] = open_value; open_at = open_at + 1
+  :: open_at < 6 -> open_record.time[open_at] = open_value; open_at = open_at + 1
   :: else -> break
   od;
   open_record.change_flag = open_value;
@@ -781,7 +781,7 @@ inline ramp_open(open_record, open_base) {
   ramp_price(open_record.price, open_base + 0);
   open_at = 0;
   do
-  :: open_at < 6 -> open_record.time_c_6[open_at] = (open_base + 16 + open_at + 1) % 256; open_at = open_at + 1
+  :: open_at < 6 -> open_record.time[open_at] = (open_base + 16 + open_at + 1) % 256; open_at = open_at + 1
   :: else -> break
   od;
   open_record.change_flag = (open_base + 22 + 1) % 256;
@@ -793,7 +793,7 @@ inline encode_open(open_record) {
   encode_price(open_record.price);
   open_at = 0;
   do
-  :: open_at < 6 -> wire[at] = open_record.time_c_6[open_at]; at = at + 1; open_at = open_at + 1
+  :: open_at < 6 -> wire[at] = open_record.time[open_at]; at = at + 1; open_at = open_at + 1
   :: else -> break
   od;
   wire[at] = open_record.change_flag; at = at + 1;
@@ -805,7 +805,7 @@ inline decode_open(open_record) {
   decode_price(open_record.price);
   open_at = 0;
   do
-  :: open_at < 6 -> open_record.time_c_6[open_at] = wire[at]; at = at + 1; open_at = open_at + 1
+  :: open_at < 6 -> open_record.time[open_at] = wire[at]; at = at + 1; open_at = open_at + 1
   :: else -> break
   od;
   open_record.change_flag = wire[at]; at = at + 1;
@@ -817,7 +817,7 @@ inline equal_open(open_read, open_written) {
   equal_price(open_read.price, open_written.price);
   open_at = 0;
   do
-  :: open_at < 6 -> assert(open_read.time_c_6[open_at] == open_written.time_c_6[open_at]); open_at = open_at + 1
+  :: open_at < 6 -> assert(open_read.time[open_at] == open_written.time[open_at]); open_at = open_at + 1
   :: else -> break
   od;
   assert(open_read.change_flag == open_written.change_flag);
@@ -830,7 +830,7 @@ inline equal_open(open_read, open_written) {
 typedef High {
   byte limit_up_flag;
   Price price;
-  byte time_c_6[6];
+  byte time[6];
   byte change_flag
 };
 
@@ -842,7 +842,7 @@ inline fill_high(high_record, high_value) {
   fill_price(high_record.price, high_value);
   high_at = 0;
   do
-  :: high_at < 6 -> high_record.time_c_6[high_at] = high_value; high_at = high_at + 1
+  :: high_at < 6 -> high_record.time[high_at] = high_value; high_at = high_at + 1
   :: else -> break
   od;
   high_record.change_flag = high_value;
@@ -855,7 +855,7 @@ inline ramp_high(high_record, high_base) {
   ramp_price(high_record.price, high_base + 1);
   high_at = 0;
   do
-  :: high_at < 6 -> high_record.time_c_6[high_at] = (high_base + 17 + high_at + 1) % 256; high_at = high_at + 1
+  :: high_at < 6 -> high_record.time[high_at] = (high_base + 17 + high_at + 1) % 256; high_at = high_at + 1
   :: else -> break
   od;
   high_record.change_flag = (high_base + 23 + 1) % 256;
@@ -868,7 +868,7 @@ inline encode_high(high_record) {
   encode_price(high_record.price);
   high_at = 0;
   do
-  :: high_at < 6 -> wire[at] = high_record.time_c_6[high_at]; at = at + 1; high_at = high_at + 1
+  :: high_at < 6 -> wire[at] = high_record.time[high_at]; at = at + 1; high_at = high_at + 1
   :: else -> break
   od;
   wire[at] = high_record.change_flag; at = at + 1;
@@ -881,7 +881,7 @@ inline decode_high(high_record) {
   decode_price(high_record.price);
   high_at = 0;
   do
-  :: high_at < 6 -> high_record.time_c_6[high_at] = wire[at]; at = at + 1; high_at = high_at + 1
+  :: high_at < 6 -> high_record.time[high_at] = wire[at]; at = at + 1; high_at = high_at + 1
   :: else -> break
   od;
   high_record.change_flag = wire[at]; at = at + 1;
@@ -894,7 +894,7 @@ inline equal_high(high_read, high_written) {
   equal_price(high_read.price, high_written.price);
   high_at = 0;
   do
-  :: high_at < 6 -> assert(high_read.time_c_6[high_at] == high_written.time_c_6[high_at]); high_at = high_at + 1
+  :: high_at < 6 -> assert(high_read.time[high_at] == high_written.time[high_at]); high_at = high_at + 1
   :: else -> break
   od;
   assert(high_read.change_flag == high_written.change_flag);
@@ -907,7 +907,7 @@ inline equal_high(high_read, high_written) {
 typedef Low {
   byte limit_down_flag;
   Price price;
-  byte time_c_6[6];
+  byte time[6];
   byte change_flag
 };
 
@@ -919,7 +919,7 @@ inline fill_low(low_record, low_value) {
   fill_price(low_record.price, low_value);
   low_at = 0;
   do
-  :: low_at < 6 -> low_record.time_c_6[low_at] = low_value; low_at = low_at + 1
+  :: low_at < 6 -> low_record.time[low_at] = low_value; low_at = low_at + 1
   :: else -> break
   od;
   low_record.change_flag = low_value;
@@ -932,7 +932,7 @@ inline ramp_low(low_record, low_base) {
   ramp_price(low_record.price, low_base + 1);
   low_at = 0;
   do
-  :: low_at < 6 -> low_record.time_c_6[low_at] = (low_base + 17 + low_at + 1) % 256; low_at = low_at + 1
+  :: low_at < 6 -> low_record.time[low_at] = (low_base + 17 + low_at + 1) % 256; low_at = low_at + 1
   :: else -> break
   od;
   low_record.change_flag = (low_base + 23 + 1) % 256;
@@ -945,7 +945,7 @@ inline encode_low(low_record) {
   encode_price(low_record.price);
   low_at = 0;
   do
-  :: low_at < 6 -> wire[at] = low_record.time_c_6[low_at]; at = at + 1; low_at = low_at + 1
+  :: low_at < 6 -> wire[at] = low_record.time[low_at]; at = at + 1; low_at = low_at + 1
   :: else -> break
   od;
   wire[at] = low_record.change_flag; at = at + 1;
@@ -958,7 +958,7 @@ inline decode_low(low_record) {
   decode_price(low_record.price);
   low_at = 0;
   do
-  :: low_at < 6 -> low_record.time_c_6[low_at] = wire[at]; at = at + 1; low_at = low_at + 1
+  :: low_at < 6 -> low_record.time[low_at] = wire[at]; at = at + 1; low_at = low_at + 1
   :: else -> break
   od;
   low_record.change_flag = wire[at]; at = at + 1;
@@ -971,7 +971,7 @@ inline equal_low(low_read, low_written) {
   equal_price(low_read.price, low_written.price);
   low_at = 0;
   do
-  :: low_at < 6 -> assert(low_read.time_c_6[low_at] == low_written.time_c_6[low_at]); low_at = low_at + 1
+  :: low_at < 6 -> assert(low_read.time[low_at] == low_written.time[low_at]); low_at = low_at + 1
   :: else -> break
   od;
   assert(low_read.change_flag == low_written.change_flag);
@@ -983,7 +983,7 @@ inline equal_low(low_read, low_written) {
 /* Current */
 typedef Current {
   Price price;
-  byte time_c_12[12];
+  byte precise_time[12];
   byte current_change_flag;
   byte stq_reference_point_flag;
   byte reserved_1;
@@ -997,7 +997,7 @@ inline fill_current(current_record, current_value) {
   fill_price(current_record.price, current_value);
   current_at = 0;
   do
-  :: current_at < 12 -> current_record.time_c_12[current_at] = current_value; current_at = current_at + 1
+  :: current_at < 12 -> current_record.precise_time[current_at] = current_value; current_at = current_at + 1
   :: else -> break
   od;
   current_record.current_change_flag = current_value;
@@ -1012,7 +1012,7 @@ inline ramp_current(current_record, current_base) {
   ramp_price(current_record.price, current_base + 0);
   current_at = 0;
   do
-  :: current_at < 12 -> current_record.time_c_12[current_at] = (current_base + 16 + current_at + 1) % 256; current_at = current_at + 1
+  :: current_at < 12 -> current_record.precise_time[current_at] = (current_base + 16 + current_at + 1) % 256; current_at = current_at + 1
   :: else -> break
   od;
   current_record.current_change_flag = (current_base + 28 + 1) % 256;
@@ -1027,7 +1027,7 @@ inline encode_current(current_record) {
   encode_price(current_record.price);
   current_at = 0;
   do
-  :: current_at < 12 -> wire[at] = current_record.time_c_12[current_at]; at = at + 1; current_at = current_at + 1
+  :: current_at < 12 -> wire[at] = current_record.precise_time[current_at]; at = at + 1; current_at = current_at + 1
   :: else -> break
   od;
   wire[at] = current_record.current_change_flag; at = at + 1;
@@ -1042,7 +1042,7 @@ inline decode_current(current_record) {
   decode_price(current_record.price);
   current_at = 0;
   do
-  :: current_at < 12 -> current_record.time_c_12[current_at] = wire[at]; at = at + 1; current_at = current_at + 1
+  :: current_at < 12 -> current_record.precise_time[current_at] = wire[at]; at = at + 1; current_at = current_at + 1
   :: else -> break
   od;
   current_record.current_change_flag = wire[at]; at = at + 1;
@@ -1057,7 +1057,7 @@ inline equal_current(current_read, current_written) {
   equal_price(current_read.price, current_written.price);
   current_at = 0;
   do
-  :: current_at < 12 -> assert(current_read.time_c_12[current_at] == current_written.time_c_12[current_at]); current_at = current_at + 1
+  :: current_at < 12 -> assert(current_read.precise_time[current_at] == current_written.precise_time[current_at]); current_at = current_at + 1
   :: else -> break
   od;
   assert(current_read.current_change_flag == current_written.current_change_flag);
@@ -1227,7 +1227,7 @@ inline equal_quote_quantity(quote_quantity_read, quote_quantity_written) {
 typedef AskQuote {
   byte change_flag;
   Price price;
-  byte time_c_12[12];
+  byte precise_time[12];
   byte quote_flag;
   QuoteQuantity quote_quantity
 };
@@ -1240,7 +1240,7 @@ inline fill_ask_quote(ask_quote_record, ask_quote_value) {
   fill_price(ask_quote_record.price, ask_quote_value);
   ask_quote_at = 0;
   do
-  :: ask_quote_at < 12 -> ask_quote_record.time_c_12[ask_quote_at] = ask_quote_value; ask_quote_at = ask_quote_at + 1
+  :: ask_quote_at < 12 -> ask_quote_record.precise_time[ask_quote_at] = ask_quote_value; ask_quote_at = ask_quote_at + 1
   :: else -> break
   od;
   ask_quote_record.quote_flag = ask_quote_value;
@@ -1254,7 +1254,7 @@ inline ramp_ask_quote(ask_quote_record, ask_quote_base) {
   ramp_price(ask_quote_record.price, ask_quote_base + 1);
   ask_quote_at = 0;
   do
-  :: ask_quote_at < 12 -> ask_quote_record.time_c_12[ask_quote_at] = (ask_quote_base + 17 + ask_quote_at + 1) % 256; ask_quote_at = ask_quote_at + 1
+  :: ask_quote_at < 12 -> ask_quote_record.precise_time[ask_quote_at] = (ask_quote_base + 17 + ask_quote_at + 1) % 256; ask_quote_at = ask_quote_at + 1
   :: else -> break
   od;
   ask_quote_record.quote_flag = (ask_quote_base + 29 + 1) % 256;
@@ -1268,7 +1268,7 @@ inline encode_ask_quote(ask_quote_record) {
   encode_price(ask_quote_record.price);
   ask_quote_at = 0;
   do
-  :: ask_quote_at < 12 -> wire[at] = ask_quote_record.time_c_12[ask_quote_at]; at = at + 1; ask_quote_at = ask_quote_at + 1
+  :: ask_quote_at < 12 -> wire[at] = ask_quote_record.precise_time[ask_quote_at]; at = at + 1; ask_quote_at = ask_quote_at + 1
   :: else -> break
   od;
   wire[at] = ask_quote_record.quote_flag; at = at + 1;
@@ -1282,7 +1282,7 @@ inline decode_ask_quote(ask_quote_record) {
   decode_price(ask_quote_record.price);
   ask_quote_at = 0;
   do
-  :: ask_quote_at < 12 -> ask_quote_record.time_c_12[ask_quote_at] = wire[at]; at = at + 1; ask_quote_at = ask_quote_at + 1
+  :: ask_quote_at < 12 -> ask_quote_record.precise_time[ask_quote_at] = wire[at]; at = at + 1; ask_quote_at = ask_quote_at + 1
   :: else -> break
   od;
   ask_quote_record.quote_flag = wire[at]; at = at + 1;
@@ -1296,7 +1296,7 @@ inline equal_ask_quote(ask_quote_read, ask_quote_written) {
   equal_price(ask_quote_read.price, ask_quote_written.price);
   ask_quote_at = 0;
   do
-  :: ask_quote_at < 12 -> assert(ask_quote_read.time_c_12[ask_quote_at] == ask_quote_written.time_c_12[ask_quote_at]); ask_quote_at = ask_quote_at + 1
+  :: ask_quote_at < 12 -> assert(ask_quote_read.precise_time[ask_quote_at] == ask_quote_written.precise_time[ask_quote_at]); ask_quote_at = ask_quote_at + 1
   :: else -> break
   od;
   assert(ask_quote_read.quote_flag == ask_quote_written.quote_flag);
@@ -1310,7 +1310,7 @@ inline equal_ask_quote(ask_quote_read, ask_quote_written) {
 typedef BidQuote {
   byte change_flag;
   Price price;
-  byte time_c_12[12];
+  byte precise_time[12];
   byte quote_flag;
   QuoteQuantity quote_quantity
 };
@@ -1323,7 +1323,7 @@ inline fill_bid_quote(bid_quote_record, bid_quote_value) {
   fill_price(bid_quote_record.price, bid_quote_value);
   bid_quote_at = 0;
   do
-  :: bid_quote_at < 12 -> bid_quote_record.time_c_12[bid_quote_at] = bid_quote_value; bid_quote_at = bid_quote_at + 1
+  :: bid_quote_at < 12 -> bid_quote_record.precise_time[bid_quote_at] = bid_quote_value; bid_quote_at = bid_quote_at + 1
   :: else -> break
   od;
   bid_quote_record.quote_flag = bid_quote_value;
@@ -1337,7 +1337,7 @@ inline ramp_bid_quote(bid_quote_record, bid_quote_base) {
   ramp_price(bid_quote_record.price, bid_quote_base + 1);
   bid_quote_at = 0;
   do
-  :: bid_quote_at < 12 -> bid_quote_record.time_c_12[bid_quote_at] = (bid_quote_base + 17 + bid_quote_at + 1) % 256; bid_quote_at = bid_quote_at + 1
+  :: bid_quote_at < 12 -> bid_quote_record.precise_time[bid_quote_at] = (bid_quote_base + 17 + bid_quote_at + 1) % 256; bid_quote_at = bid_quote_at + 1
   :: else -> break
   od;
   bid_quote_record.quote_flag = (bid_quote_base + 29 + 1) % 256;
@@ -1351,7 +1351,7 @@ inline encode_bid_quote(bid_quote_record) {
   encode_price(bid_quote_record.price);
   bid_quote_at = 0;
   do
-  :: bid_quote_at < 12 -> wire[at] = bid_quote_record.time_c_12[bid_quote_at]; at = at + 1; bid_quote_at = bid_quote_at + 1
+  :: bid_quote_at < 12 -> wire[at] = bid_quote_record.precise_time[bid_quote_at]; at = at + 1; bid_quote_at = bid_quote_at + 1
   :: else -> break
   od;
   wire[at] = bid_quote_record.quote_flag; at = at + 1;
@@ -1365,7 +1365,7 @@ inline decode_bid_quote(bid_quote_record) {
   decode_price(bid_quote_record.price);
   bid_quote_at = 0;
   do
-  :: bid_quote_at < 12 -> bid_quote_record.time_c_12[bid_quote_at] = wire[at]; at = at + 1; bid_quote_at = bid_quote_at + 1
+  :: bid_quote_at < 12 -> bid_quote_record.precise_time[bid_quote_at] = wire[at]; at = at + 1; bid_quote_at = bid_quote_at + 1
   :: else -> break
   od;
   bid_quote_record.quote_flag = wire[at]; at = at + 1;
@@ -1379,7 +1379,7 @@ inline equal_bid_quote(bid_quote_read, bid_quote_written) {
   equal_price(bid_quote_read.price, bid_quote_written.price);
   bid_quote_at = 0;
   do
-  :: bid_quote_at < 12 -> assert(bid_quote_read.time_c_12[bid_quote_at] == bid_quote_written.time_c_12[bid_quote_at]); bid_quote_at = bid_quote_at + 1
+  :: bid_quote_at < 12 -> assert(bid_quote_read.precise_time[bid_quote_at] == bid_quote_written.precise_time[bid_quote_at]); bid_quote_at = bid_quote_at + 1
   :: else -> break
   od;
   assert(bid_quote_read.quote_flag == bid_quote_written.quote_flag);
@@ -2102,7 +2102,7 @@ inline equal_quote10_message(quote10_message_read, quote10_message_written) {
 /* Sell Order */
 typedef SellOrder {
   byte change_flag;
-  byte time_c_12[12];
+  byte precise_time[12];
   QuoteQuantity quote_quantity
 };
 
@@ -2113,7 +2113,7 @@ inline fill_sell_order(sell_order_record, sell_order_value) {
   sell_order_record.change_flag = sell_order_value;
   sell_order_at = 0;
   do
-  :: sell_order_at < 12 -> sell_order_record.time_c_12[sell_order_at] = sell_order_value; sell_order_at = sell_order_at + 1
+  :: sell_order_at < 12 -> sell_order_record.precise_time[sell_order_at] = sell_order_value; sell_order_at = sell_order_at + 1
   :: else -> break
   od;
   fill_quote_quantity(sell_order_record.quote_quantity, sell_order_value);
@@ -2125,7 +2125,7 @@ inline ramp_sell_order(sell_order_record, sell_order_base) {
   sell_order_record.change_flag = (sell_order_base + 0 + 1) % 256;
   sell_order_at = 0;
   do
-  :: sell_order_at < 12 -> sell_order_record.time_c_12[sell_order_at] = (sell_order_base + 1 + sell_order_at + 1) % 256; sell_order_at = sell_order_at + 1
+  :: sell_order_at < 12 -> sell_order_record.precise_time[sell_order_at] = (sell_order_base + 1 + sell_order_at + 1) % 256; sell_order_at = sell_order_at + 1
   :: else -> break
   od;
   ramp_quote_quantity(sell_order_record.quote_quantity, sell_order_base + 13);
@@ -2137,7 +2137,7 @@ inline encode_sell_order(sell_order_record) {
   wire[at] = sell_order_record.change_flag; at = at + 1;
   sell_order_at = 0;
   do
-  :: sell_order_at < 12 -> wire[at] = sell_order_record.time_c_12[sell_order_at]; at = at + 1; sell_order_at = sell_order_at + 1
+  :: sell_order_at < 12 -> wire[at] = sell_order_record.precise_time[sell_order_at]; at = at + 1; sell_order_at = sell_order_at + 1
   :: else -> break
   od;
   encode_quote_quantity(sell_order_record.quote_quantity);
@@ -2149,7 +2149,7 @@ inline decode_sell_order(sell_order_record) {
   sell_order_record.change_flag = wire[at]; at = at + 1;
   sell_order_at = 0;
   do
-  :: sell_order_at < 12 -> sell_order_record.time_c_12[sell_order_at] = wire[at]; at = at + 1; sell_order_at = sell_order_at + 1
+  :: sell_order_at < 12 -> sell_order_record.precise_time[sell_order_at] = wire[at]; at = at + 1; sell_order_at = sell_order_at + 1
   :: else -> break
   od;
   decode_quote_quantity(sell_order_record.quote_quantity);
@@ -2161,7 +2161,7 @@ inline equal_sell_order(sell_order_read, sell_order_written) {
   assert(sell_order_read.change_flag == sell_order_written.change_flag);
   sell_order_at = 0;
   do
-  :: sell_order_at < 12 -> assert(sell_order_read.time_c_12[sell_order_at] == sell_order_written.time_c_12[sell_order_at]); sell_order_at = sell_order_at + 1
+  :: sell_order_at < 12 -> assert(sell_order_read.precise_time[sell_order_at] == sell_order_written.precise_time[sell_order_at]); sell_order_at = sell_order_at + 1
   :: else -> break
   od;
   equal_quote_quantity(sell_order_read.quote_quantity, sell_order_written.quote_quantity);
@@ -2173,7 +2173,7 @@ inline equal_sell_order(sell_order_read, sell_order_written) {
 /* Buy Order */
 typedef BuyOrder {
   byte change_flag;
-  byte time_c_12[12];
+  byte precise_time[12];
   QuoteQuantity quote_quantity
 };
 
@@ -2184,7 +2184,7 @@ inline fill_buy_order(buy_order_record, buy_order_value) {
   buy_order_record.change_flag = buy_order_value;
   buy_order_at = 0;
   do
-  :: buy_order_at < 12 -> buy_order_record.time_c_12[buy_order_at] = buy_order_value; buy_order_at = buy_order_at + 1
+  :: buy_order_at < 12 -> buy_order_record.precise_time[buy_order_at] = buy_order_value; buy_order_at = buy_order_at + 1
   :: else -> break
   od;
   fill_quote_quantity(buy_order_record.quote_quantity, buy_order_value);
@@ -2196,7 +2196,7 @@ inline ramp_buy_order(buy_order_record, buy_order_base) {
   buy_order_record.change_flag = (buy_order_base + 0 + 1) % 256;
   buy_order_at = 0;
   do
-  :: buy_order_at < 12 -> buy_order_record.time_c_12[buy_order_at] = (buy_order_base + 1 + buy_order_at + 1) % 256; buy_order_at = buy_order_at + 1
+  :: buy_order_at < 12 -> buy_order_record.precise_time[buy_order_at] = (buy_order_base + 1 + buy_order_at + 1) % 256; buy_order_at = buy_order_at + 1
   :: else -> break
   od;
   ramp_quote_quantity(buy_order_record.quote_quantity, buy_order_base + 13);
@@ -2208,7 +2208,7 @@ inline encode_buy_order(buy_order_record) {
   wire[at] = buy_order_record.change_flag; at = at + 1;
   buy_order_at = 0;
   do
-  :: buy_order_at < 12 -> wire[at] = buy_order_record.time_c_12[buy_order_at]; at = at + 1; buy_order_at = buy_order_at + 1
+  :: buy_order_at < 12 -> wire[at] = buy_order_record.precise_time[buy_order_at]; at = at + 1; buy_order_at = buy_order_at + 1
   :: else -> break
   od;
   encode_quote_quantity(buy_order_record.quote_quantity);
@@ -2220,7 +2220,7 @@ inline decode_buy_order(buy_order_record) {
   buy_order_record.change_flag = wire[at]; at = at + 1;
   buy_order_at = 0;
   do
-  :: buy_order_at < 12 -> buy_order_record.time_c_12[buy_order_at] = wire[at]; at = at + 1; buy_order_at = buy_order_at + 1
+  :: buy_order_at < 12 -> buy_order_record.precise_time[buy_order_at] = wire[at]; at = at + 1; buy_order_at = buy_order_at + 1
   :: else -> break
   od;
   decode_quote_quantity(buy_order_record.quote_quantity);
@@ -2232,7 +2232,7 @@ inline equal_buy_order(buy_order_read, buy_order_written) {
   assert(buy_order_read.change_flag == buy_order_written.change_flag);
   buy_order_at = 0;
   do
-  :: buy_order_at < 12 -> assert(buy_order_read.time_c_12[buy_order_at] == buy_order_written.time_c_12[buy_order_at]); buy_order_at = buy_order_at + 1
+  :: buy_order_at < 12 -> assert(buy_order_read.precise_time[buy_order_at] == buy_order_written.precise_time[buy_order_at]); buy_order_at = buy_order_at + 1
   :: else -> break
   od;
   equal_quote_quantity(buy_order_read.quote_quantity, buy_order_written.quote_quantity);
@@ -2315,7 +2315,7 @@ inline equal_market_order_message(market_order_message_read, market_order_messag
 /* OVER Quote */
 typedef OverQuote {
   byte change_flag;
-  byte time_c_12[12];
+  byte precise_time[12];
   QuoteQuantity quote_quantity
 };
 
@@ -2326,7 +2326,7 @@ inline fill_over_quote(over_quote_record, over_quote_value) {
   over_quote_record.change_flag = over_quote_value;
   over_quote_at = 0;
   do
-  :: over_quote_at < 12 -> over_quote_record.time_c_12[over_quote_at] = over_quote_value; over_quote_at = over_quote_at + 1
+  :: over_quote_at < 12 -> over_quote_record.precise_time[over_quote_at] = over_quote_value; over_quote_at = over_quote_at + 1
   :: else -> break
   od;
   fill_quote_quantity(over_quote_record.quote_quantity, over_quote_value);
@@ -2338,7 +2338,7 @@ inline ramp_over_quote(over_quote_record, over_quote_base) {
   over_quote_record.change_flag = (over_quote_base + 0 + 1) % 256;
   over_quote_at = 0;
   do
-  :: over_quote_at < 12 -> over_quote_record.time_c_12[over_quote_at] = (over_quote_base + 1 + over_quote_at + 1) % 256; over_quote_at = over_quote_at + 1
+  :: over_quote_at < 12 -> over_quote_record.precise_time[over_quote_at] = (over_quote_base + 1 + over_quote_at + 1) % 256; over_quote_at = over_quote_at + 1
   :: else -> break
   od;
   ramp_quote_quantity(over_quote_record.quote_quantity, over_quote_base + 13);
@@ -2350,7 +2350,7 @@ inline encode_over_quote(over_quote_record) {
   wire[at] = over_quote_record.change_flag; at = at + 1;
   over_quote_at = 0;
   do
-  :: over_quote_at < 12 -> wire[at] = over_quote_record.time_c_12[over_quote_at]; at = at + 1; over_quote_at = over_quote_at + 1
+  :: over_quote_at < 12 -> wire[at] = over_quote_record.precise_time[over_quote_at]; at = at + 1; over_quote_at = over_quote_at + 1
   :: else -> break
   od;
   encode_quote_quantity(over_quote_record.quote_quantity);
@@ -2362,7 +2362,7 @@ inline decode_over_quote(over_quote_record) {
   over_quote_record.change_flag = wire[at]; at = at + 1;
   over_quote_at = 0;
   do
-  :: over_quote_at < 12 -> over_quote_record.time_c_12[over_quote_at] = wire[at]; at = at + 1; over_quote_at = over_quote_at + 1
+  :: over_quote_at < 12 -> over_quote_record.precise_time[over_quote_at] = wire[at]; at = at + 1; over_quote_at = over_quote_at + 1
   :: else -> break
   od;
   decode_quote_quantity(over_quote_record.quote_quantity);
@@ -2374,7 +2374,7 @@ inline equal_over_quote(over_quote_read, over_quote_written) {
   assert(over_quote_read.change_flag == over_quote_written.change_flag);
   over_quote_at = 0;
   do
-  :: over_quote_at < 12 -> assert(over_quote_read.time_c_12[over_quote_at] == over_quote_written.time_c_12[over_quote_at]); over_quote_at = over_quote_at + 1
+  :: over_quote_at < 12 -> assert(over_quote_read.precise_time[over_quote_at] == over_quote_written.precise_time[over_quote_at]); over_quote_at = over_quote_at + 1
   :: else -> break
   od;
   equal_quote_quantity(over_quote_read.quote_quantity, over_quote_written.quote_quantity);
@@ -2386,7 +2386,7 @@ inline equal_over_quote(over_quote_read, over_quote_written) {
 /* UNDER Quote */
 typedef UnderQuote {
   byte change_flag;
-  byte time_c_12[12];
+  byte precise_time[12];
   QuoteQuantity quote_quantity
 };
 
@@ -2397,7 +2397,7 @@ inline fill_under_quote(under_quote_record, under_quote_value) {
   under_quote_record.change_flag = under_quote_value;
   under_quote_at = 0;
   do
-  :: under_quote_at < 12 -> under_quote_record.time_c_12[under_quote_at] = under_quote_value; under_quote_at = under_quote_at + 1
+  :: under_quote_at < 12 -> under_quote_record.precise_time[under_quote_at] = under_quote_value; under_quote_at = under_quote_at + 1
   :: else -> break
   od;
   fill_quote_quantity(under_quote_record.quote_quantity, under_quote_value);
@@ -2409,7 +2409,7 @@ inline ramp_under_quote(under_quote_record, under_quote_base) {
   under_quote_record.change_flag = (under_quote_base + 0 + 1) % 256;
   under_quote_at = 0;
   do
-  :: under_quote_at < 12 -> under_quote_record.time_c_12[under_quote_at] = (under_quote_base + 1 + under_quote_at + 1) % 256; under_quote_at = under_quote_at + 1
+  :: under_quote_at < 12 -> under_quote_record.precise_time[under_quote_at] = (under_quote_base + 1 + under_quote_at + 1) % 256; under_quote_at = under_quote_at + 1
   :: else -> break
   od;
   ramp_quote_quantity(under_quote_record.quote_quantity, under_quote_base + 13);
@@ -2421,7 +2421,7 @@ inline encode_under_quote(under_quote_record) {
   wire[at] = under_quote_record.change_flag; at = at + 1;
   under_quote_at = 0;
   do
-  :: under_quote_at < 12 -> wire[at] = under_quote_record.time_c_12[under_quote_at]; at = at + 1; under_quote_at = under_quote_at + 1
+  :: under_quote_at < 12 -> wire[at] = under_quote_record.precise_time[under_quote_at]; at = at + 1; under_quote_at = under_quote_at + 1
   :: else -> break
   od;
   encode_quote_quantity(under_quote_record.quote_quantity);
@@ -2433,7 +2433,7 @@ inline decode_under_quote(under_quote_record) {
   under_quote_record.change_flag = wire[at]; at = at + 1;
   under_quote_at = 0;
   do
-  :: under_quote_at < 12 -> under_quote_record.time_c_12[under_quote_at] = wire[at]; at = at + 1; under_quote_at = under_quote_at + 1
+  :: under_quote_at < 12 -> under_quote_record.precise_time[under_quote_at] = wire[at]; at = at + 1; under_quote_at = under_quote_at + 1
   :: else -> break
   od;
   decode_quote_quantity(under_quote_record.quote_quantity);
@@ -2445,7 +2445,7 @@ inline equal_under_quote(under_quote_read, under_quote_written) {
   assert(under_quote_read.change_flag == under_quote_written.change_flag);
   under_quote_at = 0;
   do
-  :: under_quote_at < 12 -> assert(under_quote_read.time_c_12[under_quote_at] == under_quote_written.time_c_12[under_quote_at]); under_quote_at = under_quote_at + 1
+  :: under_quote_at < 12 -> assert(under_quote_read.precise_time[under_quote_at] == under_quote_written.precise_time[under_quote_at]); under_quote_at = under_quote_at + 1
   :: else -> break
   od;
   equal_quote_quantity(under_quote_read.quote_quantity, under_quote_written.quote_quantity);
@@ -2529,28 +2529,28 @@ inline equal_over_under_message(over_under_message_read, over_under_message_writ
 typedef TradingVolume {
   byte reserved_1;
   byte trading_volume_turnover_unit_flag;
-  byte trading_volume_c_14[14];
-  byte time_c_6[6];
+  byte trading_volume_value[14];
+  byte time[6];
   byte second_reserved_1
 };
 
 int trading_volume_at;
 
 /* every byte of Trading Volume set to one value */
-inline fill_trading_volume(trading_volume_record, trading_volume_value) {
-  trading_volume_record.reserved_1 = trading_volume_value;
-  trading_volume_record.trading_volume_turnover_unit_flag = trading_volume_value;
+inline fill_trading_volume(trading_volume_record, trading_volume_value_) {
+  trading_volume_record.reserved_1 = trading_volume_value_;
+  trading_volume_record.trading_volume_turnover_unit_flag = trading_volume_value_;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.trading_volume_c_14[trading_volume_at] = trading_volume_value; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.trading_volume_value[trading_volume_at] = trading_volume_value_; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 6 -> trading_volume_record.time_c_6[trading_volume_at] = trading_volume_value; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 6 -> trading_volume_record.time[trading_volume_at] = trading_volume_value_; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
-  trading_volume_record.second_reserved_1 = trading_volume_value;
+  trading_volume_record.second_reserved_1 = trading_volume_value_;
   skip
 }
 
@@ -2560,12 +2560,12 @@ inline ramp_trading_volume(trading_volume_record, trading_volume_base) {
   trading_volume_record.trading_volume_turnover_unit_flag = (trading_volume_base + 1 + 1) % 256;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.trading_volume_c_14[trading_volume_at] = (trading_volume_base + 2 + trading_volume_at + 1) % 256; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.trading_volume_value[trading_volume_at] = (trading_volume_base + 2 + trading_volume_at + 1) % 256; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 6 -> trading_volume_record.time_c_6[trading_volume_at] = (trading_volume_base + 16 + trading_volume_at + 1) % 256; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 6 -> trading_volume_record.time[trading_volume_at] = (trading_volume_base + 16 + trading_volume_at + 1) % 256; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_record.second_reserved_1 = (trading_volume_base + 22 + 1) % 256;
@@ -2578,12 +2578,12 @@ inline encode_trading_volume(trading_volume_record) {
   wire[at] = trading_volume_record.trading_volume_turnover_unit_flag; at = at + 1;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> wire[at] = trading_volume_record.trading_volume_c_14[trading_volume_at]; at = at + 1; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> wire[at] = trading_volume_record.trading_volume_value[trading_volume_at]; at = at + 1; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 6 -> wire[at] = trading_volume_record.time_c_6[trading_volume_at]; at = at + 1; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 6 -> wire[at] = trading_volume_record.time[trading_volume_at]; at = at + 1; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   wire[at] = trading_volume_record.second_reserved_1; at = at + 1;
@@ -2596,12 +2596,12 @@ inline decode_trading_volume(trading_volume_record) {
   trading_volume_record.trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.trading_volume_c_14[trading_volume_at] = wire[at]; at = at + 1; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.trading_volume_value[trading_volume_at] = wire[at]; at = at + 1; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 6 -> trading_volume_record.time_c_6[trading_volume_at] = wire[at]; at = at + 1; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 6 -> trading_volume_record.time[trading_volume_at] = wire[at]; at = at + 1; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_record.second_reserved_1 = wire[at]; at = at + 1;
@@ -2614,12 +2614,12 @@ inline equal_trading_volume(trading_volume_read, trading_volume_written) {
   assert(trading_volume_read.trading_volume_turnover_unit_flag == trading_volume_written.trading_volume_turnover_unit_flag);
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> assert(trading_volume_read.trading_volume_c_14[trading_volume_at] == trading_volume_written.trading_volume_c_14[trading_volume_at]); trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> assert(trading_volume_read.trading_volume_value[trading_volume_at] == trading_volume_written.trading_volume_value[trading_volume_at]); trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 6 -> assert(trading_volume_read.time_c_6[trading_volume_at] == trading_volume_written.time_c_6[trading_volume_at]); trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 6 -> assert(trading_volume_read.time[trading_volume_at] == trading_volume_written.time[trading_volume_at]); trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   assert(trading_volume_read.second_reserved_1 == trading_volume_written.second_reserved_1);
@@ -2698,7 +2698,7 @@ typedef TurnoverInYenValue {
   byte reserved_1;
   byte trading_volume_turnover_unit_flag;
   byte turnover_value[14];
-  byte time_c_6[6];
+  byte time[6];
   byte second_reserved_1
 };
 
@@ -2715,7 +2715,7 @@ inline fill_turnover_in_yen_value(turnover_in_yen_value_record, turnover_in_yen_
   od;
   turnover_in_yen_value_at = 0;
   do
-  :: turnover_in_yen_value_at < 6 -> turnover_in_yen_value_record.time_c_6[turnover_in_yen_value_at] = turnover_in_yen_value_value; turnover_in_yen_value_at = turnover_in_yen_value_at + 1
+  :: turnover_in_yen_value_at < 6 -> turnover_in_yen_value_record.time[turnover_in_yen_value_at] = turnover_in_yen_value_value; turnover_in_yen_value_at = turnover_in_yen_value_at + 1
   :: else -> break
   od;
   turnover_in_yen_value_record.second_reserved_1 = turnover_in_yen_value_value;
@@ -2733,7 +2733,7 @@ inline ramp_turnover_in_yen_value(turnover_in_yen_value_record, turnover_in_yen_
   od;
   turnover_in_yen_value_at = 0;
   do
-  :: turnover_in_yen_value_at < 6 -> turnover_in_yen_value_record.time_c_6[turnover_in_yen_value_at] = (turnover_in_yen_value_base + 16 + turnover_in_yen_value_at + 1) % 256; turnover_in_yen_value_at = turnover_in_yen_value_at + 1
+  :: turnover_in_yen_value_at < 6 -> turnover_in_yen_value_record.time[turnover_in_yen_value_at] = (turnover_in_yen_value_base + 16 + turnover_in_yen_value_at + 1) % 256; turnover_in_yen_value_at = turnover_in_yen_value_at + 1
   :: else -> break
   od;
   turnover_in_yen_value_record.second_reserved_1 = (turnover_in_yen_value_base + 22 + 1) % 256;
@@ -2751,7 +2751,7 @@ inline encode_turnover_in_yen_value(turnover_in_yen_value_record) {
   od;
   turnover_in_yen_value_at = 0;
   do
-  :: turnover_in_yen_value_at < 6 -> wire[at] = turnover_in_yen_value_record.time_c_6[turnover_in_yen_value_at]; at = at + 1; turnover_in_yen_value_at = turnover_in_yen_value_at + 1
+  :: turnover_in_yen_value_at < 6 -> wire[at] = turnover_in_yen_value_record.time[turnover_in_yen_value_at]; at = at + 1; turnover_in_yen_value_at = turnover_in_yen_value_at + 1
   :: else -> break
   od;
   wire[at] = turnover_in_yen_value_record.second_reserved_1; at = at + 1;
@@ -2769,7 +2769,7 @@ inline decode_turnover_in_yen_value(turnover_in_yen_value_record) {
   od;
   turnover_in_yen_value_at = 0;
   do
-  :: turnover_in_yen_value_at < 6 -> turnover_in_yen_value_record.time_c_6[turnover_in_yen_value_at] = wire[at]; at = at + 1; turnover_in_yen_value_at = turnover_in_yen_value_at + 1
+  :: turnover_in_yen_value_at < 6 -> turnover_in_yen_value_record.time[turnover_in_yen_value_at] = wire[at]; at = at + 1; turnover_in_yen_value_at = turnover_in_yen_value_at + 1
   :: else -> break
   od;
   turnover_in_yen_value_record.second_reserved_1 = wire[at]; at = at + 1;
@@ -2787,7 +2787,7 @@ inline equal_turnover_in_yen_value(turnover_in_yen_value_read, turnover_in_yen_v
   od;
   turnover_in_yen_value_at = 0;
   do
-  :: turnover_in_yen_value_at < 6 -> assert(turnover_in_yen_value_read.time_c_6[turnover_in_yen_value_at] == turnover_in_yen_value_written.time_c_6[turnover_in_yen_value_at]); turnover_in_yen_value_at = turnover_in_yen_value_at + 1
+  :: turnover_in_yen_value_at < 6 -> assert(turnover_in_yen_value_read.time[turnover_in_yen_value_at] == turnover_in_yen_value_written.time[turnover_in_yen_value_at]); turnover_in_yen_value_at = turnover_in_yen_value_at + 1
   :: else -> break
   od;
   assert(turnover_in_yen_value_read.second_reserved_1 == turnover_in_yen_value_written.second_reserved_1);
@@ -2865,30 +2865,30 @@ inline equal_turnover_message(turnover_message_read, turnover_message_written) {
 typedef AllDayVwap {
   byte reserved_1;
   byte lot_size_unit_flag;
-  byte all_day_vwap_c_14[14];
+  byte all_day_vwap_value[14];
   byte sign;
-  byte time_c_6[6];
+  byte time[6];
   byte second_reserved_1
 };
 
 int all_day_vwap_at;
 
 /* every byte of All Day Vwap set to one value */
-inline fill_all_day_vwap(all_day_vwap_record, all_day_vwap_value) {
-  all_day_vwap_record.reserved_1 = all_day_vwap_value;
-  all_day_vwap_record.lot_size_unit_flag = all_day_vwap_value;
+inline fill_all_day_vwap(all_day_vwap_record, all_day_vwap_value_) {
+  all_day_vwap_record.reserved_1 = all_day_vwap_value_;
+  all_day_vwap_record.lot_size_unit_flag = all_day_vwap_value_;
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 14 -> all_day_vwap_record.all_day_vwap_c_14[all_day_vwap_at] = all_day_vwap_value; all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 14 -> all_day_vwap_record.all_day_vwap_value[all_day_vwap_at] = all_day_vwap_value_; all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
-  all_day_vwap_record.sign = all_day_vwap_value;
+  all_day_vwap_record.sign = all_day_vwap_value_;
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 6 -> all_day_vwap_record.time_c_6[all_day_vwap_at] = all_day_vwap_value; all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 6 -> all_day_vwap_record.time[all_day_vwap_at] = all_day_vwap_value_; all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
-  all_day_vwap_record.second_reserved_1 = all_day_vwap_value;
+  all_day_vwap_record.second_reserved_1 = all_day_vwap_value_;
   skip
 }
 
@@ -2898,13 +2898,13 @@ inline ramp_all_day_vwap(all_day_vwap_record, all_day_vwap_base) {
   all_day_vwap_record.lot_size_unit_flag = (all_day_vwap_base + 1 + 1) % 256;
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 14 -> all_day_vwap_record.all_day_vwap_c_14[all_day_vwap_at] = (all_day_vwap_base + 2 + all_day_vwap_at + 1) % 256; all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 14 -> all_day_vwap_record.all_day_vwap_value[all_day_vwap_at] = (all_day_vwap_base + 2 + all_day_vwap_at + 1) % 256; all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
   all_day_vwap_record.sign = (all_day_vwap_base + 16 + 1) % 256;
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 6 -> all_day_vwap_record.time_c_6[all_day_vwap_at] = (all_day_vwap_base + 17 + all_day_vwap_at + 1) % 256; all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 6 -> all_day_vwap_record.time[all_day_vwap_at] = (all_day_vwap_base + 17 + all_day_vwap_at + 1) % 256; all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
   all_day_vwap_record.second_reserved_1 = (all_day_vwap_base + 23 + 1) % 256;
@@ -2917,13 +2917,13 @@ inline encode_all_day_vwap(all_day_vwap_record) {
   wire[at] = all_day_vwap_record.lot_size_unit_flag; at = at + 1;
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 14 -> wire[at] = all_day_vwap_record.all_day_vwap_c_14[all_day_vwap_at]; at = at + 1; all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 14 -> wire[at] = all_day_vwap_record.all_day_vwap_value[all_day_vwap_at]; at = at + 1; all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
   wire[at] = all_day_vwap_record.sign; at = at + 1;
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 6 -> wire[at] = all_day_vwap_record.time_c_6[all_day_vwap_at]; at = at + 1; all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 6 -> wire[at] = all_day_vwap_record.time[all_day_vwap_at]; at = at + 1; all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
   wire[at] = all_day_vwap_record.second_reserved_1; at = at + 1;
@@ -2936,13 +2936,13 @@ inline decode_all_day_vwap(all_day_vwap_record) {
   all_day_vwap_record.lot_size_unit_flag = wire[at]; at = at + 1;
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 14 -> all_day_vwap_record.all_day_vwap_c_14[all_day_vwap_at] = wire[at]; at = at + 1; all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 14 -> all_day_vwap_record.all_day_vwap_value[all_day_vwap_at] = wire[at]; at = at + 1; all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
   all_day_vwap_record.sign = wire[at]; at = at + 1;
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 6 -> all_day_vwap_record.time_c_6[all_day_vwap_at] = wire[at]; at = at + 1; all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 6 -> all_day_vwap_record.time[all_day_vwap_at] = wire[at]; at = at + 1; all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
   all_day_vwap_record.second_reserved_1 = wire[at]; at = at + 1;
@@ -2955,13 +2955,13 @@ inline equal_all_day_vwap(all_day_vwap_read, all_day_vwap_written) {
   assert(all_day_vwap_read.lot_size_unit_flag == all_day_vwap_written.lot_size_unit_flag);
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 14 -> assert(all_day_vwap_read.all_day_vwap_c_14[all_day_vwap_at] == all_day_vwap_written.all_day_vwap_c_14[all_day_vwap_at]); all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 14 -> assert(all_day_vwap_read.all_day_vwap_value[all_day_vwap_at] == all_day_vwap_written.all_day_vwap_value[all_day_vwap_at]); all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
   assert(all_day_vwap_read.sign == all_day_vwap_written.sign);
   all_day_vwap_at = 0;
   do
-  :: all_day_vwap_at < 6 -> assert(all_day_vwap_read.time_c_6[all_day_vwap_at] == all_day_vwap_written.time_c_6[all_day_vwap_at]); all_day_vwap_at = all_day_vwap_at + 1
+  :: all_day_vwap_at < 6 -> assert(all_day_vwap_read.time[all_day_vwap_at] == all_day_vwap_written.time[all_day_vwap_at]); all_day_vwap_at = all_day_vwap_at + 1
   :: else -> break
   od;
   assert(all_day_vwap_read.second_reserved_1 == all_day_vwap_written.second_reserved_1);
@@ -2974,30 +2974,30 @@ inline equal_all_day_vwap(all_day_vwap_read, all_day_vwap_written) {
 typedef CurrentSessionVwap {
   byte reserved_1;
   byte lot_size_unit_flag;
-  byte current_session_vwap_c_14[14];
+  byte current_session_vwap_value[14];
   byte sign;
-  byte time_c_6[6];
+  byte time[6];
   byte second_reserved_1
 };
 
 int current_session_vwap_at;
 
 /* every byte of Current Session Vwap set to one value */
-inline fill_current_session_vwap(current_session_vwap_record, current_session_vwap_value) {
-  current_session_vwap_record.reserved_1 = current_session_vwap_value;
-  current_session_vwap_record.lot_size_unit_flag = current_session_vwap_value;
+inline fill_current_session_vwap(current_session_vwap_record, current_session_vwap_value_) {
+  current_session_vwap_record.reserved_1 = current_session_vwap_value_;
+  current_session_vwap_record.lot_size_unit_flag = current_session_vwap_value_;
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 14 -> current_session_vwap_record.current_session_vwap_c_14[current_session_vwap_at] = current_session_vwap_value; current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 14 -> current_session_vwap_record.current_session_vwap_value[current_session_vwap_at] = current_session_vwap_value_; current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
-  current_session_vwap_record.sign = current_session_vwap_value;
+  current_session_vwap_record.sign = current_session_vwap_value_;
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 6 -> current_session_vwap_record.time_c_6[current_session_vwap_at] = current_session_vwap_value; current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 6 -> current_session_vwap_record.time[current_session_vwap_at] = current_session_vwap_value_; current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
-  current_session_vwap_record.second_reserved_1 = current_session_vwap_value;
+  current_session_vwap_record.second_reserved_1 = current_session_vwap_value_;
   skip
 }
 
@@ -3007,13 +3007,13 @@ inline ramp_current_session_vwap(current_session_vwap_record, current_session_vw
   current_session_vwap_record.lot_size_unit_flag = (current_session_vwap_base + 1 + 1) % 256;
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 14 -> current_session_vwap_record.current_session_vwap_c_14[current_session_vwap_at] = (current_session_vwap_base + 2 + current_session_vwap_at + 1) % 256; current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 14 -> current_session_vwap_record.current_session_vwap_value[current_session_vwap_at] = (current_session_vwap_base + 2 + current_session_vwap_at + 1) % 256; current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
   current_session_vwap_record.sign = (current_session_vwap_base + 16 + 1) % 256;
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 6 -> current_session_vwap_record.time_c_6[current_session_vwap_at] = (current_session_vwap_base + 17 + current_session_vwap_at + 1) % 256; current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 6 -> current_session_vwap_record.time[current_session_vwap_at] = (current_session_vwap_base + 17 + current_session_vwap_at + 1) % 256; current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
   current_session_vwap_record.second_reserved_1 = (current_session_vwap_base + 23 + 1) % 256;
@@ -3026,13 +3026,13 @@ inline encode_current_session_vwap(current_session_vwap_record) {
   wire[at] = current_session_vwap_record.lot_size_unit_flag; at = at + 1;
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 14 -> wire[at] = current_session_vwap_record.current_session_vwap_c_14[current_session_vwap_at]; at = at + 1; current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 14 -> wire[at] = current_session_vwap_record.current_session_vwap_value[current_session_vwap_at]; at = at + 1; current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
   wire[at] = current_session_vwap_record.sign; at = at + 1;
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 6 -> wire[at] = current_session_vwap_record.time_c_6[current_session_vwap_at]; at = at + 1; current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 6 -> wire[at] = current_session_vwap_record.time[current_session_vwap_at]; at = at + 1; current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
   wire[at] = current_session_vwap_record.second_reserved_1; at = at + 1;
@@ -3045,13 +3045,13 @@ inline decode_current_session_vwap(current_session_vwap_record) {
   current_session_vwap_record.lot_size_unit_flag = wire[at]; at = at + 1;
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 14 -> current_session_vwap_record.current_session_vwap_c_14[current_session_vwap_at] = wire[at]; at = at + 1; current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 14 -> current_session_vwap_record.current_session_vwap_value[current_session_vwap_at] = wire[at]; at = at + 1; current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
   current_session_vwap_record.sign = wire[at]; at = at + 1;
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 6 -> current_session_vwap_record.time_c_6[current_session_vwap_at] = wire[at]; at = at + 1; current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 6 -> current_session_vwap_record.time[current_session_vwap_at] = wire[at]; at = at + 1; current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
   current_session_vwap_record.second_reserved_1 = wire[at]; at = at + 1;
@@ -3064,13 +3064,13 @@ inline equal_current_session_vwap(current_session_vwap_read, current_session_vwa
   assert(current_session_vwap_read.lot_size_unit_flag == current_session_vwap_written.lot_size_unit_flag);
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 14 -> assert(current_session_vwap_read.current_session_vwap_c_14[current_session_vwap_at] == current_session_vwap_written.current_session_vwap_c_14[current_session_vwap_at]); current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 14 -> assert(current_session_vwap_read.current_session_vwap_value[current_session_vwap_at] == current_session_vwap_written.current_session_vwap_value[current_session_vwap_at]); current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
   assert(current_session_vwap_read.sign == current_session_vwap_written.sign);
   current_session_vwap_at = 0;
   do
-  :: current_session_vwap_at < 6 -> assert(current_session_vwap_read.time_c_6[current_session_vwap_at] == current_session_vwap_written.time_c_6[current_session_vwap_at]); current_session_vwap_at = current_session_vwap_at + 1
+  :: current_session_vwap_at < 6 -> assert(current_session_vwap_read.time[current_session_vwap_at] == current_session_vwap_written.time[current_session_vwap_at]); current_session_vwap_at = current_session_vwap_at + 1
   :: else -> break
   od;
   assert(current_session_vwap_read.second_reserved_1 == current_session_vwap_written.second_reserved_1);
@@ -3153,29 +3153,29 @@ inline equal_vwap_message(vwap_message_read, vwap_message_written) {
 /* Parity/Estimated Price */
 typedef ParityEstimatedPrice {
   byte unit_flag;
-  byte parity_estimated_price_c_14[14];
+  byte parity_estimated_price_value[14];
   byte sign;
-  byte time_c_6[6];
+  byte time[6];
   byte reserved_1
 };
 
 int parity_estimated_price_at;
 
 /* every byte of Parity Estimated Price set to one value */
-inline fill_parity_estimated_price(parity_estimated_price_record, parity_estimated_price_value) {
-  parity_estimated_price_record.unit_flag = parity_estimated_price_value;
+inline fill_parity_estimated_price(parity_estimated_price_record, parity_estimated_price_value_) {
+  parity_estimated_price_record.unit_flag = parity_estimated_price_value_;
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 14 -> parity_estimated_price_record.parity_estimated_price_c_14[parity_estimated_price_at] = parity_estimated_price_value; parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 14 -> parity_estimated_price_record.parity_estimated_price_value[parity_estimated_price_at] = parity_estimated_price_value_; parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
-  parity_estimated_price_record.sign = parity_estimated_price_value;
+  parity_estimated_price_record.sign = parity_estimated_price_value_;
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 6 -> parity_estimated_price_record.time_c_6[parity_estimated_price_at] = parity_estimated_price_value; parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 6 -> parity_estimated_price_record.time[parity_estimated_price_at] = parity_estimated_price_value_; parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
-  parity_estimated_price_record.reserved_1 = parity_estimated_price_value;
+  parity_estimated_price_record.reserved_1 = parity_estimated_price_value_;
   skip
 }
 
@@ -3184,13 +3184,13 @@ inline ramp_parity_estimated_price(parity_estimated_price_record, parity_estimat
   parity_estimated_price_record.unit_flag = (parity_estimated_price_base + 0 + 1) % 256;
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 14 -> parity_estimated_price_record.parity_estimated_price_c_14[parity_estimated_price_at] = (parity_estimated_price_base + 1 + parity_estimated_price_at + 1) % 256; parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 14 -> parity_estimated_price_record.parity_estimated_price_value[parity_estimated_price_at] = (parity_estimated_price_base + 1 + parity_estimated_price_at + 1) % 256; parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
   parity_estimated_price_record.sign = (parity_estimated_price_base + 15 + 1) % 256;
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 6 -> parity_estimated_price_record.time_c_6[parity_estimated_price_at] = (parity_estimated_price_base + 16 + parity_estimated_price_at + 1) % 256; parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 6 -> parity_estimated_price_record.time[parity_estimated_price_at] = (parity_estimated_price_base + 16 + parity_estimated_price_at + 1) % 256; parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
   parity_estimated_price_record.reserved_1 = (parity_estimated_price_base + 22 + 1) % 256;
@@ -3202,13 +3202,13 @@ inline encode_parity_estimated_price(parity_estimated_price_record) {
   wire[at] = parity_estimated_price_record.unit_flag; at = at + 1;
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 14 -> wire[at] = parity_estimated_price_record.parity_estimated_price_c_14[parity_estimated_price_at]; at = at + 1; parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 14 -> wire[at] = parity_estimated_price_record.parity_estimated_price_value[parity_estimated_price_at]; at = at + 1; parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
   wire[at] = parity_estimated_price_record.sign; at = at + 1;
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 6 -> wire[at] = parity_estimated_price_record.time_c_6[parity_estimated_price_at]; at = at + 1; parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 6 -> wire[at] = parity_estimated_price_record.time[parity_estimated_price_at]; at = at + 1; parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
   wire[at] = parity_estimated_price_record.reserved_1; at = at + 1;
@@ -3220,13 +3220,13 @@ inline decode_parity_estimated_price(parity_estimated_price_record) {
   parity_estimated_price_record.unit_flag = wire[at]; at = at + 1;
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 14 -> parity_estimated_price_record.parity_estimated_price_c_14[parity_estimated_price_at] = wire[at]; at = at + 1; parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 14 -> parity_estimated_price_record.parity_estimated_price_value[parity_estimated_price_at] = wire[at]; at = at + 1; parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
   parity_estimated_price_record.sign = wire[at]; at = at + 1;
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 6 -> parity_estimated_price_record.time_c_6[parity_estimated_price_at] = wire[at]; at = at + 1; parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 6 -> parity_estimated_price_record.time[parity_estimated_price_at] = wire[at]; at = at + 1; parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
   parity_estimated_price_record.reserved_1 = wire[at]; at = at + 1;
@@ -3238,13 +3238,13 @@ inline equal_parity_estimated_price(parity_estimated_price_read, parity_estimate
   assert(parity_estimated_price_read.unit_flag == parity_estimated_price_written.unit_flag);
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 14 -> assert(parity_estimated_price_read.parity_estimated_price_c_14[parity_estimated_price_at] == parity_estimated_price_written.parity_estimated_price_c_14[parity_estimated_price_at]); parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 14 -> assert(parity_estimated_price_read.parity_estimated_price_value[parity_estimated_price_at] == parity_estimated_price_written.parity_estimated_price_value[parity_estimated_price_at]); parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
   assert(parity_estimated_price_read.sign == parity_estimated_price_written.sign);
   parity_estimated_price_at = 0;
   do
-  :: parity_estimated_price_at < 6 -> assert(parity_estimated_price_read.time_c_6[parity_estimated_price_at] == parity_estimated_price_written.time_c_6[parity_estimated_price_at]); parity_estimated_price_at = parity_estimated_price_at + 1
+  :: parity_estimated_price_at < 6 -> assert(parity_estimated_price_read.time[parity_estimated_price_at] == parity_estimated_price_written.time[parity_estimated_price_at]); parity_estimated_price_at = parity_estimated_price_at + 1
   :: else -> break
   od;
   assert(parity_estimated_price_read.reserved_1 == parity_estimated_price_written.reserved_1);
@@ -3320,20 +3320,20 @@ inline equal_parity_message(parity_message_read, parity_message_written) {
 
 /* Direct Yield */
 typedef DirectYield {
-  byte direct_yield_c_8[8];
+  byte direct_yield_value[8];
   byte sign
 };
 
 int direct_yield_at;
 
 /* every byte of Direct Yield set to one value */
-inline fill_direct_yield(direct_yield_record, direct_yield_value) {
+inline fill_direct_yield(direct_yield_record, direct_yield_value_) {
   direct_yield_at = 0;
   do
-  :: direct_yield_at < 8 -> direct_yield_record.direct_yield_c_8[direct_yield_at] = direct_yield_value; direct_yield_at = direct_yield_at + 1
+  :: direct_yield_at < 8 -> direct_yield_record.direct_yield_value[direct_yield_at] = direct_yield_value_; direct_yield_at = direct_yield_at + 1
   :: else -> break
   od;
-  direct_yield_record.sign = direct_yield_value;
+  direct_yield_record.sign = direct_yield_value_;
   skip
 }
 
@@ -3341,7 +3341,7 @@ inline fill_direct_yield(direct_yield_record, direct_yield_value) {
 inline ramp_direct_yield(direct_yield_record, direct_yield_base) {
   direct_yield_at = 0;
   do
-  :: direct_yield_at < 8 -> direct_yield_record.direct_yield_c_8[direct_yield_at] = (direct_yield_base + 0 + direct_yield_at + 1) % 256; direct_yield_at = direct_yield_at + 1
+  :: direct_yield_at < 8 -> direct_yield_record.direct_yield_value[direct_yield_at] = (direct_yield_base + 0 + direct_yield_at + 1) % 256; direct_yield_at = direct_yield_at + 1
   :: else -> break
   od;
   direct_yield_record.sign = (direct_yield_base + 8 + 1) % 256;
@@ -3352,7 +3352,7 @@ inline ramp_direct_yield(direct_yield_record, direct_yield_base) {
 inline encode_direct_yield(direct_yield_record) {
   direct_yield_at = 0;
   do
-  :: direct_yield_at < 8 -> wire[at] = direct_yield_record.direct_yield_c_8[direct_yield_at]; at = at + 1; direct_yield_at = direct_yield_at + 1
+  :: direct_yield_at < 8 -> wire[at] = direct_yield_record.direct_yield_value[direct_yield_at]; at = at + 1; direct_yield_at = direct_yield_at + 1
   :: else -> break
   od;
   wire[at] = direct_yield_record.sign; at = at + 1;
@@ -3363,7 +3363,7 @@ inline encode_direct_yield(direct_yield_record) {
 inline decode_direct_yield(direct_yield_record) {
   direct_yield_at = 0;
   do
-  :: direct_yield_at < 8 -> direct_yield_record.direct_yield_c_8[direct_yield_at] = wire[at]; at = at + 1; direct_yield_at = direct_yield_at + 1
+  :: direct_yield_at < 8 -> direct_yield_record.direct_yield_value[direct_yield_at] = wire[at]; at = at + 1; direct_yield_at = direct_yield_at + 1
   :: else -> break
   od;
   direct_yield_record.sign = wire[at]; at = at + 1;
@@ -3374,7 +3374,7 @@ inline decode_direct_yield(direct_yield_record) {
 inline equal_direct_yield(direct_yield_read, direct_yield_written) {
   direct_yield_at = 0;
   do
-  :: direct_yield_at < 8 -> assert(direct_yield_read.direct_yield_c_8[direct_yield_at] == direct_yield_written.direct_yield_c_8[direct_yield_at]); direct_yield_at = direct_yield_at + 1
+  :: direct_yield_at < 8 -> assert(direct_yield_read.direct_yield_value[direct_yield_at] == direct_yield_written.direct_yield_value[direct_yield_at]); direct_yield_at = direct_yield_at + 1
   :: else -> break
   od;
   assert(direct_yield_read.sign == direct_yield_written.sign);
@@ -3385,20 +3385,20 @@ inline equal_direct_yield(direct_yield_read, direct_yield_written) {
 
 /* Final Yield */
 typedef FinalYield {
-  byte final_yield_c_8[8];
+  byte final_yield_value[8];
   byte sign
 };
 
 int final_yield_at;
 
 /* every byte of Final Yield set to one value */
-inline fill_final_yield(final_yield_record, final_yield_value) {
+inline fill_final_yield(final_yield_record, final_yield_value_) {
   final_yield_at = 0;
   do
-  :: final_yield_at < 8 -> final_yield_record.final_yield_c_8[final_yield_at] = final_yield_value; final_yield_at = final_yield_at + 1
+  :: final_yield_at < 8 -> final_yield_record.final_yield_value[final_yield_at] = final_yield_value_; final_yield_at = final_yield_at + 1
   :: else -> break
   od;
-  final_yield_record.sign = final_yield_value;
+  final_yield_record.sign = final_yield_value_;
   skip
 }
 
@@ -3406,7 +3406,7 @@ inline fill_final_yield(final_yield_record, final_yield_value) {
 inline ramp_final_yield(final_yield_record, final_yield_base) {
   final_yield_at = 0;
   do
-  :: final_yield_at < 8 -> final_yield_record.final_yield_c_8[final_yield_at] = (final_yield_base + 0 + final_yield_at + 1) % 256; final_yield_at = final_yield_at + 1
+  :: final_yield_at < 8 -> final_yield_record.final_yield_value[final_yield_at] = (final_yield_base + 0 + final_yield_at + 1) % 256; final_yield_at = final_yield_at + 1
   :: else -> break
   od;
   final_yield_record.sign = (final_yield_base + 8 + 1) % 256;
@@ -3417,7 +3417,7 @@ inline ramp_final_yield(final_yield_record, final_yield_base) {
 inline encode_final_yield(final_yield_record) {
   final_yield_at = 0;
   do
-  :: final_yield_at < 8 -> wire[at] = final_yield_record.final_yield_c_8[final_yield_at]; at = at + 1; final_yield_at = final_yield_at + 1
+  :: final_yield_at < 8 -> wire[at] = final_yield_record.final_yield_value[final_yield_at]; at = at + 1; final_yield_at = final_yield_at + 1
   :: else -> break
   od;
   wire[at] = final_yield_record.sign; at = at + 1;
@@ -3428,7 +3428,7 @@ inline encode_final_yield(final_yield_record) {
 inline decode_final_yield(final_yield_record) {
   final_yield_at = 0;
   do
-  :: final_yield_at < 8 -> final_yield_record.final_yield_c_8[final_yield_at] = wire[at]; at = at + 1; final_yield_at = final_yield_at + 1
+  :: final_yield_at < 8 -> final_yield_record.final_yield_value[final_yield_at] = wire[at]; at = at + 1; final_yield_at = final_yield_at + 1
   :: else -> break
   od;
   final_yield_record.sign = wire[at]; at = at + 1;
@@ -3439,7 +3439,7 @@ inline decode_final_yield(final_yield_record) {
 inline equal_final_yield(final_yield_read, final_yield_written) {
   final_yield_at = 0;
   do
-  :: final_yield_at < 8 -> assert(final_yield_read.final_yield_c_8[final_yield_at] == final_yield_written.final_yield_c_8[final_yield_at]); final_yield_at = final_yield_at + 1
+  :: final_yield_at < 8 -> assert(final_yield_read.final_yield_value[final_yield_at] == final_yield_written.final_yield_value[final_yield_at]); final_yield_at = final_yield_at + 1
   :: else -> break
   od;
   assert(final_yield_read.sign == final_yield_written.sign);
@@ -3453,7 +3453,7 @@ typedef YieldMessage {
   byte reserved_2[2];
   DirectYield direct_yield;
   FinalYield final_yield;
-  byte time_c_6[6];
+  byte time[6];
   byte reserved_1
 };
 
@@ -3470,7 +3470,7 @@ inline fill_yield_message(yield_message_record, yield_message_value) {
   fill_final_yield(yield_message_record.final_yield, yield_message_value);
   yield_message_at = 0;
   do
-  :: yield_message_at < 6 -> yield_message_record.time_c_6[yield_message_at] = yield_message_value; yield_message_at = yield_message_at + 1
+  :: yield_message_at < 6 -> yield_message_record.time[yield_message_at] = yield_message_value; yield_message_at = yield_message_at + 1
   :: else -> break
   od;
   yield_message_record.reserved_1 = yield_message_value;
@@ -3488,7 +3488,7 @@ inline ramp_yield_message(yield_message_record, yield_message_base) {
   ramp_final_yield(yield_message_record.final_yield, yield_message_base + 11);
   yield_message_at = 0;
   do
-  :: yield_message_at < 6 -> yield_message_record.time_c_6[yield_message_at] = (yield_message_base + 20 + yield_message_at + 1) % 256; yield_message_at = yield_message_at + 1
+  :: yield_message_at < 6 -> yield_message_record.time[yield_message_at] = (yield_message_base + 20 + yield_message_at + 1) % 256; yield_message_at = yield_message_at + 1
   :: else -> break
   od;
   yield_message_record.reserved_1 = (yield_message_base + 26 + 1) % 256;
@@ -3506,7 +3506,7 @@ inline encode_yield_message(yield_message_record) {
   encode_final_yield(yield_message_record.final_yield);
   yield_message_at = 0;
   do
-  :: yield_message_at < 6 -> wire[at] = yield_message_record.time_c_6[yield_message_at]; at = at + 1; yield_message_at = yield_message_at + 1
+  :: yield_message_at < 6 -> wire[at] = yield_message_record.time[yield_message_at]; at = at + 1; yield_message_at = yield_message_at + 1
   :: else -> break
   od;
   wire[at] = yield_message_record.reserved_1; at = at + 1;
@@ -3524,7 +3524,7 @@ inline decode_yield_message(yield_message_record) {
   decode_final_yield(yield_message_record.final_yield);
   yield_message_at = 0;
   do
-  :: yield_message_at < 6 -> yield_message_record.time_c_6[yield_message_at] = wire[at]; at = at + 1; yield_message_at = yield_message_at + 1
+  :: yield_message_at < 6 -> yield_message_record.time[yield_message_at] = wire[at]; at = at + 1; yield_message_at = yield_message_at + 1
   :: else -> break
   od;
   yield_message_record.reserved_1 = wire[at]; at = at + 1;
@@ -3542,7 +3542,7 @@ inline equal_yield_message(yield_message_read, yield_message_written) {
   equal_final_yield(yield_message_read.final_yield, yield_message_written.final_yield);
   yield_message_at = 0;
   do
-  :: yield_message_at < 6 -> assert(yield_message_read.time_c_6[yield_message_at] == yield_message_written.time_c_6[yield_message_at]); yield_message_at = yield_message_at + 1
+  :: yield_message_at < 6 -> assert(yield_message_read.time[yield_message_at] == yield_message_written.time[yield_message_at]); yield_message_at = yield_message_at + 1
   :: else -> break
   od;
   assert(yield_message_read.reserved_1 == yield_message_written.reserved_1);
@@ -3556,7 +3556,7 @@ typedef ControlMessage {
   byte reserved_2[2];
   byte test_mode_flag;
   byte start_end_flag;
-  byte time_c_6[6]
+  byte time[6]
 };
 
 int control_message_at;
@@ -3572,7 +3572,7 @@ inline fill_control_message(control_message_record, control_message_value) {
   control_message_record.start_end_flag = control_message_value;
   control_message_at = 0;
   do
-  :: control_message_at < 6 -> control_message_record.time_c_6[control_message_at] = control_message_value; control_message_at = control_message_at + 1
+  :: control_message_at < 6 -> control_message_record.time[control_message_at] = control_message_value; control_message_at = control_message_at + 1
   :: else -> break
   od;
   skip
@@ -3589,7 +3589,7 @@ inline ramp_control_message(control_message_record, control_message_base) {
   control_message_record.start_end_flag = (control_message_base + 3 + 1) % 256;
   control_message_at = 0;
   do
-  :: control_message_at < 6 -> control_message_record.time_c_6[control_message_at] = (control_message_base + 4 + control_message_at + 1) % 256; control_message_at = control_message_at + 1
+  :: control_message_at < 6 -> control_message_record.time[control_message_at] = (control_message_base + 4 + control_message_at + 1) % 256; control_message_at = control_message_at + 1
   :: else -> break
   od;
   skip
@@ -3606,7 +3606,7 @@ inline encode_control_message(control_message_record) {
   wire[at] = control_message_record.start_end_flag; at = at + 1;
   control_message_at = 0;
   do
-  :: control_message_at < 6 -> wire[at] = control_message_record.time_c_6[control_message_at]; at = at + 1; control_message_at = control_message_at + 1
+  :: control_message_at < 6 -> wire[at] = control_message_record.time[control_message_at]; at = at + 1; control_message_at = control_message_at + 1
   :: else -> break
   od;
   skip
@@ -3623,7 +3623,7 @@ inline decode_control_message(control_message_record) {
   control_message_record.start_end_flag = wire[at]; at = at + 1;
   control_message_at = 0;
   do
-  :: control_message_at < 6 -> control_message_record.time_c_6[control_message_at] = wire[at]; at = at + 1; control_message_at = control_message_at + 1
+  :: control_message_at < 6 -> control_message_record.time[control_message_at] = wire[at]; at = at + 1; control_message_at = control_message_at + 1
   :: else -> break
   od;
   skip
@@ -3640,7 +3640,7 @@ inline equal_control_message(control_message_read, control_message_written) {
   assert(control_message_read.start_end_flag == control_message_written.start_end_flag);
   control_message_at = 0;
   do
-  :: control_message_at < 6 -> assert(control_message_read.time_c_6[control_message_at] == control_message_written.time_c_6[control_message_at]); control_message_at = control_message_at + 1
+  :: control_message_at < 6 -> assert(control_message_read.time[control_message_at] == control_message_written.time[control_message_at]); control_message_at = control_message_at + 1
   :: else -> break
   od;
   skip

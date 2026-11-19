@@ -974,7 +974,7 @@ inline equal_broker_reactivated_message(broker_reactivated_message_read, broker_
 
 /* ST_AUCTION_INQ_INFO */
 typedef StAuctionInqInfo {
-  byte token_long_4[4];
+  byte token[4];
   byte auction_number[2];
   byte auction_status[2];
   byte initiator_type[2];
@@ -993,7 +993,7 @@ int st_auction_inq_info_at;
 inline fill_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_value) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token_long_4[st_auction_inq_info_at] = st_auction_inq_info_value; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token[st_auction_inq_info_at] = st_auction_inq_info_value; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1053,7 +1053,7 @@ inline fill_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_
 inline ramp_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_base) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token_long_4[st_auction_inq_info_at] = (st_auction_inq_info_base + 0 + st_auction_inq_info_at + 1) % 256; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token[st_auction_inq_info_at] = (st_auction_inq_info_base + 0 + st_auction_inq_info_at + 1) % 256; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1113,7 +1113,7 @@ inline ramp_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_
 inline encode_st_auction_inq_info(st_auction_inq_info_record) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> wire[at] = st_auction_inq_info_record.token_long_4[st_auction_inq_info_at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> wire[at] = st_auction_inq_info_record.token[st_auction_inq_info_at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1173,7 +1173,7 @@ inline encode_st_auction_inq_info(st_auction_inq_info_record) {
 inline decode_st_auction_inq_info(st_auction_inq_info_record) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token_long_4[st_auction_inq_info_at] = wire[at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token[st_auction_inq_info_at] = wire[at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1233,7 +1233,7 @@ inline decode_st_auction_inq_info(st_auction_inq_info_record) {
 inline equal_st_auction_inq_info(st_auction_inq_info_read, st_auction_inq_info_written) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> assert(st_auction_inq_info_read.token_long_4[st_auction_inq_info_at] == st_auction_inq_info_written.token_long_4[st_auction_inq_info_at]); st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> assert(st_auction_inq_info_read.token[st_auction_inq_info_at] == st_auction_inq_info_written.token[st_auction_inq_info_at]); st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1331,7 +1331,7 @@ inline equal_auction_activity_message(auction_activity_message_read, auction_act
 /* Sent as SECURITY_OPEN_PRICE with the open price of a security when the market opens */
 typedef SecurityOpenMessage {
   SecInfo sec_info;
-  byte token_long_4[4];
+  byte token[4];
   byte opening_price[4]
 };
 
@@ -1342,7 +1342,7 @@ inline fill_security_open_message(security_open_message_record, security_open_me
   fill_sec_info(security_open_message_record.sec_info, security_open_message_value);
   security_open_message_at = 0;
   do
-  :: security_open_message_at < 4 -> security_open_message_record.token_long_4[security_open_message_at] = security_open_message_value; security_open_message_at = security_open_message_at + 1
+  :: security_open_message_at < 4 -> security_open_message_record.token[security_open_message_at] = security_open_message_value; security_open_message_at = security_open_message_at + 1
   :: else -> break
   od;
   security_open_message_at = 0;
@@ -1358,7 +1358,7 @@ inline ramp_security_open_message(security_open_message_record, security_open_me
   ramp_sec_info(security_open_message_record.sec_info, security_open_message_base + 0);
   security_open_message_at = 0;
   do
-  :: security_open_message_at < 4 -> security_open_message_record.token_long_4[security_open_message_at] = (security_open_message_base + 12 + security_open_message_at + 1) % 256; security_open_message_at = security_open_message_at + 1
+  :: security_open_message_at < 4 -> security_open_message_record.token[security_open_message_at] = (security_open_message_base + 12 + security_open_message_at + 1) % 256; security_open_message_at = security_open_message_at + 1
   :: else -> break
   od;
   security_open_message_at = 0;
@@ -1374,7 +1374,7 @@ inline encode_security_open_message(security_open_message_record) {
   encode_sec_info(security_open_message_record.sec_info);
   security_open_message_at = 0;
   do
-  :: security_open_message_at < 4 -> wire[at] = security_open_message_record.token_long_4[security_open_message_at]; at = at + 1; security_open_message_at = security_open_message_at + 1
+  :: security_open_message_at < 4 -> wire[at] = security_open_message_record.token[security_open_message_at]; at = at + 1; security_open_message_at = security_open_message_at + 1
   :: else -> break
   od;
   security_open_message_at = 0;
@@ -1390,7 +1390,7 @@ inline decode_security_open_message(security_open_message_record) {
   decode_sec_info(security_open_message_record.sec_info);
   security_open_message_at = 0;
   do
-  :: security_open_message_at < 4 -> security_open_message_record.token_long_4[security_open_message_at] = wire[at]; at = at + 1; security_open_message_at = security_open_message_at + 1
+  :: security_open_message_at < 4 -> security_open_message_record.token[security_open_message_at] = wire[at]; at = at + 1; security_open_message_at = security_open_message_at + 1
   :: else -> break
   od;
   security_open_message_at = 0;
@@ -1406,7 +1406,7 @@ inline equal_security_open_message(security_open_message_read, security_open_mes
   equal_sec_info(security_open_message_read.sec_info, security_open_message_written.sec_info);
   security_open_message_at = 0;
   do
-  :: security_open_message_at < 4 -> assert(security_open_message_read.token_long_4[security_open_message_at] == security_open_message_written.token_long_4[security_open_message_at]); security_open_message_at = security_open_message_at + 1
+  :: security_open_message_at < 4 -> assert(security_open_message_read.token[security_open_message_at] == security_open_message_written.token[security_open_message_at]); security_open_message_at = security_open_message_at + 1
   :: else -> break
   od;
   security_open_message_at = 0;
@@ -1616,7 +1616,7 @@ inline equal_report_header_body(report_header_body_read, report_header_body_writ
 
 /* Report Trailer Body */
 typedef ReportTrailerBody {
-  byte number_of_records_long_4[4];
+  byte number_of_records_long[4];
   byte reserved_1
 };
 
@@ -1626,7 +1626,7 @@ int report_trailer_body_at;
 inline fill_report_trailer_body(report_trailer_body_record, report_trailer_body_value) {
   report_trailer_body_at = 0;
   do
-  :: report_trailer_body_at < 4 -> report_trailer_body_record.number_of_records_long_4[report_trailer_body_at] = report_trailer_body_value; report_trailer_body_at = report_trailer_body_at + 1
+  :: report_trailer_body_at < 4 -> report_trailer_body_record.number_of_records_long[report_trailer_body_at] = report_trailer_body_value; report_trailer_body_at = report_trailer_body_at + 1
   :: else -> break
   od;
   report_trailer_body_record.reserved_1 = report_trailer_body_value;
@@ -1637,7 +1637,7 @@ inline fill_report_trailer_body(report_trailer_body_record, report_trailer_body_
 inline ramp_report_trailer_body(report_trailer_body_record, report_trailer_body_base) {
   report_trailer_body_at = 0;
   do
-  :: report_trailer_body_at < 4 -> report_trailer_body_record.number_of_records_long_4[report_trailer_body_at] = (report_trailer_body_base + 0 + report_trailer_body_at + 1) % 256; report_trailer_body_at = report_trailer_body_at + 1
+  :: report_trailer_body_at < 4 -> report_trailer_body_record.number_of_records_long[report_trailer_body_at] = (report_trailer_body_base + 0 + report_trailer_body_at + 1) % 256; report_trailer_body_at = report_trailer_body_at + 1
   :: else -> break
   od;
   report_trailer_body_record.reserved_1 = (report_trailer_body_base + 4 + 1) % 256;
@@ -1648,7 +1648,7 @@ inline ramp_report_trailer_body(report_trailer_body_record, report_trailer_body_
 inline encode_report_trailer_body(report_trailer_body_record) {
   report_trailer_body_at = 0;
   do
-  :: report_trailer_body_at < 4 -> wire[at] = report_trailer_body_record.number_of_records_long_4[report_trailer_body_at]; at = at + 1; report_trailer_body_at = report_trailer_body_at + 1
+  :: report_trailer_body_at < 4 -> wire[at] = report_trailer_body_record.number_of_records_long[report_trailer_body_at]; at = at + 1; report_trailer_body_at = report_trailer_body_at + 1
   :: else -> break
   od;
   wire[at] = report_trailer_body_record.reserved_1; at = at + 1;
@@ -1659,7 +1659,7 @@ inline encode_report_trailer_body(report_trailer_body_record) {
 inline decode_report_trailer_body(report_trailer_body_record) {
   report_trailer_body_at = 0;
   do
-  :: report_trailer_body_at < 4 -> report_trailer_body_record.number_of_records_long_4[report_trailer_body_at] = wire[at]; at = at + 1; report_trailer_body_at = report_trailer_body_at + 1
+  :: report_trailer_body_at < 4 -> report_trailer_body_record.number_of_records_long[report_trailer_body_at] = wire[at]; at = at + 1; report_trailer_body_at = report_trailer_body_at + 1
   :: else -> break
   od;
   report_trailer_body_record.reserved_1 = wire[at]; at = at + 1;
@@ -1670,7 +1670,7 @@ inline decode_report_trailer_body(report_trailer_body_record) {
 inline equal_report_trailer_body(report_trailer_body_read, report_trailer_body_written) {
   report_trailer_body_at = 0;
   do
-  :: report_trailer_body_at < 4 -> assert(report_trailer_body_read.number_of_records_long_4[report_trailer_body_at] == report_trailer_body_written.number_of_records_long_4[report_trailer_body_at]); report_trailer_body_at = report_trailer_body_at + 1
+  :: report_trailer_body_at < 4 -> assert(report_trailer_body_read.number_of_records_long[report_trailer_body_at] == report_trailer_body_written.number_of_records_long[report_trailer_body_at]); report_trailer_body_at = report_trailer_body_at + 1
   :: else -> break
   od;
   assert(report_trailer_body_read.reserved_1 == report_trailer_body_written.reserved_1);

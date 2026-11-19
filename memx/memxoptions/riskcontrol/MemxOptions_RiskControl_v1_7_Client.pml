@@ -555,9 +555,9 @@ inline equal_risk_settings_query_message(risk_settings_query_message_read, risk_
 
 /* ActiveRiskThresholdChangeRequestMessage */
 typedef ActiveRiskThresholdChangeRequestMessage {
-  byte cl_ord_id_active_risk_threshold_change_request_cl_ord_id[20];
-  byte underlier_active_risk_threshold_change_request_underlier_optional[6];
-  byte efid_active_risk_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte threshold_quantity[4]
 };
 
@@ -567,17 +567,17 @@ int active_risk_threshold_change_request_message_at;
 inline fill_active_risk_threshold_change_request_message(active_risk_threshold_change_request_message_record, active_risk_threshold_change_request_message_value) {
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 20 -> active_risk_threshold_change_request_message_record.cl_ord_id_active_risk_threshold_change_request_cl_ord_id[active_risk_threshold_change_request_message_at] = active_risk_threshold_change_request_message_value; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 20 -> active_risk_threshold_change_request_message_record.cl_ord_id[active_risk_threshold_change_request_message_at] = active_risk_threshold_change_request_message_value; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 6 -> active_risk_threshold_change_request_message_record.underlier_active_risk_threshold_change_request_underlier_optional[active_risk_threshold_change_request_message_at] = active_risk_threshold_change_request_message_value; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 6 -> active_risk_threshold_change_request_message_record.underlier_optional[active_risk_threshold_change_request_message_at] = active_risk_threshold_change_request_message_value; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 4 -> active_risk_threshold_change_request_message_record.efid_active_risk_threshold_change_request_efid_optional[active_risk_threshold_change_request_message_at] = active_risk_threshold_change_request_message_value; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 4 -> active_risk_threshold_change_request_message_record.efid_optional[active_risk_threshold_change_request_message_at] = active_risk_threshold_change_request_message_value; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
@@ -592,17 +592,17 @@ inline fill_active_risk_threshold_change_request_message(active_risk_threshold_c
 inline ramp_active_risk_threshold_change_request_message(active_risk_threshold_change_request_message_record, active_risk_threshold_change_request_message_base) {
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 20 -> active_risk_threshold_change_request_message_record.cl_ord_id_active_risk_threshold_change_request_cl_ord_id[active_risk_threshold_change_request_message_at] = (active_risk_threshold_change_request_message_base + 0 + active_risk_threshold_change_request_message_at + 1) % 256; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 20 -> active_risk_threshold_change_request_message_record.cl_ord_id[active_risk_threshold_change_request_message_at] = (active_risk_threshold_change_request_message_base + 0 + active_risk_threshold_change_request_message_at + 1) % 256; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 6 -> active_risk_threshold_change_request_message_record.underlier_active_risk_threshold_change_request_underlier_optional[active_risk_threshold_change_request_message_at] = (active_risk_threshold_change_request_message_base + 20 + active_risk_threshold_change_request_message_at + 1) % 256; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 6 -> active_risk_threshold_change_request_message_record.underlier_optional[active_risk_threshold_change_request_message_at] = (active_risk_threshold_change_request_message_base + 20 + active_risk_threshold_change_request_message_at + 1) % 256; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 4 -> active_risk_threshold_change_request_message_record.efid_active_risk_threshold_change_request_efid_optional[active_risk_threshold_change_request_message_at] = (active_risk_threshold_change_request_message_base + 26 + active_risk_threshold_change_request_message_at + 1) % 256; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 4 -> active_risk_threshold_change_request_message_record.efid_optional[active_risk_threshold_change_request_message_at] = (active_risk_threshold_change_request_message_base + 26 + active_risk_threshold_change_request_message_at + 1) % 256; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
@@ -617,17 +617,17 @@ inline ramp_active_risk_threshold_change_request_message(active_risk_threshold_c
 inline encode_active_risk_threshold_change_request_message(active_risk_threshold_change_request_message_record) {
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 20 -> wire[at] = active_risk_threshold_change_request_message_record.cl_ord_id_active_risk_threshold_change_request_cl_ord_id[active_risk_threshold_change_request_message_at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 20 -> wire[at] = active_risk_threshold_change_request_message_record.cl_ord_id[active_risk_threshold_change_request_message_at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 6 -> wire[at] = active_risk_threshold_change_request_message_record.underlier_active_risk_threshold_change_request_underlier_optional[active_risk_threshold_change_request_message_at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 6 -> wire[at] = active_risk_threshold_change_request_message_record.underlier_optional[active_risk_threshold_change_request_message_at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 4 -> wire[at] = active_risk_threshold_change_request_message_record.efid_active_risk_threshold_change_request_efid_optional[active_risk_threshold_change_request_message_at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 4 -> wire[at] = active_risk_threshold_change_request_message_record.efid_optional[active_risk_threshold_change_request_message_at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
@@ -642,17 +642,17 @@ inline encode_active_risk_threshold_change_request_message(active_risk_threshold
 inline decode_active_risk_threshold_change_request_message(active_risk_threshold_change_request_message_record) {
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 20 -> active_risk_threshold_change_request_message_record.cl_ord_id_active_risk_threshold_change_request_cl_ord_id[active_risk_threshold_change_request_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 20 -> active_risk_threshold_change_request_message_record.cl_ord_id[active_risk_threshold_change_request_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 6 -> active_risk_threshold_change_request_message_record.underlier_active_risk_threshold_change_request_underlier_optional[active_risk_threshold_change_request_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 6 -> active_risk_threshold_change_request_message_record.underlier_optional[active_risk_threshold_change_request_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 4 -> active_risk_threshold_change_request_message_record.efid_active_risk_threshold_change_request_efid_optional[active_risk_threshold_change_request_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 4 -> active_risk_threshold_change_request_message_record.efid_optional[active_risk_threshold_change_request_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
@@ -667,17 +667,17 @@ inline decode_active_risk_threshold_change_request_message(active_risk_threshold
 inline equal_active_risk_threshold_change_request_message(active_risk_threshold_change_request_message_read, active_risk_threshold_change_request_message_written) {
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 20 -> assert(active_risk_threshold_change_request_message_read.cl_ord_id_active_risk_threshold_change_request_cl_ord_id[active_risk_threshold_change_request_message_at] == active_risk_threshold_change_request_message_written.cl_ord_id_active_risk_threshold_change_request_cl_ord_id[active_risk_threshold_change_request_message_at]); active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 20 -> assert(active_risk_threshold_change_request_message_read.cl_ord_id[active_risk_threshold_change_request_message_at] == active_risk_threshold_change_request_message_written.cl_ord_id[active_risk_threshold_change_request_message_at]); active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 6 -> assert(active_risk_threshold_change_request_message_read.underlier_active_risk_threshold_change_request_underlier_optional[active_risk_threshold_change_request_message_at] == active_risk_threshold_change_request_message_written.underlier_active_risk_threshold_change_request_underlier_optional[active_risk_threshold_change_request_message_at]); active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 6 -> assert(active_risk_threshold_change_request_message_read.underlier_optional[active_risk_threshold_change_request_message_at] == active_risk_threshold_change_request_message_written.underlier_optional[active_risk_threshold_change_request_message_at]); active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
   do
-  :: active_risk_threshold_change_request_message_at < 4 -> assert(active_risk_threshold_change_request_message_read.efid_active_risk_threshold_change_request_efid_optional[active_risk_threshold_change_request_message_at] == active_risk_threshold_change_request_message_written.efid_active_risk_threshold_change_request_efid_optional[active_risk_threshold_change_request_message_at]); active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
+  :: active_risk_threshold_change_request_message_at < 4 -> assert(active_risk_threshold_change_request_message_read.efid_optional[active_risk_threshold_change_request_message_at] == active_risk_threshold_change_request_message_written.efid_optional[active_risk_threshold_change_request_message_at]); active_risk_threshold_change_request_message_at = active_risk_threshold_change_request_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_request_message_at = 0;
@@ -692,9 +692,9 @@ inline equal_active_risk_threshold_change_request_message(active_risk_threshold_
 
 /* ActiveRiskAcknowledgementRequestMessage */
 typedef ActiveRiskAcknowledgementRequestMessage {
-  byte cl_ord_id_active_risk_acknowledgement_request_cl_ord_id[20];
-  byte underlier_active_risk_acknowledgement_request_underlier[6];
-  byte efid_active_risk_acknowledgement_request_efid[4];
+  byte cl_ord_id[20];
+  byte underlier[6];
+  byte efid[4];
   byte quantity[4]
 };
 
@@ -704,17 +704,17 @@ int active_risk_acknowledgement_request_message_at;
 inline fill_active_risk_acknowledgement_request_message(active_risk_acknowledgement_request_message_record, active_risk_acknowledgement_request_message_value) {
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 20 -> active_risk_acknowledgement_request_message_record.cl_ord_id_active_risk_acknowledgement_request_cl_ord_id[active_risk_acknowledgement_request_message_at] = active_risk_acknowledgement_request_message_value; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 20 -> active_risk_acknowledgement_request_message_record.cl_ord_id[active_risk_acknowledgement_request_message_at] = active_risk_acknowledgement_request_message_value; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 6 -> active_risk_acknowledgement_request_message_record.underlier_active_risk_acknowledgement_request_underlier[active_risk_acknowledgement_request_message_at] = active_risk_acknowledgement_request_message_value; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 6 -> active_risk_acknowledgement_request_message_record.underlier[active_risk_acknowledgement_request_message_at] = active_risk_acknowledgement_request_message_value; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 4 -> active_risk_acknowledgement_request_message_record.efid_active_risk_acknowledgement_request_efid[active_risk_acknowledgement_request_message_at] = active_risk_acknowledgement_request_message_value; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 4 -> active_risk_acknowledgement_request_message_record.efid[active_risk_acknowledgement_request_message_at] = active_risk_acknowledgement_request_message_value; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
@@ -729,17 +729,17 @@ inline fill_active_risk_acknowledgement_request_message(active_risk_acknowledgem
 inline ramp_active_risk_acknowledgement_request_message(active_risk_acknowledgement_request_message_record, active_risk_acknowledgement_request_message_base) {
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 20 -> active_risk_acknowledgement_request_message_record.cl_ord_id_active_risk_acknowledgement_request_cl_ord_id[active_risk_acknowledgement_request_message_at] = (active_risk_acknowledgement_request_message_base + 0 + active_risk_acknowledgement_request_message_at + 1) % 256; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 20 -> active_risk_acknowledgement_request_message_record.cl_ord_id[active_risk_acknowledgement_request_message_at] = (active_risk_acknowledgement_request_message_base + 0 + active_risk_acknowledgement_request_message_at + 1) % 256; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 6 -> active_risk_acknowledgement_request_message_record.underlier_active_risk_acknowledgement_request_underlier[active_risk_acknowledgement_request_message_at] = (active_risk_acknowledgement_request_message_base + 20 + active_risk_acknowledgement_request_message_at + 1) % 256; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 6 -> active_risk_acknowledgement_request_message_record.underlier[active_risk_acknowledgement_request_message_at] = (active_risk_acknowledgement_request_message_base + 20 + active_risk_acknowledgement_request_message_at + 1) % 256; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 4 -> active_risk_acknowledgement_request_message_record.efid_active_risk_acknowledgement_request_efid[active_risk_acknowledgement_request_message_at] = (active_risk_acknowledgement_request_message_base + 26 + active_risk_acknowledgement_request_message_at + 1) % 256; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 4 -> active_risk_acknowledgement_request_message_record.efid[active_risk_acknowledgement_request_message_at] = (active_risk_acknowledgement_request_message_base + 26 + active_risk_acknowledgement_request_message_at + 1) % 256; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
@@ -754,17 +754,17 @@ inline ramp_active_risk_acknowledgement_request_message(active_risk_acknowledgem
 inline encode_active_risk_acknowledgement_request_message(active_risk_acknowledgement_request_message_record) {
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 20 -> wire[at] = active_risk_acknowledgement_request_message_record.cl_ord_id_active_risk_acknowledgement_request_cl_ord_id[active_risk_acknowledgement_request_message_at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 20 -> wire[at] = active_risk_acknowledgement_request_message_record.cl_ord_id[active_risk_acknowledgement_request_message_at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 6 -> wire[at] = active_risk_acknowledgement_request_message_record.underlier_active_risk_acknowledgement_request_underlier[active_risk_acknowledgement_request_message_at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 6 -> wire[at] = active_risk_acknowledgement_request_message_record.underlier[active_risk_acknowledgement_request_message_at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 4 -> wire[at] = active_risk_acknowledgement_request_message_record.efid_active_risk_acknowledgement_request_efid[active_risk_acknowledgement_request_message_at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 4 -> wire[at] = active_risk_acknowledgement_request_message_record.efid[active_risk_acknowledgement_request_message_at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
@@ -779,17 +779,17 @@ inline encode_active_risk_acknowledgement_request_message(active_risk_acknowledg
 inline decode_active_risk_acknowledgement_request_message(active_risk_acknowledgement_request_message_record) {
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 20 -> active_risk_acknowledgement_request_message_record.cl_ord_id_active_risk_acknowledgement_request_cl_ord_id[active_risk_acknowledgement_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 20 -> active_risk_acknowledgement_request_message_record.cl_ord_id[active_risk_acknowledgement_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 6 -> active_risk_acknowledgement_request_message_record.underlier_active_risk_acknowledgement_request_underlier[active_risk_acknowledgement_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 6 -> active_risk_acknowledgement_request_message_record.underlier[active_risk_acknowledgement_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 4 -> active_risk_acknowledgement_request_message_record.efid_active_risk_acknowledgement_request_efid[active_risk_acknowledgement_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 4 -> active_risk_acknowledgement_request_message_record.efid[active_risk_acknowledgement_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
@@ -804,17 +804,17 @@ inline decode_active_risk_acknowledgement_request_message(active_risk_acknowledg
 inline equal_active_risk_acknowledgement_request_message(active_risk_acknowledgement_request_message_read, active_risk_acknowledgement_request_message_written) {
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 20 -> assert(active_risk_acknowledgement_request_message_read.cl_ord_id_active_risk_acknowledgement_request_cl_ord_id[active_risk_acknowledgement_request_message_at] == active_risk_acknowledgement_request_message_written.cl_ord_id_active_risk_acknowledgement_request_cl_ord_id[active_risk_acknowledgement_request_message_at]); active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 20 -> assert(active_risk_acknowledgement_request_message_read.cl_ord_id[active_risk_acknowledgement_request_message_at] == active_risk_acknowledgement_request_message_written.cl_ord_id[active_risk_acknowledgement_request_message_at]); active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 6 -> assert(active_risk_acknowledgement_request_message_read.underlier_active_risk_acknowledgement_request_underlier[active_risk_acknowledgement_request_message_at] == active_risk_acknowledgement_request_message_written.underlier_active_risk_acknowledgement_request_underlier[active_risk_acknowledgement_request_message_at]); active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 6 -> assert(active_risk_acknowledgement_request_message_read.underlier[active_risk_acknowledgement_request_message_at] == active_risk_acknowledgement_request_message_written.underlier[active_risk_acknowledgement_request_message_at]); active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
   do
-  :: active_risk_acknowledgement_request_message_at < 4 -> assert(active_risk_acknowledgement_request_message_read.efid_active_risk_acknowledgement_request_efid[active_risk_acknowledgement_request_message_at] == active_risk_acknowledgement_request_message_written.efid_active_risk_acknowledgement_request_efid[active_risk_acknowledgement_request_message_at]); active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
+  :: active_risk_acknowledgement_request_message_at < 4 -> assert(active_risk_acknowledgement_request_message_read.efid[active_risk_acknowledgement_request_message_at] == active_risk_acknowledgement_request_message_written.efid[active_risk_acknowledgement_request_message_at]); active_risk_acknowledgement_request_message_at = active_risk_acknowledgement_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledgement_request_message_at = 0;
@@ -829,9 +829,9 @@ inline equal_active_risk_acknowledgement_request_message(active_risk_acknowledge
 
 /* CPVolumeThresholdChangeRequestMessage */
 typedef CpVolumeThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_volume_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_volume_threshold_change_request_underlier_optional[6];
-  byte efid_cp_volume_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte volume[8];
   byte period_in_milli_seconds[4]
@@ -843,17 +843,17 @@ int cp_volume_threshold_change_request_message_at;
 inline fill_cp_volume_threshold_change_request_message(cp_volume_threshold_change_request_message_record, cp_volume_threshold_change_request_message_value) {
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 20 -> cp_volume_threshold_change_request_message_record.cl_ord_id_cp_volume_threshold_change_request_cl_ord_id[cp_volume_threshold_change_request_message_at] = cp_volume_threshold_change_request_message_value; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 20 -> cp_volume_threshold_change_request_message_record.cl_ord_id[cp_volume_threshold_change_request_message_at] = cp_volume_threshold_change_request_message_value; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 6 -> cp_volume_threshold_change_request_message_record.underlier_cp_volume_threshold_change_request_underlier_optional[cp_volume_threshold_change_request_message_at] = cp_volume_threshold_change_request_message_value; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 6 -> cp_volume_threshold_change_request_message_record.underlier_optional[cp_volume_threshold_change_request_message_at] = cp_volume_threshold_change_request_message_value; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 4 -> cp_volume_threshold_change_request_message_record.efid_cp_volume_threshold_change_request_efid_optional[cp_volume_threshold_change_request_message_at] = cp_volume_threshold_change_request_message_value; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 4 -> cp_volume_threshold_change_request_message_record.efid_optional[cp_volume_threshold_change_request_message_at] = cp_volume_threshold_change_request_message_value; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
@@ -878,17 +878,17 @@ inline fill_cp_volume_threshold_change_request_message(cp_volume_threshold_chang
 inline ramp_cp_volume_threshold_change_request_message(cp_volume_threshold_change_request_message_record, cp_volume_threshold_change_request_message_base) {
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 20 -> cp_volume_threshold_change_request_message_record.cl_ord_id_cp_volume_threshold_change_request_cl_ord_id[cp_volume_threshold_change_request_message_at] = (cp_volume_threshold_change_request_message_base + 0 + cp_volume_threshold_change_request_message_at + 1) % 256; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 20 -> cp_volume_threshold_change_request_message_record.cl_ord_id[cp_volume_threshold_change_request_message_at] = (cp_volume_threshold_change_request_message_base + 0 + cp_volume_threshold_change_request_message_at + 1) % 256; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 6 -> cp_volume_threshold_change_request_message_record.underlier_cp_volume_threshold_change_request_underlier_optional[cp_volume_threshold_change_request_message_at] = (cp_volume_threshold_change_request_message_base + 20 + cp_volume_threshold_change_request_message_at + 1) % 256; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 6 -> cp_volume_threshold_change_request_message_record.underlier_optional[cp_volume_threshold_change_request_message_at] = (cp_volume_threshold_change_request_message_base + 20 + cp_volume_threshold_change_request_message_at + 1) % 256; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 4 -> cp_volume_threshold_change_request_message_record.efid_cp_volume_threshold_change_request_efid_optional[cp_volume_threshold_change_request_message_at] = (cp_volume_threshold_change_request_message_base + 26 + cp_volume_threshold_change_request_message_at + 1) % 256; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 4 -> cp_volume_threshold_change_request_message_record.efid_optional[cp_volume_threshold_change_request_message_at] = (cp_volume_threshold_change_request_message_base + 26 + cp_volume_threshold_change_request_message_at + 1) % 256; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
@@ -913,17 +913,17 @@ inline ramp_cp_volume_threshold_change_request_message(cp_volume_threshold_chang
 inline encode_cp_volume_threshold_change_request_message(cp_volume_threshold_change_request_message_record) {
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 20 -> wire[at] = cp_volume_threshold_change_request_message_record.cl_ord_id_cp_volume_threshold_change_request_cl_ord_id[cp_volume_threshold_change_request_message_at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 20 -> wire[at] = cp_volume_threshold_change_request_message_record.cl_ord_id[cp_volume_threshold_change_request_message_at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 6 -> wire[at] = cp_volume_threshold_change_request_message_record.underlier_cp_volume_threshold_change_request_underlier_optional[cp_volume_threshold_change_request_message_at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 6 -> wire[at] = cp_volume_threshold_change_request_message_record.underlier_optional[cp_volume_threshold_change_request_message_at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 4 -> wire[at] = cp_volume_threshold_change_request_message_record.efid_cp_volume_threshold_change_request_efid_optional[cp_volume_threshold_change_request_message_at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 4 -> wire[at] = cp_volume_threshold_change_request_message_record.efid_optional[cp_volume_threshold_change_request_message_at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
@@ -948,17 +948,17 @@ inline encode_cp_volume_threshold_change_request_message(cp_volume_threshold_cha
 inline decode_cp_volume_threshold_change_request_message(cp_volume_threshold_change_request_message_record) {
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 20 -> cp_volume_threshold_change_request_message_record.cl_ord_id_cp_volume_threshold_change_request_cl_ord_id[cp_volume_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 20 -> cp_volume_threshold_change_request_message_record.cl_ord_id[cp_volume_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 6 -> cp_volume_threshold_change_request_message_record.underlier_cp_volume_threshold_change_request_underlier_optional[cp_volume_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 6 -> cp_volume_threshold_change_request_message_record.underlier_optional[cp_volume_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 4 -> cp_volume_threshold_change_request_message_record.efid_cp_volume_threshold_change_request_efid_optional[cp_volume_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 4 -> cp_volume_threshold_change_request_message_record.efid_optional[cp_volume_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
@@ -983,17 +983,17 @@ inline decode_cp_volume_threshold_change_request_message(cp_volume_threshold_cha
 inline equal_cp_volume_threshold_change_request_message(cp_volume_threshold_change_request_message_read, cp_volume_threshold_change_request_message_written) {
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 20 -> assert(cp_volume_threshold_change_request_message_read.cl_ord_id_cp_volume_threshold_change_request_cl_ord_id[cp_volume_threshold_change_request_message_at] == cp_volume_threshold_change_request_message_written.cl_ord_id_cp_volume_threshold_change_request_cl_ord_id[cp_volume_threshold_change_request_message_at]); cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 20 -> assert(cp_volume_threshold_change_request_message_read.cl_ord_id[cp_volume_threshold_change_request_message_at] == cp_volume_threshold_change_request_message_written.cl_ord_id[cp_volume_threshold_change_request_message_at]); cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 6 -> assert(cp_volume_threshold_change_request_message_read.underlier_cp_volume_threshold_change_request_underlier_optional[cp_volume_threshold_change_request_message_at] == cp_volume_threshold_change_request_message_written.underlier_cp_volume_threshold_change_request_underlier_optional[cp_volume_threshold_change_request_message_at]); cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 6 -> assert(cp_volume_threshold_change_request_message_read.underlier_optional[cp_volume_threshold_change_request_message_at] == cp_volume_threshold_change_request_message_written.underlier_optional[cp_volume_threshold_change_request_message_at]); cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
   do
-  :: cp_volume_threshold_change_request_message_at < 4 -> assert(cp_volume_threshold_change_request_message_read.efid_cp_volume_threshold_change_request_efid_optional[cp_volume_threshold_change_request_message_at] == cp_volume_threshold_change_request_message_written.efid_cp_volume_threshold_change_request_efid_optional[cp_volume_threshold_change_request_message_at]); cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
+  :: cp_volume_threshold_change_request_message_at < 4 -> assert(cp_volume_threshold_change_request_message_read.efid_optional[cp_volume_threshold_change_request_message_at] == cp_volume_threshold_change_request_message_written.efid_optional[cp_volume_threshold_change_request_message_at]); cp_volume_threshold_change_request_message_at = cp_volume_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_volume_threshold_change_request_message_at = 0;
@@ -1018,9 +1018,9 @@ inline equal_cp_volume_threshold_change_request_message(cp_volume_threshold_chan
 
 /* CPExecutedNotionalThresholdChangeRequestMessage */
 typedef CpExecutedNotionalThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_executed_notional_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_executed_notional_threshold_change_request_underlier_optional[6];
-  byte efid_cp_executed_notional_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte price_in_dollars[8];
   byte period_in_milli_seconds[4]
@@ -1032,17 +1032,17 @@ int cp_executed_notional_threshold_change_request_message_at;
 inline fill_cp_executed_notional_threshold_change_request_message(cp_executed_notional_threshold_change_request_message_record, cp_executed_notional_threshold_change_request_message_value) {
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 20 -> cp_executed_notional_threshold_change_request_message_record.cl_ord_id_cp_executed_notional_threshold_change_request_cl_ord_id[cp_executed_notional_threshold_change_request_message_at] = cp_executed_notional_threshold_change_request_message_value; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 20 -> cp_executed_notional_threshold_change_request_message_record.cl_ord_id[cp_executed_notional_threshold_change_request_message_at] = cp_executed_notional_threshold_change_request_message_value; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 6 -> cp_executed_notional_threshold_change_request_message_record.underlier_cp_executed_notional_threshold_change_request_underlier_optional[cp_executed_notional_threshold_change_request_message_at] = cp_executed_notional_threshold_change_request_message_value; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 6 -> cp_executed_notional_threshold_change_request_message_record.underlier_optional[cp_executed_notional_threshold_change_request_message_at] = cp_executed_notional_threshold_change_request_message_value; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 4 -> cp_executed_notional_threshold_change_request_message_record.efid_cp_executed_notional_threshold_change_request_efid_optional[cp_executed_notional_threshold_change_request_message_at] = cp_executed_notional_threshold_change_request_message_value; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 4 -> cp_executed_notional_threshold_change_request_message_record.efid_optional[cp_executed_notional_threshold_change_request_message_at] = cp_executed_notional_threshold_change_request_message_value; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
@@ -1067,17 +1067,17 @@ inline fill_cp_executed_notional_threshold_change_request_message(cp_executed_no
 inline ramp_cp_executed_notional_threshold_change_request_message(cp_executed_notional_threshold_change_request_message_record, cp_executed_notional_threshold_change_request_message_base) {
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 20 -> cp_executed_notional_threshold_change_request_message_record.cl_ord_id_cp_executed_notional_threshold_change_request_cl_ord_id[cp_executed_notional_threshold_change_request_message_at] = (cp_executed_notional_threshold_change_request_message_base + 0 + cp_executed_notional_threshold_change_request_message_at + 1) % 256; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 20 -> cp_executed_notional_threshold_change_request_message_record.cl_ord_id[cp_executed_notional_threshold_change_request_message_at] = (cp_executed_notional_threshold_change_request_message_base + 0 + cp_executed_notional_threshold_change_request_message_at + 1) % 256; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 6 -> cp_executed_notional_threshold_change_request_message_record.underlier_cp_executed_notional_threshold_change_request_underlier_optional[cp_executed_notional_threshold_change_request_message_at] = (cp_executed_notional_threshold_change_request_message_base + 20 + cp_executed_notional_threshold_change_request_message_at + 1) % 256; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 6 -> cp_executed_notional_threshold_change_request_message_record.underlier_optional[cp_executed_notional_threshold_change_request_message_at] = (cp_executed_notional_threshold_change_request_message_base + 20 + cp_executed_notional_threshold_change_request_message_at + 1) % 256; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 4 -> cp_executed_notional_threshold_change_request_message_record.efid_cp_executed_notional_threshold_change_request_efid_optional[cp_executed_notional_threshold_change_request_message_at] = (cp_executed_notional_threshold_change_request_message_base + 26 + cp_executed_notional_threshold_change_request_message_at + 1) % 256; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 4 -> cp_executed_notional_threshold_change_request_message_record.efid_optional[cp_executed_notional_threshold_change_request_message_at] = (cp_executed_notional_threshold_change_request_message_base + 26 + cp_executed_notional_threshold_change_request_message_at + 1) % 256; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
@@ -1102,17 +1102,17 @@ inline ramp_cp_executed_notional_threshold_change_request_message(cp_executed_no
 inline encode_cp_executed_notional_threshold_change_request_message(cp_executed_notional_threshold_change_request_message_record) {
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_executed_notional_threshold_change_request_message_record.cl_ord_id_cp_executed_notional_threshold_change_request_cl_ord_id[cp_executed_notional_threshold_change_request_message_at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_executed_notional_threshold_change_request_message_record.cl_ord_id[cp_executed_notional_threshold_change_request_message_at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_executed_notional_threshold_change_request_message_record.underlier_cp_executed_notional_threshold_change_request_underlier_optional[cp_executed_notional_threshold_change_request_message_at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_executed_notional_threshold_change_request_message_record.underlier_optional[cp_executed_notional_threshold_change_request_message_at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_executed_notional_threshold_change_request_message_record.efid_cp_executed_notional_threshold_change_request_efid_optional[cp_executed_notional_threshold_change_request_message_at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_executed_notional_threshold_change_request_message_record.efid_optional[cp_executed_notional_threshold_change_request_message_at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
@@ -1137,17 +1137,17 @@ inline encode_cp_executed_notional_threshold_change_request_message(cp_executed_
 inline decode_cp_executed_notional_threshold_change_request_message(cp_executed_notional_threshold_change_request_message_record) {
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 20 -> cp_executed_notional_threshold_change_request_message_record.cl_ord_id_cp_executed_notional_threshold_change_request_cl_ord_id[cp_executed_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 20 -> cp_executed_notional_threshold_change_request_message_record.cl_ord_id[cp_executed_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 6 -> cp_executed_notional_threshold_change_request_message_record.underlier_cp_executed_notional_threshold_change_request_underlier_optional[cp_executed_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 6 -> cp_executed_notional_threshold_change_request_message_record.underlier_optional[cp_executed_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 4 -> cp_executed_notional_threshold_change_request_message_record.efid_cp_executed_notional_threshold_change_request_efid_optional[cp_executed_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 4 -> cp_executed_notional_threshold_change_request_message_record.efid_optional[cp_executed_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
@@ -1172,17 +1172,17 @@ inline decode_cp_executed_notional_threshold_change_request_message(cp_executed_
 inline equal_cp_executed_notional_threshold_change_request_message(cp_executed_notional_threshold_change_request_message_read, cp_executed_notional_threshold_change_request_message_written) {
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 20 -> assert(cp_executed_notional_threshold_change_request_message_read.cl_ord_id_cp_executed_notional_threshold_change_request_cl_ord_id[cp_executed_notional_threshold_change_request_message_at] == cp_executed_notional_threshold_change_request_message_written.cl_ord_id_cp_executed_notional_threshold_change_request_cl_ord_id[cp_executed_notional_threshold_change_request_message_at]); cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 20 -> assert(cp_executed_notional_threshold_change_request_message_read.cl_ord_id[cp_executed_notional_threshold_change_request_message_at] == cp_executed_notional_threshold_change_request_message_written.cl_ord_id[cp_executed_notional_threshold_change_request_message_at]); cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 6 -> assert(cp_executed_notional_threshold_change_request_message_read.underlier_cp_executed_notional_threshold_change_request_underlier_optional[cp_executed_notional_threshold_change_request_message_at] == cp_executed_notional_threshold_change_request_message_written.underlier_cp_executed_notional_threshold_change_request_underlier_optional[cp_executed_notional_threshold_change_request_message_at]); cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 6 -> assert(cp_executed_notional_threshold_change_request_message_read.underlier_optional[cp_executed_notional_threshold_change_request_message_at] == cp_executed_notional_threshold_change_request_message_written.underlier_optional[cp_executed_notional_threshold_change_request_message_at]); cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_executed_notional_threshold_change_request_message_at < 4 -> assert(cp_executed_notional_threshold_change_request_message_read.efid_cp_executed_notional_threshold_change_request_efid_optional[cp_executed_notional_threshold_change_request_message_at] == cp_executed_notional_threshold_change_request_message_written.efid_cp_executed_notional_threshold_change_request_efid_optional[cp_executed_notional_threshold_change_request_message_at]); cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
+  :: cp_executed_notional_threshold_change_request_message_at < 4 -> assert(cp_executed_notional_threshold_change_request_message_read.efid_optional[cp_executed_notional_threshold_change_request_message_at] == cp_executed_notional_threshold_change_request_message_written.efid_optional[cp_executed_notional_threshold_change_request_message_at]); cp_executed_notional_threshold_change_request_message_at = cp_executed_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_executed_notional_threshold_change_request_message_at = 0;
@@ -1207,9 +1207,9 @@ inline equal_cp_executed_notional_threshold_change_request_message(cp_executed_n
 
 /* CPTotalExecutionsThresholdChangeRequestMessage */
 typedef CpTotalExecutionsThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_total_executions_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_total_executions_threshold_change_request_underlier_optional[6];
-  byte efid_cp_total_executions_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte total_executions[4];
   byte period_in_milli_seconds[4]
@@ -1221,17 +1221,17 @@ int cp_total_executions_threshold_change_request_message_at;
 inline fill_cp_total_executions_threshold_change_request_message(cp_total_executions_threshold_change_request_message_record, cp_total_executions_threshold_change_request_message_value) {
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 20 -> cp_total_executions_threshold_change_request_message_record.cl_ord_id_cp_total_executions_threshold_change_request_cl_ord_id[cp_total_executions_threshold_change_request_message_at] = cp_total_executions_threshold_change_request_message_value; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 20 -> cp_total_executions_threshold_change_request_message_record.cl_ord_id[cp_total_executions_threshold_change_request_message_at] = cp_total_executions_threshold_change_request_message_value; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 6 -> cp_total_executions_threshold_change_request_message_record.underlier_cp_total_executions_threshold_change_request_underlier_optional[cp_total_executions_threshold_change_request_message_at] = cp_total_executions_threshold_change_request_message_value; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 6 -> cp_total_executions_threshold_change_request_message_record.underlier_optional[cp_total_executions_threshold_change_request_message_at] = cp_total_executions_threshold_change_request_message_value; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 4 -> cp_total_executions_threshold_change_request_message_record.efid_cp_total_executions_threshold_change_request_efid_optional[cp_total_executions_threshold_change_request_message_at] = cp_total_executions_threshold_change_request_message_value; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 4 -> cp_total_executions_threshold_change_request_message_record.efid_optional[cp_total_executions_threshold_change_request_message_at] = cp_total_executions_threshold_change_request_message_value; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
@@ -1256,17 +1256,17 @@ inline fill_cp_total_executions_threshold_change_request_message(cp_total_execut
 inline ramp_cp_total_executions_threshold_change_request_message(cp_total_executions_threshold_change_request_message_record, cp_total_executions_threshold_change_request_message_base) {
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 20 -> cp_total_executions_threshold_change_request_message_record.cl_ord_id_cp_total_executions_threshold_change_request_cl_ord_id[cp_total_executions_threshold_change_request_message_at] = (cp_total_executions_threshold_change_request_message_base + 0 + cp_total_executions_threshold_change_request_message_at + 1) % 256; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 20 -> cp_total_executions_threshold_change_request_message_record.cl_ord_id[cp_total_executions_threshold_change_request_message_at] = (cp_total_executions_threshold_change_request_message_base + 0 + cp_total_executions_threshold_change_request_message_at + 1) % 256; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 6 -> cp_total_executions_threshold_change_request_message_record.underlier_cp_total_executions_threshold_change_request_underlier_optional[cp_total_executions_threshold_change_request_message_at] = (cp_total_executions_threshold_change_request_message_base + 20 + cp_total_executions_threshold_change_request_message_at + 1) % 256; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 6 -> cp_total_executions_threshold_change_request_message_record.underlier_optional[cp_total_executions_threshold_change_request_message_at] = (cp_total_executions_threshold_change_request_message_base + 20 + cp_total_executions_threshold_change_request_message_at + 1) % 256; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 4 -> cp_total_executions_threshold_change_request_message_record.efid_cp_total_executions_threshold_change_request_efid_optional[cp_total_executions_threshold_change_request_message_at] = (cp_total_executions_threshold_change_request_message_base + 26 + cp_total_executions_threshold_change_request_message_at + 1) % 256; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 4 -> cp_total_executions_threshold_change_request_message_record.efid_optional[cp_total_executions_threshold_change_request_message_at] = (cp_total_executions_threshold_change_request_message_base + 26 + cp_total_executions_threshold_change_request_message_at + 1) % 256; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
@@ -1291,17 +1291,17 @@ inline ramp_cp_total_executions_threshold_change_request_message(cp_total_execut
 inline encode_cp_total_executions_threshold_change_request_message(cp_total_executions_threshold_change_request_message_record) {
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 20 -> wire[at] = cp_total_executions_threshold_change_request_message_record.cl_ord_id_cp_total_executions_threshold_change_request_cl_ord_id[cp_total_executions_threshold_change_request_message_at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 20 -> wire[at] = cp_total_executions_threshold_change_request_message_record.cl_ord_id[cp_total_executions_threshold_change_request_message_at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 6 -> wire[at] = cp_total_executions_threshold_change_request_message_record.underlier_cp_total_executions_threshold_change_request_underlier_optional[cp_total_executions_threshold_change_request_message_at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 6 -> wire[at] = cp_total_executions_threshold_change_request_message_record.underlier_optional[cp_total_executions_threshold_change_request_message_at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 4 -> wire[at] = cp_total_executions_threshold_change_request_message_record.efid_cp_total_executions_threshold_change_request_efid_optional[cp_total_executions_threshold_change_request_message_at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 4 -> wire[at] = cp_total_executions_threshold_change_request_message_record.efid_optional[cp_total_executions_threshold_change_request_message_at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
@@ -1326,17 +1326,17 @@ inline encode_cp_total_executions_threshold_change_request_message(cp_total_exec
 inline decode_cp_total_executions_threshold_change_request_message(cp_total_executions_threshold_change_request_message_record) {
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 20 -> cp_total_executions_threshold_change_request_message_record.cl_ord_id_cp_total_executions_threshold_change_request_cl_ord_id[cp_total_executions_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 20 -> cp_total_executions_threshold_change_request_message_record.cl_ord_id[cp_total_executions_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 6 -> cp_total_executions_threshold_change_request_message_record.underlier_cp_total_executions_threshold_change_request_underlier_optional[cp_total_executions_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 6 -> cp_total_executions_threshold_change_request_message_record.underlier_optional[cp_total_executions_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 4 -> cp_total_executions_threshold_change_request_message_record.efid_cp_total_executions_threshold_change_request_efid_optional[cp_total_executions_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 4 -> cp_total_executions_threshold_change_request_message_record.efid_optional[cp_total_executions_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
@@ -1361,17 +1361,17 @@ inline decode_cp_total_executions_threshold_change_request_message(cp_total_exec
 inline equal_cp_total_executions_threshold_change_request_message(cp_total_executions_threshold_change_request_message_read, cp_total_executions_threshold_change_request_message_written) {
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 20 -> assert(cp_total_executions_threshold_change_request_message_read.cl_ord_id_cp_total_executions_threshold_change_request_cl_ord_id[cp_total_executions_threshold_change_request_message_at] == cp_total_executions_threshold_change_request_message_written.cl_ord_id_cp_total_executions_threshold_change_request_cl_ord_id[cp_total_executions_threshold_change_request_message_at]); cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 20 -> assert(cp_total_executions_threshold_change_request_message_read.cl_ord_id[cp_total_executions_threshold_change_request_message_at] == cp_total_executions_threshold_change_request_message_written.cl_ord_id[cp_total_executions_threshold_change_request_message_at]); cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 6 -> assert(cp_total_executions_threshold_change_request_message_read.underlier_cp_total_executions_threshold_change_request_underlier_optional[cp_total_executions_threshold_change_request_message_at] == cp_total_executions_threshold_change_request_message_written.underlier_cp_total_executions_threshold_change_request_underlier_optional[cp_total_executions_threshold_change_request_message_at]); cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 6 -> assert(cp_total_executions_threshold_change_request_message_read.underlier_optional[cp_total_executions_threshold_change_request_message_at] == cp_total_executions_threshold_change_request_message_written.underlier_optional[cp_total_executions_threshold_change_request_message_at]); cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
   do
-  :: cp_total_executions_threshold_change_request_message_at < 4 -> assert(cp_total_executions_threshold_change_request_message_read.efid_cp_total_executions_threshold_change_request_efid_optional[cp_total_executions_threshold_change_request_message_at] == cp_total_executions_threshold_change_request_message_written.efid_cp_total_executions_threshold_change_request_efid_optional[cp_total_executions_threshold_change_request_message_at]); cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
+  :: cp_total_executions_threshold_change_request_message_at < 4 -> assert(cp_total_executions_threshold_change_request_message_read.efid_optional[cp_total_executions_threshold_change_request_message_at] == cp_total_executions_threshold_change_request_message_written.efid_optional[cp_total_executions_threshold_change_request_message_at]); cp_total_executions_threshold_change_request_message_at = cp_total_executions_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_total_executions_threshold_change_request_message_at = 0;
@@ -1396,9 +1396,9 @@ inline equal_cp_total_executions_threshold_change_request_message(cp_total_execu
 
 /* CPPercentOutstandingContractsThresholdChangeRequestMessage */
 typedef CpPercentOutstandingContractsThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_percent_outstanding_contracts_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_percent_outstanding_contracts_threshold_change_request_under_50hxp3[6];
-  byte efid_cp_percent_outstanding_contracts_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte percent[4];
   byte period_in_milli_seconds[4]
 };
@@ -1409,17 +1409,17 @@ int cp_percent_outstanding_contracts_threshold_change_request_message_at;
 inline fill_cp_percent_outstanding_contracts_threshold_change_request_message(cp_percent_outstanding_contracts_threshold_change_request_message_record, cp_percent_outstanding_contracts_threshold_change_request_message_value) {
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.cl_ord_id_cp_percent_outstanding_contracts_threshold_change_request_cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at] = cp_percent_outstanding_contracts_threshold_change_request_message_value; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at] = cp_percent_outstanding_contracts_threshold_change_request_message_value; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.underlier_cp_percent_outstanding_contracts_threshold_change_request_under_50hxp3[cp_percent_outstanding_contracts_threshold_change_request_message_at] = cp_percent_outstanding_contracts_threshold_change_request_message_value; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.underlier_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = cp_percent_outstanding_contracts_threshold_change_request_message_value; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.efid_cp_percent_outstanding_contracts_threshold_change_request_efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = cp_percent_outstanding_contracts_threshold_change_request_message_value; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = cp_percent_outstanding_contracts_threshold_change_request_message_value; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
@@ -1439,17 +1439,17 @@ inline fill_cp_percent_outstanding_contracts_threshold_change_request_message(cp
 inline ramp_cp_percent_outstanding_contracts_threshold_change_request_message(cp_percent_outstanding_contracts_threshold_change_request_message_record, cp_percent_outstanding_contracts_threshold_change_request_message_base) {
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.cl_ord_id_cp_percent_outstanding_contracts_threshold_change_request_cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at] = (cp_percent_outstanding_contracts_threshold_change_request_message_base + 0 + cp_percent_outstanding_contracts_threshold_change_request_message_at + 1) % 256; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at] = (cp_percent_outstanding_contracts_threshold_change_request_message_base + 0 + cp_percent_outstanding_contracts_threshold_change_request_message_at + 1) % 256; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.underlier_cp_percent_outstanding_contracts_threshold_change_request_under_50hxp3[cp_percent_outstanding_contracts_threshold_change_request_message_at] = (cp_percent_outstanding_contracts_threshold_change_request_message_base + 20 + cp_percent_outstanding_contracts_threshold_change_request_message_at + 1) % 256; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.underlier_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = (cp_percent_outstanding_contracts_threshold_change_request_message_base + 20 + cp_percent_outstanding_contracts_threshold_change_request_message_at + 1) % 256; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.efid_cp_percent_outstanding_contracts_threshold_change_request_efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = (cp_percent_outstanding_contracts_threshold_change_request_message_base + 26 + cp_percent_outstanding_contracts_threshold_change_request_message_at + 1) % 256; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = (cp_percent_outstanding_contracts_threshold_change_request_message_base + 26 + cp_percent_outstanding_contracts_threshold_change_request_message_at + 1) % 256; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
@@ -1469,17 +1469,17 @@ inline ramp_cp_percent_outstanding_contracts_threshold_change_request_message(cp
 inline encode_cp_percent_outstanding_contracts_threshold_change_request_message(cp_percent_outstanding_contracts_threshold_change_request_message_record) {
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> wire[at] = cp_percent_outstanding_contracts_threshold_change_request_message_record.cl_ord_id_cp_percent_outstanding_contracts_threshold_change_request_cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> wire[at] = cp_percent_outstanding_contracts_threshold_change_request_message_record.cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> wire[at] = cp_percent_outstanding_contracts_threshold_change_request_message_record.underlier_cp_percent_outstanding_contracts_threshold_change_request_under_50hxp3[cp_percent_outstanding_contracts_threshold_change_request_message_at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> wire[at] = cp_percent_outstanding_contracts_threshold_change_request_message_record.underlier_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> wire[at] = cp_percent_outstanding_contracts_threshold_change_request_message_record.efid_cp_percent_outstanding_contracts_threshold_change_request_efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> wire[at] = cp_percent_outstanding_contracts_threshold_change_request_message_record.efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
@@ -1499,17 +1499,17 @@ inline encode_cp_percent_outstanding_contracts_threshold_change_request_message(
 inline decode_cp_percent_outstanding_contracts_threshold_change_request_message(cp_percent_outstanding_contracts_threshold_change_request_message_record) {
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.cl_ord_id_cp_percent_outstanding_contracts_threshold_change_request_cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.underlier_cp_percent_outstanding_contracts_threshold_change_request_under_50hxp3[cp_percent_outstanding_contracts_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.underlier_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.efid_cp_percent_outstanding_contracts_threshold_change_request_efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> cp_percent_outstanding_contracts_threshold_change_request_message_record.efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
@@ -1529,17 +1529,17 @@ inline decode_cp_percent_outstanding_contracts_threshold_change_request_message(
 inline equal_cp_percent_outstanding_contracts_threshold_change_request_message(cp_percent_outstanding_contracts_threshold_change_request_message_read, cp_percent_outstanding_contracts_threshold_change_request_message_written) {
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> assert(cp_percent_outstanding_contracts_threshold_change_request_message_read.cl_ord_id_cp_percent_outstanding_contracts_threshold_change_request_cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at] == cp_percent_outstanding_contracts_threshold_change_request_message_written.cl_ord_id_cp_percent_outstanding_contracts_threshold_change_request_cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at]); cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 20 -> assert(cp_percent_outstanding_contracts_threshold_change_request_message_read.cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at] == cp_percent_outstanding_contracts_threshold_change_request_message_written.cl_ord_id[cp_percent_outstanding_contracts_threshold_change_request_message_at]); cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> assert(cp_percent_outstanding_contracts_threshold_change_request_message_read.underlier_cp_percent_outstanding_contracts_threshold_change_request_under_50hxp3[cp_percent_outstanding_contracts_threshold_change_request_message_at] == cp_percent_outstanding_contracts_threshold_change_request_message_written.underlier_cp_percent_outstanding_contracts_threshold_change_request_under_50hxp3[cp_percent_outstanding_contracts_threshold_change_request_message_at]); cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 6 -> assert(cp_percent_outstanding_contracts_threshold_change_request_message_read.underlier_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] == cp_percent_outstanding_contracts_threshold_change_request_message_written.underlier_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at]); cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
   do
-  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> assert(cp_percent_outstanding_contracts_threshold_change_request_message_read.efid_cp_percent_outstanding_contracts_threshold_change_request_efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] == cp_percent_outstanding_contracts_threshold_change_request_message_written.efid_cp_percent_outstanding_contracts_threshold_change_request_efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at]); cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
+  :: cp_percent_outstanding_contracts_threshold_change_request_message_at < 4 -> assert(cp_percent_outstanding_contracts_threshold_change_request_message_read.efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at] == cp_percent_outstanding_contracts_threshold_change_request_message_written.efid_optional[cp_percent_outstanding_contracts_threshold_change_request_message_at]); cp_percent_outstanding_contracts_threshold_change_request_message_at = cp_percent_outstanding_contracts_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_percent_outstanding_contracts_threshold_change_request_message_at = 0;
@@ -1559,9 +1559,9 @@ inline equal_cp_percent_outstanding_contracts_threshold_change_request_message(c
 
 /* CPBreachCountThresholdChangeRequestMessage */
 typedef CpBreachCountThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_breach_count_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_breach_count_threshold_change_request_underlier_optional[6];
-  byte efid_cp_breach_count_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte count[4];
   byte period_in_milli_seconds[4]
@@ -1573,17 +1573,17 @@ int cp_breach_count_threshold_change_request_message_at;
 inline fill_cp_breach_count_threshold_change_request_message(cp_breach_count_threshold_change_request_message_record, cp_breach_count_threshold_change_request_message_value) {
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 20 -> cp_breach_count_threshold_change_request_message_record.cl_ord_id_cp_breach_count_threshold_change_request_cl_ord_id[cp_breach_count_threshold_change_request_message_at] = cp_breach_count_threshold_change_request_message_value; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 20 -> cp_breach_count_threshold_change_request_message_record.cl_ord_id[cp_breach_count_threshold_change_request_message_at] = cp_breach_count_threshold_change_request_message_value; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 6 -> cp_breach_count_threshold_change_request_message_record.underlier_cp_breach_count_threshold_change_request_underlier_optional[cp_breach_count_threshold_change_request_message_at] = cp_breach_count_threshold_change_request_message_value; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 6 -> cp_breach_count_threshold_change_request_message_record.underlier_optional[cp_breach_count_threshold_change_request_message_at] = cp_breach_count_threshold_change_request_message_value; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 4 -> cp_breach_count_threshold_change_request_message_record.efid_cp_breach_count_threshold_change_request_efid_optional[cp_breach_count_threshold_change_request_message_at] = cp_breach_count_threshold_change_request_message_value; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 4 -> cp_breach_count_threshold_change_request_message_record.efid_optional[cp_breach_count_threshold_change_request_message_at] = cp_breach_count_threshold_change_request_message_value; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
@@ -1608,17 +1608,17 @@ inline fill_cp_breach_count_threshold_change_request_message(cp_breach_count_thr
 inline ramp_cp_breach_count_threshold_change_request_message(cp_breach_count_threshold_change_request_message_record, cp_breach_count_threshold_change_request_message_base) {
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 20 -> cp_breach_count_threshold_change_request_message_record.cl_ord_id_cp_breach_count_threshold_change_request_cl_ord_id[cp_breach_count_threshold_change_request_message_at] = (cp_breach_count_threshold_change_request_message_base + 0 + cp_breach_count_threshold_change_request_message_at + 1) % 256; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 20 -> cp_breach_count_threshold_change_request_message_record.cl_ord_id[cp_breach_count_threshold_change_request_message_at] = (cp_breach_count_threshold_change_request_message_base + 0 + cp_breach_count_threshold_change_request_message_at + 1) % 256; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 6 -> cp_breach_count_threshold_change_request_message_record.underlier_cp_breach_count_threshold_change_request_underlier_optional[cp_breach_count_threshold_change_request_message_at] = (cp_breach_count_threshold_change_request_message_base + 20 + cp_breach_count_threshold_change_request_message_at + 1) % 256; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 6 -> cp_breach_count_threshold_change_request_message_record.underlier_optional[cp_breach_count_threshold_change_request_message_at] = (cp_breach_count_threshold_change_request_message_base + 20 + cp_breach_count_threshold_change_request_message_at + 1) % 256; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 4 -> cp_breach_count_threshold_change_request_message_record.efid_cp_breach_count_threshold_change_request_efid_optional[cp_breach_count_threshold_change_request_message_at] = (cp_breach_count_threshold_change_request_message_base + 26 + cp_breach_count_threshold_change_request_message_at + 1) % 256; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 4 -> cp_breach_count_threshold_change_request_message_record.efid_optional[cp_breach_count_threshold_change_request_message_at] = (cp_breach_count_threshold_change_request_message_base + 26 + cp_breach_count_threshold_change_request_message_at + 1) % 256; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
@@ -1643,17 +1643,17 @@ inline ramp_cp_breach_count_threshold_change_request_message(cp_breach_count_thr
 inline encode_cp_breach_count_threshold_change_request_message(cp_breach_count_threshold_change_request_message_record) {
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 20 -> wire[at] = cp_breach_count_threshold_change_request_message_record.cl_ord_id_cp_breach_count_threshold_change_request_cl_ord_id[cp_breach_count_threshold_change_request_message_at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 20 -> wire[at] = cp_breach_count_threshold_change_request_message_record.cl_ord_id[cp_breach_count_threshold_change_request_message_at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 6 -> wire[at] = cp_breach_count_threshold_change_request_message_record.underlier_cp_breach_count_threshold_change_request_underlier_optional[cp_breach_count_threshold_change_request_message_at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 6 -> wire[at] = cp_breach_count_threshold_change_request_message_record.underlier_optional[cp_breach_count_threshold_change_request_message_at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 4 -> wire[at] = cp_breach_count_threshold_change_request_message_record.efid_cp_breach_count_threshold_change_request_efid_optional[cp_breach_count_threshold_change_request_message_at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 4 -> wire[at] = cp_breach_count_threshold_change_request_message_record.efid_optional[cp_breach_count_threshold_change_request_message_at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
@@ -1678,17 +1678,17 @@ inline encode_cp_breach_count_threshold_change_request_message(cp_breach_count_t
 inline decode_cp_breach_count_threshold_change_request_message(cp_breach_count_threshold_change_request_message_record) {
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 20 -> cp_breach_count_threshold_change_request_message_record.cl_ord_id_cp_breach_count_threshold_change_request_cl_ord_id[cp_breach_count_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 20 -> cp_breach_count_threshold_change_request_message_record.cl_ord_id[cp_breach_count_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 6 -> cp_breach_count_threshold_change_request_message_record.underlier_cp_breach_count_threshold_change_request_underlier_optional[cp_breach_count_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 6 -> cp_breach_count_threshold_change_request_message_record.underlier_optional[cp_breach_count_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 4 -> cp_breach_count_threshold_change_request_message_record.efid_cp_breach_count_threshold_change_request_efid_optional[cp_breach_count_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 4 -> cp_breach_count_threshold_change_request_message_record.efid_optional[cp_breach_count_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
@@ -1713,17 +1713,17 @@ inline decode_cp_breach_count_threshold_change_request_message(cp_breach_count_t
 inline equal_cp_breach_count_threshold_change_request_message(cp_breach_count_threshold_change_request_message_read, cp_breach_count_threshold_change_request_message_written) {
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 20 -> assert(cp_breach_count_threshold_change_request_message_read.cl_ord_id_cp_breach_count_threshold_change_request_cl_ord_id[cp_breach_count_threshold_change_request_message_at] == cp_breach_count_threshold_change_request_message_written.cl_ord_id_cp_breach_count_threshold_change_request_cl_ord_id[cp_breach_count_threshold_change_request_message_at]); cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 20 -> assert(cp_breach_count_threshold_change_request_message_read.cl_ord_id[cp_breach_count_threshold_change_request_message_at] == cp_breach_count_threshold_change_request_message_written.cl_ord_id[cp_breach_count_threshold_change_request_message_at]); cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 6 -> assert(cp_breach_count_threshold_change_request_message_read.underlier_cp_breach_count_threshold_change_request_underlier_optional[cp_breach_count_threshold_change_request_message_at] == cp_breach_count_threshold_change_request_message_written.underlier_cp_breach_count_threshold_change_request_underlier_optional[cp_breach_count_threshold_change_request_message_at]); cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 6 -> assert(cp_breach_count_threshold_change_request_message_read.underlier_optional[cp_breach_count_threshold_change_request_message_at] == cp_breach_count_threshold_change_request_message_written.underlier_optional[cp_breach_count_threshold_change_request_message_at]); cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
   do
-  :: cp_breach_count_threshold_change_request_message_at < 4 -> assert(cp_breach_count_threshold_change_request_message_read.efid_cp_breach_count_threshold_change_request_efid_optional[cp_breach_count_threshold_change_request_message_at] == cp_breach_count_threshold_change_request_message_written.efid_cp_breach_count_threshold_change_request_efid_optional[cp_breach_count_threshold_change_request_message_at]); cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
+  :: cp_breach_count_threshold_change_request_message_at < 4 -> assert(cp_breach_count_threshold_change_request_message_read.efid_optional[cp_breach_count_threshold_change_request_message_at] == cp_breach_count_threshold_change_request_message_written.efid_optional[cp_breach_count_threshold_change_request_message_at]); cp_breach_count_threshold_change_request_message_at = cp_breach_count_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_breach_count_threshold_change_request_message_at = 0;
@@ -1748,9 +1748,9 @@ inline equal_cp_breach_count_threshold_change_request_message(cp_breach_count_th
 
 /* ManualCPBreachTriggerRequestMessage */
 typedef ManualCpBreachTriggerRequestMessage {
-  byte cl_ord_id_manual_cp_breach_trigger_request_cl_ord_id[20];
-  byte underlier_manual_cp_breach_trigger_request_underlier_optional[6];
-  byte efid_manual_cp_breach_trigger_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte send_cancels
 };
@@ -1761,17 +1761,17 @@ int manual_cp_breach_trigger_request_message_at;
 inline fill_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_request_message_record, manual_cp_breach_trigger_request_message_value) {
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 20 -> manual_cp_breach_trigger_request_message_record.cl_ord_id_manual_cp_breach_trigger_request_cl_ord_id[manual_cp_breach_trigger_request_message_at] = manual_cp_breach_trigger_request_message_value; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 20 -> manual_cp_breach_trigger_request_message_record.cl_ord_id[manual_cp_breach_trigger_request_message_at] = manual_cp_breach_trigger_request_message_value; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 6 -> manual_cp_breach_trigger_request_message_record.underlier_manual_cp_breach_trigger_request_underlier_optional[manual_cp_breach_trigger_request_message_at] = manual_cp_breach_trigger_request_message_value; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 6 -> manual_cp_breach_trigger_request_message_record.underlier_optional[manual_cp_breach_trigger_request_message_at] = manual_cp_breach_trigger_request_message_value; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 4 -> manual_cp_breach_trigger_request_message_record.efid_manual_cp_breach_trigger_request_efid_optional[manual_cp_breach_trigger_request_message_at] = manual_cp_breach_trigger_request_message_value; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 4 -> manual_cp_breach_trigger_request_message_record.efid_optional[manual_cp_breach_trigger_request_message_at] = manual_cp_breach_trigger_request_message_value; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
@@ -1787,17 +1787,17 @@ inline fill_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_re
 inline ramp_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_request_message_record, manual_cp_breach_trigger_request_message_base) {
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 20 -> manual_cp_breach_trigger_request_message_record.cl_ord_id_manual_cp_breach_trigger_request_cl_ord_id[manual_cp_breach_trigger_request_message_at] = (manual_cp_breach_trigger_request_message_base + 0 + manual_cp_breach_trigger_request_message_at + 1) % 256; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 20 -> manual_cp_breach_trigger_request_message_record.cl_ord_id[manual_cp_breach_trigger_request_message_at] = (manual_cp_breach_trigger_request_message_base + 0 + manual_cp_breach_trigger_request_message_at + 1) % 256; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 6 -> manual_cp_breach_trigger_request_message_record.underlier_manual_cp_breach_trigger_request_underlier_optional[manual_cp_breach_trigger_request_message_at] = (manual_cp_breach_trigger_request_message_base + 20 + manual_cp_breach_trigger_request_message_at + 1) % 256; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 6 -> manual_cp_breach_trigger_request_message_record.underlier_optional[manual_cp_breach_trigger_request_message_at] = (manual_cp_breach_trigger_request_message_base + 20 + manual_cp_breach_trigger_request_message_at + 1) % 256; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 4 -> manual_cp_breach_trigger_request_message_record.efid_manual_cp_breach_trigger_request_efid_optional[manual_cp_breach_trigger_request_message_at] = (manual_cp_breach_trigger_request_message_base + 26 + manual_cp_breach_trigger_request_message_at + 1) % 256; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 4 -> manual_cp_breach_trigger_request_message_record.efid_optional[manual_cp_breach_trigger_request_message_at] = (manual_cp_breach_trigger_request_message_base + 26 + manual_cp_breach_trigger_request_message_at + 1) % 256; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
@@ -1813,17 +1813,17 @@ inline ramp_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_re
 inline encode_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_request_message_record) {
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 20 -> wire[at] = manual_cp_breach_trigger_request_message_record.cl_ord_id_manual_cp_breach_trigger_request_cl_ord_id[manual_cp_breach_trigger_request_message_at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 20 -> wire[at] = manual_cp_breach_trigger_request_message_record.cl_ord_id[manual_cp_breach_trigger_request_message_at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 6 -> wire[at] = manual_cp_breach_trigger_request_message_record.underlier_manual_cp_breach_trigger_request_underlier_optional[manual_cp_breach_trigger_request_message_at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 6 -> wire[at] = manual_cp_breach_trigger_request_message_record.underlier_optional[manual_cp_breach_trigger_request_message_at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 4 -> wire[at] = manual_cp_breach_trigger_request_message_record.efid_manual_cp_breach_trigger_request_efid_optional[manual_cp_breach_trigger_request_message_at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 4 -> wire[at] = manual_cp_breach_trigger_request_message_record.efid_optional[manual_cp_breach_trigger_request_message_at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
@@ -1839,17 +1839,17 @@ inline encode_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_
 inline decode_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_request_message_record) {
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 20 -> manual_cp_breach_trigger_request_message_record.cl_ord_id_manual_cp_breach_trigger_request_cl_ord_id[manual_cp_breach_trigger_request_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 20 -> manual_cp_breach_trigger_request_message_record.cl_ord_id[manual_cp_breach_trigger_request_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 6 -> manual_cp_breach_trigger_request_message_record.underlier_manual_cp_breach_trigger_request_underlier_optional[manual_cp_breach_trigger_request_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 6 -> manual_cp_breach_trigger_request_message_record.underlier_optional[manual_cp_breach_trigger_request_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 4 -> manual_cp_breach_trigger_request_message_record.efid_manual_cp_breach_trigger_request_efid_optional[manual_cp_breach_trigger_request_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 4 -> manual_cp_breach_trigger_request_message_record.efid_optional[manual_cp_breach_trigger_request_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
@@ -1865,17 +1865,17 @@ inline decode_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_
 inline equal_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_request_message_read, manual_cp_breach_trigger_request_message_written) {
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 20 -> assert(manual_cp_breach_trigger_request_message_read.cl_ord_id_manual_cp_breach_trigger_request_cl_ord_id[manual_cp_breach_trigger_request_message_at] == manual_cp_breach_trigger_request_message_written.cl_ord_id_manual_cp_breach_trigger_request_cl_ord_id[manual_cp_breach_trigger_request_message_at]); manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 20 -> assert(manual_cp_breach_trigger_request_message_read.cl_ord_id[manual_cp_breach_trigger_request_message_at] == manual_cp_breach_trigger_request_message_written.cl_ord_id[manual_cp_breach_trigger_request_message_at]); manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 6 -> assert(manual_cp_breach_trigger_request_message_read.underlier_manual_cp_breach_trigger_request_underlier_optional[manual_cp_breach_trigger_request_message_at] == manual_cp_breach_trigger_request_message_written.underlier_manual_cp_breach_trigger_request_underlier_optional[manual_cp_breach_trigger_request_message_at]); manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 6 -> assert(manual_cp_breach_trigger_request_message_read.underlier_optional[manual_cp_breach_trigger_request_message_at] == manual_cp_breach_trigger_request_message_written.underlier_optional[manual_cp_breach_trigger_request_message_at]); manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
   do
-  :: manual_cp_breach_trigger_request_message_at < 4 -> assert(manual_cp_breach_trigger_request_message_read.efid_manual_cp_breach_trigger_request_efid_optional[manual_cp_breach_trigger_request_message_at] == manual_cp_breach_trigger_request_message_written.efid_manual_cp_breach_trigger_request_efid_optional[manual_cp_breach_trigger_request_message_at]); manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
+  :: manual_cp_breach_trigger_request_message_at < 4 -> assert(manual_cp_breach_trigger_request_message_read.efid_optional[manual_cp_breach_trigger_request_message_at] == manual_cp_breach_trigger_request_message_written.efid_optional[manual_cp_breach_trigger_request_message_at]); manual_cp_breach_trigger_request_message_at = manual_cp_breach_trigger_request_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_request_message_at = 0;
@@ -1891,7 +1891,7 @@ inline equal_manual_cp_breach_trigger_request_message(manual_cp_breach_trigger_r
 
 /* CPClearBreachRequestMessage */
 typedef CpClearBreachRequestMessage {
-  byte cl_ord_id_cp_clear_breach_request_cl_ord_id[20];
+  byte cl_ord_id[20];
   byte breach_id[8]
 };
 
@@ -1901,7 +1901,7 @@ int cp_clear_breach_request_message_at;
 inline fill_cp_clear_breach_request_message(cp_clear_breach_request_message_record, cp_clear_breach_request_message_value) {
   cp_clear_breach_request_message_at = 0;
   do
-  :: cp_clear_breach_request_message_at < 20 -> cp_clear_breach_request_message_record.cl_ord_id_cp_clear_breach_request_cl_ord_id[cp_clear_breach_request_message_at] = cp_clear_breach_request_message_value; cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
+  :: cp_clear_breach_request_message_at < 20 -> cp_clear_breach_request_message_record.cl_ord_id[cp_clear_breach_request_message_at] = cp_clear_breach_request_message_value; cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
   :: else -> break
   od;
   cp_clear_breach_request_message_at = 0;
@@ -1916,7 +1916,7 @@ inline fill_cp_clear_breach_request_message(cp_clear_breach_request_message_reco
 inline ramp_cp_clear_breach_request_message(cp_clear_breach_request_message_record, cp_clear_breach_request_message_base) {
   cp_clear_breach_request_message_at = 0;
   do
-  :: cp_clear_breach_request_message_at < 20 -> cp_clear_breach_request_message_record.cl_ord_id_cp_clear_breach_request_cl_ord_id[cp_clear_breach_request_message_at] = (cp_clear_breach_request_message_base + 0 + cp_clear_breach_request_message_at + 1) % 256; cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
+  :: cp_clear_breach_request_message_at < 20 -> cp_clear_breach_request_message_record.cl_ord_id[cp_clear_breach_request_message_at] = (cp_clear_breach_request_message_base + 0 + cp_clear_breach_request_message_at + 1) % 256; cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
   :: else -> break
   od;
   cp_clear_breach_request_message_at = 0;
@@ -1931,7 +1931,7 @@ inline ramp_cp_clear_breach_request_message(cp_clear_breach_request_message_reco
 inline encode_cp_clear_breach_request_message(cp_clear_breach_request_message_record) {
   cp_clear_breach_request_message_at = 0;
   do
-  :: cp_clear_breach_request_message_at < 20 -> wire[at] = cp_clear_breach_request_message_record.cl_ord_id_cp_clear_breach_request_cl_ord_id[cp_clear_breach_request_message_at]; at = at + 1; cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
+  :: cp_clear_breach_request_message_at < 20 -> wire[at] = cp_clear_breach_request_message_record.cl_ord_id[cp_clear_breach_request_message_at]; at = at + 1; cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
   :: else -> break
   od;
   cp_clear_breach_request_message_at = 0;
@@ -1946,7 +1946,7 @@ inline encode_cp_clear_breach_request_message(cp_clear_breach_request_message_re
 inline decode_cp_clear_breach_request_message(cp_clear_breach_request_message_record) {
   cp_clear_breach_request_message_at = 0;
   do
-  :: cp_clear_breach_request_message_at < 20 -> cp_clear_breach_request_message_record.cl_ord_id_cp_clear_breach_request_cl_ord_id[cp_clear_breach_request_message_at] = wire[at]; at = at + 1; cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
+  :: cp_clear_breach_request_message_at < 20 -> cp_clear_breach_request_message_record.cl_ord_id[cp_clear_breach_request_message_at] = wire[at]; at = at + 1; cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
   :: else -> break
   od;
   cp_clear_breach_request_message_at = 0;
@@ -1961,7 +1961,7 @@ inline decode_cp_clear_breach_request_message(cp_clear_breach_request_message_re
 inline equal_cp_clear_breach_request_message(cp_clear_breach_request_message_read, cp_clear_breach_request_message_written) {
   cp_clear_breach_request_message_at = 0;
   do
-  :: cp_clear_breach_request_message_at < 20 -> assert(cp_clear_breach_request_message_read.cl_ord_id_cp_clear_breach_request_cl_ord_id[cp_clear_breach_request_message_at] == cp_clear_breach_request_message_written.cl_ord_id_cp_clear_breach_request_cl_ord_id[cp_clear_breach_request_message_at]); cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
+  :: cp_clear_breach_request_message_at < 20 -> assert(cp_clear_breach_request_message_read.cl_ord_id[cp_clear_breach_request_message_at] == cp_clear_breach_request_message_written.cl_ord_id[cp_clear_breach_request_message_at]); cp_clear_breach_request_message_at = cp_clear_breach_request_message_at + 1
   :: else -> break
   od;
   cp_clear_breach_request_message_at = 0;
@@ -1976,9 +1976,9 @@ inline equal_cp_clear_breach_request_message(cp_clear_breach_request_message_rea
 
 /* SingleOrderAllowISOOrdersChangeRequestMessage */
 typedef SingleOrderAllowIsoOrdersChangeRequestMessage {
-  byte cl_ord_id_single_order_allow_iso_orders_change_request_cl_ord_id[20];
-  byte underlier_single_order_allow_iso_orders_change_request_underlier_optional[6];
-  byte efid_single_order_allow_iso_orders_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte allow_iso_orders
 };
@@ -1989,17 +1989,17 @@ int single_order_allow_iso_orders_change_request_message_at;
 inline fill_single_order_allow_iso_orders_change_request_message(single_order_allow_iso_orders_change_request_message_record, single_order_allow_iso_orders_change_request_message_value) {
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 20 -> single_order_allow_iso_orders_change_request_message_record.cl_ord_id_single_order_allow_iso_orders_change_request_cl_ord_id[single_order_allow_iso_orders_change_request_message_at] = single_order_allow_iso_orders_change_request_message_value; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 20 -> single_order_allow_iso_orders_change_request_message_record.cl_ord_id[single_order_allow_iso_orders_change_request_message_at] = single_order_allow_iso_orders_change_request_message_value; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 6 -> single_order_allow_iso_orders_change_request_message_record.underlier_single_order_allow_iso_orders_change_request_underlier_optional[single_order_allow_iso_orders_change_request_message_at] = single_order_allow_iso_orders_change_request_message_value; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 6 -> single_order_allow_iso_orders_change_request_message_record.underlier_optional[single_order_allow_iso_orders_change_request_message_at] = single_order_allow_iso_orders_change_request_message_value; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 4 -> single_order_allow_iso_orders_change_request_message_record.efid_single_order_allow_iso_orders_change_request_efid_optional[single_order_allow_iso_orders_change_request_message_at] = single_order_allow_iso_orders_change_request_message_value; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 4 -> single_order_allow_iso_orders_change_request_message_record.efid_optional[single_order_allow_iso_orders_change_request_message_at] = single_order_allow_iso_orders_change_request_message_value; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
@@ -2015,17 +2015,17 @@ inline fill_single_order_allow_iso_orders_change_request_message(single_order_al
 inline ramp_single_order_allow_iso_orders_change_request_message(single_order_allow_iso_orders_change_request_message_record, single_order_allow_iso_orders_change_request_message_base) {
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 20 -> single_order_allow_iso_orders_change_request_message_record.cl_ord_id_single_order_allow_iso_orders_change_request_cl_ord_id[single_order_allow_iso_orders_change_request_message_at] = (single_order_allow_iso_orders_change_request_message_base + 0 + single_order_allow_iso_orders_change_request_message_at + 1) % 256; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 20 -> single_order_allow_iso_orders_change_request_message_record.cl_ord_id[single_order_allow_iso_orders_change_request_message_at] = (single_order_allow_iso_orders_change_request_message_base + 0 + single_order_allow_iso_orders_change_request_message_at + 1) % 256; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 6 -> single_order_allow_iso_orders_change_request_message_record.underlier_single_order_allow_iso_orders_change_request_underlier_optional[single_order_allow_iso_orders_change_request_message_at] = (single_order_allow_iso_orders_change_request_message_base + 20 + single_order_allow_iso_orders_change_request_message_at + 1) % 256; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 6 -> single_order_allow_iso_orders_change_request_message_record.underlier_optional[single_order_allow_iso_orders_change_request_message_at] = (single_order_allow_iso_orders_change_request_message_base + 20 + single_order_allow_iso_orders_change_request_message_at + 1) % 256; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 4 -> single_order_allow_iso_orders_change_request_message_record.efid_single_order_allow_iso_orders_change_request_efid_optional[single_order_allow_iso_orders_change_request_message_at] = (single_order_allow_iso_orders_change_request_message_base + 26 + single_order_allow_iso_orders_change_request_message_at + 1) % 256; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 4 -> single_order_allow_iso_orders_change_request_message_record.efid_optional[single_order_allow_iso_orders_change_request_message_at] = (single_order_allow_iso_orders_change_request_message_base + 26 + single_order_allow_iso_orders_change_request_message_at + 1) % 256; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
@@ -2041,17 +2041,17 @@ inline ramp_single_order_allow_iso_orders_change_request_message(single_order_al
 inline encode_single_order_allow_iso_orders_change_request_message(single_order_allow_iso_orders_change_request_message_record) {
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 20 -> wire[at] = single_order_allow_iso_orders_change_request_message_record.cl_ord_id_single_order_allow_iso_orders_change_request_cl_ord_id[single_order_allow_iso_orders_change_request_message_at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 20 -> wire[at] = single_order_allow_iso_orders_change_request_message_record.cl_ord_id[single_order_allow_iso_orders_change_request_message_at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 6 -> wire[at] = single_order_allow_iso_orders_change_request_message_record.underlier_single_order_allow_iso_orders_change_request_underlier_optional[single_order_allow_iso_orders_change_request_message_at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 6 -> wire[at] = single_order_allow_iso_orders_change_request_message_record.underlier_optional[single_order_allow_iso_orders_change_request_message_at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 4 -> wire[at] = single_order_allow_iso_orders_change_request_message_record.efid_single_order_allow_iso_orders_change_request_efid_optional[single_order_allow_iso_orders_change_request_message_at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 4 -> wire[at] = single_order_allow_iso_orders_change_request_message_record.efid_optional[single_order_allow_iso_orders_change_request_message_at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
@@ -2067,17 +2067,17 @@ inline encode_single_order_allow_iso_orders_change_request_message(single_order_
 inline decode_single_order_allow_iso_orders_change_request_message(single_order_allow_iso_orders_change_request_message_record) {
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 20 -> single_order_allow_iso_orders_change_request_message_record.cl_ord_id_single_order_allow_iso_orders_change_request_cl_ord_id[single_order_allow_iso_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 20 -> single_order_allow_iso_orders_change_request_message_record.cl_ord_id[single_order_allow_iso_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 6 -> single_order_allow_iso_orders_change_request_message_record.underlier_single_order_allow_iso_orders_change_request_underlier_optional[single_order_allow_iso_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 6 -> single_order_allow_iso_orders_change_request_message_record.underlier_optional[single_order_allow_iso_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 4 -> single_order_allow_iso_orders_change_request_message_record.efid_single_order_allow_iso_orders_change_request_efid_optional[single_order_allow_iso_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 4 -> single_order_allow_iso_orders_change_request_message_record.efid_optional[single_order_allow_iso_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
@@ -2093,17 +2093,17 @@ inline decode_single_order_allow_iso_orders_change_request_message(single_order_
 inline equal_single_order_allow_iso_orders_change_request_message(single_order_allow_iso_orders_change_request_message_read, single_order_allow_iso_orders_change_request_message_written) {
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 20 -> assert(single_order_allow_iso_orders_change_request_message_read.cl_ord_id_single_order_allow_iso_orders_change_request_cl_ord_id[single_order_allow_iso_orders_change_request_message_at] == single_order_allow_iso_orders_change_request_message_written.cl_ord_id_single_order_allow_iso_orders_change_request_cl_ord_id[single_order_allow_iso_orders_change_request_message_at]); single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 20 -> assert(single_order_allow_iso_orders_change_request_message_read.cl_ord_id[single_order_allow_iso_orders_change_request_message_at] == single_order_allow_iso_orders_change_request_message_written.cl_ord_id[single_order_allow_iso_orders_change_request_message_at]); single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 6 -> assert(single_order_allow_iso_orders_change_request_message_read.underlier_single_order_allow_iso_orders_change_request_underlier_optional[single_order_allow_iso_orders_change_request_message_at] == single_order_allow_iso_orders_change_request_message_written.underlier_single_order_allow_iso_orders_change_request_underlier_optional[single_order_allow_iso_orders_change_request_message_at]); single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 6 -> assert(single_order_allow_iso_orders_change_request_message_read.underlier_optional[single_order_allow_iso_orders_change_request_message_at] == single_order_allow_iso_orders_change_request_message_written.underlier_optional[single_order_allow_iso_orders_change_request_message_at]); single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_iso_orders_change_request_message_at < 4 -> assert(single_order_allow_iso_orders_change_request_message_read.efid_single_order_allow_iso_orders_change_request_efid_optional[single_order_allow_iso_orders_change_request_message_at] == single_order_allow_iso_orders_change_request_message_written.efid_single_order_allow_iso_orders_change_request_efid_optional[single_order_allow_iso_orders_change_request_message_at]); single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
+  :: single_order_allow_iso_orders_change_request_message_at < 4 -> assert(single_order_allow_iso_orders_change_request_message_read.efid_optional[single_order_allow_iso_orders_change_request_message_at] == single_order_allow_iso_orders_change_request_message_written.efid_optional[single_order_allow_iso_orders_change_request_message_at]); single_order_allow_iso_orders_change_request_message_at = single_order_allow_iso_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_iso_orders_change_request_message_at = 0;
@@ -2119,9 +2119,9 @@ inline equal_single_order_allow_iso_orders_change_request_message(single_order_a
 
 /* SingleOrderAllowOrdersInCrossedMarketChangeRequestMessage */
 typedef SingleOrderAllowOrdersInCrossedMarketChangeRequestMessage {
-  byte cl_ord_id_single_order_allow_orders_in_crossed_market_change_request_cl_ord_id[20];
-  byte underlier_single_order_allow_orders_in_crossed_market_change_request_unde_rbzy27[6];
-  byte efid_single_order_allow_orders_in_crossed_market_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte allow_orders
 };
@@ -2132,17 +2132,17 @@ int single_order_allow_orders_in_crossed_market_change_request_message_at;
 inline fill_single_order_allow_orders_in_crossed_market_change_request_message(single_order_allow_orders_in_crossed_market_change_request_message_record, single_order_allow_orders_in_crossed_market_change_request_message_value) {
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> single_order_allow_orders_in_crossed_market_change_request_message_record.cl_ord_id_single_order_allow_orders_in_crossed_market_change_request_cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at] = single_order_allow_orders_in_crossed_market_change_request_message_value; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> single_order_allow_orders_in_crossed_market_change_request_message_record.cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at] = single_order_allow_orders_in_crossed_market_change_request_message_value; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> single_order_allow_orders_in_crossed_market_change_request_message_record.underlier_single_order_allow_orders_in_crossed_market_change_request_unde_rbzy27[single_order_allow_orders_in_crossed_market_change_request_message_at] = single_order_allow_orders_in_crossed_market_change_request_message_value; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> single_order_allow_orders_in_crossed_market_change_request_message_record.underlier_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = single_order_allow_orders_in_crossed_market_change_request_message_value; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> single_order_allow_orders_in_crossed_market_change_request_message_record.efid_single_order_allow_orders_in_crossed_market_change_request_efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = single_order_allow_orders_in_crossed_market_change_request_message_value; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> single_order_allow_orders_in_crossed_market_change_request_message_record.efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = single_order_allow_orders_in_crossed_market_change_request_message_value; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
@@ -2158,17 +2158,17 @@ inline fill_single_order_allow_orders_in_crossed_market_change_request_message(s
 inline ramp_single_order_allow_orders_in_crossed_market_change_request_message(single_order_allow_orders_in_crossed_market_change_request_message_record, single_order_allow_orders_in_crossed_market_change_request_message_base) {
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> single_order_allow_orders_in_crossed_market_change_request_message_record.cl_ord_id_single_order_allow_orders_in_crossed_market_change_request_cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at] = (single_order_allow_orders_in_crossed_market_change_request_message_base + 0 + single_order_allow_orders_in_crossed_market_change_request_message_at + 1) % 256; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> single_order_allow_orders_in_crossed_market_change_request_message_record.cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at] = (single_order_allow_orders_in_crossed_market_change_request_message_base + 0 + single_order_allow_orders_in_crossed_market_change_request_message_at + 1) % 256; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> single_order_allow_orders_in_crossed_market_change_request_message_record.underlier_single_order_allow_orders_in_crossed_market_change_request_unde_rbzy27[single_order_allow_orders_in_crossed_market_change_request_message_at] = (single_order_allow_orders_in_crossed_market_change_request_message_base + 20 + single_order_allow_orders_in_crossed_market_change_request_message_at + 1) % 256; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> single_order_allow_orders_in_crossed_market_change_request_message_record.underlier_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = (single_order_allow_orders_in_crossed_market_change_request_message_base + 20 + single_order_allow_orders_in_crossed_market_change_request_message_at + 1) % 256; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> single_order_allow_orders_in_crossed_market_change_request_message_record.efid_single_order_allow_orders_in_crossed_market_change_request_efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = (single_order_allow_orders_in_crossed_market_change_request_message_base + 26 + single_order_allow_orders_in_crossed_market_change_request_message_at + 1) % 256; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> single_order_allow_orders_in_crossed_market_change_request_message_record.efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = (single_order_allow_orders_in_crossed_market_change_request_message_base + 26 + single_order_allow_orders_in_crossed_market_change_request_message_at + 1) % 256; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
@@ -2184,17 +2184,17 @@ inline ramp_single_order_allow_orders_in_crossed_market_change_request_message(s
 inline encode_single_order_allow_orders_in_crossed_market_change_request_message(single_order_allow_orders_in_crossed_market_change_request_message_record) {
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> wire[at] = single_order_allow_orders_in_crossed_market_change_request_message_record.cl_ord_id_single_order_allow_orders_in_crossed_market_change_request_cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> wire[at] = single_order_allow_orders_in_crossed_market_change_request_message_record.cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> wire[at] = single_order_allow_orders_in_crossed_market_change_request_message_record.underlier_single_order_allow_orders_in_crossed_market_change_request_unde_rbzy27[single_order_allow_orders_in_crossed_market_change_request_message_at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> wire[at] = single_order_allow_orders_in_crossed_market_change_request_message_record.underlier_optional[single_order_allow_orders_in_crossed_market_change_request_message_at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> wire[at] = single_order_allow_orders_in_crossed_market_change_request_message_record.efid_single_order_allow_orders_in_crossed_market_change_request_efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> wire[at] = single_order_allow_orders_in_crossed_market_change_request_message_record.efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
@@ -2210,17 +2210,17 @@ inline encode_single_order_allow_orders_in_crossed_market_change_request_message
 inline decode_single_order_allow_orders_in_crossed_market_change_request_message(single_order_allow_orders_in_crossed_market_change_request_message_record) {
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> single_order_allow_orders_in_crossed_market_change_request_message_record.cl_ord_id_single_order_allow_orders_in_crossed_market_change_request_cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> single_order_allow_orders_in_crossed_market_change_request_message_record.cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> single_order_allow_orders_in_crossed_market_change_request_message_record.underlier_single_order_allow_orders_in_crossed_market_change_request_unde_rbzy27[single_order_allow_orders_in_crossed_market_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> single_order_allow_orders_in_crossed_market_change_request_message_record.underlier_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> single_order_allow_orders_in_crossed_market_change_request_message_record.efid_single_order_allow_orders_in_crossed_market_change_request_efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> single_order_allow_orders_in_crossed_market_change_request_message_record.efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
@@ -2236,17 +2236,17 @@ inline decode_single_order_allow_orders_in_crossed_market_change_request_message
 inline equal_single_order_allow_orders_in_crossed_market_change_request_message(single_order_allow_orders_in_crossed_market_change_request_message_read, single_order_allow_orders_in_crossed_market_change_request_message_written) {
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> assert(single_order_allow_orders_in_crossed_market_change_request_message_read.cl_ord_id_single_order_allow_orders_in_crossed_market_change_request_cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at] == single_order_allow_orders_in_crossed_market_change_request_message_written.cl_ord_id_single_order_allow_orders_in_crossed_market_change_request_cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at]); single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 20 -> assert(single_order_allow_orders_in_crossed_market_change_request_message_read.cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at] == single_order_allow_orders_in_crossed_market_change_request_message_written.cl_ord_id[single_order_allow_orders_in_crossed_market_change_request_message_at]); single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> assert(single_order_allow_orders_in_crossed_market_change_request_message_read.underlier_single_order_allow_orders_in_crossed_market_change_request_unde_rbzy27[single_order_allow_orders_in_crossed_market_change_request_message_at] == single_order_allow_orders_in_crossed_market_change_request_message_written.underlier_single_order_allow_orders_in_crossed_market_change_request_unde_rbzy27[single_order_allow_orders_in_crossed_market_change_request_message_at]); single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 6 -> assert(single_order_allow_orders_in_crossed_market_change_request_message_read.underlier_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] == single_order_allow_orders_in_crossed_market_change_request_message_written.underlier_optional[single_order_allow_orders_in_crossed_market_change_request_message_at]); single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
   do
-  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> assert(single_order_allow_orders_in_crossed_market_change_request_message_read.efid_single_order_allow_orders_in_crossed_market_change_request_efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] == single_order_allow_orders_in_crossed_market_change_request_message_written.efid_single_order_allow_orders_in_crossed_market_change_request_efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at]); single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
+  :: single_order_allow_orders_in_crossed_market_change_request_message_at < 4 -> assert(single_order_allow_orders_in_crossed_market_change_request_message_read.efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at] == single_order_allow_orders_in_crossed_market_change_request_message_written.efid_optional[single_order_allow_orders_in_crossed_market_change_request_message_at]); single_order_allow_orders_in_crossed_market_change_request_message_at = single_order_allow_orders_in_crossed_market_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_orders_in_crossed_market_change_request_message_at = 0;
@@ -2262,9 +2262,9 @@ inline equal_single_order_allow_orders_in_crossed_market_change_request_message(
 
 /* SingleOrderMaxNotionalChangeRequestMessage */
 typedef SingleOrderMaxNotionalChangeRequestMessage {
-  byte cl_ord_id_single_order_max_notional_change_request_cl_ord_id[20];
-  byte underlier_single_order_max_notional_change_request_underlier_optional[6];
-  byte efid_single_order_max_notional_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte max_notional_in_dollars[8]
 };
@@ -2275,17 +2275,17 @@ int single_order_max_notional_change_request_message_at;
 inline fill_single_order_max_notional_change_request_message(single_order_max_notional_change_request_message_record, single_order_max_notional_change_request_message_value) {
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 20 -> single_order_max_notional_change_request_message_record.cl_ord_id_single_order_max_notional_change_request_cl_ord_id[single_order_max_notional_change_request_message_at] = single_order_max_notional_change_request_message_value; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 20 -> single_order_max_notional_change_request_message_record.cl_ord_id[single_order_max_notional_change_request_message_at] = single_order_max_notional_change_request_message_value; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 6 -> single_order_max_notional_change_request_message_record.underlier_single_order_max_notional_change_request_underlier_optional[single_order_max_notional_change_request_message_at] = single_order_max_notional_change_request_message_value; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 6 -> single_order_max_notional_change_request_message_record.underlier_optional[single_order_max_notional_change_request_message_at] = single_order_max_notional_change_request_message_value; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 4 -> single_order_max_notional_change_request_message_record.efid_single_order_max_notional_change_request_efid_optional[single_order_max_notional_change_request_message_at] = single_order_max_notional_change_request_message_value; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 4 -> single_order_max_notional_change_request_message_record.efid_optional[single_order_max_notional_change_request_message_at] = single_order_max_notional_change_request_message_value; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
@@ -2305,17 +2305,17 @@ inline fill_single_order_max_notional_change_request_message(single_order_max_no
 inline ramp_single_order_max_notional_change_request_message(single_order_max_notional_change_request_message_record, single_order_max_notional_change_request_message_base) {
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 20 -> single_order_max_notional_change_request_message_record.cl_ord_id_single_order_max_notional_change_request_cl_ord_id[single_order_max_notional_change_request_message_at] = (single_order_max_notional_change_request_message_base + 0 + single_order_max_notional_change_request_message_at + 1) % 256; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 20 -> single_order_max_notional_change_request_message_record.cl_ord_id[single_order_max_notional_change_request_message_at] = (single_order_max_notional_change_request_message_base + 0 + single_order_max_notional_change_request_message_at + 1) % 256; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 6 -> single_order_max_notional_change_request_message_record.underlier_single_order_max_notional_change_request_underlier_optional[single_order_max_notional_change_request_message_at] = (single_order_max_notional_change_request_message_base + 20 + single_order_max_notional_change_request_message_at + 1) % 256; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 6 -> single_order_max_notional_change_request_message_record.underlier_optional[single_order_max_notional_change_request_message_at] = (single_order_max_notional_change_request_message_base + 20 + single_order_max_notional_change_request_message_at + 1) % 256; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 4 -> single_order_max_notional_change_request_message_record.efid_single_order_max_notional_change_request_efid_optional[single_order_max_notional_change_request_message_at] = (single_order_max_notional_change_request_message_base + 26 + single_order_max_notional_change_request_message_at + 1) % 256; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 4 -> single_order_max_notional_change_request_message_record.efid_optional[single_order_max_notional_change_request_message_at] = (single_order_max_notional_change_request_message_base + 26 + single_order_max_notional_change_request_message_at + 1) % 256; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
@@ -2335,17 +2335,17 @@ inline ramp_single_order_max_notional_change_request_message(single_order_max_no
 inline encode_single_order_max_notional_change_request_message(single_order_max_notional_change_request_message_record) {
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 20 -> wire[at] = single_order_max_notional_change_request_message_record.cl_ord_id_single_order_max_notional_change_request_cl_ord_id[single_order_max_notional_change_request_message_at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 20 -> wire[at] = single_order_max_notional_change_request_message_record.cl_ord_id[single_order_max_notional_change_request_message_at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 6 -> wire[at] = single_order_max_notional_change_request_message_record.underlier_single_order_max_notional_change_request_underlier_optional[single_order_max_notional_change_request_message_at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 6 -> wire[at] = single_order_max_notional_change_request_message_record.underlier_optional[single_order_max_notional_change_request_message_at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 4 -> wire[at] = single_order_max_notional_change_request_message_record.efid_single_order_max_notional_change_request_efid_optional[single_order_max_notional_change_request_message_at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 4 -> wire[at] = single_order_max_notional_change_request_message_record.efid_optional[single_order_max_notional_change_request_message_at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
@@ -2365,17 +2365,17 @@ inline encode_single_order_max_notional_change_request_message(single_order_max_
 inline decode_single_order_max_notional_change_request_message(single_order_max_notional_change_request_message_record) {
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 20 -> single_order_max_notional_change_request_message_record.cl_ord_id_single_order_max_notional_change_request_cl_ord_id[single_order_max_notional_change_request_message_at] = wire[at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 20 -> single_order_max_notional_change_request_message_record.cl_ord_id[single_order_max_notional_change_request_message_at] = wire[at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 6 -> single_order_max_notional_change_request_message_record.underlier_single_order_max_notional_change_request_underlier_optional[single_order_max_notional_change_request_message_at] = wire[at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 6 -> single_order_max_notional_change_request_message_record.underlier_optional[single_order_max_notional_change_request_message_at] = wire[at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 4 -> single_order_max_notional_change_request_message_record.efid_single_order_max_notional_change_request_efid_optional[single_order_max_notional_change_request_message_at] = wire[at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 4 -> single_order_max_notional_change_request_message_record.efid_optional[single_order_max_notional_change_request_message_at] = wire[at]; at = at + 1; single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
@@ -2395,17 +2395,17 @@ inline decode_single_order_max_notional_change_request_message(single_order_max_
 inline equal_single_order_max_notional_change_request_message(single_order_max_notional_change_request_message_read, single_order_max_notional_change_request_message_written) {
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 20 -> assert(single_order_max_notional_change_request_message_read.cl_ord_id_single_order_max_notional_change_request_cl_ord_id[single_order_max_notional_change_request_message_at] == single_order_max_notional_change_request_message_written.cl_ord_id_single_order_max_notional_change_request_cl_ord_id[single_order_max_notional_change_request_message_at]); single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 20 -> assert(single_order_max_notional_change_request_message_read.cl_ord_id[single_order_max_notional_change_request_message_at] == single_order_max_notional_change_request_message_written.cl_ord_id[single_order_max_notional_change_request_message_at]); single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 6 -> assert(single_order_max_notional_change_request_message_read.underlier_single_order_max_notional_change_request_underlier_optional[single_order_max_notional_change_request_message_at] == single_order_max_notional_change_request_message_written.underlier_single_order_max_notional_change_request_underlier_optional[single_order_max_notional_change_request_message_at]); single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 6 -> assert(single_order_max_notional_change_request_message_read.underlier_optional[single_order_max_notional_change_request_message_at] == single_order_max_notional_change_request_message_written.underlier_optional[single_order_max_notional_change_request_message_at]); single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
   do
-  :: single_order_max_notional_change_request_message_at < 4 -> assert(single_order_max_notional_change_request_message_read.efid_single_order_max_notional_change_request_efid_optional[single_order_max_notional_change_request_message_at] == single_order_max_notional_change_request_message_written.efid_single_order_max_notional_change_request_efid_optional[single_order_max_notional_change_request_message_at]); single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
+  :: single_order_max_notional_change_request_message_at < 4 -> assert(single_order_max_notional_change_request_message_read.efid_optional[single_order_max_notional_change_request_message_at] == single_order_max_notional_change_request_message_written.efid_optional[single_order_max_notional_change_request_message_at]); single_order_max_notional_change_request_message_at = single_order_max_notional_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_notional_change_request_message_at = 0;
@@ -2425,9 +2425,9 @@ inline equal_single_order_max_notional_change_request_message(single_order_max_n
 
 /* SingleOrderMaxContractsChangeRequestMessage */
 typedef SingleOrderMaxContractsChangeRequestMessage {
-  byte cl_ord_id_single_order_max_contracts_change_request_cl_ord_id[20];
-  byte underlier_single_order_max_contracts_change_request_underlier_optional[6];
-  byte efid_single_order_max_contracts_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte max_contracts[4]
 };
@@ -2438,17 +2438,17 @@ int single_order_max_contracts_change_request_message_at;
 inline fill_single_order_max_contracts_change_request_message(single_order_max_contracts_change_request_message_record, single_order_max_contracts_change_request_message_value) {
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 20 -> single_order_max_contracts_change_request_message_record.cl_ord_id_single_order_max_contracts_change_request_cl_ord_id[single_order_max_contracts_change_request_message_at] = single_order_max_contracts_change_request_message_value; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 20 -> single_order_max_contracts_change_request_message_record.cl_ord_id[single_order_max_contracts_change_request_message_at] = single_order_max_contracts_change_request_message_value; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 6 -> single_order_max_contracts_change_request_message_record.underlier_single_order_max_contracts_change_request_underlier_optional[single_order_max_contracts_change_request_message_at] = single_order_max_contracts_change_request_message_value; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 6 -> single_order_max_contracts_change_request_message_record.underlier_optional[single_order_max_contracts_change_request_message_at] = single_order_max_contracts_change_request_message_value; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 4 -> single_order_max_contracts_change_request_message_record.efid_single_order_max_contracts_change_request_efid_optional[single_order_max_contracts_change_request_message_at] = single_order_max_contracts_change_request_message_value; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 4 -> single_order_max_contracts_change_request_message_record.efid_optional[single_order_max_contracts_change_request_message_at] = single_order_max_contracts_change_request_message_value; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
@@ -2468,17 +2468,17 @@ inline fill_single_order_max_contracts_change_request_message(single_order_max_c
 inline ramp_single_order_max_contracts_change_request_message(single_order_max_contracts_change_request_message_record, single_order_max_contracts_change_request_message_base) {
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 20 -> single_order_max_contracts_change_request_message_record.cl_ord_id_single_order_max_contracts_change_request_cl_ord_id[single_order_max_contracts_change_request_message_at] = (single_order_max_contracts_change_request_message_base + 0 + single_order_max_contracts_change_request_message_at + 1) % 256; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 20 -> single_order_max_contracts_change_request_message_record.cl_ord_id[single_order_max_contracts_change_request_message_at] = (single_order_max_contracts_change_request_message_base + 0 + single_order_max_contracts_change_request_message_at + 1) % 256; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 6 -> single_order_max_contracts_change_request_message_record.underlier_single_order_max_contracts_change_request_underlier_optional[single_order_max_contracts_change_request_message_at] = (single_order_max_contracts_change_request_message_base + 20 + single_order_max_contracts_change_request_message_at + 1) % 256; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 6 -> single_order_max_contracts_change_request_message_record.underlier_optional[single_order_max_contracts_change_request_message_at] = (single_order_max_contracts_change_request_message_base + 20 + single_order_max_contracts_change_request_message_at + 1) % 256; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 4 -> single_order_max_contracts_change_request_message_record.efid_single_order_max_contracts_change_request_efid_optional[single_order_max_contracts_change_request_message_at] = (single_order_max_contracts_change_request_message_base + 26 + single_order_max_contracts_change_request_message_at + 1) % 256; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 4 -> single_order_max_contracts_change_request_message_record.efid_optional[single_order_max_contracts_change_request_message_at] = (single_order_max_contracts_change_request_message_base + 26 + single_order_max_contracts_change_request_message_at + 1) % 256; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
@@ -2498,17 +2498,17 @@ inline ramp_single_order_max_contracts_change_request_message(single_order_max_c
 inline encode_single_order_max_contracts_change_request_message(single_order_max_contracts_change_request_message_record) {
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 20 -> wire[at] = single_order_max_contracts_change_request_message_record.cl_ord_id_single_order_max_contracts_change_request_cl_ord_id[single_order_max_contracts_change_request_message_at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 20 -> wire[at] = single_order_max_contracts_change_request_message_record.cl_ord_id[single_order_max_contracts_change_request_message_at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 6 -> wire[at] = single_order_max_contracts_change_request_message_record.underlier_single_order_max_contracts_change_request_underlier_optional[single_order_max_contracts_change_request_message_at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 6 -> wire[at] = single_order_max_contracts_change_request_message_record.underlier_optional[single_order_max_contracts_change_request_message_at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 4 -> wire[at] = single_order_max_contracts_change_request_message_record.efid_single_order_max_contracts_change_request_efid_optional[single_order_max_contracts_change_request_message_at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 4 -> wire[at] = single_order_max_contracts_change_request_message_record.efid_optional[single_order_max_contracts_change_request_message_at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
@@ -2528,17 +2528,17 @@ inline encode_single_order_max_contracts_change_request_message(single_order_max
 inline decode_single_order_max_contracts_change_request_message(single_order_max_contracts_change_request_message_record) {
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 20 -> single_order_max_contracts_change_request_message_record.cl_ord_id_single_order_max_contracts_change_request_cl_ord_id[single_order_max_contracts_change_request_message_at] = wire[at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 20 -> single_order_max_contracts_change_request_message_record.cl_ord_id[single_order_max_contracts_change_request_message_at] = wire[at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 6 -> single_order_max_contracts_change_request_message_record.underlier_single_order_max_contracts_change_request_underlier_optional[single_order_max_contracts_change_request_message_at] = wire[at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 6 -> single_order_max_contracts_change_request_message_record.underlier_optional[single_order_max_contracts_change_request_message_at] = wire[at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 4 -> single_order_max_contracts_change_request_message_record.efid_single_order_max_contracts_change_request_efid_optional[single_order_max_contracts_change_request_message_at] = wire[at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 4 -> single_order_max_contracts_change_request_message_record.efid_optional[single_order_max_contracts_change_request_message_at] = wire[at]; at = at + 1; single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
@@ -2558,17 +2558,17 @@ inline decode_single_order_max_contracts_change_request_message(single_order_max
 inline equal_single_order_max_contracts_change_request_message(single_order_max_contracts_change_request_message_read, single_order_max_contracts_change_request_message_written) {
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 20 -> assert(single_order_max_contracts_change_request_message_read.cl_ord_id_single_order_max_contracts_change_request_cl_ord_id[single_order_max_contracts_change_request_message_at] == single_order_max_contracts_change_request_message_written.cl_ord_id_single_order_max_contracts_change_request_cl_ord_id[single_order_max_contracts_change_request_message_at]); single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 20 -> assert(single_order_max_contracts_change_request_message_read.cl_ord_id[single_order_max_contracts_change_request_message_at] == single_order_max_contracts_change_request_message_written.cl_ord_id[single_order_max_contracts_change_request_message_at]); single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 6 -> assert(single_order_max_contracts_change_request_message_read.underlier_single_order_max_contracts_change_request_underlier_optional[single_order_max_contracts_change_request_message_at] == single_order_max_contracts_change_request_message_written.underlier_single_order_max_contracts_change_request_underlier_optional[single_order_max_contracts_change_request_message_at]); single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 6 -> assert(single_order_max_contracts_change_request_message_read.underlier_optional[single_order_max_contracts_change_request_message_at] == single_order_max_contracts_change_request_message_written.underlier_optional[single_order_max_contracts_change_request_message_at]); single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
   do
-  :: single_order_max_contracts_change_request_message_at < 4 -> assert(single_order_max_contracts_change_request_message_read.efid_single_order_max_contracts_change_request_efid_optional[single_order_max_contracts_change_request_message_at] == single_order_max_contracts_change_request_message_written.efid_single_order_max_contracts_change_request_efid_optional[single_order_max_contracts_change_request_message_at]); single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
+  :: single_order_max_contracts_change_request_message_at < 4 -> assert(single_order_max_contracts_change_request_message_read.efid_optional[single_order_max_contracts_change_request_message_at] == single_order_max_contracts_change_request_message_written.efid_optional[single_order_max_contracts_change_request_message_at]); single_order_max_contracts_change_request_message_at = single_order_max_contracts_change_request_message_at + 1
   :: else -> break
   od;
   single_order_max_contracts_change_request_message_at = 0;
@@ -2588,9 +2588,9 @@ inline equal_single_order_max_contracts_change_request_message(single_order_max_
 
 /* SingleOrderAllowMarketOrdersChangeRequestMessage */
 typedef SingleOrderAllowMarketOrdersChangeRequestMessage {
-  byte cl_ord_id_single_order_allow_market_orders_change_request_cl_ord_id[20];
-  byte underlier_single_order_allow_market_orders_change_request_underlier_optional[6];
-  byte efid_single_order_allow_market_orders_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte allow_market_orders
 };
@@ -2601,17 +2601,17 @@ int single_order_allow_market_orders_change_request_message_at;
 inline fill_single_order_allow_market_orders_change_request_message(single_order_allow_market_orders_change_request_message_record, single_order_allow_market_orders_change_request_message_value) {
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 20 -> single_order_allow_market_orders_change_request_message_record.cl_ord_id_single_order_allow_market_orders_change_request_cl_ord_id[single_order_allow_market_orders_change_request_message_at] = single_order_allow_market_orders_change_request_message_value; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 20 -> single_order_allow_market_orders_change_request_message_record.cl_ord_id[single_order_allow_market_orders_change_request_message_at] = single_order_allow_market_orders_change_request_message_value; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 6 -> single_order_allow_market_orders_change_request_message_record.underlier_single_order_allow_market_orders_change_request_underlier_optional[single_order_allow_market_orders_change_request_message_at] = single_order_allow_market_orders_change_request_message_value; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 6 -> single_order_allow_market_orders_change_request_message_record.underlier_optional[single_order_allow_market_orders_change_request_message_at] = single_order_allow_market_orders_change_request_message_value; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 4 -> single_order_allow_market_orders_change_request_message_record.efid_single_order_allow_market_orders_change_request_efid_optional[single_order_allow_market_orders_change_request_message_at] = single_order_allow_market_orders_change_request_message_value; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 4 -> single_order_allow_market_orders_change_request_message_record.efid_optional[single_order_allow_market_orders_change_request_message_at] = single_order_allow_market_orders_change_request_message_value; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
@@ -2627,17 +2627,17 @@ inline fill_single_order_allow_market_orders_change_request_message(single_order
 inline ramp_single_order_allow_market_orders_change_request_message(single_order_allow_market_orders_change_request_message_record, single_order_allow_market_orders_change_request_message_base) {
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 20 -> single_order_allow_market_orders_change_request_message_record.cl_ord_id_single_order_allow_market_orders_change_request_cl_ord_id[single_order_allow_market_orders_change_request_message_at] = (single_order_allow_market_orders_change_request_message_base + 0 + single_order_allow_market_orders_change_request_message_at + 1) % 256; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 20 -> single_order_allow_market_orders_change_request_message_record.cl_ord_id[single_order_allow_market_orders_change_request_message_at] = (single_order_allow_market_orders_change_request_message_base + 0 + single_order_allow_market_orders_change_request_message_at + 1) % 256; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 6 -> single_order_allow_market_orders_change_request_message_record.underlier_single_order_allow_market_orders_change_request_underlier_optional[single_order_allow_market_orders_change_request_message_at] = (single_order_allow_market_orders_change_request_message_base + 20 + single_order_allow_market_orders_change_request_message_at + 1) % 256; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 6 -> single_order_allow_market_orders_change_request_message_record.underlier_optional[single_order_allow_market_orders_change_request_message_at] = (single_order_allow_market_orders_change_request_message_base + 20 + single_order_allow_market_orders_change_request_message_at + 1) % 256; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 4 -> single_order_allow_market_orders_change_request_message_record.efid_single_order_allow_market_orders_change_request_efid_optional[single_order_allow_market_orders_change_request_message_at] = (single_order_allow_market_orders_change_request_message_base + 26 + single_order_allow_market_orders_change_request_message_at + 1) % 256; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 4 -> single_order_allow_market_orders_change_request_message_record.efid_optional[single_order_allow_market_orders_change_request_message_at] = (single_order_allow_market_orders_change_request_message_base + 26 + single_order_allow_market_orders_change_request_message_at + 1) % 256; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
@@ -2653,17 +2653,17 @@ inline ramp_single_order_allow_market_orders_change_request_message(single_order
 inline encode_single_order_allow_market_orders_change_request_message(single_order_allow_market_orders_change_request_message_record) {
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 20 -> wire[at] = single_order_allow_market_orders_change_request_message_record.cl_ord_id_single_order_allow_market_orders_change_request_cl_ord_id[single_order_allow_market_orders_change_request_message_at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 20 -> wire[at] = single_order_allow_market_orders_change_request_message_record.cl_ord_id[single_order_allow_market_orders_change_request_message_at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 6 -> wire[at] = single_order_allow_market_orders_change_request_message_record.underlier_single_order_allow_market_orders_change_request_underlier_optional[single_order_allow_market_orders_change_request_message_at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 6 -> wire[at] = single_order_allow_market_orders_change_request_message_record.underlier_optional[single_order_allow_market_orders_change_request_message_at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 4 -> wire[at] = single_order_allow_market_orders_change_request_message_record.efid_single_order_allow_market_orders_change_request_efid_optional[single_order_allow_market_orders_change_request_message_at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 4 -> wire[at] = single_order_allow_market_orders_change_request_message_record.efid_optional[single_order_allow_market_orders_change_request_message_at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
@@ -2679,17 +2679,17 @@ inline encode_single_order_allow_market_orders_change_request_message(single_ord
 inline decode_single_order_allow_market_orders_change_request_message(single_order_allow_market_orders_change_request_message_record) {
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 20 -> single_order_allow_market_orders_change_request_message_record.cl_ord_id_single_order_allow_market_orders_change_request_cl_ord_id[single_order_allow_market_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 20 -> single_order_allow_market_orders_change_request_message_record.cl_ord_id[single_order_allow_market_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 6 -> single_order_allow_market_orders_change_request_message_record.underlier_single_order_allow_market_orders_change_request_underlier_optional[single_order_allow_market_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 6 -> single_order_allow_market_orders_change_request_message_record.underlier_optional[single_order_allow_market_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 4 -> single_order_allow_market_orders_change_request_message_record.efid_single_order_allow_market_orders_change_request_efid_optional[single_order_allow_market_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 4 -> single_order_allow_market_orders_change_request_message_record.efid_optional[single_order_allow_market_orders_change_request_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
@@ -2705,17 +2705,17 @@ inline decode_single_order_allow_market_orders_change_request_message(single_ord
 inline equal_single_order_allow_market_orders_change_request_message(single_order_allow_market_orders_change_request_message_read, single_order_allow_market_orders_change_request_message_written) {
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 20 -> assert(single_order_allow_market_orders_change_request_message_read.cl_ord_id_single_order_allow_market_orders_change_request_cl_ord_id[single_order_allow_market_orders_change_request_message_at] == single_order_allow_market_orders_change_request_message_written.cl_ord_id_single_order_allow_market_orders_change_request_cl_ord_id[single_order_allow_market_orders_change_request_message_at]); single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 20 -> assert(single_order_allow_market_orders_change_request_message_read.cl_ord_id[single_order_allow_market_orders_change_request_message_at] == single_order_allow_market_orders_change_request_message_written.cl_ord_id[single_order_allow_market_orders_change_request_message_at]); single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 6 -> assert(single_order_allow_market_orders_change_request_message_read.underlier_single_order_allow_market_orders_change_request_underlier_optional[single_order_allow_market_orders_change_request_message_at] == single_order_allow_market_orders_change_request_message_written.underlier_single_order_allow_market_orders_change_request_underlier_optional[single_order_allow_market_orders_change_request_message_at]); single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 6 -> assert(single_order_allow_market_orders_change_request_message_read.underlier_optional[single_order_allow_market_orders_change_request_message_at] == single_order_allow_market_orders_change_request_message_written.underlier_optional[single_order_allow_market_orders_change_request_message_at]); single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
   do
-  :: single_order_allow_market_orders_change_request_message_at < 4 -> assert(single_order_allow_market_orders_change_request_message_read.efid_single_order_allow_market_orders_change_request_efid_optional[single_order_allow_market_orders_change_request_message_at] == single_order_allow_market_orders_change_request_message_written.efid_single_order_allow_market_orders_change_request_efid_optional[single_order_allow_market_orders_change_request_message_at]); single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
+  :: single_order_allow_market_orders_change_request_message_at < 4 -> assert(single_order_allow_market_orders_change_request_message_read.efid_optional[single_order_allow_market_orders_change_request_message_at] == single_order_allow_market_orders_change_request_message_written.efid_optional[single_order_allow_market_orders_change_request_message_at]); single_order_allow_market_orders_change_request_message_at = single_order_allow_market_orders_change_request_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_change_request_message_at = 0;
@@ -2731,9 +2731,9 @@ inline equal_single_order_allow_market_orders_change_request_message(single_orde
 
 /* SingleOrderRestrictedUnderlierChangeRequestMessage */
 typedef SingleOrderRestrictedUnderlierChangeRequestMessage {
-  byte cl_ord_id_single_order_restricted_underlier_change_request_cl_ord_id[20];
-  byte underlier_single_order_restricted_underlier_change_request_underlier[6];
-  byte efid_single_order_restricted_underlier_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte restricted
 };
@@ -2744,17 +2744,17 @@ int single_order_restricted_underlier_change_request_message_at;
 inline fill_single_order_restricted_underlier_change_request_message(single_order_restricted_underlier_change_request_message_record, single_order_restricted_underlier_change_request_message_value) {
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 20 -> single_order_restricted_underlier_change_request_message_record.cl_ord_id_single_order_restricted_underlier_change_request_cl_ord_id[single_order_restricted_underlier_change_request_message_at] = single_order_restricted_underlier_change_request_message_value; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 20 -> single_order_restricted_underlier_change_request_message_record.cl_ord_id[single_order_restricted_underlier_change_request_message_at] = single_order_restricted_underlier_change_request_message_value; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 6 -> single_order_restricted_underlier_change_request_message_record.underlier_single_order_restricted_underlier_change_request_underlier[single_order_restricted_underlier_change_request_message_at] = single_order_restricted_underlier_change_request_message_value; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 6 -> single_order_restricted_underlier_change_request_message_record.underlier[single_order_restricted_underlier_change_request_message_at] = single_order_restricted_underlier_change_request_message_value; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 4 -> single_order_restricted_underlier_change_request_message_record.efid_single_order_restricted_underlier_change_request_efid_optional[single_order_restricted_underlier_change_request_message_at] = single_order_restricted_underlier_change_request_message_value; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 4 -> single_order_restricted_underlier_change_request_message_record.efid_optional[single_order_restricted_underlier_change_request_message_at] = single_order_restricted_underlier_change_request_message_value; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
@@ -2770,17 +2770,17 @@ inline fill_single_order_restricted_underlier_change_request_message(single_orde
 inline ramp_single_order_restricted_underlier_change_request_message(single_order_restricted_underlier_change_request_message_record, single_order_restricted_underlier_change_request_message_base) {
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 20 -> single_order_restricted_underlier_change_request_message_record.cl_ord_id_single_order_restricted_underlier_change_request_cl_ord_id[single_order_restricted_underlier_change_request_message_at] = (single_order_restricted_underlier_change_request_message_base + 0 + single_order_restricted_underlier_change_request_message_at + 1) % 256; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 20 -> single_order_restricted_underlier_change_request_message_record.cl_ord_id[single_order_restricted_underlier_change_request_message_at] = (single_order_restricted_underlier_change_request_message_base + 0 + single_order_restricted_underlier_change_request_message_at + 1) % 256; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 6 -> single_order_restricted_underlier_change_request_message_record.underlier_single_order_restricted_underlier_change_request_underlier[single_order_restricted_underlier_change_request_message_at] = (single_order_restricted_underlier_change_request_message_base + 20 + single_order_restricted_underlier_change_request_message_at + 1) % 256; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 6 -> single_order_restricted_underlier_change_request_message_record.underlier[single_order_restricted_underlier_change_request_message_at] = (single_order_restricted_underlier_change_request_message_base + 20 + single_order_restricted_underlier_change_request_message_at + 1) % 256; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 4 -> single_order_restricted_underlier_change_request_message_record.efid_single_order_restricted_underlier_change_request_efid_optional[single_order_restricted_underlier_change_request_message_at] = (single_order_restricted_underlier_change_request_message_base + 26 + single_order_restricted_underlier_change_request_message_at + 1) % 256; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 4 -> single_order_restricted_underlier_change_request_message_record.efid_optional[single_order_restricted_underlier_change_request_message_at] = (single_order_restricted_underlier_change_request_message_base + 26 + single_order_restricted_underlier_change_request_message_at + 1) % 256; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
@@ -2796,17 +2796,17 @@ inline ramp_single_order_restricted_underlier_change_request_message(single_orde
 inline encode_single_order_restricted_underlier_change_request_message(single_order_restricted_underlier_change_request_message_record) {
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 20 -> wire[at] = single_order_restricted_underlier_change_request_message_record.cl_ord_id_single_order_restricted_underlier_change_request_cl_ord_id[single_order_restricted_underlier_change_request_message_at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 20 -> wire[at] = single_order_restricted_underlier_change_request_message_record.cl_ord_id[single_order_restricted_underlier_change_request_message_at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 6 -> wire[at] = single_order_restricted_underlier_change_request_message_record.underlier_single_order_restricted_underlier_change_request_underlier[single_order_restricted_underlier_change_request_message_at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 6 -> wire[at] = single_order_restricted_underlier_change_request_message_record.underlier[single_order_restricted_underlier_change_request_message_at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 4 -> wire[at] = single_order_restricted_underlier_change_request_message_record.efid_single_order_restricted_underlier_change_request_efid_optional[single_order_restricted_underlier_change_request_message_at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 4 -> wire[at] = single_order_restricted_underlier_change_request_message_record.efid_optional[single_order_restricted_underlier_change_request_message_at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
@@ -2822,17 +2822,17 @@ inline encode_single_order_restricted_underlier_change_request_message(single_or
 inline decode_single_order_restricted_underlier_change_request_message(single_order_restricted_underlier_change_request_message_record) {
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 20 -> single_order_restricted_underlier_change_request_message_record.cl_ord_id_single_order_restricted_underlier_change_request_cl_ord_id[single_order_restricted_underlier_change_request_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 20 -> single_order_restricted_underlier_change_request_message_record.cl_ord_id[single_order_restricted_underlier_change_request_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 6 -> single_order_restricted_underlier_change_request_message_record.underlier_single_order_restricted_underlier_change_request_underlier[single_order_restricted_underlier_change_request_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 6 -> single_order_restricted_underlier_change_request_message_record.underlier[single_order_restricted_underlier_change_request_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 4 -> single_order_restricted_underlier_change_request_message_record.efid_single_order_restricted_underlier_change_request_efid_optional[single_order_restricted_underlier_change_request_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 4 -> single_order_restricted_underlier_change_request_message_record.efid_optional[single_order_restricted_underlier_change_request_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
@@ -2848,17 +2848,17 @@ inline decode_single_order_restricted_underlier_change_request_message(single_or
 inline equal_single_order_restricted_underlier_change_request_message(single_order_restricted_underlier_change_request_message_read, single_order_restricted_underlier_change_request_message_written) {
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 20 -> assert(single_order_restricted_underlier_change_request_message_read.cl_ord_id_single_order_restricted_underlier_change_request_cl_ord_id[single_order_restricted_underlier_change_request_message_at] == single_order_restricted_underlier_change_request_message_written.cl_ord_id_single_order_restricted_underlier_change_request_cl_ord_id[single_order_restricted_underlier_change_request_message_at]); single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 20 -> assert(single_order_restricted_underlier_change_request_message_read.cl_ord_id[single_order_restricted_underlier_change_request_message_at] == single_order_restricted_underlier_change_request_message_written.cl_ord_id[single_order_restricted_underlier_change_request_message_at]); single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 6 -> assert(single_order_restricted_underlier_change_request_message_read.underlier_single_order_restricted_underlier_change_request_underlier[single_order_restricted_underlier_change_request_message_at] == single_order_restricted_underlier_change_request_message_written.underlier_single_order_restricted_underlier_change_request_underlier[single_order_restricted_underlier_change_request_message_at]); single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 6 -> assert(single_order_restricted_underlier_change_request_message_read.underlier[single_order_restricted_underlier_change_request_message_at] == single_order_restricted_underlier_change_request_message_written.underlier[single_order_restricted_underlier_change_request_message_at]); single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
   do
-  :: single_order_restricted_underlier_change_request_message_at < 4 -> assert(single_order_restricted_underlier_change_request_message_read.efid_single_order_restricted_underlier_change_request_efid_optional[single_order_restricted_underlier_change_request_message_at] == single_order_restricted_underlier_change_request_message_written.efid_single_order_restricted_underlier_change_request_efid_optional[single_order_restricted_underlier_change_request_message_at]); single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
+  :: single_order_restricted_underlier_change_request_message_at < 4 -> assert(single_order_restricted_underlier_change_request_message_read.efid_optional[single_order_restricted_underlier_change_request_message_at] == single_order_restricted_underlier_change_request_message_written.efid_optional[single_order_restricted_underlier_change_request_message_at]); single_order_restricted_underlier_change_request_message_at = single_order_restricted_underlier_change_request_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_change_request_message_at = 0;
@@ -2874,9 +2874,9 @@ inline equal_single_order_restricted_underlier_change_request_message(single_ord
 
 /* CPGrossNotionalThresholdChangeRequestMessage */
 typedef CpGrossNotionalThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_gross_notional_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_gross_notional_threshold_change_request_underlier_optional[6];
-  byte efid_cp_gross_notional_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte price_in_dollars[8]
 };
@@ -2887,17 +2887,17 @@ int cp_gross_notional_threshold_change_request_message_at;
 inline fill_cp_gross_notional_threshold_change_request_message(cp_gross_notional_threshold_change_request_message_record, cp_gross_notional_threshold_change_request_message_value) {
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 20 -> cp_gross_notional_threshold_change_request_message_record.cl_ord_id_cp_gross_notional_threshold_change_request_cl_ord_id[cp_gross_notional_threshold_change_request_message_at] = cp_gross_notional_threshold_change_request_message_value; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 20 -> cp_gross_notional_threshold_change_request_message_record.cl_ord_id[cp_gross_notional_threshold_change_request_message_at] = cp_gross_notional_threshold_change_request_message_value; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 6 -> cp_gross_notional_threshold_change_request_message_record.underlier_cp_gross_notional_threshold_change_request_underlier_optional[cp_gross_notional_threshold_change_request_message_at] = cp_gross_notional_threshold_change_request_message_value; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 6 -> cp_gross_notional_threshold_change_request_message_record.underlier_optional[cp_gross_notional_threshold_change_request_message_at] = cp_gross_notional_threshold_change_request_message_value; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 4 -> cp_gross_notional_threshold_change_request_message_record.efid_cp_gross_notional_threshold_change_request_efid_optional[cp_gross_notional_threshold_change_request_message_at] = cp_gross_notional_threshold_change_request_message_value; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 4 -> cp_gross_notional_threshold_change_request_message_record.efid_optional[cp_gross_notional_threshold_change_request_message_at] = cp_gross_notional_threshold_change_request_message_value; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
@@ -2917,17 +2917,17 @@ inline fill_cp_gross_notional_threshold_change_request_message(cp_gross_notional
 inline ramp_cp_gross_notional_threshold_change_request_message(cp_gross_notional_threshold_change_request_message_record, cp_gross_notional_threshold_change_request_message_base) {
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 20 -> cp_gross_notional_threshold_change_request_message_record.cl_ord_id_cp_gross_notional_threshold_change_request_cl_ord_id[cp_gross_notional_threshold_change_request_message_at] = (cp_gross_notional_threshold_change_request_message_base + 0 + cp_gross_notional_threshold_change_request_message_at + 1) % 256; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 20 -> cp_gross_notional_threshold_change_request_message_record.cl_ord_id[cp_gross_notional_threshold_change_request_message_at] = (cp_gross_notional_threshold_change_request_message_base + 0 + cp_gross_notional_threshold_change_request_message_at + 1) % 256; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 6 -> cp_gross_notional_threshold_change_request_message_record.underlier_cp_gross_notional_threshold_change_request_underlier_optional[cp_gross_notional_threshold_change_request_message_at] = (cp_gross_notional_threshold_change_request_message_base + 20 + cp_gross_notional_threshold_change_request_message_at + 1) % 256; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 6 -> cp_gross_notional_threshold_change_request_message_record.underlier_optional[cp_gross_notional_threshold_change_request_message_at] = (cp_gross_notional_threshold_change_request_message_base + 20 + cp_gross_notional_threshold_change_request_message_at + 1) % 256; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 4 -> cp_gross_notional_threshold_change_request_message_record.efid_cp_gross_notional_threshold_change_request_efid_optional[cp_gross_notional_threshold_change_request_message_at] = (cp_gross_notional_threshold_change_request_message_base + 26 + cp_gross_notional_threshold_change_request_message_at + 1) % 256; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 4 -> cp_gross_notional_threshold_change_request_message_record.efid_optional[cp_gross_notional_threshold_change_request_message_at] = (cp_gross_notional_threshold_change_request_message_base + 26 + cp_gross_notional_threshold_change_request_message_at + 1) % 256; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
@@ -2947,17 +2947,17 @@ inline ramp_cp_gross_notional_threshold_change_request_message(cp_gross_notional
 inline encode_cp_gross_notional_threshold_change_request_message(cp_gross_notional_threshold_change_request_message_record) {
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_gross_notional_threshold_change_request_message_record.cl_ord_id_cp_gross_notional_threshold_change_request_cl_ord_id[cp_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_gross_notional_threshold_change_request_message_record.cl_ord_id[cp_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_gross_notional_threshold_change_request_message_record.underlier_cp_gross_notional_threshold_change_request_underlier_optional[cp_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_gross_notional_threshold_change_request_message_record.underlier_optional[cp_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_gross_notional_threshold_change_request_message_record.efid_cp_gross_notional_threshold_change_request_efid_optional[cp_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_gross_notional_threshold_change_request_message_record.efid_optional[cp_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
@@ -2977,17 +2977,17 @@ inline encode_cp_gross_notional_threshold_change_request_message(cp_gross_notion
 inline decode_cp_gross_notional_threshold_change_request_message(cp_gross_notional_threshold_change_request_message_record) {
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 20 -> cp_gross_notional_threshold_change_request_message_record.cl_ord_id_cp_gross_notional_threshold_change_request_cl_ord_id[cp_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 20 -> cp_gross_notional_threshold_change_request_message_record.cl_ord_id[cp_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 6 -> cp_gross_notional_threshold_change_request_message_record.underlier_cp_gross_notional_threshold_change_request_underlier_optional[cp_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 6 -> cp_gross_notional_threshold_change_request_message_record.underlier_optional[cp_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 4 -> cp_gross_notional_threshold_change_request_message_record.efid_cp_gross_notional_threshold_change_request_efid_optional[cp_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 4 -> cp_gross_notional_threshold_change_request_message_record.efid_optional[cp_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
@@ -3007,17 +3007,17 @@ inline decode_cp_gross_notional_threshold_change_request_message(cp_gross_notion
 inline equal_cp_gross_notional_threshold_change_request_message(cp_gross_notional_threshold_change_request_message_read, cp_gross_notional_threshold_change_request_message_written) {
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 20 -> assert(cp_gross_notional_threshold_change_request_message_read.cl_ord_id_cp_gross_notional_threshold_change_request_cl_ord_id[cp_gross_notional_threshold_change_request_message_at] == cp_gross_notional_threshold_change_request_message_written.cl_ord_id_cp_gross_notional_threshold_change_request_cl_ord_id[cp_gross_notional_threshold_change_request_message_at]); cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 20 -> assert(cp_gross_notional_threshold_change_request_message_read.cl_ord_id[cp_gross_notional_threshold_change_request_message_at] == cp_gross_notional_threshold_change_request_message_written.cl_ord_id[cp_gross_notional_threshold_change_request_message_at]); cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 6 -> assert(cp_gross_notional_threshold_change_request_message_read.underlier_cp_gross_notional_threshold_change_request_underlier_optional[cp_gross_notional_threshold_change_request_message_at] == cp_gross_notional_threshold_change_request_message_written.underlier_cp_gross_notional_threshold_change_request_underlier_optional[cp_gross_notional_threshold_change_request_message_at]); cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 6 -> assert(cp_gross_notional_threshold_change_request_message_read.underlier_optional[cp_gross_notional_threshold_change_request_message_at] == cp_gross_notional_threshold_change_request_message_written.underlier_optional[cp_gross_notional_threshold_change_request_message_at]); cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_gross_notional_threshold_change_request_message_at < 4 -> assert(cp_gross_notional_threshold_change_request_message_read.efid_cp_gross_notional_threshold_change_request_efid_optional[cp_gross_notional_threshold_change_request_message_at] == cp_gross_notional_threshold_change_request_message_written.efid_cp_gross_notional_threshold_change_request_efid_optional[cp_gross_notional_threshold_change_request_message_at]); cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
+  :: cp_gross_notional_threshold_change_request_message_at < 4 -> assert(cp_gross_notional_threshold_change_request_message_read.efid_optional[cp_gross_notional_threshold_change_request_message_at] == cp_gross_notional_threshold_change_request_message_written.efid_optional[cp_gross_notional_threshold_change_request_message_at]); cp_gross_notional_threshold_change_request_message_at = cp_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_gross_notional_threshold_change_request_message_at = 0;
@@ -3037,9 +3037,9 @@ inline equal_cp_gross_notional_threshold_change_request_message(cp_gross_notiona
 
 /* CPMarketOrderGrossNotionalThresholdChangeRequestMessage */
 typedef CpMarketOrderGrossNotionalThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_market_order_gross_notional_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_market_order_gross_notional_threshold_change_request_underli_lkjc0k[6];
-  byte efid_cp_market_order_gross_notional_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte price_in_dollars[8]
 };
@@ -3050,17 +3050,17 @@ int cp_market_order_gross_notional_threshold_change_request_message_at;
 inline fill_cp_market_order_gross_notional_threshold_change_request_message(cp_market_order_gross_notional_threshold_change_request_message_record, cp_market_order_gross_notional_threshold_change_request_message_value) {
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> cp_market_order_gross_notional_threshold_change_request_message_record.cl_ord_id_cp_market_order_gross_notional_threshold_change_request_cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at] = cp_market_order_gross_notional_threshold_change_request_message_value; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> cp_market_order_gross_notional_threshold_change_request_message_record.cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at] = cp_market_order_gross_notional_threshold_change_request_message_value; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> cp_market_order_gross_notional_threshold_change_request_message_record.underlier_cp_market_order_gross_notional_threshold_change_request_underli_lkjc0k[cp_market_order_gross_notional_threshold_change_request_message_at] = cp_market_order_gross_notional_threshold_change_request_message_value; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> cp_market_order_gross_notional_threshold_change_request_message_record.underlier_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = cp_market_order_gross_notional_threshold_change_request_message_value; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> cp_market_order_gross_notional_threshold_change_request_message_record.efid_cp_market_order_gross_notional_threshold_change_request_efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = cp_market_order_gross_notional_threshold_change_request_message_value; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> cp_market_order_gross_notional_threshold_change_request_message_record.efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = cp_market_order_gross_notional_threshold_change_request_message_value; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
@@ -3080,17 +3080,17 @@ inline fill_cp_market_order_gross_notional_threshold_change_request_message(cp_m
 inline ramp_cp_market_order_gross_notional_threshold_change_request_message(cp_market_order_gross_notional_threshold_change_request_message_record, cp_market_order_gross_notional_threshold_change_request_message_base) {
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> cp_market_order_gross_notional_threshold_change_request_message_record.cl_ord_id_cp_market_order_gross_notional_threshold_change_request_cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at] = (cp_market_order_gross_notional_threshold_change_request_message_base + 0 + cp_market_order_gross_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> cp_market_order_gross_notional_threshold_change_request_message_record.cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at] = (cp_market_order_gross_notional_threshold_change_request_message_base + 0 + cp_market_order_gross_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> cp_market_order_gross_notional_threshold_change_request_message_record.underlier_cp_market_order_gross_notional_threshold_change_request_underli_lkjc0k[cp_market_order_gross_notional_threshold_change_request_message_at] = (cp_market_order_gross_notional_threshold_change_request_message_base + 20 + cp_market_order_gross_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> cp_market_order_gross_notional_threshold_change_request_message_record.underlier_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = (cp_market_order_gross_notional_threshold_change_request_message_base + 20 + cp_market_order_gross_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> cp_market_order_gross_notional_threshold_change_request_message_record.efid_cp_market_order_gross_notional_threshold_change_request_efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = (cp_market_order_gross_notional_threshold_change_request_message_base + 26 + cp_market_order_gross_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> cp_market_order_gross_notional_threshold_change_request_message_record.efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = (cp_market_order_gross_notional_threshold_change_request_message_base + 26 + cp_market_order_gross_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
@@ -3110,17 +3110,17 @@ inline ramp_cp_market_order_gross_notional_threshold_change_request_message(cp_m
 inline encode_cp_market_order_gross_notional_threshold_change_request_message(cp_market_order_gross_notional_threshold_change_request_message_record) {
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_market_order_gross_notional_threshold_change_request_message_record.cl_ord_id_cp_market_order_gross_notional_threshold_change_request_cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_market_order_gross_notional_threshold_change_request_message_record.cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_market_order_gross_notional_threshold_change_request_message_record.underlier_cp_market_order_gross_notional_threshold_change_request_underli_lkjc0k[cp_market_order_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_market_order_gross_notional_threshold_change_request_message_record.underlier_optional[cp_market_order_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_market_order_gross_notional_threshold_change_request_message_record.efid_cp_market_order_gross_notional_threshold_change_request_efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_market_order_gross_notional_threshold_change_request_message_record.efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
@@ -3140,17 +3140,17 @@ inline encode_cp_market_order_gross_notional_threshold_change_request_message(cp
 inline decode_cp_market_order_gross_notional_threshold_change_request_message(cp_market_order_gross_notional_threshold_change_request_message_record) {
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> cp_market_order_gross_notional_threshold_change_request_message_record.cl_ord_id_cp_market_order_gross_notional_threshold_change_request_cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> cp_market_order_gross_notional_threshold_change_request_message_record.cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> cp_market_order_gross_notional_threshold_change_request_message_record.underlier_cp_market_order_gross_notional_threshold_change_request_underli_lkjc0k[cp_market_order_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> cp_market_order_gross_notional_threshold_change_request_message_record.underlier_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> cp_market_order_gross_notional_threshold_change_request_message_record.efid_cp_market_order_gross_notional_threshold_change_request_efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> cp_market_order_gross_notional_threshold_change_request_message_record.efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
@@ -3170,17 +3170,17 @@ inline decode_cp_market_order_gross_notional_threshold_change_request_message(cp
 inline equal_cp_market_order_gross_notional_threshold_change_request_message(cp_market_order_gross_notional_threshold_change_request_message_read, cp_market_order_gross_notional_threshold_change_request_message_written) {
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> assert(cp_market_order_gross_notional_threshold_change_request_message_read.cl_ord_id_cp_market_order_gross_notional_threshold_change_request_cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at] == cp_market_order_gross_notional_threshold_change_request_message_written.cl_ord_id_cp_market_order_gross_notional_threshold_change_request_cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at]); cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 20 -> assert(cp_market_order_gross_notional_threshold_change_request_message_read.cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at] == cp_market_order_gross_notional_threshold_change_request_message_written.cl_ord_id[cp_market_order_gross_notional_threshold_change_request_message_at]); cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> assert(cp_market_order_gross_notional_threshold_change_request_message_read.underlier_cp_market_order_gross_notional_threshold_change_request_underli_lkjc0k[cp_market_order_gross_notional_threshold_change_request_message_at] == cp_market_order_gross_notional_threshold_change_request_message_written.underlier_cp_market_order_gross_notional_threshold_change_request_underli_lkjc0k[cp_market_order_gross_notional_threshold_change_request_message_at]); cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 6 -> assert(cp_market_order_gross_notional_threshold_change_request_message_read.underlier_optional[cp_market_order_gross_notional_threshold_change_request_message_at] == cp_market_order_gross_notional_threshold_change_request_message_written.underlier_optional[cp_market_order_gross_notional_threshold_change_request_message_at]); cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> assert(cp_market_order_gross_notional_threshold_change_request_message_read.efid_cp_market_order_gross_notional_threshold_change_request_efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at] == cp_market_order_gross_notional_threshold_change_request_message_written.efid_cp_market_order_gross_notional_threshold_change_request_efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at]); cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_gross_notional_threshold_change_request_message_at < 4 -> assert(cp_market_order_gross_notional_threshold_change_request_message_read.efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at] == cp_market_order_gross_notional_threshold_change_request_message_written.efid_optional[cp_market_order_gross_notional_threshold_change_request_message_at]); cp_market_order_gross_notional_threshold_change_request_message_at = cp_market_order_gross_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_gross_notional_threshold_change_request_message_at = 0;
@@ -3200,9 +3200,9 @@ inline equal_cp_market_order_gross_notional_threshold_change_request_message(cp_
 
 /* CPNetNotionalThresholdChangeRequestMessage */
 typedef CpNetNotionalThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_net_notional_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_net_notional_threshold_change_request_underlier_optional[6];
-  byte efid_cp_net_notional_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte price_in_dollars[8]
 };
@@ -3213,17 +3213,17 @@ int cp_net_notional_threshold_change_request_message_at;
 inline fill_cp_net_notional_threshold_change_request_message(cp_net_notional_threshold_change_request_message_record, cp_net_notional_threshold_change_request_message_value) {
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 20 -> cp_net_notional_threshold_change_request_message_record.cl_ord_id_cp_net_notional_threshold_change_request_cl_ord_id[cp_net_notional_threshold_change_request_message_at] = cp_net_notional_threshold_change_request_message_value; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 20 -> cp_net_notional_threshold_change_request_message_record.cl_ord_id[cp_net_notional_threshold_change_request_message_at] = cp_net_notional_threshold_change_request_message_value; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 6 -> cp_net_notional_threshold_change_request_message_record.underlier_cp_net_notional_threshold_change_request_underlier_optional[cp_net_notional_threshold_change_request_message_at] = cp_net_notional_threshold_change_request_message_value; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 6 -> cp_net_notional_threshold_change_request_message_record.underlier_optional[cp_net_notional_threshold_change_request_message_at] = cp_net_notional_threshold_change_request_message_value; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 4 -> cp_net_notional_threshold_change_request_message_record.efid_cp_net_notional_threshold_change_request_efid_optional[cp_net_notional_threshold_change_request_message_at] = cp_net_notional_threshold_change_request_message_value; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 4 -> cp_net_notional_threshold_change_request_message_record.efid_optional[cp_net_notional_threshold_change_request_message_at] = cp_net_notional_threshold_change_request_message_value; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
@@ -3243,17 +3243,17 @@ inline fill_cp_net_notional_threshold_change_request_message(cp_net_notional_thr
 inline ramp_cp_net_notional_threshold_change_request_message(cp_net_notional_threshold_change_request_message_record, cp_net_notional_threshold_change_request_message_base) {
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 20 -> cp_net_notional_threshold_change_request_message_record.cl_ord_id_cp_net_notional_threshold_change_request_cl_ord_id[cp_net_notional_threshold_change_request_message_at] = (cp_net_notional_threshold_change_request_message_base + 0 + cp_net_notional_threshold_change_request_message_at + 1) % 256; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 20 -> cp_net_notional_threshold_change_request_message_record.cl_ord_id[cp_net_notional_threshold_change_request_message_at] = (cp_net_notional_threshold_change_request_message_base + 0 + cp_net_notional_threshold_change_request_message_at + 1) % 256; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 6 -> cp_net_notional_threshold_change_request_message_record.underlier_cp_net_notional_threshold_change_request_underlier_optional[cp_net_notional_threshold_change_request_message_at] = (cp_net_notional_threshold_change_request_message_base + 20 + cp_net_notional_threshold_change_request_message_at + 1) % 256; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 6 -> cp_net_notional_threshold_change_request_message_record.underlier_optional[cp_net_notional_threshold_change_request_message_at] = (cp_net_notional_threshold_change_request_message_base + 20 + cp_net_notional_threshold_change_request_message_at + 1) % 256; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 4 -> cp_net_notional_threshold_change_request_message_record.efid_cp_net_notional_threshold_change_request_efid_optional[cp_net_notional_threshold_change_request_message_at] = (cp_net_notional_threshold_change_request_message_base + 26 + cp_net_notional_threshold_change_request_message_at + 1) % 256; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 4 -> cp_net_notional_threshold_change_request_message_record.efid_optional[cp_net_notional_threshold_change_request_message_at] = (cp_net_notional_threshold_change_request_message_base + 26 + cp_net_notional_threshold_change_request_message_at + 1) % 256; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
@@ -3273,17 +3273,17 @@ inline ramp_cp_net_notional_threshold_change_request_message(cp_net_notional_thr
 inline encode_cp_net_notional_threshold_change_request_message(cp_net_notional_threshold_change_request_message_record) {
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_net_notional_threshold_change_request_message_record.cl_ord_id_cp_net_notional_threshold_change_request_cl_ord_id[cp_net_notional_threshold_change_request_message_at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_net_notional_threshold_change_request_message_record.cl_ord_id[cp_net_notional_threshold_change_request_message_at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_net_notional_threshold_change_request_message_record.underlier_cp_net_notional_threshold_change_request_underlier_optional[cp_net_notional_threshold_change_request_message_at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_net_notional_threshold_change_request_message_record.underlier_optional[cp_net_notional_threshold_change_request_message_at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_net_notional_threshold_change_request_message_record.efid_cp_net_notional_threshold_change_request_efid_optional[cp_net_notional_threshold_change_request_message_at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_net_notional_threshold_change_request_message_record.efid_optional[cp_net_notional_threshold_change_request_message_at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
@@ -3303,17 +3303,17 @@ inline encode_cp_net_notional_threshold_change_request_message(cp_net_notional_t
 inline decode_cp_net_notional_threshold_change_request_message(cp_net_notional_threshold_change_request_message_record) {
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 20 -> cp_net_notional_threshold_change_request_message_record.cl_ord_id_cp_net_notional_threshold_change_request_cl_ord_id[cp_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 20 -> cp_net_notional_threshold_change_request_message_record.cl_ord_id[cp_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 6 -> cp_net_notional_threshold_change_request_message_record.underlier_cp_net_notional_threshold_change_request_underlier_optional[cp_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 6 -> cp_net_notional_threshold_change_request_message_record.underlier_optional[cp_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 4 -> cp_net_notional_threshold_change_request_message_record.efid_cp_net_notional_threshold_change_request_efid_optional[cp_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 4 -> cp_net_notional_threshold_change_request_message_record.efid_optional[cp_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
@@ -3333,17 +3333,17 @@ inline decode_cp_net_notional_threshold_change_request_message(cp_net_notional_t
 inline equal_cp_net_notional_threshold_change_request_message(cp_net_notional_threshold_change_request_message_read, cp_net_notional_threshold_change_request_message_written) {
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 20 -> assert(cp_net_notional_threshold_change_request_message_read.cl_ord_id_cp_net_notional_threshold_change_request_cl_ord_id[cp_net_notional_threshold_change_request_message_at] == cp_net_notional_threshold_change_request_message_written.cl_ord_id_cp_net_notional_threshold_change_request_cl_ord_id[cp_net_notional_threshold_change_request_message_at]); cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 20 -> assert(cp_net_notional_threshold_change_request_message_read.cl_ord_id[cp_net_notional_threshold_change_request_message_at] == cp_net_notional_threshold_change_request_message_written.cl_ord_id[cp_net_notional_threshold_change_request_message_at]); cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 6 -> assert(cp_net_notional_threshold_change_request_message_read.underlier_cp_net_notional_threshold_change_request_underlier_optional[cp_net_notional_threshold_change_request_message_at] == cp_net_notional_threshold_change_request_message_written.underlier_cp_net_notional_threshold_change_request_underlier_optional[cp_net_notional_threshold_change_request_message_at]); cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 6 -> assert(cp_net_notional_threshold_change_request_message_read.underlier_optional[cp_net_notional_threshold_change_request_message_at] == cp_net_notional_threshold_change_request_message_written.underlier_optional[cp_net_notional_threshold_change_request_message_at]); cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_net_notional_threshold_change_request_message_at < 4 -> assert(cp_net_notional_threshold_change_request_message_read.efid_cp_net_notional_threshold_change_request_efid_optional[cp_net_notional_threshold_change_request_message_at] == cp_net_notional_threshold_change_request_message_written.efid_cp_net_notional_threshold_change_request_efid_optional[cp_net_notional_threshold_change_request_message_at]); cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
+  :: cp_net_notional_threshold_change_request_message_at < 4 -> assert(cp_net_notional_threshold_change_request_message_read.efid_optional[cp_net_notional_threshold_change_request_message_at] == cp_net_notional_threshold_change_request_message_written.efid_optional[cp_net_notional_threshold_change_request_message_at]); cp_net_notional_threshold_change_request_message_at = cp_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_net_notional_threshold_change_request_message_at = 0;
@@ -3363,9 +3363,9 @@ inline equal_cp_net_notional_threshold_change_request_message(cp_net_notional_th
 
 /* CPMarketOrderNetNotionalThresholdChangeRequestMessage */
 typedef CpMarketOrderNetNotionalThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_market_order_net_notional_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_market_order_net_notional_threshold_change_request_underlier_rrqjwt[6];
-  byte efid_cp_market_order_net_notional_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte price_in_dollars[8]
 };
@@ -3376,17 +3376,17 @@ int cp_market_order_net_notional_threshold_change_request_message_at;
 inline fill_cp_market_order_net_notional_threshold_change_request_message(cp_market_order_net_notional_threshold_change_request_message_record, cp_market_order_net_notional_threshold_change_request_message_value) {
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> cp_market_order_net_notional_threshold_change_request_message_record.cl_ord_id_cp_market_order_net_notional_threshold_change_request_cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at] = cp_market_order_net_notional_threshold_change_request_message_value; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> cp_market_order_net_notional_threshold_change_request_message_record.cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at] = cp_market_order_net_notional_threshold_change_request_message_value; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> cp_market_order_net_notional_threshold_change_request_message_record.underlier_cp_market_order_net_notional_threshold_change_request_underlier_rrqjwt[cp_market_order_net_notional_threshold_change_request_message_at] = cp_market_order_net_notional_threshold_change_request_message_value; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> cp_market_order_net_notional_threshold_change_request_message_record.underlier_optional[cp_market_order_net_notional_threshold_change_request_message_at] = cp_market_order_net_notional_threshold_change_request_message_value; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> cp_market_order_net_notional_threshold_change_request_message_record.efid_cp_market_order_net_notional_threshold_change_request_efid_optional[cp_market_order_net_notional_threshold_change_request_message_at] = cp_market_order_net_notional_threshold_change_request_message_value; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> cp_market_order_net_notional_threshold_change_request_message_record.efid_optional[cp_market_order_net_notional_threshold_change_request_message_at] = cp_market_order_net_notional_threshold_change_request_message_value; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
@@ -3406,17 +3406,17 @@ inline fill_cp_market_order_net_notional_threshold_change_request_message(cp_mar
 inline ramp_cp_market_order_net_notional_threshold_change_request_message(cp_market_order_net_notional_threshold_change_request_message_record, cp_market_order_net_notional_threshold_change_request_message_base) {
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> cp_market_order_net_notional_threshold_change_request_message_record.cl_ord_id_cp_market_order_net_notional_threshold_change_request_cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at] = (cp_market_order_net_notional_threshold_change_request_message_base + 0 + cp_market_order_net_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> cp_market_order_net_notional_threshold_change_request_message_record.cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at] = (cp_market_order_net_notional_threshold_change_request_message_base + 0 + cp_market_order_net_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> cp_market_order_net_notional_threshold_change_request_message_record.underlier_cp_market_order_net_notional_threshold_change_request_underlier_rrqjwt[cp_market_order_net_notional_threshold_change_request_message_at] = (cp_market_order_net_notional_threshold_change_request_message_base + 20 + cp_market_order_net_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> cp_market_order_net_notional_threshold_change_request_message_record.underlier_optional[cp_market_order_net_notional_threshold_change_request_message_at] = (cp_market_order_net_notional_threshold_change_request_message_base + 20 + cp_market_order_net_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> cp_market_order_net_notional_threshold_change_request_message_record.efid_cp_market_order_net_notional_threshold_change_request_efid_optional[cp_market_order_net_notional_threshold_change_request_message_at] = (cp_market_order_net_notional_threshold_change_request_message_base + 26 + cp_market_order_net_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> cp_market_order_net_notional_threshold_change_request_message_record.efid_optional[cp_market_order_net_notional_threshold_change_request_message_at] = (cp_market_order_net_notional_threshold_change_request_message_base + 26 + cp_market_order_net_notional_threshold_change_request_message_at + 1) % 256; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
@@ -3436,17 +3436,17 @@ inline ramp_cp_market_order_net_notional_threshold_change_request_message(cp_mar
 inline encode_cp_market_order_net_notional_threshold_change_request_message(cp_market_order_net_notional_threshold_change_request_message_record) {
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_market_order_net_notional_threshold_change_request_message_record.cl_ord_id_cp_market_order_net_notional_threshold_change_request_cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> wire[at] = cp_market_order_net_notional_threshold_change_request_message_record.cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_market_order_net_notional_threshold_change_request_message_record.underlier_cp_market_order_net_notional_threshold_change_request_underlier_rrqjwt[cp_market_order_net_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> wire[at] = cp_market_order_net_notional_threshold_change_request_message_record.underlier_optional[cp_market_order_net_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_market_order_net_notional_threshold_change_request_message_record.efid_cp_market_order_net_notional_threshold_change_request_efid_optional[cp_market_order_net_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> wire[at] = cp_market_order_net_notional_threshold_change_request_message_record.efid_optional[cp_market_order_net_notional_threshold_change_request_message_at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
@@ -3466,17 +3466,17 @@ inline encode_cp_market_order_net_notional_threshold_change_request_message(cp_m
 inline decode_cp_market_order_net_notional_threshold_change_request_message(cp_market_order_net_notional_threshold_change_request_message_record) {
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> cp_market_order_net_notional_threshold_change_request_message_record.cl_ord_id_cp_market_order_net_notional_threshold_change_request_cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> cp_market_order_net_notional_threshold_change_request_message_record.cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> cp_market_order_net_notional_threshold_change_request_message_record.underlier_cp_market_order_net_notional_threshold_change_request_underlier_rrqjwt[cp_market_order_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> cp_market_order_net_notional_threshold_change_request_message_record.underlier_optional[cp_market_order_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> cp_market_order_net_notional_threshold_change_request_message_record.efid_cp_market_order_net_notional_threshold_change_request_efid_optional[cp_market_order_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> cp_market_order_net_notional_threshold_change_request_message_record.efid_optional[cp_market_order_net_notional_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
@@ -3496,17 +3496,17 @@ inline decode_cp_market_order_net_notional_threshold_change_request_message(cp_m
 inline equal_cp_market_order_net_notional_threshold_change_request_message(cp_market_order_net_notional_threshold_change_request_message_read, cp_market_order_net_notional_threshold_change_request_message_written) {
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> assert(cp_market_order_net_notional_threshold_change_request_message_read.cl_ord_id_cp_market_order_net_notional_threshold_change_request_cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at] == cp_market_order_net_notional_threshold_change_request_message_written.cl_ord_id_cp_market_order_net_notional_threshold_change_request_cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at]); cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 20 -> assert(cp_market_order_net_notional_threshold_change_request_message_read.cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at] == cp_market_order_net_notional_threshold_change_request_message_written.cl_ord_id[cp_market_order_net_notional_threshold_change_request_message_at]); cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> assert(cp_market_order_net_notional_threshold_change_request_message_read.underlier_cp_market_order_net_notional_threshold_change_request_underlier_rrqjwt[cp_market_order_net_notional_threshold_change_request_message_at] == cp_market_order_net_notional_threshold_change_request_message_written.underlier_cp_market_order_net_notional_threshold_change_request_underlier_rrqjwt[cp_market_order_net_notional_threshold_change_request_message_at]); cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 6 -> assert(cp_market_order_net_notional_threshold_change_request_message_read.underlier_optional[cp_market_order_net_notional_threshold_change_request_message_at] == cp_market_order_net_notional_threshold_change_request_message_written.underlier_optional[cp_market_order_net_notional_threshold_change_request_message_at]); cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
   do
-  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> assert(cp_market_order_net_notional_threshold_change_request_message_read.efid_cp_market_order_net_notional_threshold_change_request_efid_optional[cp_market_order_net_notional_threshold_change_request_message_at] == cp_market_order_net_notional_threshold_change_request_message_written.efid_cp_market_order_net_notional_threshold_change_request_efid_optional[cp_market_order_net_notional_threshold_change_request_message_at]); cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
+  :: cp_market_order_net_notional_threshold_change_request_message_at < 4 -> assert(cp_market_order_net_notional_threshold_change_request_message_read.efid_optional[cp_market_order_net_notional_threshold_change_request_message_at] == cp_market_order_net_notional_threshold_change_request_message_written.efid_optional[cp_market_order_net_notional_threshold_change_request_message_at]); cp_market_order_net_notional_threshold_change_request_message_at = cp_market_order_net_notional_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_market_order_net_notional_threshold_change_request_message_at = 0;
@@ -3526,9 +3526,9 @@ inline equal_cp_market_order_net_notional_threshold_change_request_message(cp_ma
 
 /* CPDuplicateOrderThresholdChangeRequestMessage */
 typedef CpDuplicateOrderThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_duplicate_order_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_duplicate_order_threshold_change_request_underlier_optional[6];
-  byte efid_cp_duplicate_order_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte max_dup_orders[4];
   byte use_order_price_in_dup_check_optional;
@@ -3541,17 +3541,17 @@ int cp_duplicate_order_threshold_change_request_message_at;
 inline fill_cp_duplicate_order_threshold_change_request_message(cp_duplicate_order_threshold_change_request_message_record, cp_duplicate_order_threshold_change_request_message_value) {
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> cp_duplicate_order_threshold_change_request_message_record.cl_ord_id_cp_duplicate_order_threshold_change_request_cl_ord_id[cp_duplicate_order_threshold_change_request_message_at] = cp_duplicate_order_threshold_change_request_message_value; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> cp_duplicate_order_threshold_change_request_message_record.cl_ord_id[cp_duplicate_order_threshold_change_request_message_at] = cp_duplicate_order_threshold_change_request_message_value; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> cp_duplicate_order_threshold_change_request_message_record.underlier_cp_duplicate_order_threshold_change_request_underlier_optional[cp_duplicate_order_threshold_change_request_message_at] = cp_duplicate_order_threshold_change_request_message_value; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> cp_duplicate_order_threshold_change_request_message_record.underlier_optional[cp_duplicate_order_threshold_change_request_message_at] = cp_duplicate_order_threshold_change_request_message_value; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> cp_duplicate_order_threshold_change_request_message_record.efid_cp_duplicate_order_threshold_change_request_efid_optional[cp_duplicate_order_threshold_change_request_message_at] = cp_duplicate_order_threshold_change_request_message_value; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> cp_duplicate_order_threshold_change_request_message_record.efid_optional[cp_duplicate_order_threshold_change_request_message_at] = cp_duplicate_order_threshold_change_request_message_value; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
@@ -3577,17 +3577,17 @@ inline fill_cp_duplicate_order_threshold_change_request_message(cp_duplicate_ord
 inline ramp_cp_duplicate_order_threshold_change_request_message(cp_duplicate_order_threshold_change_request_message_record, cp_duplicate_order_threshold_change_request_message_base) {
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> cp_duplicate_order_threshold_change_request_message_record.cl_ord_id_cp_duplicate_order_threshold_change_request_cl_ord_id[cp_duplicate_order_threshold_change_request_message_at] = (cp_duplicate_order_threshold_change_request_message_base + 0 + cp_duplicate_order_threshold_change_request_message_at + 1) % 256; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> cp_duplicate_order_threshold_change_request_message_record.cl_ord_id[cp_duplicate_order_threshold_change_request_message_at] = (cp_duplicate_order_threshold_change_request_message_base + 0 + cp_duplicate_order_threshold_change_request_message_at + 1) % 256; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> cp_duplicate_order_threshold_change_request_message_record.underlier_cp_duplicate_order_threshold_change_request_underlier_optional[cp_duplicate_order_threshold_change_request_message_at] = (cp_duplicate_order_threshold_change_request_message_base + 20 + cp_duplicate_order_threshold_change_request_message_at + 1) % 256; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> cp_duplicate_order_threshold_change_request_message_record.underlier_optional[cp_duplicate_order_threshold_change_request_message_at] = (cp_duplicate_order_threshold_change_request_message_base + 20 + cp_duplicate_order_threshold_change_request_message_at + 1) % 256; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> cp_duplicate_order_threshold_change_request_message_record.efid_cp_duplicate_order_threshold_change_request_efid_optional[cp_duplicate_order_threshold_change_request_message_at] = (cp_duplicate_order_threshold_change_request_message_base + 26 + cp_duplicate_order_threshold_change_request_message_at + 1) % 256; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> cp_duplicate_order_threshold_change_request_message_record.efid_optional[cp_duplicate_order_threshold_change_request_message_at] = (cp_duplicate_order_threshold_change_request_message_base + 26 + cp_duplicate_order_threshold_change_request_message_at + 1) % 256; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
@@ -3613,17 +3613,17 @@ inline ramp_cp_duplicate_order_threshold_change_request_message(cp_duplicate_ord
 inline encode_cp_duplicate_order_threshold_change_request_message(cp_duplicate_order_threshold_change_request_message_record) {
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> wire[at] = cp_duplicate_order_threshold_change_request_message_record.cl_ord_id_cp_duplicate_order_threshold_change_request_cl_ord_id[cp_duplicate_order_threshold_change_request_message_at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> wire[at] = cp_duplicate_order_threshold_change_request_message_record.cl_ord_id[cp_duplicate_order_threshold_change_request_message_at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> wire[at] = cp_duplicate_order_threshold_change_request_message_record.underlier_cp_duplicate_order_threshold_change_request_underlier_optional[cp_duplicate_order_threshold_change_request_message_at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> wire[at] = cp_duplicate_order_threshold_change_request_message_record.underlier_optional[cp_duplicate_order_threshold_change_request_message_at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> wire[at] = cp_duplicate_order_threshold_change_request_message_record.efid_cp_duplicate_order_threshold_change_request_efid_optional[cp_duplicate_order_threshold_change_request_message_at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> wire[at] = cp_duplicate_order_threshold_change_request_message_record.efid_optional[cp_duplicate_order_threshold_change_request_message_at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
@@ -3649,17 +3649,17 @@ inline encode_cp_duplicate_order_threshold_change_request_message(cp_duplicate_o
 inline decode_cp_duplicate_order_threshold_change_request_message(cp_duplicate_order_threshold_change_request_message_record) {
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> cp_duplicate_order_threshold_change_request_message_record.cl_ord_id_cp_duplicate_order_threshold_change_request_cl_ord_id[cp_duplicate_order_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> cp_duplicate_order_threshold_change_request_message_record.cl_ord_id[cp_duplicate_order_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> cp_duplicate_order_threshold_change_request_message_record.underlier_cp_duplicate_order_threshold_change_request_underlier_optional[cp_duplicate_order_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> cp_duplicate_order_threshold_change_request_message_record.underlier_optional[cp_duplicate_order_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> cp_duplicate_order_threshold_change_request_message_record.efid_cp_duplicate_order_threshold_change_request_efid_optional[cp_duplicate_order_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> cp_duplicate_order_threshold_change_request_message_record.efid_optional[cp_duplicate_order_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
@@ -3685,17 +3685,17 @@ inline decode_cp_duplicate_order_threshold_change_request_message(cp_duplicate_o
 inline equal_cp_duplicate_order_threshold_change_request_message(cp_duplicate_order_threshold_change_request_message_read, cp_duplicate_order_threshold_change_request_message_written) {
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> assert(cp_duplicate_order_threshold_change_request_message_read.cl_ord_id_cp_duplicate_order_threshold_change_request_cl_ord_id[cp_duplicate_order_threshold_change_request_message_at] == cp_duplicate_order_threshold_change_request_message_written.cl_ord_id_cp_duplicate_order_threshold_change_request_cl_ord_id[cp_duplicate_order_threshold_change_request_message_at]); cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 20 -> assert(cp_duplicate_order_threshold_change_request_message_read.cl_ord_id[cp_duplicate_order_threshold_change_request_message_at] == cp_duplicate_order_threshold_change_request_message_written.cl_ord_id[cp_duplicate_order_threshold_change_request_message_at]); cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> assert(cp_duplicate_order_threshold_change_request_message_read.underlier_cp_duplicate_order_threshold_change_request_underlier_optional[cp_duplicate_order_threshold_change_request_message_at] == cp_duplicate_order_threshold_change_request_message_written.underlier_cp_duplicate_order_threshold_change_request_underlier_optional[cp_duplicate_order_threshold_change_request_message_at]); cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 6 -> assert(cp_duplicate_order_threshold_change_request_message_read.underlier_optional[cp_duplicate_order_threshold_change_request_message_at] == cp_duplicate_order_threshold_change_request_message_written.underlier_optional[cp_duplicate_order_threshold_change_request_message_at]); cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
   do
-  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> assert(cp_duplicate_order_threshold_change_request_message_read.efid_cp_duplicate_order_threshold_change_request_efid_optional[cp_duplicate_order_threshold_change_request_message_at] == cp_duplicate_order_threshold_change_request_message_written.efid_cp_duplicate_order_threshold_change_request_efid_optional[cp_duplicate_order_threshold_change_request_message_at]); cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
+  :: cp_duplicate_order_threshold_change_request_message_at < 4 -> assert(cp_duplicate_order_threshold_change_request_message_read.efid_optional[cp_duplicate_order_threshold_change_request_message_at] == cp_duplicate_order_threshold_change_request_message_written.efid_optional[cp_duplicate_order_threshold_change_request_message_at]); cp_duplicate_order_threshold_change_request_message_at = cp_duplicate_order_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_duplicate_order_threshold_change_request_message_at = 0;
@@ -3721,9 +3721,9 @@ inline equal_cp_duplicate_order_threshold_change_request_message(cp_duplicate_or
 
 /* CPOrderRateThresholdChangeRequestMessage */
 typedef CpOrderRateThresholdChangeRequestMessage {
-  byte cl_ord_id_cp_order_rate_threshold_change_request_cl_ord_id[20];
-  byte underlier_cp_order_rate_threshold_change_request_underlier_optional[6];
-  byte efid_cp_order_rate_threshold_change_request_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte max_order_msgs[4];
   byte period_in_milli_seconds[4]
@@ -3735,17 +3735,17 @@ int cp_order_rate_threshold_change_request_message_at;
 inline fill_cp_order_rate_threshold_change_request_message(cp_order_rate_threshold_change_request_message_record, cp_order_rate_threshold_change_request_message_value) {
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 20 -> cp_order_rate_threshold_change_request_message_record.cl_ord_id_cp_order_rate_threshold_change_request_cl_ord_id[cp_order_rate_threshold_change_request_message_at] = cp_order_rate_threshold_change_request_message_value; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 20 -> cp_order_rate_threshold_change_request_message_record.cl_ord_id[cp_order_rate_threshold_change_request_message_at] = cp_order_rate_threshold_change_request_message_value; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 6 -> cp_order_rate_threshold_change_request_message_record.underlier_cp_order_rate_threshold_change_request_underlier_optional[cp_order_rate_threshold_change_request_message_at] = cp_order_rate_threshold_change_request_message_value; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 6 -> cp_order_rate_threshold_change_request_message_record.underlier_optional[cp_order_rate_threshold_change_request_message_at] = cp_order_rate_threshold_change_request_message_value; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 4 -> cp_order_rate_threshold_change_request_message_record.efid_cp_order_rate_threshold_change_request_efid_optional[cp_order_rate_threshold_change_request_message_at] = cp_order_rate_threshold_change_request_message_value; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 4 -> cp_order_rate_threshold_change_request_message_record.efid_optional[cp_order_rate_threshold_change_request_message_at] = cp_order_rate_threshold_change_request_message_value; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
@@ -3770,17 +3770,17 @@ inline fill_cp_order_rate_threshold_change_request_message(cp_order_rate_thresho
 inline ramp_cp_order_rate_threshold_change_request_message(cp_order_rate_threshold_change_request_message_record, cp_order_rate_threshold_change_request_message_base) {
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 20 -> cp_order_rate_threshold_change_request_message_record.cl_ord_id_cp_order_rate_threshold_change_request_cl_ord_id[cp_order_rate_threshold_change_request_message_at] = (cp_order_rate_threshold_change_request_message_base + 0 + cp_order_rate_threshold_change_request_message_at + 1) % 256; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 20 -> cp_order_rate_threshold_change_request_message_record.cl_ord_id[cp_order_rate_threshold_change_request_message_at] = (cp_order_rate_threshold_change_request_message_base + 0 + cp_order_rate_threshold_change_request_message_at + 1) % 256; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 6 -> cp_order_rate_threshold_change_request_message_record.underlier_cp_order_rate_threshold_change_request_underlier_optional[cp_order_rate_threshold_change_request_message_at] = (cp_order_rate_threshold_change_request_message_base + 20 + cp_order_rate_threshold_change_request_message_at + 1) % 256; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 6 -> cp_order_rate_threshold_change_request_message_record.underlier_optional[cp_order_rate_threshold_change_request_message_at] = (cp_order_rate_threshold_change_request_message_base + 20 + cp_order_rate_threshold_change_request_message_at + 1) % 256; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 4 -> cp_order_rate_threshold_change_request_message_record.efid_cp_order_rate_threshold_change_request_efid_optional[cp_order_rate_threshold_change_request_message_at] = (cp_order_rate_threshold_change_request_message_base + 26 + cp_order_rate_threshold_change_request_message_at + 1) % 256; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 4 -> cp_order_rate_threshold_change_request_message_record.efid_optional[cp_order_rate_threshold_change_request_message_at] = (cp_order_rate_threshold_change_request_message_base + 26 + cp_order_rate_threshold_change_request_message_at + 1) % 256; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
@@ -3805,17 +3805,17 @@ inline ramp_cp_order_rate_threshold_change_request_message(cp_order_rate_thresho
 inline encode_cp_order_rate_threshold_change_request_message(cp_order_rate_threshold_change_request_message_record) {
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 20 -> wire[at] = cp_order_rate_threshold_change_request_message_record.cl_ord_id_cp_order_rate_threshold_change_request_cl_ord_id[cp_order_rate_threshold_change_request_message_at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 20 -> wire[at] = cp_order_rate_threshold_change_request_message_record.cl_ord_id[cp_order_rate_threshold_change_request_message_at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 6 -> wire[at] = cp_order_rate_threshold_change_request_message_record.underlier_cp_order_rate_threshold_change_request_underlier_optional[cp_order_rate_threshold_change_request_message_at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 6 -> wire[at] = cp_order_rate_threshold_change_request_message_record.underlier_optional[cp_order_rate_threshold_change_request_message_at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 4 -> wire[at] = cp_order_rate_threshold_change_request_message_record.efid_cp_order_rate_threshold_change_request_efid_optional[cp_order_rate_threshold_change_request_message_at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 4 -> wire[at] = cp_order_rate_threshold_change_request_message_record.efid_optional[cp_order_rate_threshold_change_request_message_at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
@@ -3840,17 +3840,17 @@ inline encode_cp_order_rate_threshold_change_request_message(cp_order_rate_thres
 inline decode_cp_order_rate_threshold_change_request_message(cp_order_rate_threshold_change_request_message_record) {
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 20 -> cp_order_rate_threshold_change_request_message_record.cl_ord_id_cp_order_rate_threshold_change_request_cl_ord_id[cp_order_rate_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 20 -> cp_order_rate_threshold_change_request_message_record.cl_ord_id[cp_order_rate_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 6 -> cp_order_rate_threshold_change_request_message_record.underlier_cp_order_rate_threshold_change_request_underlier_optional[cp_order_rate_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 6 -> cp_order_rate_threshold_change_request_message_record.underlier_optional[cp_order_rate_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 4 -> cp_order_rate_threshold_change_request_message_record.efid_cp_order_rate_threshold_change_request_efid_optional[cp_order_rate_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 4 -> cp_order_rate_threshold_change_request_message_record.efid_optional[cp_order_rate_threshold_change_request_message_at] = wire[at]; at = at + 1; cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
@@ -3875,17 +3875,17 @@ inline decode_cp_order_rate_threshold_change_request_message(cp_order_rate_thres
 inline equal_cp_order_rate_threshold_change_request_message(cp_order_rate_threshold_change_request_message_read, cp_order_rate_threshold_change_request_message_written) {
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 20 -> assert(cp_order_rate_threshold_change_request_message_read.cl_ord_id_cp_order_rate_threshold_change_request_cl_ord_id[cp_order_rate_threshold_change_request_message_at] == cp_order_rate_threshold_change_request_message_written.cl_ord_id_cp_order_rate_threshold_change_request_cl_ord_id[cp_order_rate_threshold_change_request_message_at]); cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 20 -> assert(cp_order_rate_threshold_change_request_message_read.cl_ord_id[cp_order_rate_threshold_change_request_message_at] == cp_order_rate_threshold_change_request_message_written.cl_ord_id[cp_order_rate_threshold_change_request_message_at]); cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 6 -> assert(cp_order_rate_threshold_change_request_message_read.underlier_cp_order_rate_threshold_change_request_underlier_optional[cp_order_rate_threshold_change_request_message_at] == cp_order_rate_threshold_change_request_message_written.underlier_cp_order_rate_threshold_change_request_underlier_optional[cp_order_rate_threshold_change_request_message_at]); cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 6 -> assert(cp_order_rate_threshold_change_request_message_read.underlier_optional[cp_order_rate_threshold_change_request_message_at] == cp_order_rate_threshold_change_request_message_written.underlier_optional[cp_order_rate_threshold_change_request_message_at]); cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
   do
-  :: cp_order_rate_threshold_change_request_message_at < 4 -> assert(cp_order_rate_threshold_change_request_message_read.efid_cp_order_rate_threshold_change_request_efid_optional[cp_order_rate_threshold_change_request_message_at] == cp_order_rate_threshold_change_request_message_written.efid_cp_order_rate_threshold_change_request_efid_optional[cp_order_rate_threshold_change_request_message_at]); cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
+  :: cp_order_rate_threshold_change_request_message_at < 4 -> assert(cp_order_rate_threshold_change_request_message_read.efid_optional[cp_order_rate_threshold_change_request_message_at] == cp_order_rate_threshold_change_request_message_written.efid_optional[cp_order_rate_threshold_change_request_message_at]); cp_order_rate_threshold_change_request_message_at = cp_order_rate_threshold_change_request_message_at + 1
   :: else -> break
   od;
   cp_order_rate_threshold_change_request_message_at = 0;
@@ -3910,7 +3910,7 @@ inline equal_cp_order_rate_threshold_change_request_message(cp_order_rate_thresh
 
 /* CPClearAllBreachesRequestMessage */
 typedef CpClearAllBreachesRequestMessage {
-  byte cl_ord_id_cp_clear_all_breaches_request_cl_ord_id[20]
+  byte cl_ord_id[20]
 };
 
 int cp_clear_all_breaches_request_message_at;
@@ -3919,7 +3919,7 @@ int cp_clear_all_breaches_request_message_at;
 inline fill_cp_clear_all_breaches_request_message(cp_clear_all_breaches_request_message_record, cp_clear_all_breaches_request_message_value) {
   cp_clear_all_breaches_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_request_message_at < 20 -> cp_clear_all_breaches_request_message_record.cl_ord_id_cp_clear_all_breaches_request_cl_ord_id[cp_clear_all_breaches_request_message_at] = cp_clear_all_breaches_request_message_value; cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
+  :: cp_clear_all_breaches_request_message_at < 20 -> cp_clear_all_breaches_request_message_record.cl_ord_id[cp_clear_all_breaches_request_message_at] = cp_clear_all_breaches_request_message_value; cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3929,7 +3929,7 @@ inline fill_cp_clear_all_breaches_request_message(cp_clear_all_breaches_request_
 inline ramp_cp_clear_all_breaches_request_message(cp_clear_all_breaches_request_message_record, cp_clear_all_breaches_request_message_base) {
   cp_clear_all_breaches_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_request_message_at < 20 -> cp_clear_all_breaches_request_message_record.cl_ord_id_cp_clear_all_breaches_request_cl_ord_id[cp_clear_all_breaches_request_message_at] = (cp_clear_all_breaches_request_message_base + 0 + cp_clear_all_breaches_request_message_at + 1) % 256; cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
+  :: cp_clear_all_breaches_request_message_at < 20 -> cp_clear_all_breaches_request_message_record.cl_ord_id[cp_clear_all_breaches_request_message_at] = (cp_clear_all_breaches_request_message_base + 0 + cp_clear_all_breaches_request_message_at + 1) % 256; cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3939,7 +3939,7 @@ inline ramp_cp_clear_all_breaches_request_message(cp_clear_all_breaches_request_
 inline encode_cp_clear_all_breaches_request_message(cp_clear_all_breaches_request_message_record) {
   cp_clear_all_breaches_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_request_message_at < 20 -> wire[at] = cp_clear_all_breaches_request_message_record.cl_ord_id_cp_clear_all_breaches_request_cl_ord_id[cp_clear_all_breaches_request_message_at]; at = at + 1; cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
+  :: cp_clear_all_breaches_request_message_at < 20 -> wire[at] = cp_clear_all_breaches_request_message_record.cl_ord_id[cp_clear_all_breaches_request_message_at]; at = at + 1; cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3949,7 +3949,7 @@ inline encode_cp_clear_all_breaches_request_message(cp_clear_all_breaches_reques
 inline decode_cp_clear_all_breaches_request_message(cp_clear_all_breaches_request_message_record) {
   cp_clear_all_breaches_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_request_message_at < 20 -> cp_clear_all_breaches_request_message_record.cl_ord_id_cp_clear_all_breaches_request_cl_ord_id[cp_clear_all_breaches_request_message_at] = wire[at]; at = at + 1; cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
+  :: cp_clear_all_breaches_request_message_at < 20 -> cp_clear_all_breaches_request_message_record.cl_ord_id[cp_clear_all_breaches_request_message_at] = wire[at]; at = at + 1; cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3959,7 +3959,7 @@ inline decode_cp_clear_all_breaches_request_message(cp_clear_all_breaches_reques
 inline equal_cp_clear_all_breaches_request_message(cp_clear_all_breaches_request_message_read, cp_clear_all_breaches_request_message_written) {
   cp_clear_all_breaches_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_request_message_at < 20 -> assert(cp_clear_all_breaches_request_message_read.cl_ord_id_cp_clear_all_breaches_request_cl_ord_id[cp_clear_all_breaches_request_message_at] == cp_clear_all_breaches_request_message_written.cl_ord_id_cp_clear_all_breaches_request_cl_ord_id[cp_clear_all_breaches_request_message_at]); cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
+  :: cp_clear_all_breaches_request_message_at < 20 -> assert(cp_clear_all_breaches_request_message_read.cl_ord_id[cp_clear_all_breaches_request_message_at] == cp_clear_all_breaches_request_message_written.cl_ord_id[cp_clear_all_breaches_request_message_at]); cp_clear_all_breaches_request_message_at = cp_clear_all_breaches_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -3969,9 +3969,9 @@ inline equal_cp_clear_all_breaches_request_message(cp_clear_all_breaches_request
 
 /* CPClearAllBreachesByEFIDOrUnderlierRequestMessage */
 typedef CpClearAllBreachesByEfidOrUnderlierRequestMessage {
-  byte cl_ord_id_cp_clear_all_breaches_by_efid_or_underlier_request_cl_ord_id[20];
-  byte underlier_cp_clear_all_breaches_by_efid_or_underlier_request_underlier_optional[6];
-  byte efid_cp_clear_all_breaches_by_efid_or_underlier_request_efid_optional[4]
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4]
 };
 
 int cp_clear_all_breaches_by_efid_or_underlier_request_message_at;
@@ -3980,17 +3980,17 @@ int cp_clear_all_breaches_by_efid_or_underlier_request_message_at;
 inline fill_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clear_all_breaches_by_efid_or_underlier_request_message_record, cp_clear_all_breaches_by_efid_or_underlier_request_message_value) {
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.cl_ord_id_cp_clear_all_breaches_by_efid_or_underlier_request_cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_value; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_value; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.underlier_cp_clear_all_breaches_by_efid_or_underlier_request_underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_value; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_value; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.efid_cp_clear_all_breaches_by_efid_or_underlier_request_efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_value; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_value; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4000,17 +4000,17 @@ inline fill_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clear_
 inline ramp_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clear_all_breaches_by_efid_or_underlier_request_message_record, cp_clear_all_breaches_by_efid_or_underlier_request_message_base) {
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.cl_ord_id_cp_clear_all_breaches_by_efid_or_underlier_request_cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = (cp_clear_all_breaches_by_efid_or_underlier_request_message_base + 0 + cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1) % 256; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = (cp_clear_all_breaches_by_efid_or_underlier_request_message_base + 0 + cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1) % 256; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.underlier_cp_clear_all_breaches_by_efid_or_underlier_request_underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = (cp_clear_all_breaches_by_efid_or_underlier_request_message_base + 20 + cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1) % 256; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = (cp_clear_all_breaches_by_efid_or_underlier_request_message_base + 20 + cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1) % 256; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.efid_cp_clear_all_breaches_by_efid_or_underlier_request_efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = (cp_clear_all_breaches_by_efid_or_underlier_request_message_base + 26 + cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1) % 256; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = (cp_clear_all_breaches_by_efid_or_underlier_request_message_base + 26 + cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1) % 256; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4020,17 +4020,17 @@ inline ramp_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clear_
 inline encode_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clear_all_breaches_by_efid_or_underlier_request_message_record) {
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> wire[at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_record.cl_ord_id_cp_clear_all_breaches_by_efid_or_underlier_request_cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> wire[at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_record.cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> wire[at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_record.underlier_cp_clear_all_breaches_by_efid_or_underlier_request_underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> wire[at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_record.underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> wire[at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_record.efid_cp_clear_all_breaches_by_efid_or_underlier_request_efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> wire[at] = cp_clear_all_breaches_by_efid_or_underlier_request_message_record.efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4040,17 +4040,17 @@ inline encode_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clea
 inline decode_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clear_all_breaches_by_efid_or_underlier_request_message_record) {
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.cl_ord_id_cp_clear_all_breaches_by_efid_or_underlier_request_cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = wire[at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = wire[at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.underlier_cp_clear_all_breaches_by_efid_or_underlier_request_underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = wire[at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = wire[at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.efid_cp_clear_all_breaches_by_efid_or_underlier_request_efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = wire[at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> cp_clear_all_breaches_by_efid_or_underlier_request_message_record.efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] = wire[at]; at = at + 1; cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4060,17 +4060,17 @@ inline decode_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clea
 inline equal_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clear_all_breaches_by_efid_or_underlier_request_message_read, cp_clear_all_breaches_by_efid_or_underlier_request_message_written) {
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> assert(cp_clear_all_breaches_by_efid_or_underlier_request_message_read.cl_ord_id_cp_clear_all_breaches_by_efid_or_underlier_request_cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] == cp_clear_all_breaches_by_efid_or_underlier_request_message_written.cl_ord_id_cp_clear_all_breaches_by_efid_or_underlier_request_cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]); cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 20 -> assert(cp_clear_all_breaches_by_efid_or_underlier_request_message_read.cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] == cp_clear_all_breaches_by_efid_or_underlier_request_message_written.cl_ord_id[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]); cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> assert(cp_clear_all_breaches_by_efid_or_underlier_request_message_read.underlier_cp_clear_all_breaches_by_efid_or_underlier_request_underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] == cp_clear_all_breaches_by_efid_or_underlier_request_message_written.underlier_cp_clear_all_breaches_by_efid_or_underlier_request_underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]); cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 6 -> assert(cp_clear_all_breaches_by_efid_or_underlier_request_message_read.underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] == cp_clear_all_breaches_by_efid_or_underlier_request_message_written.underlier_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]); cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   cp_clear_all_breaches_by_efid_or_underlier_request_message_at = 0;
   do
-  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> assert(cp_clear_all_breaches_by_efid_or_underlier_request_message_read.efid_cp_clear_all_breaches_by_efid_or_underlier_request_efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] == cp_clear_all_breaches_by_efid_or_underlier_request_message_written.efid_cp_clear_all_breaches_by_efid_or_underlier_request_efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]); cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
+  :: cp_clear_all_breaches_by_efid_or_underlier_request_message_at < 4 -> assert(cp_clear_all_breaches_by_efid_or_underlier_request_message_read.efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at] == cp_clear_all_breaches_by_efid_or_underlier_request_message_written.efid_optional[cp_clear_all_breaches_by_efid_or_underlier_request_message_at]); cp_clear_all_breaches_by_efid_or_underlier_request_message_at = cp_clear_all_breaches_by_efid_or_underlier_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4080,9 +4080,9 @@ inline equal_cp_clear_all_breaches_by_efid_or_underlier_request_message(cp_clear
 
 /* ActiveRiskAcknowledgeAllRequestMessage */
 typedef ActiveRiskAcknowledgeAllRequestMessage {
-  byte cl_ord_id_active_risk_acknowledge_all_request_cl_ord_id[20];
-  byte underlier_active_risk_acknowledge_all_request_underlier[6];
-  byte efid_active_risk_acknowledge_all_request_efid[4]
+  byte cl_ord_id[20];
+  byte underlier[6];
+  byte efid[4]
 };
 
 int active_risk_acknowledge_all_request_message_at;
@@ -4091,17 +4091,17 @@ int active_risk_acknowledge_all_request_message_at;
 inline fill_active_risk_acknowledge_all_request_message(active_risk_acknowledge_all_request_message_record, active_risk_acknowledge_all_request_message_value) {
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 20 -> active_risk_acknowledge_all_request_message_record.cl_ord_id_active_risk_acknowledge_all_request_cl_ord_id[active_risk_acknowledge_all_request_message_at] = active_risk_acknowledge_all_request_message_value; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 20 -> active_risk_acknowledge_all_request_message_record.cl_ord_id[active_risk_acknowledge_all_request_message_at] = active_risk_acknowledge_all_request_message_value; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 6 -> active_risk_acknowledge_all_request_message_record.underlier_active_risk_acknowledge_all_request_underlier[active_risk_acknowledge_all_request_message_at] = active_risk_acknowledge_all_request_message_value; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 6 -> active_risk_acknowledge_all_request_message_record.underlier[active_risk_acknowledge_all_request_message_at] = active_risk_acknowledge_all_request_message_value; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 4 -> active_risk_acknowledge_all_request_message_record.efid_active_risk_acknowledge_all_request_efid[active_risk_acknowledge_all_request_message_at] = active_risk_acknowledge_all_request_message_value; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 4 -> active_risk_acknowledge_all_request_message_record.efid[active_risk_acknowledge_all_request_message_at] = active_risk_acknowledge_all_request_message_value; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4111,17 +4111,17 @@ inline fill_active_risk_acknowledge_all_request_message(active_risk_acknowledge_
 inline ramp_active_risk_acknowledge_all_request_message(active_risk_acknowledge_all_request_message_record, active_risk_acknowledge_all_request_message_base) {
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 20 -> active_risk_acknowledge_all_request_message_record.cl_ord_id_active_risk_acknowledge_all_request_cl_ord_id[active_risk_acknowledge_all_request_message_at] = (active_risk_acknowledge_all_request_message_base + 0 + active_risk_acknowledge_all_request_message_at + 1) % 256; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 20 -> active_risk_acknowledge_all_request_message_record.cl_ord_id[active_risk_acknowledge_all_request_message_at] = (active_risk_acknowledge_all_request_message_base + 0 + active_risk_acknowledge_all_request_message_at + 1) % 256; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 6 -> active_risk_acknowledge_all_request_message_record.underlier_active_risk_acknowledge_all_request_underlier[active_risk_acknowledge_all_request_message_at] = (active_risk_acknowledge_all_request_message_base + 20 + active_risk_acknowledge_all_request_message_at + 1) % 256; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 6 -> active_risk_acknowledge_all_request_message_record.underlier[active_risk_acknowledge_all_request_message_at] = (active_risk_acknowledge_all_request_message_base + 20 + active_risk_acknowledge_all_request_message_at + 1) % 256; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 4 -> active_risk_acknowledge_all_request_message_record.efid_active_risk_acknowledge_all_request_efid[active_risk_acknowledge_all_request_message_at] = (active_risk_acknowledge_all_request_message_base + 26 + active_risk_acknowledge_all_request_message_at + 1) % 256; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 4 -> active_risk_acknowledge_all_request_message_record.efid[active_risk_acknowledge_all_request_message_at] = (active_risk_acknowledge_all_request_message_base + 26 + active_risk_acknowledge_all_request_message_at + 1) % 256; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4131,17 +4131,17 @@ inline ramp_active_risk_acknowledge_all_request_message(active_risk_acknowledge_
 inline encode_active_risk_acknowledge_all_request_message(active_risk_acknowledge_all_request_message_record) {
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 20 -> wire[at] = active_risk_acknowledge_all_request_message_record.cl_ord_id_active_risk_acknowledge_all_request_cl_ord_id[active_risk_acknowledge_all_request_message_at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 20 -> wire[at] = active_risk_acknowledge_all_request_message_record.cl_ord_id[active_risk_acknowledge_all_request_message_at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 6 -> wire[at] = active_risk_acknowledge_all_request_message_record.underlier_active_risk_acknowledge_all_request_underlier[active_risk_acknowledge_all_request_message_at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 6 -> wire[at] = active_risk_acknowledge_all_request_message_record.underlier[active_risk_acknowledge_all_request_message_at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 4 -> wire[at] = active_risk_acknowledge_all_request_message_record.efid_active_risk_acknowledge_all_request_efid[active_risk_acknowledge_all_request_message_at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 4 -> wire[at] = active_risk_acknowledge_all_request_message_record.efid[active_risk_acknowledge_all_request_message_at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4151,17 +4151,17 @@ inline encode_active_risk_acknowledge_all_request_message(active_risk_acknowledg
 inline decode_active_risk_acknowledge_all_request_message(active_risk_acknowledge_all_request_message_record) {
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 20 -> active_risk_acknowledge_all_request_message_record.cl_ord_id_active_risk_acknowledge_all_request_cl_ord_id[active_risk_acknowledge_all_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 20 -> active_risk_acknowledge_all_request_message_record.cl_ord_id[active_risk_acknowledge_all_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 6 -> active_risk_acknowledge_all_request_message_record.underlier_active_risk_acknowledge_all_request_underlier[active_risk_acknowledge_all_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 6 -> active_risk_acknowledge_all_request_message_record.underlier[active_risk_acknowledge_all_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 4 -> active_risk_acknowledge_all_request_message_record.efid_active_risk_acknowledge_all_request_efid[active_risk_acknowledge_all_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 4 -> active_risk_acknowledge_all_request_message_record.efid[active_risk_acknowledge_all_request_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   skip
@@ -4171,17 +4171,17 @@ inline decode_active_risk_acknowledge_all_request_message(active_risk_acknowledg
 inline equal_active_risk_acknowledge_all_request_message(active_risk_acknowledge_all_request_message_read, active_risk_acknowledge_all_request_message_written) {
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 20 -> assert(active_risk_acknowledge_all_request_message_read.cl_ord_id_active_risk_acknowledge_all_request_cl_ord_id[active_risk_acknowledge_all_request_message_at] == active_risk_acknowledge_all_request_message_written.cl_ord_id_active_risk_acknowledge_all_request_cl_ord_id[active_risk_acknowledge_all_request_message_at]); active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 20 -> assert(active_risk_acknowledge_all_request_message_read.cl_ord_id[active_risk_acknowledge_all_request_message_at] == active_risk_acknowledge_all_request_message_written.cl_ord_id[active_risk_acknowledge_all_request_message_at]); active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 6 -> assert(active_risk_acknowledge_all_request_message_read.underlier_active_risk_acknowledge_all_request_underlier[active_risk_acknowledge_all_request_message_at] == active_risk_acknowledge_all_request_message_written.underlier_active_risk_acknowledge_all_request_underlier[active_risk_acknowledge_all_request_message_at]); active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 6 -> assert(active_risk_acknowledge_all_request_message_read.underlier[active_risk_acknowledge_all_request_message_at] == active_risk_acknowledge_all_request_message_written.underlier[active_risk_acknowledge_all_request_message_at]); active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_all_request_message_at = 0;
   do
-  :: active_risk_acknowledge_all_request_message_at < 4 -> assert(active_risk_acknowledge_all_request_message_read.efid_active_risk_acknowledge_all_request_efid[active_risk_acknowledge_all_request_message_at] == active_risk_acknowledge_all_request_message_written.efid_active_risk_acknowledge_all_request_efid[active_risk_acknowledge_all_request_message_at]); active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
+  :: active_risk_acknowledge_all_request_message_at < 4 -> assert(active_risk_acknowledge_all_request_message_read.efid[active_risk_acknowledge_all_request_message_at] == active_risk_acknowledge_all_request_message_written.efid[active_risk_acknowledge_all_request_message_at]); active_risk_acknowledge_all_request_message_at = active_risk_acknowledge_all_request_message_at + 1
   :: else -> break
   od;
   skip

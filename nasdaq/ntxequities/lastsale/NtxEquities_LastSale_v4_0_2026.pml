@@ -1962,7 +1962,7 @@ inline equal_mwcb_status_message(mwcb_status_message_read, mwcb_status_message_w
 typedef OperationalHaltMessage {
   byte tracking_number[2];
   byte timestamp[6];
-  byte stock_alpha_8[8];
+  byte stock[8];
   byte market_code;
   byte operational_halt_action
 };
@@ -1983,7 +1983,7 @@ inline fill_operational_halt_message(operational_halt_message_record, operationa
   od;
   operational_halt_message_at = 0;
   do
-  :: operational_halt_message_at < 8 -> operational_halt_message_record.stock_alpha_8[operational_halt_message_at] = operational_halt_message_value; operational_halt_message_at = operational_halt_message_at + 1
+  :: operational_halt_message_at < 8 -> operational_halt_message_record.stock[operational_halt_message_at] = operational_halt_message_value; operational_halt_message_at = operational_halt_message_at + 1
   :: else -> break
   od;
   operational_halt_message_record.market_code = operational_halt_message_value;
@@ -2005,7 +2005,7 @@ inline ramp_operational_halt_message(operational_halt_message_record, operationa
   od;
   operational_halt_message_at = 0;
   do
-  :: operational_halt_message_at < 8 -> operational_halt_message_record.stock_alpha_8[operational_halt_message_at] = (operational_halt_message_base + 8 + operational_halt_message_at + 1) % 256; operational_halt_message_at = operational_halt_message_at + 1
+  :: operational_halt_message_at < 8 -> operational_halt_message_record.stock[operational_halt_message_at] = (operational_halt_message_base + 8 + operational_halt_message_at + 1) % 256; operational_halt_message_at = operational_halt_message_at + 1
   :: else -> break
   od;
   operational_halt_message_record.market_code = (operational_halt_message_base + 16 + 1) % 256;
@@ -2027,7 +2027,7 @@ inline encode_operational_halt_message(operational_halt_message_record) {
   od;
   operational_halt_message_at = 0;
   do
-  :: operational_halt_message_at < 8 -> wire[at] = operational_halt_message_record.stock_alpha_8[operational_halt_message_at]; at = at + 1; operational_halt_message_at = operational_halt_message_at + 1
+  :: operational_halt_message_at < 8 -> wire[at] = operational_halt_message_record.stock[operational_halt_message_at]; at = at + 1; operational_halt_message_at = operational_halt_message_at + 1
   :: else -> break
   od;
   wire[at] = operational_halt_message_record.market_code; at = at + 1;
@@ -2049,7 +2049,7 @@ inline decode_operational_halt_message(operational_halt_message_record) {
   od;
   operational_halt_message_at = 0;
   do
-  :: operational_halt_message_at < 8 -> operational_halt_message_record.stock_alpha_8[operational_halt_message_at] = wire[at]; at = at + 1; operational_halt_message_at = operational_halt_message_at + 1
+  :: operational_halt_message_at < 8 -> operational_halt_message_record.stock[operational_halt_message_at] = wire[at]; at = at + 1; operational_halt_message_at = operational_halt_message_at + 1
   :: else -> break
   od;
   operational_halt_message_record.market_code = wire[at]; at = at + 1;
@@ -2071,7 +2071,7 @@ inline equal_operational_halt_message(operational_halt_message_read, operational
   od;
   operational_halt_message_at = 0;
   do
-  :: operational_halt_message_at < 8 -> assert(operational_halt_message_read.stock_alpha_8[operational_halt_message_at] == operational_halt_message_written.stock_alpha_8[operational_halt_message_at]); operational_halt_message_at = operational_halt_message_at + 1
+  :: operational_halt_message_at < 8 -> assert(operational_halt_message_read.stock[operational_halt_message_at] == operational_halt_message_written.stock[operational_halt_message_at]); operational_halt_message_at = operational_halt_message_at + 1
   :: else -> break
   od;
   assert(operational_halt_message_read.market_code == operational_halt_message_written.market_code);

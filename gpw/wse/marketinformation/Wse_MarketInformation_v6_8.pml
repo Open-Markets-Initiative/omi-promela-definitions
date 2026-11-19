@@ -509,7 +509,7 @@ typedef MailMessage {
   byte source_time_micro_secs[2];
   byte scope;
   byte title[80];
-  byte text_ascii_str_1000[1000];
+  byte mail_text[1000];
   byte reserved_3[3]
 };
 
@@ -545,7 +545,7 @@ inline fill_mail_message(mail_message_record, mail_message_value) {
   od;
   mail_message_at = 0;
   do
-  :: mail_message_at < 1000 -> mail_message_record.text_ascii_str_1000[mail_message_at] = mail_message_value; mail_message_at = mail_message_at + 1
+  :: mail_message_at < 1000 -> mail_message_record.mail_text[mail_message_at] = mail_message_value; mail_message_at = mail_message_at + 1
   :: else -> break
   od;
   mail_message_at = 0;
@@ -586,7 +586,7 @@ inline ramp_mail_message(mail_message_record, mail_message_base) {
   od;
   mail_message_at = 0;
   do
-  :: mail_message_at < 1000 -> mail_message_record.text_ascii_str_1000[mail_message_at] = (mail_message_base + 95 + mail_message_at + 1) % 256; mail_message_at = mail_message_at + 1
+  :: mail_message_at < 1000 -> mail_message_record.mail_text[mail_message_at] = (mail_message_base + 95 + mail_message_at + 1) % 256; mail_message_at = mail_message_at + 1
   :: else -> break
   od;
   mail_message_at = 0;
@@ -627,7 +627,7 @@ inline encode_mail_message(mail_message_record) {
   od;
   mail_message_at = 0;
   do
-  :: mail_message_at < 1000 -> wire[at] = mail_message_record.text_ascii_str_1000[mail_message_at]; at = at + 1; mail_message_at = mail_message_at + 1
+  :: mail_message_at < 1000 -> wire[at] = mail_message_record.mail_text[mail_message_at]; at = at + 1; mail_message_at = mail_message_at + 1
   :: else -> break
   od;
   mail_message_at = 0;
@@ -668,7 +668,7 @@ inline decode_mail_message(mail_message_record) {
   od;
   mail_message_at = 0;
   do
-  :: mail_message_at < 1000 -> mail_message_record.text_ascii_str_1000[mail_message_at] = wire[at]; at = at + 1; mail_message_at = mail_message_at + 1
+  :: mail_message_at < 1000 -> mail_message_record.mail_text[mail_message_at] = wire[at]; at = at + 1; mail_message_at = mail_message_at + 1
   :: else -> break
   od;
   mail_message_at = 0;
@@ -709,7 +709,7 @@ inline equal_mail_message(mail_message_read, mail_message_written) {
   od;
   mail_message_at = 0;
   do
-  :: mail_message_at < 1000 -> assert(mail_message_read.text_ascii_str_1000[mail_message_at] == mail_message_written.text_ascii_str_1000[mail_message_at]); mail_message_at = mail_message_at + 1
+  :: mail_message_at < 1000 -> assert(mail_message_read.mail_text[mail_message_at] == mail_message_written.mail_text[mail_message_at]); mail_message_at = mail_message_at + 1
   :: else -> break
   od;
   mail_message_at = 0;
@@ -1116,7 +1116,7 @@ typedef SessionSummaryMessage {
   byte symbol_index[4];
   byte source_time[4];
   byte source_seq_num[4];
-  byte date_binary_int_4[4];
+  byte date[4];
   byte multiplier[4];
   byte accumulated_interest[4];
   byte opening_price[4];
@@ -1240,7 +1240,7 @@ inline fill_session_summary_message(session_summary_message_record, session_summ
   od;
   session_summary_message_at = 0;
   do
-  :: session_summary_message_at < 4 -> session_summary_message_record.date_binary_int_4[session_summary_message_at] = session_summary_message_value; session_summary_message_at = session_summary_message_at + 1
+  :: session_summary_message_at < 4 -> session_summary_message_record.date[session_summary_message_at] = session_summary_message_value; session_summary_message_at = session_summary_message_at + 1
   :: else -> break
   od;
   session_summary_message_at = 0;
@@ -1569,7 +1569,7 @@ inline ramp_session_summary_message(session_summary_message_record, session_summ
   od;
   session_summary_message_at = 0;
   do
-  :: session_summary_message_at < 4 -> session_summary_message_record.date_binary_int_4[session_summary_message_at] = (session_summary_message_base + 12 + session_summary_message_at + 1) % 256; session_summary_message_at = session_summary_message_at + 1
+  :: session_summary_message_at < 4 -> session_summary_message_record.date[session_summary_message_at] = (session_summary_message_base + 12 + session_summary_message_at + 1) % 256; session_summary_message_at = session_summary_message_at + 1
   :: else -> break
   od;
   session_summary_message_at = 0;
@@ -1898,7 +1898,7 @@ inline encode_session_summary_message(session_summary_message_record) {
   od;
   session_summary_message_at = 0;
   do
-  :: session_summary_message_at < 4 -> wire[at] = session_summary_message_record.date_binary_int_4[session_summary_message_at]; at = at + 1; session_summary_message_at = session_summary_message_at + 1
+  :: session_summary_message_at < 4 -> wire[at] = session_summary_message_record.date[session_summary_message_at]; at = at + 1; session_summary_message_at = session_summary_message_at + 1
   :: else -> break
   od;
   session_summary_message_at = 0;
@@ -2227,7 +2227,7 @@ inline decode_session_summary_message(session_summary_message_record) {
   od;
   session_summary_message_at = 0;
   do
-  :: session_summary_message_at < 4 -> session_summary_message_record.date_binary_int_4[session_summary_message_at] = wire[at]; at = at + 1; session_summary_message_at = session_summary_message_at + 1
+  :: session_summary_message_at < 4 -> session_summary_message_record.date[session_summary_message_at] = wire[at]; at = at + 1; session_summary_message_at = session_summary_message_at + 1
   :: else -> break
   od;
   session_summary_message_at = 0;
@@ -2556,7 +2556,7 @@ inline equal_session_summary_message(session_summary_message_read, session_summa
   od;
   session_summary_message_at = 0;
   do
-  :: session_summary_message_at < 4 -> assert(session_summary_message_read.date_binary_int_4[session_summary_message_at] == session_summary_message_written.date_binary_int_4[session_summary_message_at]); session_summary_message_at = session_summary_message_at + 1
+  :: session_summary_message_at < 4 -> assert(session_summary_message_read.date[session_summary_message_at] == session_summary_message_written.date[session_summary_message_at]); session_summary_message_at = session_summary_message_at + 1
   :: else -> break
   od;
   session_summary_message_at = 0;
@@ -3443,7 +3443,7 @@ typedef ShortSaleChangeMessage {
   byte source_time[4];
   byte system_id[4];
   byte source_time_micro_secs[2];
-  byte text_ascii_ch_100[100];
+  byte text[100];
   byte authority;
   byte ss_market_maker;
   byte ss_non_market_maker;
@@ -3481,7 +3481,7 @@ inline fill_short_sale_change_message(short_sale_change_message_record, short_sa
   od;
   short_sale_change_message_at = 0;
   do
-  :: short_sale_change_message_at < 100 -> short_sale_change_message_record.text_ascii_ch_100[short_sale_change_message_at] = short_sale_change_message_value; short_sale_change_message_at = short_sale_change_message_at + 1
+  :: short_sale_change_message_at < 100 -> short_sale_change_message_record.text[short_sale_change_message_at] = short_sale_change_message_value; short_sale_change_message_at = short_sale_change_message_at + 1
   :: else -> break
   od;
   short_sale_change_message_record.authority = short_sale_change_message_value;
@@ -3524,7 +3524,7 @@ inline ramp_short_sale_change_message(short_sale_change_message_record, short_sa
   od;
   short_sale_change_message_at = 0;
   do
-  :: short_sale_change_message_at < 100 -> short_sale_change_message_record.text_ascii_ch_100[short_sale_change_message_at] = (short_sale_change_message_base + 18 + short_sale_change_message_at + 1) % 256; short_sale_change_message_at = short_sale_change_message_at + 1
+  :: short_sale_change_message_at < 100 -> short_sale_change_message_record.text[short_sale_change_message_at] = (short_sale_change_message_base + 18 + short_sale_change_message_at + 1) % 256; short_sale_change_message_at = short_sale_change_message_at + 1
   :: else -> break
   od;
   short_sale_change_message_record.authority = (short_sale_change_message_base + 118 + 1) % 256;
@@ -3567,7 +3567,7 @@ inline encode_short_sale_change_message(short_sale_change_message_record) {
   od;
   short_sale_change_message_at = 0;
   do
-  :: short_sale_change_message_at < 100 -> wire[at] = short_sale_change_message_record.text_ascii_ch_100[short_sale_change_message_at]; at = at + 1; short_sale_change_message_at = short_sale_change_message_at + 1
+  :: short_sale_change_message_at < 100 -> wire[at] = short_sale_change_message_record.text[short_sale_change_message_at]; at = at + 1; short_sale_change_message_at = short_sale_change_message_at + 1
   :: else -> break
   od;
   wire[at] = short_sale_change_message_record.authority; at = at + 1;
@@ -3610,7 +3610,7 @@ inline decode_short_sale_change_message(short_sale_change_message_record) {
   od;
   short_sale_change_message_at = 0;
   do
-  :: short_sale_change_message_at < 100 -> short_sale_change_message_record.text_ascii_ch_100[short_sale_change_message_at] = wire[at]; at = at + 1; short_sale_change_message_at = short_sale_change_message_at + 1
+  :: short_sale_change_message_at < 100 -> short_sale_change_message_record.text[short_sale_change_message_at] = wire[at]; at = at + 1; short_sale_change_message_at = short_sale_change_message_at + 1
   :: else -> break
   od;
   short_sale_change_message_record.authority = wire[at]; at = at + 1;
@@ -3653,7 +3653,7 @@ inline equal_short_sale_change_message(short_sale_change_message_read, short_sal
   od;
   short_sale_change_message_at = 0;
   do
-  :: short_sale_change_message_at < 100 -> assert(short_sale_change_message_read.text_ascii_ch_100[short_sale_change_message_at] == short_sale_change_message_written.text_ascii_ch_100[short_sale_change_message_at]); short_sale_change_message_at = short_sale_change_message_at + 1
+  :: short_sale_change_message_at < 100 -> assert(short_sale_change_message_read.text[short_sale_change_message_at] == short_sale_change_message_written.text[short_sale_change_message_at]); short_sale_change_message_at = short_sale_change_message_at + 1
   :: else -> break
   od;
   assert(short_sale_change_message_read.authority == short_sale_change_message_written.authority);
@@ -3674,7 +3674,7 @@ typedef TreasuryBondFuturesData {
   byte isin_code[12];
   byte date_of_first_quotation[8];
   byte short_name[16];
-  byte date_ascii_str_8[8];
+  byte start_date[8];
   byte underlying_isin_code[12];
   byte treasury_bond_1_isin_code[12];
   byte conversion_coefficient_factor_1[9];
@@ -3710,7 +3710,7 @@ inline fill_treasury_bond_futures_data(treasury_bond_futures_data_record, treasu
   od;
   treasury_bond_futures_data_at = 0;
   do
-  :: treasury_bond_futures_data_at < 8 -> treasury_bond_futures_data_record.date_ascii_str_8[treasury_bond_futures_data_at] = treasury_bond_futures_data_value; treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
+  :: treasury_bond_futures_data_at < 8 -> treasury_bond_futures_data_record.start_date[treasury_bond_futures_data_at] = treasury_bond_futures_data_value; treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
   :: else -> break
   od;
   treasury_bond_futures_data_at = 0;
@@ -3795,7 +3795,7 @@ inline ramp_treasury_bond_futures_data(treasury_bond_futures_data_record, treasu
   od;
   treasury_bond_futures_data_at = 0;
   do
-  :: treasury_bond_futures_data_at < 8 -> treasury_bond_futures_data_record.date_ascii_str_8[treasury_bond_futures_data_at] = (treasury_bond_futures_data_base + 36 + treasury_bond_futures_data_at + 1) % 256; treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
+  :: treasury_bond_futures_data_at < 8 -> treasury_bond_futures_data_record.start_date[treasury_bond_futures_data_at] = (treasury_bond_futures_data_base + 36 + treasury_bond_futures_data_at + 1) % 256; treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
   :: else -> break
   od;
   treasury_bond_futures_data_at = 0;
@@ -3880,7 +3880,7 @@ inline encode_treasury_bond_futures_data(treasury_bond_futures_data_record) {
   od;
   treasury_bond_futures_data_at = 0;
   do
-  :: treasury_bond_futures_data_at < 8 -> wire[at] = treasury_bond_futures_data_record.date_ascii_str_8[treasury_bond_futures_data_at]; at = at + 1; treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
+  :: treasury_bond_futures_data_at < 8 -> wire[at] = treasury_bond_futures_data_record.start_date[treasury_bond_futures_data_at]; at = at + 1; treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
   :: else -> break
   od;
   treasury_bond_futures_data_at = 0;
@@ -3965,7 +3965,7 @@ inline decode_treasury_bond_futures_data(treasury_bond_futures_data_record) {
   od;
   treasury_bond_futures_data_at = 0;
   do
-  :: treasury_bond_futures_data_at < 8 -> treasury_bond_futures_data_record.date_ascii_str_8[treasury_bond_futures_data_at] = wire[at]; at = at + 1; treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
+  :: treasury_bond_futures_data_at < 8 -> treasury_bond_futures_data_record.start_date[treasury_bond_futures_data_at] = wire[at]; at = at + 1; treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
   :: else -> break
   od;
   treasury_bond_futures_data_at = 0;
@@ -4050,7 +4050,7 @@ inline equal_treasury_bond_futures_data(treasury_bond_futures_data_read, treasur
   od;
   treasury_bond_futures_data_at = 0;
   do
-  :: treasury_bond_futures_data_at < 8 -> assert(treasury_bond_futures_data_read.date_ascii_str_8[treasury_bond_futures_data_at] == treasury_bond_futures_data_written.date_ascii_str_8[treasury_bond_futures_data_at]); treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
+  :: treasury_bond_futures_data_at < 8 -> assert(treasury_bond_futures_data_read.start_date[treasury_bond_futures_data_at] == treasury_bond_futures_data_written.start_date[treasury_bond_futures_data_at]); treasury_bond_futures_data_at = treasury_bond_futures_data_at + 1
   :: else -> break
   od;
   treasury_bond_futures_data_at = 0;
@@ -4121,7 +4121,7 @@ inline equal_treasury_bond_futures_data(treasury_bond_futures_data_read, treasur
 /* Body Message for InternalMsgType field = 03, which informs about the selected values for PRIIPs key information for the given trading day and includes the link to the issuer's website */
 typedef Kid {
   byte isin_code[12];
-  byte type_of_instrument_ascii_str_4[4];
+  byte kid_type_of_instrument[4];
   byte kid_version[10];
   byte kid_issue_date[8];
   byte value_at_risk;
@@ -4140,7 +4140,7 @@ inline fill_kid(kid_record, kid_value) {
   od;
   kid_at = 0;
   do
-  :: kid_at < 4 -> kid_record.type_of_instrument_ascii_str_4[kid_at] = kid_value; kid_at = kid_at + 1
+  :: kid_at < 4 -> kid_record.kid_type_of_instrument[kid_at] = kid_value; kid_at = kid_at + 1
   :: else -> break
   od;
   kid_at = 0;
@@ -4176,7 +4176,7 @@ inline ramp_kid(kid_record, kid_base) {
   od;
   kid_at = 0;
   do
-  :: kid_at < 4 -> kid_record.type_of_instrument_ascii_str_4[kid_at] = (kid_base + 12 + kid_at + 1) % 256; kid_at = kid_at + 1
+  :: kid_at < 4 -> kid_record.kid_type_of_instrument[kid_at] = (kid_base + 12 + kid_at + 1) % 256; kid_at = kid_at + 1
   :: else -> break
   od;
   kid_at = 0;
@@ -4212,7 +4212,7 @@ inline encode_kid(kid_record) {
   od;
   kid_at = 0;
   do
-  :: kid_at < 4 -> wire[at] = kid_record.type_of_instrument_ascii_str_4[kid_at]; at = at + 1; kid_at = kid_at + 1
+  :: kid_at < 4 -> wire[at] = kid_record.kid_type_of_instrument[kid_at]; at = at + 1; kid_at = kid_at + 1
   :: else -> break
   od;
   kid_at = 0;
@@ -4248,7 +4248,7 @@ inline decode_kid(kid_record) {
   od;
   kid_at = 0;
   do
-  :: kid_at < 4 -> kid_record.type_of_instrument_ascii_str_4[kid_at] = wire[at]; at = at + 1; kid_at = kid_at + 1
+  :: kid_at < 4 -> kid_record.kid_type_of_instrument[kid_at] = wire[at]; at = at + 1; kid_at = kid_at + 1
   :: else -> break
   od;
   kid_at = 0;
@@ -4284,7 +4284,7 @@ inline equal_kid(kid_read, kid_written) {
   od;
   kid_at = 0;
   do
-  :: kid_at < 4 -> assert(kid_read.type_of_instrument_ascii_str_4[kid_at] == kid_written.type_of_instrument_ascii_str_4[kid_at]); kid_at = kid_at + 1
+  :: kid_at < 4 -> assert(kid_read.kid_type_of_instrument[kid_at] == kid_written.kid_type_of_instrument[kid_at]); kid_at = kid_at + 1
   :: else -> break
   od;
   kid_at = 0;

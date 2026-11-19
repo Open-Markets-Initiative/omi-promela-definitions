@@ -856,9 +856,9 @@ inline equal_active_risk_threshold_state_message(active_risk_threshold_state_mes
 
 /* ActiveRiskThresholdChangeRejectedMessage */
 typedef ActiveRiskThresholdChangeRejectedMessage {
-  byte cl_ord_id_active_risk_threshold_change_rejected_cl_ord_id[20];
-  byte underlier_active_risk_threshold_change_rejected_underlier_optional[6];
-  byte efid_active_risk_threshold_change_rejected_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte threshold_quantity[4];
   byte reject_reason[2]
 };
@@ -869,17 +869,17 @@ int active_risk_threshold_change_rejected_message_at;
 inline fill_active_risk_threshold_change_rejected_message(active_risk_threshold_change_rejected_message_record, active_risk_threshold_change_rejected_message_value) {
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 20 -> active_risk_threshold_change_rejected_message_record.cl_ord_id_active_risk_threshold_change_rejected_cl_ord_id[active_risk_threshold_change_rejected_message_at] = active_risk_threshold_change_rejected_message_value; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 20 -> active_risk_threshold_change_rejected_message_record.cl_ord_id[active_risk_threshold_change_rejected_message_at] = active_risk_threshold_change_rejected_message_value; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 6 -> active_risk_threshold_change_rejected_message_record.underlier_active_risk_threshold_change_rejected_underlier_optional[active_risk_threshold_change_rejected_message_at] = active_risk_threshold_change_rejected_message_value; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 6 -> active_risk_threshold_change_rejected_message_record.underlier_optional[active_risk_threshold_change_rejected_message_at] = active_risk_threshold_change_rejected_message_value; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 4 -> active_risk_threshold_change_rejected_message_record.efid_active_risk_threshold_change_rejected_efid_optional[active_risk_threshold_change_rejected_message_at] = active_risk_threshold_change_rejected_message_value; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 4 -> active_risk_threshold_change_rejected_message_record.efid_optional[active_risk_threshold_change_rejected_message_at] = active_risk_threshold_change_rejected_message_value; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
@@ -899,17 +899,17 @@ inline fill_active_risk_threshold_change_rejected_message(active_risk_threshold_
 inline ramp_active_risk_threshold_change_rejected_message(active_risk_threshold_change_rejected_message_record, active_risk_threshold_change_rejected_message_base) {
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 20 -> active_risk_threshold_change_rejected_message_record.cl_ord_id_active_risk_threshold_change_rejected_cl_ord_id[active_risk_threshold_change_rejected_message_at] = (active_risk_threshold_change_rejected_message_base + 0 + active_risk_threshold_change_rejected_message_at + 1) % 256; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 20 -> active_risk_threshold_change_rejected_message_record.cl_ord_id[active_risk_threshold_change_rejected_message_at] = (active_risk_threshold_change_rejected_message_base + 0 + active_risk_threshold_change_rejected_message_at + 1) % 256; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 6 -> active_risk_threshold_change_rejected_message_record.underlier_active_risk_threshold_change_rejected_underlier_optional[active_risk_threshold_change_rejected_message_at] = (active_risk_threshold_change_rejected_message_base + 20 + active_risk_threshold_change_rejected_message_at + 1) % 256; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 6 -> active_risk_threshold_change_rejected_message_record.underlier_optional[active_risk_threshold_change_rejected_message_at] = (active_risk_threshold_change_rejected_message_base + 20 + active_risk_threshold_change_rejected_message_at + 1) % 256; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 4 -> active_risk_threshold_change_rejected_message_record.efid_active_risk_threshold_change_rejected_efid_optional[active_risk_threshold_change_rejected_message_at] = (active_risk_threshold_change_rejected_message_base + 26 + active_risk_threshold_change_rejected_message_at + 1) % 256; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 4 -> active_risk_threshold_change_rejected_message_record.efid_optional[active_risk_threshold_change_rejected_message_at] = (active_risk_threshold_change_rejected_message_base + 26 + active_risk_threshold_change_rejected_message_at + 1) % 256; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
@@ -929,17 +929,17 @@ inline ramp_active_risk_threshold_change_rejected_message(active_risk_threshold_
 inline encode_active_risk_threshold_change_rejected_message(active_risk_threshold_change_rejected_message_record) {
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 20 -> wire[at] = active_risk_threshold_change_rejected_message_record.cl_ord_id_active_risk_threshold_change_rejected_cl_ord_id[active_risk_threshold_change_rejected_message_at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 20 -> wire[at] = active_risk_threshold_change_rejected_message_record.cl_ord_id[active_risk_threshold_change_rejected_message_at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 6 -> wire[at] = active_risk_threshold_change_rejected_message_record.underlier_active_risk_threshold_change_rejected_underlier_optional[active_risk_threshold_change_rejected_message_at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 6 -> wire[at] = active_risk_threshold_change_rejected_message_record.underlier_optional[active_risk_threshold_change_rejected_message_at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 4 -> wire[at] = active_risk_threshold_change_rejected_message_record.efid_active_risk_threshold_change_rejected_efid_optional[active_risk_threshold_change_rejected_message_at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 4 -> wire[at] = active_risk_threshold_change_rejected_message_record.efid_optional[active_risk_threshold_change_rejected_message_at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
@@ -959,17 +959,17 @@ inline encode_active_risk_threshold_change_rejected_message(active_risk_threshol
 inline decode_active_risk_threshold_change_rejected_message(active_risk_threshold_change_rejected_message_record) {
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 20 -> active_risk_threshold_change_rejected_message_record.cl_ord_id_active_risk_threshold_change_rejected_cl_ord_id[active_risk_threshold_change_rejected_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 20 -> active_risk_threshold_change_rejected_message_record.cl_ord_id[active_risk_threshold_change_rejected_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 6 -> active_risk_threshold_change_rejected_message_record.underlier_active_risk_threshold_change_rejected_underlier_optional[active_risk_threshold_change_rejected_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 6 -> active_risk_threshold_change_rejected_message_record.underlier_optional[active_risk_threshold_change_rejected_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 4 -> active_risk_threshold_change_rejected_message_record.efid_active_risk_threshold_change_rejected_efid_optional[active_risk_threshold_change_rejected_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 4 -> active_risk_threshold_change_rejected_message_record.efid_optional[active_risk_threshold_change_rejected_message_at] = wire[at]; at = at + 1; active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
@@ -989,17 +989,17 @@ inline decode_active_risk_threshold_change_rejected_message(active_risk_threshol
 inline equal_active_risk_threshold_change_rejected_message(active_risk_threshold_change_rejected_message_read, active_risk_threshold_change_rejected_message_written) {
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 20 -> assert(active_risk_threshold_change_rejected_message_read.cl_ord_id_active_risk_threshold_change_rejected_cl_ord_id[active_risk_threshold_change_rejected_message_at] == active_risk_threshold_change_rejected_message_written.cl_ord_id_active_risk_threshold_change_rejected_cl_ord_id[active_risk_threshold_change_rejected_message_at]); active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 20 -> assert(active_risk_threshold_change_rejected_message_read.cl_ord_id[active_risk_threshold_change_rejected_message_at] == active_risk_threshold_change_rejected_message_written.cl_ord_id[active_risk_threshold_change_rejected_message_at]); active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 6 -> assert(active_risk_threshold_change_rejected_message_read.underlier_active_risk_threshold_change_rejected_underlier_optional[active_risk_threshold_change_rejected_message_at] == active_risk_threshold_change_rejected_message_written.underlier_active_risk_threshold_change_rejected_underlier_optional[active_risk_threshold_change_rejected_message_at]); active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 6 -> assert(active_risk_threshold_change_rejected_message_read.underlier_optional[active_risk_threshold_change_rejected_message_at] == active_risk_threshold_change_rejected_message_written.underlier_optional[active_risk_threshold_change_rejected_message_at]); active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
   do
-  :: active_risk_threshold_change_rejected_message_at < 4 -> assert(active_risk_threshold_change_rejected_message_read.efid_active_risk_threshold_change_rejected_efid_optional[active_risk_threshold_change_rejected_message_at] == active_risk_threshold_change_rejected_message_written.efid_active_risk_threshold_change_rejected_efid_optional[active_risk_threshold_change_rejected_message_at]); active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
+  :: active_risk_threshold_change_rejected_message_at < 4 -> assert(active_risk_threshold_change_rejected_message_read.efid_optional[active_risk_threshold_change_rejected_message_at] == active_risk_threshold_change_rejected_message_written.efid_optional[active_risk_threshold_change_rejected_message_at]); active_risk_threshold_change_rejected_message_at = active_risk_threshold_change_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_threshold_change_rejected_message_at = 0;
@@ -1182,9 +1182,9 @@ inline equal_active_risk_acknowledged_message(active_risk_acknowledged_message_r
 
 /* ActiveRiskAcknowledgeRejectedMessage */
 typedef ActiveRiskAcknowledgeRejectedMessage {
-  byte cl_ord_id_active_risk_acknowledge_rejected_cl_ord_id[20];
-  byte underlier_active_risk_acknowledge_rejected_underlier[6];
-  byte efid_active_risk_acknowledge_rejected_efid[4];
+  byte cl_ord_id[20];
+  byte underlier[6];
+  byte efid[4];
   byte threshold_quantity[4];
   byte reject_reason[2]
 };
@@ -1195,17 +1195,17 @@ int active_risk_acknowledge_rejected_message_at;
 inline fill_active_risk_acknowledge_rejected_message(active_risk_acknowledge_rejected_message_record, active_risk_acknowledge_rejected_message_value) {
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 20 -> active_risk_acknowledge_rejected_message_record.cl_ord_id_active_risk_acknowledge_rejected_cl_ord_id[active_risk_acknowledge_rejected_message_at] = active_risk_acknowledge_rejected_message_value; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 20 -> active_risk_acknowledge_rejected_message_record.cl_ord_id[active_risk_acknowledge_rejected_message_at] = active_risk_acknowledge_rejected_message_value; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 6 -> active_risk_acknowledge_rejected_message_record.underlier_active_risk_acknowledge_rejected_underlier[active_risk_acknowledge_rejected_message_at] = active_risk_acknowledge_rejected_message_value; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 6 -> active_risk_acknowledge_rejected_message_record.underlier[active_risk_acknowledge_rejected_message_at] = active_risk_acknowledge_rejected_message_value; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 4 -> active_risk_acknowledge_rejected_message_record.efid_active_risk_acknowledge_rejected_efid[active_risk_acknowledge_rejected_message_at] = active_risk_acknowledge_rejected_message_value; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 4 -> active_risk_acknowledge_rejected_message_record.efid[active_risk_acknowledge_rejected_message_at] = active_risk_acknowledge_rejected_message_value; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
@@ -1225,17 +1225,17 @@ inline fill_active_risk_acknowledge_rejected_message(active_risk_acknowledge_rej
 inline ramp_active_risk_acknowledge_rejected_message(active_risk_acknowledge_rejected_message_record, active_risk_acknowledge_rejected_message_base) {
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 20 -> active_risk_acknowledge_rejected_message_record.cl_ord_id_active_risk_acknowledge_rejected_cl_ord_id[active_risk_acknowledge_rejected_message_at] = (active_risk_acknowledge_rejected_message_base + 0 + active_risk_acknowledge_rejected_message_at + 1) % 256; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 20 -> active_risk_acknowledge_rejected_message_record.cl_ord_id[active_risk_acknowledge_rejected_message_at] = (active_risk_acknowledge_rejected_message_base + 0 + active_risk_acknowledge_rejected_message_at + 1) % 256; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 6 -> active_risk_acknowledge_rejected_message_record.underlier_active_risk_acknowledge_rejected_underlier[active_risk_acknowledge_rejected_message_at] = (active_risk_acknowledge_rejected_message_base + 20 + active_risk_acknowledge_rejected_message_at + 1) % 256; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 6 -> active_risk_acknowledge_rejected_message_record.underlier[active_risk_acknowledge_rejected_message_at] = (active_risk_acknowledge_rejected_message_base + 20 + active_risk_acknowledge_rejected_message_at + 1) % 256; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 4 -> active_risk_acknowledge_rejected_message_record.efid_active_risk_acknowledge_rejected_efid[active_risk_acknowledge_rejected_message_at] = (active_risk_acknowledge_rejected_message_base + 26 + active_risk_acknowledge_rejected_message_at + 1) % 256; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 4 -> active_risk_acknowledge_rejected_message_record.efid[active_risk_acknowledge_rejected_message_at] = (active_risk_acknowledge_rejected_message_base + 26 + active_risk_acknowledge_rejected_message_at + 1) % 256; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
@@ -1255,17 +1255,17 @@ inline ramp_active_risk_acknowledge_rejected_message(active_risk_acknowledge_rej
 inline encode_active_risk_acknowledge_rejected_message(active_risk_acknowledge_rejected_message_record) {
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 20 -> wire[at] = active_risk_acknowledge_rejected_message_record.cl_ord_id_active_risk_acknowledge_rejected_cl_ord_id[active_risk_acknowledge_rejected_message_at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 20 -> wire[at] = active_risk_acknowledge_rejected_message_record.cl_ord_id[active_risk_acknowledge_rejected_message_at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 6 -> wire[at] = active_risk_acknowledge_rejected_message_record.underlier_active_risk_acknowledge_rejected_underlier[active_risk_acknowledge_rejected_message_at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 6 -> wire[at] = active_risk_acknowledge_rejected_message_record.underlier[active_risk_acknowledge_rejected_message_at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 4 -> wire[at] = active_risk_acknowledge_rejected_message_record.efid_active_risk_acknowledge_rejected_efid[active_risk_acknowledge_rejected_message_at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 4 -> wire[at] = active_risk_acknowledge_rejected_message_record.efid[active_risk_acknowledge_rejected_message_at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
@@ -1285,17 +1285,17 @@ inline encode_active_risk_acknowledge_rejected_message(active_risk_acknowledge_r
 inline decode_active_risk_acknowledge_rejected_message(active_risk_acknowledge_rejected_message_record) {
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 20 -> active_risk_acknowledge_rejected_message_record.cl_ord_id_active_risk_acknowledge_rejected_cl_ord_id[active_risk_acknowledge_rejected_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 20 -> active_risk_acknowledge_rejected_message_record.cl_ord_id[active_risk_acknowledge_rejected_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 6 -> active_risk_acknowledge_rejected_message_record.underlier_active_risk_acknowledge_rejected_underlier[active_risk_acknowledge_rejected_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 6 -> active_risk_acknowledge_rejected_message_record.underlier[active_risk_acknowledge_rejected_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 4 -> active_risk_acknowledge_rejected_message_record.efid_active_risk_acknowledge_rejected_efid[active_risk_acknowledge_rejected_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 4 -> active_risk_acknowledge_rejected_message_record.efid[active_risk_acknowledge_rejected_message_at] = wire[at]; at = at + 1; active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
@@ -1315,17 +1315,17 @@ inline decode_active_risk_acknowledge_rejected_message(active_risk_acknowledge_r
 inline equal_active_risk_acknowledge_rejected_message(active_risk_acknowledge_rejected_message_read, active_risk_acknowledge_rejected_message_written) {
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 20 -> assert(active_risk_acknowledge_rejected_message_read.cl_ord_id_active_risk_acknowledge_rejected_cl_ord_id[active_risk_acknowledge_rejected_message_at] == active_risk_acknowledge_rejected_message_written.cl_ord_id_active_risk_acknowledge_rejected_cl_ord_id[active_risk_acknowledge_rejected_message_at]); active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 20 -> assert(active_risk_acknowledge_rejected_message_read.cl_ord_id[active_risk_acknowledge_rejected_message_at] == active_risk_acknowledge_rejected_message_written.cl_ord_id[active_risk_acknowledge_rejected_message_at]); active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 6 -> assert(active_risk_acknowledge_rejected_message_read.underlier_active_risk_acknowledge_rejected_underlier[active_risk_acknowledge_rejected_message_at] == active_risk_acknowledge_rejected_message_written.underlier_active_risk_acknowledge_rejected_underlier[active_risk_acknowledge_rejected_message_at]); active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 6 -> assert(active_risk_acknowledge_rejected_message_read.underlier[active_risk_acknowledge_rejected_message_at] == active_risk_acknowledge_rejected_message_written.underlier[active_risk_acknowledge_rejected_message_at]); active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
   do
-  :: active_risk_acknowledge_rejected_message_at < 4 -> assert(active_risk_acknowledge_rejected_message_read.efid_active_risk_acknowledge_rejected_efid[active_risk_acknowledge_rejected_message_at] == active_risk_acknowledge_rejected_message_written.efid_active_risk_acknowledge_rejected_efid[active_risk_acknowledge_rejected_message_at]); active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
+  :: active_risk_acknowledge_rejected_message_at < 4 -> assert(active_risk_acknowledge_rejected_message_read.efid[active_risk_acknowledge_rejected_message_at] == active_risk_acknowledge_rejected_message_written.efid[active_risk_acknowledge_rejected_message_at]); active_risk_acknowledge_rejected_message_at = active_risk_acknowledge_rejected_message_at + 1
   :: else -> break
   od;
   active_risk_acknowledge_rejected_message_at = 0;
@@ -2889,7 +2889,7 @@ inline equal_manual_cp_breach_trigger_done_message(manual_cp_breach_trigger_done
 
 /* RiskThresholdUpdateRejectedMessage */
 typedef RiskThresholdUpdateRejectedMessage {
-  byte cl_ord_id_risk_threshold_update_rejected_cl_ord_id[20];
+  byte cl_ord_id[20];
   byte risk_type;
   byte reject_reason[2]
 };
@@ -2900,7 +2900,7 @@ int risk_threshold_update_rejected_message_at;
 inline fill_risk_threshold_update_rejected_message(risk_threshold_update_rejected_message_record, risk_threshold_update_rejected_message_value) {
   risk_threshold_update_rejected_message_at = 0;
   do
-  :: risk_threshold_update_rejected_message_at < 20 -> risk_threshold_update_rejected_message_record.cl_ord_id_risk_threshold_update_rejected_cl_ord_id[risk_threshold_update_rejected_message_at] = risk_threshold_update_rejected_message_value; risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
+  :: risk_threshold_update_rejected_message_at < 20 -> risk_threshold_update_rejected_message_record.cl_ord_id[risk_threshold_update_rejected_message_at] = risk_threshold_update_rejected_message_value; risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
   :: else -> break
   od;
   risk_threshold_update_rejected_message_record.risk_type = risk_threshold_update_rejected_message_value;
@@ -2916,7 +2916,7 @@ inline fill_risk_threshold_update_rejected_message(risk_threshold_update_rejecte
 inline ramp_risk_threshold_update_rejected_message(risk_threshold_update_rejected_message_record, risk_threshold_update_rejected_message_base) {
   risk_threshold_update_rejected_message_at = 0;
   do
-  :: risk_threshold_update_rejected_message_at < 20 -> risk_threshold_update_rejected_message_record.cl_ord_id_risk_threshold_update_rejected_cl_ord_id[risk_threshold_update_rejected_message_at] = (risk_threshold_update_rejected_message_base + 0 + risk_threshold_update_rejected_message_at + 1) % 256; risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
+  :: risk_threshold_update_rejected_message_at < 20 -> risk_threshold_update_rejected_message_record.cl_ord_id[risk_threshold_update_rejected_message_at] = (risk_threshold_update_rejected_message_base + 0 + risk_threshold_update_rejected_message_at + 1) % 256; risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
   :: else -> break
   od;
   risk_threshold_update_rejected_message_record.risk_type = (risk_threshold_update_rejected_message_base + 20 + 1) % 256;
@@ -2932,7 +2932,7 @@ inline ramp_risk_threshold_update_rejected_message(risk_threshold_update_rejecte
 inline encode_risk_threshold_update_rejected_message(risk_threshold_update_rejected_message_record) {
   risk_threshold_update_rejected_message_at = 0;
   do
-  :: risk_threshold_update_rejected_message_at < 20 -> wire[at] = risk_threshold_update_rejected_message_record.cl_ord_id_risk_threshold_update_rejected_cl_ord_id[risk_threshold_update_rejected_message_at]; at = at + 1; risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
+  :: risk_threshold_update_rejected_message_at < 20 -> wire[at] = risk_threshold_update_rejected_message_record.cl_ord_id[risk_threshold_update_rejected_message_at]; at = at + 1; risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
   :: else -> break
   od;
   wire[at] = risk_threshold_update_rejected_message_record.risk_type; at = at + 1;
@@ -2948,7 +2948,7 @@ inline encode_risk_threshold_update_rejected_message(risk_threshold_update_rejec
 inline decode_risk_threshold_update_rejected_message(risk_threshold_update_rejected_message_record) {
   risk_threshold_update_rejected_message_at = 0;
   do
-  :: risk_threshold_update_rejected_message_at < 20 -> risk_threshold_update_rejected_message_record.cl_ord_id_risk_threshold_update_rejected_cl_ord_id[risk_threshold_update_rejected_message_at] = wire[at]; at = at + 1; risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
+  :: risk_threshold_update_rejected_message_at < 20 -> risk_threshold_update_rejected_message_record.cl_ord_id[risk_threshold_update_rejected_message_at] = wire[at]; at = at + 1; risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
   :: else -> break
   od;
   risk_threshold_update_rejected_message_record.risk_type = wire[at]; at = at + 1;
@@ -2964,7 +2964,7 @@ inline decode_risk_threshold_update_rejected_message(risk_threshold_update_rejec
 inline equal_risk_threshold_update_rejected_message(risk_threshold_update_rejected_message_read, risk_threshold_update_rejected_message_written) {
   risk_threshold_update_rejected_message_at = 0;
   do
-  :: risk_threshold_update_rejected_message_at < 20 -> assert(risk_threshold_update_rejected_message_read.cl_ord_id_risk_threshold_update_rejected_cl_ord_id[risk_threshold_update_rejected_message_at] == risk_threshold_update_rejected_message_written.cl_ord_id_risk_threshold_update_rejected_cl_ord_id[risk_threshold_update_rejected_message_at]); risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
+  :: risk_threshold_update_rejected_message_at < 20 -> assert(risk_threshold_update_rejected_message_read.cl_ord_id[risk_threshold_update_rejected_message_at] == risk_threshold_update_rejected_message_written.cl_ord_id[risk_threshold_update_rejected_message_at]); risk_threshold_update_rejected_message_at = risk_threshold_update_rejected_message_at + 1
   :: else -> break
   od;
   assert(risk_threshold_update_rejected_message_read.risk_type == risk_threshold_update_rejected_message_written.risk_type);
@@ -3767,9 +3767,9 @@ inline equal_single_order_max_contracts_threshold_state_message(single_order_max
 
 /* SingleOrderAllowMarketOrdersStateMessage */
 typedef SingleOrderAllowMarketOrdersStateMessage {
-  byte cl_ord_id_single_order_allow_market_orders_state_cl_ord_id_optional[20];
-  byte underlier_single_order_allow_market_orders_state_underlier_optional[6];
-  byte efid_single_order_allow_market_orders_state_efid_optional[4];
+  byte cl_ord_id_optional[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte market_orders
 };
@@ -3780,17 +3780,17 @@ int single_order_allow_market_orders_state_message_at;
 inline fill_single_order_allow_market_orders_state_message(single_order_allow_market_orders_state_message_record, single_order_allow_market_orders_state_message_value) {
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 20 -> single_order_allow_market_orders_state_message_record.cl_ord_id_single_order_allow_market_orders_state_cl_ord_id_optional[single_order_allow_market_orders_state_message_at] = single_order_allow_market_orders_state_message_value; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 20 -> single_order_allow_market_orders_state_message_record.cl_ord_id_optional[single_order_allow_market_orders_state_message_at] = single_order_allow_market_orders_state_message_value; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 6 -> single_order_allow_market_orders_state_message_record.underlier_single_order_allow_market_orders_state_underlier_optional[single_order_allow_market_orders_state_message_at] = single_order_allow_market_orders_state_message_value; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 6 -> single_order_allow_market_orders_state_message_record.underlier_optional[single_order_allow_market_orders_state_message_at] = single_order_allow_market_orders_state_message_value; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 4 -> single_order_allow_market_orders_state_message_record.efid_single_order_allow_market_orders_state_efid_optional[single_order_allow_market_orders_state_message_at] = single_order_allow_market_orders_state_message_value; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 4 -> single_order_allow_market_orders_state_message_record.efid_optional[single_order_allow_market_orders_state_message_at] = single_order_allow_market_orders_state_message_value; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
@@ -3806,17 +3806,17 @@ inline fill_single_order_allow_market_orders_state_message(single_order_allow_ma
 inline ramp_single_order_allow_market_orders_state_message(single_order_allow_market_orders_state_message_record, single_order_allow_market_orders_state_message_base) {
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 20 -> single_order_allow_market_orders_state_message_record.cl_ord_id_single_order_allow_market_orders_state_cl_ord_id_optional[single_order_allow_market_orders_state_message_at] = (single_order_allow_market_orders_state_message_base + 0 + single_order_allow_market_orders_state_message_at + 1) % 256; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 20 -> single_order_allow_market_orders_state_message_record.cl_ord_id_optional[single_order_allow_market_orders_state_message_at] = (single_order_allow_market_orders_state_message_base + 0 + single_order_allow_market_orders_state_message_at + 1) % 256; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 6 -> single_order_allow_market_orders_state_message_record.underlier_single_order_allow_market_orders_state_underlier_optional[single_order_allow_market_orders_state_message_at] = (single_order_allow_market_orders_state_message_base + 20 + single_order_allow_market_orders_state_message_at + 1) % 256; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 6 -> single_order_allow_market_orders_state_message_record.underlier_optional[single_order_allow_market_orders_state_message_at] = (single_order_allow_market_orders_state_message_base + 20 + single_order_allow_market_orders_state_message_at + 1) % 256; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 4 -> single_order_allow_market_orders_state_message_record.efid_single_order_allow_market_orders_state_efid_optional[single_order_allow_market_orders_state_message_at] = (single_order_allow_market_orders_state_message_base + 26 + single_order_allow_market_orders_state_message_at + 1) % 256; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 4 -> single_order_allow_market_orders_state_message_record.efid_optional[single_order_allow_market_orders_state_message_at] = (single_order_allow_market_orders_state_message_base + 26 + single_order_allow_market_orders_state_message_at + 1) % 256; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
@@ -3832,17 +3832,17 @@ inline ramp_single_order_allow_market_orders_state_message(single_order_allow_ma
 inline encode_single_order_allow_market_orders_state_message(single_order_allow_market_orders_state_message_record) {
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 20 -> wire[at] = single_order_allow_market_orders_state_message_record.cl_ord_id_single_order_allow_market_orders_state_cl_ord_id_optional[single_order_allow_market_orders_state_message_at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 20 -> wire[at] = single_order_allow_market_orders_state_message_record.cl_ord_id_optional[single_order_allow_market_orders_state_message_at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 6 -> wire[at] = single_order_allow_market_orders_state_message_record.underlier_single_order_allow_market_orders_state_underlier_optional[single_order_allow_market_orders_state_message_at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 6 -> wire[at] = single_order_allow_market_orders_state_message_record.underlier_optional[single_order_allow_market_orders_state_message_at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 4 -> wire[at] = single_order_allow_market_orders_state_message_record.efid_single_order_allow_market_orders_state_efid_optional[single_order_allow_market_orders_state_message_at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 4 -> wire[at] = single_order_allow_market_orders_state_message_record.efid_optional[single_order_allow_market_orders_state_message_at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
@@ -3858,17 +3858,17 @@ inline encode_single_order_allow_market_orders_state_message(single_order_allow_
 inline decode_single_order_allow_market_orders_state_message(single_order_allow_market_orders_state_message_record) {
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 20 -> single_order_allow_market_orders_state_message_record.cl_ord_id_single_order_allow_market_orders_state_cl_ord_id_optional[single_order_allow_market_orders_state_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 20 -> single_order_allow_market_orders_state_message_record.cl_ord_id_optional[single_order_allow_market_orders_state_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 6 -> single_order_allow_market_orders_state_message_record.underlier_single_order_allow_market_orders_state_underlier_optional[single_order_allow_market_orders_state_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 6 -> single_order_allow_market_orders_state_message_record.underlier_optional[single_order_allow_market_orders_state_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 4 -> single_order_allow_market_orders_state_message_record.efid_single_order_allow_market_orders_state_efid_optional[single_order_allow_market_orders_state_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 4 -> single_order_allow_market_orders_state_message_record.efid_optional[single_order_allow_market_orders_state_message_at] = wire[at]; at = at + 1; single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
@@ -3884,17 +3884,17 @@ inline decode_single_order_allow_market_orders_state_message(single_order_allow_
 inline equal_single_order_allow_market_orders_state_message(single_order_allow_market_orders_state_message_read, single_order_allow_market_orders_state_message_written) {
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 20 -> assert(single_order_allow_market_orders_state_message_read.cl_ord_id_single_order_allow_market_orders_state_cl_ord_id_optional[single_order_allow_market_orders_state_message_at] == single_order_allow_market_orders_state_message_written.cl_ord_id_single_order_allow_market_orders_state_cl_ord_id_optional[single_order_allow_market_orders_state_message_at]); single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 20 -> assert(single_order_allow_market_orders_state_message_read.cl_ord_id_optional[single_order_allow_market_orders_state_message_at] == single_order_allow_market_orders_state_message_written.cl_ord_id_optional[single_order_allow_market_orders_state_message_at]); single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 6 -> assert(single_order_allow_market_orders_state_message_read.underlier_single_order_allow_market_orders_state_underlier_optional[single_order_allow_market_orders_state_message_at] == single_order_allow_market_orders_state_message_written.underlier_single_order_allow_market_orders_state_underlier_optional[single_order_allow_market_orders_state_message_at]); single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 6 -> assert(single_order_allow_market_orders_state_message_read.underlier_optional[single_order_allow_market_orders_state_message_at] == single_order_allow_market_orders_state_message_written.underlier_optional[single_order_allow_market_orders_state_message_at]); single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
   do
-  :: single_order_allow_market_orders_state_message_at < 4 -> assert(single_order_allow_market_orders_state_message_read.efid_single_order_allow_market_orders_state_efid_optional[single_order_allow_market_orders_state_message_at] == single_order_allow_market_orders_state_message_written.efid_single_order_allow_market_orders_state_efid_optional[single_order_allow_market_orders_state_message_at]); single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
+  :: single_order_allow_market_orders_state_message_at < 4 -> assert(single_order_allow_market_orders_state_message_read.efid_optional[single_order_allow_market_orders_state_message_at] == single_order_allow_market_orders_state_message_written.efid_optional[single_order_allow_market_orders_state_message_at]); single_order_allow_market_orders_state_message_at = single_order_allow_market_orders_state_message_at + 1
   :: else -> break
   od;
   single_order_allow_market_orders_state_message_at = 0;
@@ -3910,9 +3910,9 @@ inline equal_single_order_allow_market_orders_state_message(single_order_allow_m
 
 /* SingleOrderRestrictedUnderlierStateMessage */
 typedef SingleOrderRestrictedUnderlierStateMessage {
-  byte cl_ord_id_single_order_restricted_underlier_state_cl_ord_id_optional[20];
-  byte underlier_single_order_restricted_underlier_state_underlier[6];
-  byte efid_single_order_restricted_underlier_state_efid_optional[4];
+  byte cl_ord_id_optional[20];
+  byte underlier[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte restricted
 };
@@ -3923,17 +3923,17 @@ int single_order_restricted_underlier_state_message_at;
 inline fill_single_order_restricted_underlier_state_message(single_order_restricted_underlier_state_message_record, single_order_restricted_underlier_state_message_value) {
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 20 -> single_order_restricted_underlier_state_message_record.cl_ord_id_single_order_restricted_underlier_state_cl_ord_id_optional[single_order_restricted_underlier_state_message_at] = single_order_restricted_underlier_state_message_value; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 20 -> single_order_restricted_underlier_state_message_record.cl_ord_id_optional[single_order_restricted_underlier_state_message_at] = single_order_restricted_underlier_state_message_value; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 6 -> single_order_restricted_underlier_state_message_record.underlier_single_order_restricted_underlier_state_underlier[single_order_restricted_underlier_state_message_at] = single_order_restricted_underlier_state_message_value; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 6 -> single_order_restricted_underlier_state_message_record.underlier[single_order_restricted_underlier_state_message_at] = single_order_restricted_underlier_state_message_value; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 4 -> single_order_restricted_underlier_state_message_record.efid_single_order_restricted_underlier_state_efid_optional[single_order_restricted_underlier_state_message_at] = single_order_restricted_underlier_state_message_value; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 4 -> single_order_restricted_underlier_state_message_record.efid_optional[single_order_restricted_underlier_state_message_at] = single_order_restricted_underlier_state_message_value; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
@@ -3949,17 +3949,17 @@ inline fill_single_order_restricted_underlier_state_message(single_order_restric
 inline ramp_single_order_restricted_underlier_state_message(single_order_restricted_underlier_state_message_record, single_order_restricted_underlier_state_message_base) {
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 20 -> single_order_restricted_underlier_state_message_record.cl_ord_id_single_order_restricted_underlier_state_cl_ord_id_optional[single_order_restricted_underlier_state_message_at] = (single_order_restricted_underlier_state_message_base + 0 + single_order_restricted_underlier_state_message_at + 1) % 256; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 20 -> single_order_restricted_underlier_state_message_record.cl_ord_id_optional[single_order_restricted_underlier_state_message_at] = (single_order_restricted_underlier_state_message_base + 0 + single_order_restricted_underlier_state_message_at + 1) % 256; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 6 -> single_order_restricted_underlier_state_message_record.underlier_single_order_restricted_underlier_state_underlier[single_order_restricted_underlier_state_message_at] = (single_order_restricted_underlier_state_message_base + 20 + single_order_restricted_underlier_state_message_at + 1) % 256; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 6 -> single_order_restricted_underlier_state_message_record.underlier[single_order_restricted_underlier_state_message_at] = (single_order_restricted_underlier_state_message_base + 20 + single_order_restricted_underlier_state_message_at + 1) % 256; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 4 -> single_order_restricted_underlier_state_message_record.efid_single_order_restricted_underlier_state_efid_optional[single_order_restricted_underlier_state_message_at] = (single_order_restricted_underlier_state_message_base + 26 + single_order_restricted_underlier_state_message_at + 1) % 256; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 4 -> single_order_restricted_underlier_state_message_record.efid_optional[single_order_restricted_underlier_state_message_at] = (single_order_restricted_underlier_state_message_base + 26 + single_order_restricted_underlier_state_message_at + 1) % 256; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
@@ -3975,17 +3975,17 @@ inline ramp_single_order_restricted_underlier_state_message(single_order_restric
 inline encode_single_order_restricted_underlier_state_message(single_order_restricted_underlier_state_message_record) {
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 20 -> wire[at] = single_order_restricted_underlier_state_message_record.cl_ord_id_single_order_restricted_underlier_state_cl_ord_id_optional[single_order_restricted_underlier_state_message_at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 20 -> wire[at] = single_order_restricted_underlier_state_message_record.cl_ord_id_optional[single_order_restricted_underlier_state_message_at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 6 -> wire[at] = single_order_restricted_underlier_state_message_record.underlier_single_order_restricted_underlier_state_underlier[single_order_restricted_underlier_state_message_at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 6 -> wire[at] = single_order_restricted_underlier_state_message_record.underlier[single_order_restricted_underlier_state_message_at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 4 -> wire[at] = single_order_restricted_underlier_state_message_record.efid_single_order_restricted_underlier_state_efid_optional[single_order_restricted_underlier_state_message_at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 4 -> wire[at] = single_order_restricted_underlier_state_message_record.efid_optional[single_order_restricted_underlier_state_message_at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
@@ -4001,17 +4001,17 @@ inline encode_single_order_restricted_underlier_state_message(single_order_restr
 inline decode_single_order_restricted_underlier_state_message(single_order_restricted_underlier_state_message_record) {
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 20 -> single_order_restricted_underlier_state_message_record.cl_ord_id_single_order_restricted_underlier_state_cl_ord_id_optional[single_order_restricted_underlier_state_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 20 -> single_order_restricted_underlier_state_message_record.cl_ord_id_optional[single_order_restricted_underlier_state_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 6 -> single_order_restricted_underlier_state_message_record.underlier_single_order_restricted_underlier_state_underlier[single_order_restricted_underlier_state_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 6 -> single_order_restricted_underlier_state_message_record.underlier[single_order_restricted_underlier_state_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 4 -> single_order_restricted_underlier_state_message_record.efid_single_order_restricted_underlier_state_efid_optional[single_order_restricted_underlier_state_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 4 -> single_order_restricted_underlier_state_message_record.efid_optional[single_order_restricted_underlier_state_message_at] = wire[at]; at = at + 1; single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
@@ -4027,17 +4027,17 @@ inline decode_single_order_restricted_underlier_state_message(single_order_restr
 inline equal_single_order_restricted_underlier_state_message(single_order_restricted_underlier_state_message_read, single_order_restricted_underlier_state_message_written) {
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 20 -> assert(single_order_restricted_underlier_state_message_read.cl_ord_id_single_order_restricted_underlier_state_cl_ord_id_optional[single_order_restricted_underlier_state_message_at] == single_order_restricted_underlier_state_message_written.cl_ord_id_single_order_restricted_underlier_state_cl_ord_id_optional[single_order_restricted_underlier_state_message_at]); single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 20 -> assert(single_order_restricted_underlier_state_message_read.cl_ord_id_optional[single_order_restricted_underlier_state_message_at] == single_order_restricted_underlier_state_message_written.cl_ord_id_optional[single_order_restricted_underlier_state_message_at]); single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 6 -> assert(single_order_restricted_underlier_state_message_read.underlier_single_order_restricted_underlier_state_underlier[single_order_restricted_underlier_state_message_at] == single_order_restricted_underlier_state_message_written.underlier_single_order_restricted_underlier_state_underlier[single_order_restricted_underlier_state_message_at]); single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 6 -> assert(single_order_restricted_underlier_state_message_read.underlier[single_order_restricted_underlier_state_message_at] == single_order_restricted_underlier_state_message_written.underlier[single_order_restricted_underlier_state_message_at]); single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
   do
-  :: single_order_restricted_underlier_state_message_at < 4 -> assert(single_order_restricted_underlier_state_message_read.efid_single_order_restricted_underlier_state_efid_optional[single_order_restricted_underlier_state_message_at] == single_order_restricted_underlier_state_message_written.efid_single_order_restricted_underlier_state_efid_optional[single_order_restricted_underlier_state_message_at]); single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
+  :: single_order_restricted_underlier_state_message_at < 4 -> assert(single_order_restricted_underlier_state_message_read.efid_optional[single_order_restricted_underlier_state_message_at] == single_order_restricted_underlier_state_message_written.efid_optional[single_order_restricted_underlier_state_message_at]); single_order_restricted_underlier_state_message_at = single_order_restricted_underlier_state_message_at + 1
   :: else -> break
   od;
   single_order_restricted_underlier_state_message_at = 0;
@@ -4138,7 +4138,7 @@ inline equal_risk_settings_query_done_message(risk_settings_query_done_message_r
 
 /* RiskSettingsQueryRejectedMessage */
 typedef RiskSettingsQueryRejectedMessage {
-  byte cl_ord_id_risk_settings_query_rejected_cl_ord_id[20];
+  byte cl_ord_id[20];
   byte reject_reason[2]
 };
 
@@ -4148,7 +4148,7 @@ int risk_settings_query_rejected_message_at;
 inline fill_risk_settings_query_rejected_message(risk_settings_query_rejected_message_record, risk_settings_query_rejected_message_value) {
   risk_settings_query_rejected_message_at = 0;
   do
-  :: risk_settings_query_rejected_message_at < 20 -> risk_settings_query_rejected_message_record.cl_ord_id_risk_settings_query_rejected_cl_ord_id[risk_settings_query_rejected_message_at] = risk_settings_query_rejected_message_value; risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
+  :: risk_settings_query_rejected_message_at < 20 -> risk_settings_query_rejected_message_record.cl_ord_id[risk_settings_query_rejected_message_at] = risk_settings_query_rejected_message_value; risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
   :: else -> break
   od;
   risk_settings_query_rejected_message_at = 0;
@@ -4163,7 +4163,7 @@ inline fill_risk_settings_query_rejected_message(risk_settings_query_rejected_me
 inline ramp_risk_settings_query_rejected_message(risk_settings_query_rejected_message_record, risk_settings_query_rejected_message_base) {
   risk_settings_query_rejected_message_at = 0;
   do
-  :: risk_settings_query_rejected_message_at < 20 -> risk_settings_query_rejected_message_record.cl_ord_id_risk_settings_query_rejected_cl_ord_id[risk_settings_query_rejected_message_at] = (risk_settings_query_rejected_message_base + 0 + risk_settings_query_rejected_message_at + 1) % 256; risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
+  :: risk_settings_query_rejected_message_at < 20 -> risk_settings_query_rejected_message_record.cl_ord_id[risk_settings_query_rejected_message_at] = (risk_settings_query_rejected_message_base + 0 + risk_settings_query_rejected_message_at + 1) % 256; risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
   :: else -> break
   od;
   risk_settings_query_rejected_message_at = 0;
@@ -4178,7 +4178,7 @@ inline ramp_risk_settings_query_rejected_message(risk_settings_query_rejected_me
 inline encode_risk_settings_query_rejected_message(risk_settings_query_rejected_message_record) {
   risk_settings_query_rejected_message_at = 0;
   do
-  :: risk_settings_query_rejected_message_at < 20 -> wire[at] = risk_settings_query_rejected_message_record.cl_ord_id_risk_settings_query_rejected_cl_ord_id[risk_settings_query_rejected_message_at]; at = at + 1; risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
+  :: risk_settings_query_rejected_message_at < 20 -> wire[at] = risk_settings_query_rejected_message_record.cl_ord_id[risk_settings_query_rejected_message_at]; at = at + 1; risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
   :: else -> break
   od;
   risk_settings_query_rejected_message_at = 0;
@@ -4193,7 +4193,7 @@ inline encode_risk_settings_query_rejected_message(risk_settings_query_rejected_
 inline decode_risk_settings_query_rejected_message(risk_settings_query_rejected_message_record) {
   risk_settings_query_rejected_message_at = 0;
   do
-  :: risk_settings_query_rejected_message_at < 20 -> risk_settings_query_rejected_message_record.cl_ord_id_risk_settings_query_rejected_cl_ord_id[risk_settings_query_rejected_message_at] = wire[at]; at = at + 1; risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
+  :: risk_settings_query_rejected_message_at < 20 -> risk_settings_query_rejected_message_record.cl_ord_id[risk_settings_query_rejected_message_at] = wire[at]; at = at + 1; risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
   :: else -> break
   od;
   risk_settings_query_rejected_message_at = 0;
@@ -4208,7 +4208,7 @@ inline decode_risk_settings_query_rejected_message(risk_settings_query_rejected_
 inline equal_risk_settings_query_rejected_message(risk_settings_query_rejected_message_read, risk_settings_query_rejected_message_written) {
   risk_settings_query_rejected_message_at = 0;
   do
-  :: risk_settings_query_rejected_message_at < 20 -> assert(risk_settings_query_rejected_message_read.cl_ord_id_risk_settings_query_rejected_cl_ord_id[risk_settings_query_rejected_message_at] == risk_settings_query_rejected_message_written.cl_ord_id_risk_settings_query_rejected_cl_ord_id[risk_settings_query_rejected_message_at]); risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
+  :: risk_settings_query_rejected_message_at < 20 -> assert(risk_settings_query_rejected_message_read.cl_ord_id[risk_settings_query_rejected_message_at] == risk_settings_query_rejected_message_written.cl_ord_id[risk_settings_query_rejected_message_at]); risk_settings_query_rejected_message_at = risk_settings_query_rejected_message_at + 1
   :: else -> break
   od;
   risk_settings_query_rejected_message_at = 0;
@@ -4223,9 +4223,9 @@ inline equal_risk_settings_query_rejected_message(risk_settings_query_rejected_m
 
 /* ManualCPBreachTriggerRejectedMessage */
 typedef ManualCpBreachTriggerRejectedMessage {
-  byte cl_ord_id_manual_cp_breach_trigger_rejected_cl_ord_id[20];
-  byte underlier_manual_cp_breach_trigger_rejected_underlier_optional[6];
-  byte efid_manual_cp_breach_trigger_rejected_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte risk_group_id[2];
   byte reject_reason[2]
 };
@@ -4236,17 +4236,17 @@ int manual_cp_breach_trigger_rejected_message_at;
 inline fill_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger_rejected_message_record, manual_cp_breach_trigger_rejected_message_value) {
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 20 -> manual_cp_breach_trigger_rejected_message_record.cl_ord_id_manual_cp_breach_trigger_rejected_cl_ord_id[manual_cp_breach_trigger_rejected_message_at] = manual_cp_breach_trigger_rejected_message_value; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 20 -> manual_cp_breach_trigger_rejected_message_record.cl_ord_id[manual_cp_breach_trigger_rejected_message_at] = manual_cp_breach_trigger_rejected_message_value; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 6 -> manual_cp_breach_trigger_rejected_message_record.underlier_manual_cp_breach_trigger_rejected_underlier_optional[manual_cp_breach_trigger_rejected_message_at] = manual_cp_breach_trigger_rejected_message_value; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 6 -> manual_cp_breach_trigger_rejected_message_record.underlier_optional[manual_cp_breach_trigger_rejected_message_at] = manual_cp_breach_trigger_rejected_message_value; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 4 -> manual_cp_breach_trigger_rejected_message_record.efid_manual_cp_breach_trigger_rejected_efid_optional[manual_cp_breach_trigger_rejected_message_at] = manual_cp_breach_trigger_rejected_message_value; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 4 -> manual_cp_breach_trigger_rejected_message_record.efid_optional[manual_cp_breach_trigger_rejected_message_at] = manual_cp_breach_trigger_rejected_message_value; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
@@ -4266,17 +4266,17 @@ inline fill_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger_r
 inline ramp_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger_rejected_message_record, manual_cp_breach_trigger_rejected_message_base) {
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 20 -> manual_cp_breach_trigger_rejected_message_record.cl_ord_id_manual_cp_breach_trigger_rejected_cl_ord_id[manual_cp_breach_trigger_rejected_message_at] = (manual_cp_breach_trigger_rejected_message_base + 0 + manual_cp_breach_trigger_rejected_message_at + 1) % 256; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 20 -> manual_cp_breach_trigger_rejected_message_record.cl_ord_id[manual_cp_breach_trigger_rejected_message_at] = (manual_cp_breach_trigger_rejected_message_base + 0 + manual_cp_breach_trigger_rejected_message_at + 1) % 256; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 6 -> manual_cp_breach_trigger_rejected_message_record.underlier_manual_cp_breach_trigger_rejected_underlier_optional[manual_cp_breach_trigger_rejected_message_at] = (manual_cp_breach_trigger_rejected_message_base + 20 + manual_cp_breach_trigger_rejected_message_at + 1) % 256; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 6 -> manual_cp_breach_trigger_rejected_message_record.underlier_optional[manual_cp_breach_trigger_rejected_message_at] = (manual_cp_breach_trigger_rejected_message_base + 20 + manual_cp_breach_trigger_rejected_message_at + 1) % 256; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 4 -> manual_cp_breach_trigger_rejected_message_record.efid_manual_cp_breach_trigger_rejected_efid_optional[manual_cp_breach_trigger_rejected_message_at] = (manual_cp_breach_trigger_rejected_message_base + 26 + manual_cp_breach_trigger_rejected_message_at + 1) % 256; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 4 -> manual_cp_breach_trigger_rejected_message_record.efid_optional[manual_cp_breach_trigger_rejected_message_at] = (manual_cp_breach_trigger_rejected_message_base + 26 + manual_cp_breach_trigger_rejected_message_at + 1) % 256; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
@@ -4296,17 +4296,17 @@ inline ramp_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger_r
 inline encode_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger_rejected_message_record) {
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 20 -> wire[at] = manual_cp_breach_trigger_rejected_message_record.cl_ord_id_manual_cp_breach_trigger_rejected_cl_ord_id[manual_cp_breach_trigger_rejected_message_at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 20 -> wire[at] = manual_cp_breach_trigger_rejected_message_record.cl_ord_id[manual_cp_breach_trigger_rejected_message_at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 6 -> wire[at] = manual_cp_breach_trigger_rejected_message_record.underlier_manual_cp_breach_trigger_rejected_underlier_optional[manual_cp_breach_trigger_rejected_message_at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 6 -> wire[at] = manual_cp_breach_trigger_rejected_message_record.underlier_optional[manual_cp_breach_trigger_rejected_message_at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 4 -> wire[at] = manual_cp_breach_trigger_rejected_message_record.efid_manual_cp_breach_trigger_rejected_efid_optional[manual_cp_breach_trigger_rejected_message_at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 4 -> wire[at] = manual_cp_breach_trigger_rejected_message_record.efid_optional[manual_cp_breach_trigger_rejected_message_at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
@@ -4326,17 +4326,17 @@ inline encode_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger
 inline decode_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger_rejected_message_record) {
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 20 -> manual_cp_breach_trigger_rejected_message_record.cl_ord_id_manual_cp_breach_trigger_rejected_cl_ord_id[manual_cp_breach_trigger_rejected_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 20 -> manual_cp_breach_trigger_rejected_message_record.cl_ord_id[manual_cp_breach_trigger_rejected_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 6 -> manual_cp_breach_trigger_rejected_message_record.underlier_manual_cp_breach_trigger_rejected_underlier_optional[manual_cp_breach_trigger_rejected_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 6 -> manual_cp_breach_trigger_rejected_message_record.underlier_optional[manual_cp_breach_trigger_rejected_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 4 -> manual_cp_breach_trigger_rejected_message_record.efid_manual_cp_breach_trigger_rejected_efid_optional[manual_cp_breach_trigger_rejected_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 4 -> manual_cp_breach_trigger_rejected_message_record.efid_optional[manual_cp_breach_trigger_rejected_message_at] = wire[at]; at = at + 1; manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
@@ -4356,17 +4356,17 @@ inline decode_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger
 inline equal_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger_rejected_message_read, manual_cp_breach_trigger_rejected_message_written) {
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 20 -> assert(manual_cp_breach_trigger_rejected_message_read.cl_ord_id_manual_cp_breach_trigger_rejected_cl_ord_id[manual_cp_breach_trigger_rejected_message_at] == manual_cp_breach_trigger_rejected_message_written.cl_ord_id_manual_cp_breach_trigger_rejected_cl_ord_id[manual_cp_breach_trigger_rejected_message_at]); manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 20 -> assert(manual_cp_breach_trigger_rejected_message_read.cl_ord_id[manual_cp_breach_trigger_rejected_message_at] == manual_cp_breach_trigger_rejected_message_written.cl_ord_id[manual_cp_breach_trigger_rejected_message_at]); manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 6 -> assert(manual_cp_breach_trigger_rejected_message_read.underlier_manual_cp_breach_trigger_rejected_underlier_optional[manual_cp_breach_trigger_rejected_message_at] == manual_cp_breach_trigger_rejected_message_written.underlier_manual_cp_breach_trigger_rejected_underlier_optional[manual_cp_breach_trigger_rejected_message_at]); manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 6 -> assert(manual_cp_breach_trigger_rejected_message_read.underlier_optional[manual_cp_breach_trigger_rejected_message_at] == manual_cp_breach_trigger_rejected_message_written.underlier_optional[manual_cp_breach_trigger_rejected_message_at]); manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
   do
-  :: manual_cp_breach_trigger_rejected_message_at < 4 -> assert(manual_cp_breach_trigger_rejected_message_read.efid_manual_cp_breach_trigger_rejected_efid_optional[manual_cp_breach_trigger_rejected_message_at] == manual_cp_breach_trigger_rejected_message_written.efid_manual_cp_breach_trigger_rejected_efid_optional[manual_cp_breach_trigger_rejected_message_at]); manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
+  :: manual_cp_breach_trigger_rejected_message_at < 4 -> assert(manual_cp_breach_trigger_rejected_message_read.efid_optional[manual_cp_breach_trigger_rejected_message_at] == manual_cp_breach_trigger_rejected_message_written.efid_optional[manual_cp_breach_trigger_rejected_message_at]); manual_cp_breach_trigger_rejected_message_at = manual_cp_breach_trigger_rejected_message_at + 1
   :: else -> break
   od;
   manual_cp_breach_trigger_rejected_message_at = 0;
@@ -4386,7 +4386,7 @@ inline equal_manual_cp_breach_trigger_rejected_message(manual_cp_breach_trigger_
 
 /* BreachClearRejectedMessage */
 typedef BreachClearRejectedMessage {
-  byte cl_ord_id_breach_clear_rejected_cl_ord_id[20];
+  byte cl_ord_id[20];
   byte breach_id_optional[8];
   byte reject_reason[2]
 };
@@ -4397,7 +4397,7 @@ int breach_clear_rejected_message_at;
 inline fill_breach_clear_rejected_message(breach_clear_rejected_message_record, breach_clear_rejected_message_value) {
   breach_clear_rejected_message_at = 0;
   do
-  :: breach_clear_rejected_message_at < 20 -> breach_clear_rejected_message_record.cl_ord_id_breach_clear_rejected_cl_ord_id[breach_clear_rejected_message_at] = breach_clear_rejected_message_value; breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
+  :: breach_clear_rejected_message_at < 20 -> breach_clear_rejected_message_record.cl_ord_id[breach_clear_rejected_message_at] = breach_clear_rejected_message_value; breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_rejected_message_at = 0;
@@ -4417,7 +4417,7 @@ inline fill_breach_clear_rejected_message(breach_clear_rejected_message_record, 
 inline ramp_breach_clear_rejected_message(breach_clear_rejected_message_record, breach_clear_rejected_message_base) {
   breach_clear_rejected_message_at = 0;
   do
-  :: breach_clear_rejected_message_at < 20 -> breach_clear_rejected_message_record.cl_ord_id_breach_clear_rejected_cl_ord_id[breach_clear_rejected_message_at] = (breach_clear_rejected_message_base + 0 + breach_clear_rejected_message_at + 1) % 256; breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
+  :: breach_clear_rejected_message_at < 20 -> breach_clear_rejected_message_record.cl_ord_id[breach_clear_rejected_message_at] = (breach_clear_rejected_message_base + 0 + breach_clear_rejected_message_at + 1) % 256; breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_rejected_message_at = 0;
@@ -4437,7 +4437,7 @@ inline ramp_breach_clear_rejected_message(breach_clear_rejected_message_record, 
 inline encode_breach_clear_rejected_message(breach_clear_rejected_message_record) {
   breach_clear_rejected_message_at = 0;
   do
-  :: breach_clear_rejected_message_at < 20 -> wire[at] = breach_clear_rejected_message_record.cl_ord_id_breach_clear_rejected_cl_ord_id[breach_clear_rejected_message_at]; at = at + 1; breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
+  :: breach_clear_rejected_message_at < 20 -> wire[at] = breach_clear_rejected_message_record.cl_ord_id[breach_clear_rejected_message_at]; at = at + 1; breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_rejected_message_at = 0;
@@ -4457,7 +4457,7 @@ inline encode_breach_clear_rejected_message(breach_clear_rejected_message_record
 inline decode_breach_clear_rejected_message(breach_clear_rejected_message_record) {
   breach_clear_rejected_message_at = 0;
   do
-  :: breach_clear_rejected_message_at < 20 -> breach_clear_rejected_message_record.cl_ord_id_breach_clear_rejected_cl_ord_id[breach_clear_rejected_message_at] = wire[at]; at = at + 1; breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
+  :: breach_clear_rejected_message_at < 20 -> breach_clear_rejected_message_record.cl_ord_id[breach_clear_rejected_message_at] = wire[at]; at = at + 1; breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_rejected_message_at = 0;
@@ -4477,7 +4477,7 @@ inline decode_breach_clear_rejected_message(breach_clear_rejected_message_record
 inline equal_breach_clear_rejected_message(breach_clear_rejected_message_read, breach_clear_rejected_message_written) {
   breach_clear_rejected_message_at = 0;
   do
-  :: breach_clear_rejected_message_at < 20 -> assert(breach_clear_rejected_message_read.cl_ord_id_breach_clear_rejected_cl_ord_id[breach_clear_rejected_message_at] == breach_clear_rejected_message_written.cl_ord_id_breach_clear_rejected_cl_ord_id[breach_clear_rejected_message_at]); breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
+  :: breach_clear_rejected_message_at < 20 -> assert(breach_clear_rejected_message_read.cl_ord_id[breach_clear_rejected_message_at] == breach_clear_rejected_message_written.cl_ord_id[breach_clear_rejected_message_at]); breach_clear_rejected_message_at = breach_clear_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_rejected_message_at = 0;
@@ -4582,7 +4582,7 @@ inline equal_breach_cleared_message(breach_cleared_message_read, breach_cleared_
 
 /* BreachClearAllAcceptedMessage */
 typedef BreachClearAllAcceptedMessage {
-  byte cl_ord_id_breach_clear_all_accepted_cl_ord_id[20]
+  byte cl_ord_id[20]
 };
 
 int breach_clear_all_accepted_message_at;
@@ -4591,7 +4591,7 @@ int breach_clear_all_accepted_message_at;
 inline fill_breach_clear_all_accepted_message(breach_clear_all_accepted_message_record, breach_clear_all_accepted_message_value) {
   breach_clear_all_accepted_message_at = 0;
   do
-  :: breach_clear_all_accepted_message_at < 20 -> breach_clear_all_accepted_message_record.cl_ord_id_breach_clear_all_accepted_cl_ord_id[breach_clear_all_accepted_message_at] = breach_clear_all_accepted_message_value; breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
+  :: breach_clear_all_accepted_message_at < 20 -> breach_clear_all_accepted_message_record.cl_ord_id[breach_clear_all_accepted_message_at] = breach_clear_all_accepted_message_value; breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4601,7 +4601,7 @@ inline fill_breach_clear_all_accepted_message(breach_clear_all_accepted_message_
 inline ramp_breach_clear_all_accepted_message(breach_clear_all_accepted_message_record, breach_clear_all_accepted_message_base) {
   breach_clear_all_accepted_message_at = 0;
   do
-  :: breach_clear_all_accepted_message_at < 20 -> breach_clear_all_accepted_message_record.cl_ord_id_breach_clear_all_accepted_cl_ord_id[breach_clear_all_accepted_message_at] = (breach_clear_all_accepted_message_base + 0 + breach_clear_all_accepted_message_at + 1) % 256; breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
+  :: breach_clear_all_accepted_message_at < 20 -> breach_clear_all_accepted_message_record.cl_ord_id[breach_clear_all_accepted_message_at] = (breach_clear_all_accepted_message_base + 0 + breach_clear_all_accepted_message_at + 1) % 256; breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4611,7 +4611,7 @@ inline ramp_breach_clear_all_accepted_message(breach_clear_all_accepted_message_
 inline encode_breach_clear_all_accepted_message(breach_clear_all_accepted_message_record) {
   breach_clear_all_accepted_message_at = 0;
   do
-  :: breach_clear_all_accepted_message_at < 20 -> wire[at] = breach_clear_all_accepted_message_record.cl_ord_id_breach_clear_all_accepted_cl_ord_id[breach_clear_all_accepted_message_at]; at = at + 1; breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
+  :: breach_clear_all_accepted_message_at < 20 -> wire[at] = breach_clear_all_accepted_message_record.cl_ord_id[breach_clear_all_accepted_message_at]; at = at + 1; breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4621,7 +4621,7 @@ inline encode_breach_clear_all_accepted_message(breach_clear_all_accepted_messag
 inline decode_breach_clear_all_accepted_message(breach_clear_all_accepted_message_record) {
   breach_clear_all_accepted_message_at = 0;
   do
-  :: breach_clear_all_accepted_message_at < 20 -> breach_clear_all_accepted_message_record.cl_ord_id_breach_clear_all_accepted_cl_ord_id[breach_clear_all_accepted_message_at] = wire[at]; at = at + 1; breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
+  :: breach_clear_all_accepted_message_at < 20 -> breach_clear_all_accepted_message_record.cl_ord_id[breach_clear_all_accepted_message_at] = wire[at]; at = at + 1; breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4631,7 +4631,7 @@ inline decode_breach_clear_all_accepted_message(breach_clear_all_accepted_messag
 inline equal_breach_clear_all_accepted_message(breach_clear_all_accepted_message_read, breach_clear_all_accepted_message_written) {
   breach_clear_all_accepted_message_at = 0;
   do
-  :: breach_clear_all_accepted_message_at < 20 -> assert(breach_clear_all_accepted_message_read.cl_ord_id_breach_clear_all_accepted_cl_ord_id[breach_clear_all_accepted_message_at] == breach_clear_all_accepted_message_written.cl_ord_id_breach_clear_all_accepted_cl_ord_id[breach_clear_all_accepted_message_at]); breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
+  :: breach_clear_all_accepted_message_at < 20 -> assert(breach_clear_all_accepted_message_read.cl_ord_id[breach_clear_all_accepted_message_at] == breach_clear_all_accepted_message_written.cl_ord_id[breach_clear_all_accepted_message_at]); breach_clear_all_accepted_message_at = breach_clear_all_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4641,7 +4641,7 @@ inline equal_breach_clear_all_accepted_message(breach_clear_all_accepted_message
 
 /* BreachClearAllRejectedMessage */
 typedef BreachClearAllRejectedMessage {
-  byte cl_ord_id_breach_clear_all_rejected_cl_ord_id[20];
+  byte cl_ord_id[20];
   byte reject_reason[2]
 };
 
@@ -4651,7 +4651,7 @@ int breach_clear_all_rejected_message_at;
 inline fill_breach_clear_all_rejected_message(breach_clear_all_rejected_message_record, breach_clear_all_rejected_message_value) {
   breach_clear_all_rejected_message_at = 0;
   do
-  :: breach_clear_all_rejected_message_at < 20 -> breach_clear_all_rejected_message_record.cl_ord_id_breach_clear_all_rejected_cl_ord_id[breach_clear_all_rejected_message_at] = breach_clear_all_rejected_message_value; breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
+  :: breach_clear_all_rejected_message_at < 20 -> breach_clear_all_rejected_message_record.cl_ord_id[breach_clear_all_rejected_message_at] = breach_clear_all_rejected_message_value; breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_rejected_message_at = 0;
@@ -4666,7 +4666,7 @@ inline fill_breach_clear_all_rejected_message(breach_clear_all_rejected_message_
 inline ramp_breach_clear_all_rejected_message(breach_clear_all_rejected_message_record, breach_clear_all_rejected_message_base) {
   breach_clear_all_rejected_message_at = 0;
   do
-  :: breach_clear_all_rejected_message_at < 20 -> breach_clear_all_rejected_message_record.cl_ord_id_breach_clear_all_rejected_cl_ord_id[breach_clear_all_rejected_message_at] = (breach_clear_all_rejected_message_base + 0 + breach_clear_all_rejected_message_at + 1) % 256; breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
+  :: breach_clear_all_rejected_message_at < 20 -> breach_clear_all_rejected_message_record.cl_ord_id[breach_clear_all_rejected_message_at] = (breach_clear_all_rejected_message_base + 0 + breach_clear_all_rejected_message_at + 1) % 256; breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_rejected_message_at = 0;
@@ -4681,7 +4681,7 @@ inline ramp_breach_clear_all_rejected_message(breach_clear_all_rejected_message_
 inline encode_breach_clear_all_rejected_message(breach_clear_all_rejected_message_record) {
   breach_clear_all_rejected_message_at = 0;
   do
-  :: breach_clear_all_rejected_message_at < 20 -> wire[at] = breach_clear_all_rejected_message_record.cl_ord_id_breach_clear_all_rejected_cl_ord_id[breach_clear_all_rejected_message_at]; at = at + 1; breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
+  :: breach_clear_all_rejected_message_at < 20 -> wire[at] = breach_clear_all_rejected_message_record.cl_ord_id[breach_clear_all_rejected_message_at]; at = at + 1; breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_rejected_message_at = 0;
@@ -4696,7 +4696,7 @@ inline encode_breach_clear_all_rejected_message(breach_clear_all_rejected_messag
 inline decode_breach_clear_all_rejected_message(breach_clear_all_rejected_message_record) {
   breach_clear_all_rejected_message_at = 0;
   do
-  :: breach_clear_all_rejected_message_at < 20 -> breach_clear_all_rejected_message_record.cl_ord_id_breach_clear_all_rejected_cl_ord_id[breach_clear_all_rejected_message_at] = wire[at]; at = at + 1; breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
+  :: breach_clear_all_rejected_message_at < 20 -> breach_clear_all_rejected_message_record.cl_ord_id[breach_clear_all_rejected_message_at] = wire[at]; at = at + 1; breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_rejected_message_at = 0;
@@ -4711,7 +4711,7 @@ inline decode_breach_clear_all_rejected_message(breach_clear_all_rejected_messag
 inline equal_breach_clear_all_rejected_message(breach_clear_all_rejected_message_read, breach_clear_all_rejected_message_written) {
   breach_clear_all_rejected_message_at = 0;
   do
-  :: breach_clear_all_rejected_message_at < 20 -> assert(breach_clear_all_rejected_message_read.cl_ord_id_breach_clear_all_rejected_cl_ord_id[breach_clear_all_rejected_message_at] == breach_clear_all_rejected_message_written.cl_ord_id_breach_clear_all_rejected_cl_ord_id[breach_clear_all_rejected_message_at]); breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
+  :: breach_clear_all_rejected_message_at < 20 -> assert(breach_clear_all_rejected_message_read.cl_ord_id[breach_clear_all_rejected_message_at] == breach_clear_all_rejected_message_written.cl_ord_id[breach_clear_all_rejected_message_at]); breach_clear_all_rejected_message_at = breach_clear_all_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_rejected_message_at = 0;
@@ -4726,9 +4726,9 @@ inline equal_breach_clear_all_rejected_message(breach_clear_all_rejected_message
 
 /* BreachClearAllByEFIDOrUnderlierAcceptedMessage */
 typedef BreachClearAllByEfidOrUnderlierAcceptedMessage {
-  byte cl_ord_id_breach_clear_all_by_efid_or_underlier_accepted_cl_ord_id[20];
-  byte underlier_breach_clear_all_by_efid_or_underlier_accepted_underlier_optional[6];
-  byte efid_breach_clear_all_by_efid_or_underlier_accepted_efid_optional[4]
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4]
 };
 
 int breach_clear_all_by_efid_or_underlier_accepted_message_at;
@@ -4737,17 +4737,17 @@ int breach_clear_all_by_efid_or_underlier_accepted_message_at;
 inline fill_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clear_all_by_efid_or_underlier_accepted_message_record, breach_clear_all_by_efid_or_underlier_accepted_message_value) {
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.cl_ord_id_breach_clear_all_by_efid_or_underlier_accepted_cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at] = breach_clear_all_by_efid_or_underlier_accepted_message_value; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at] = breach_clear_all_by_efid_or_underlier_accepted_message_value; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.underlier_breach_clear_all_by_efid_or_underlier_accepted_underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = breach_clear_all_by_efid_or_underlier_accepted_message_value; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = breach_clear_all_by_efid_or_underlier_accepted_message_value; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.efid_breach_clear_all_by_efid_or_underlier_accepted_efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = breach_clear_all_by_efid_or_underlier_accepted_message_value; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = breach_clear_all_by_efid_or_underlier_accepted_message_value; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4757,17 +4757,17 @@ inline fill_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clear_
 inline ramp_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clear_all_by_efid_or_underlier_accepted_message_record, breach_clear_all_by_efid_or_underlier_accepted_message_base) {
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.cl_ord_id_breach_clear_all_by_efid_or_underlier_accepted_cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at] = (breach_clear_all_by_efid_or_underlier_accepted_message_base + 0 + breach_clear_all_by_efid_or_underlier_accepted_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at] = (breach_clear_all_by_efid_or_underlier_accepted_message_base + 0 + breach_clear_all_by_efid_or_underlier_accepted_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.underlier_breach_clear_all_by_efid_or_underlier_accepted_underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = (breach_clear_all_by_efid_or_underlier_accepted_message_base + 20 + breach_clear_all_by_efid_or_underlier_accepted_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = (breach_clear_all_by_efid_or_underlier_accepted_message_base + 20 + breach_clear_all_by_efid_or_underlier_accepted_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.efid_breach_clear_all_by_efid_or_underlier_accepted_efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = (breach_clear_all_by_efid_or_underlier_accepted_message_base + 26 + breach_clear_all_by_efid_or_underlier_accepted_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = (breach_clear_all_by_efid_or_underlier_accepted_message_base + 26 + breach_clear_all_by_efid_or_underlier_accepted_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4777,17 +4777,17 @@ inline ramp_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clear_
 inline encode_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clear_all_by_efid_or_underlier_accepted_message_record) {
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> wire[at] = breach_clear_all_by_efid_or_underlier_accepted_message_record.cl_ord_id_breach_clear_all_by_efid_or_underlier_accepted_cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> wire[at] = breach_clear_all_by_efid_or_underlier_accepted_message_record.cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> wire[at] = breach_clear_all_by_efid_or_underlier_accepted_message_record.underlier_breach_clear_all_by_efid_or_underlier_accepted_underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> wire[at] = breach_clear_all_by_efid_or_underlier_accepted_message_record.underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> wire[at] = breach_clear_all_by_efid_or_underlier_accepted_message_record.efid_breach_clear_all_by_efid_or_underlier_accepted_efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> wire[at] = breach_clear_all_by_efid_or_underlier_accepted_message_record.efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4797,17 +4797,17 @@ inline encode_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clea
 inline decode_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clear_all_by_efid_or_underlier_accepted_message_record) {
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.cl_ord_id_breach_clear_all_by_efid_or_underlier_accepted_cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.underlier_breach_clear_all_by_efid_or_underlier_accepted_underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.efid_breach_clear_all_by_efid_or_underlier_accepted_efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> breach_clear_all_by_efid_or_underlier_accepted_message_record.efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4817,17 +4817,17 @@ inline decode_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clea
 inline equal_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clear_all_by_efid_or_underlier_accepted_message_read, breach_clear_all_by_efid_or_underlier_accepted_message_written) {
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> assert(breach_clear_all_by_efid_or_underlier_accepted_message_read.cl_ord_id_breach_clear_all_by_efid_or_underlier_accepted_cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at] == breach_clear_all_by_efid_or_underlier_accepted_message_written.cl_ord_id_breach_clear_all_by_efid_or_underlier_accepted_cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at]); breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 20 -> assert(breach_clear_all_by_efid_or_underlier_accepted_message_read.cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at] == breach_clear_all_by_efid_or_underlier_accepted_message_written.cl_ord_id[breach_clear_all_by_efid_or_underlier_accepted_message_at]); breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> assert(breach_clear_all_by_efid_or_underlier_accepted_message_read.underlier_breach_clear_all_by_efid_or_underlier_accepted_underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] == breach_clear_all_by_efid_or_underlier_accepted_message_written.underlier_breach_clear_all_by_efid_or_underlier_accepted_underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at]); breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 6 -> assert(breach_clear_all_by_efid_or_underlier_accepted_message_read.underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] == breach_clear_all_by_efid_or_underlier_accepted_message_written.underlier_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at]); breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_accepted_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> assert(breach_clear_all_by_efid_or_underlier_accepted_message_read.efid_breach_clear_all_by_efid_or_underlier_accepted_efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] == breach_clear_all_by_efid_or_underlier_accepted_message_written.efid_breach_clear_all_by_efid_or_underlier_accepted_efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at]); breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_accepted_message_at < 4 -> assert(breach_clear_all_by_efid_or_underlier_accepted_message_read.efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at] == breach_clear_all_by_efid_or_underlier_accepted_message_written.efid_optional[breach_clear_all_by_efid_or_underlier_accepted_message_at]); breach_clear_all_by_efid_or_underlier_accepted_message_at = breach_clear_all_by_efid_or_underlier_accepted_message_at + 1
   :: else -> break
   od;
   skip
@@ -4837,9 +4837,9 @@ inline equal_breach_clear_all_by_efid_or_underlier_accepted_message(breach_clear
 
 /* BreachClearAllByEFIDOrUnderlierRejectedMessage */
 typedef BreachClearAllByEfidOrUnderlierRejectedMessage {
-  byte cl_ord_id_breach_clear_all_by_efid_or_underlier_rejected_cl_ord_id[20];
-  byte underlier_breach_clear_all_by_efid_or_underlier_rejected_underlier_optional[6];
-  byte efid_breach_clear_all_by_efid_or_underlier_rejected_efid_optional[4];
+  byte cl_ord_id[20];
+  byte underlier_optional[6];
+  byte efid_optional[4];
   byte reject_reason[2]
 };
 
@@ -4849,17 +4849,17 @@ int breach_clear_all_by_efid_or_underlier_rejected_message_at;
 inline fill_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clear_all_by_efid_or_underlier_rejected_message_record, breach_clear_all_by_efid_or_underlier_rejected_message_value) {
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.cl_ord_id_breach_clear_all_by_efid_or_underlier_rejected_cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at] = breach_clear_all_by_efid_or_underlier_rejected_message_value; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at] = breach_clear_all_by_efid_or_underlier_rejected_message_value; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.underlier_breach_clear_all_by_efid_or_underlier_rejected_underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = breach_clear_all_by_efid_or_underlier_rejected_message_value; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = breach_clear_all_by_efid_or_underlier_rejected_message_value; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.efid_breach_clear_all_by_efid_or_underlier_rejected_efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = breach_clear_all_by_efid_or_underlier_rejected_message_value; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = breach_clear_all_by_efid_or_underlier_rejected_message_value; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
@@ -4874,17 +4874,17 @@ inline fill_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clear_
 inline ramp_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clear_all_by_efid_or_underlier_rejected_message_record, breach_clear_all_by_efid_or_underlier_rejected_message_base) {
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.cl_ord_id_breach_clear_all_by_efid_or_underlier_rejected_cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at] = (breach_clear_all_by_efid_or_underlier_rejected_message_base + 0 + breach_clear_all_by_efid_or_underlier_rejected_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at] = (breach_clear_all_by_efid_or_underlier_rejected_message_base + 0 + breach_clear_all_by_efid_or_underlier_rejected_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.underlier_breach_clear_all_by_efid_or_underlier_rejected_underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = (breach_clear_all_by_efid_or_underlier_rejected_message_base + 20 + breach_clear_all_by_efid_or_underlier_rejected_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = (breach_clear_all_by_efid_or_underlier_rejected_message_base + 20 + breach_clear_all_by_efid_or_underlier_rejected_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.efid_breach_clear_all_by_efid_or_underlier_rejected_efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = (breach_clear_all_by_efid_or_underlier_rejected_message_base + 26 + breach_clear_all_by_efid_or_underlier_rejected_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = (breach_clear_all_by_efid_or_underlier_rejected_message_base + 26 + breach_clear_all_by_efid_or_underlier_rejected_message_at + 1) % 256; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
@@ -4899,17 +4899,17 @@ inline ramp_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clear_
 inline encode_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clear_all_by_efid_or_underlier_rejected_message_record) {
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> wire[at] = breach_clear_all_by_efid_or_underlier_rejected_message_record.cl_ord_id_breach_clear_all_by_efid_or_underlier_rejected_cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> wire[at] = breach_clear_all_by_efid_or_underlier_rejected_message_record.cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> wire[at] = breach_clear_all_by_efid_or_underlier_rejected_message_record.underlier_breach_clear_all_by_efid_or_underlier_rejected_underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> wire[at] = breach_clear_all_by_efid_or_underlier_rejected_message_record.underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> wire[at] = breach_clear_all_by_efid_or_underlier_rejected_message_record.efid_breach_clear_all_by_efid_or_underlier_rejected_efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> wire[at] = breach_clear_all_by_efid_or_underlier_rejected_message_record.efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
@@ -4924,17 +4924,17 @@ inline encode_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clea
 inline decode_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clear_all_by_efid_or_underlier_rejected_message_record) {
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.cl_ord_id_breach_clear_all_by_efid_or_underlier_rejected_cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.underlier_breach_clear_all_by_efid_or_underlier_rejected_underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.efid_breach_clear_all_by_efid_or_underlier_rejected_efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> breach_clear_all_by_efid_or_underlier_rejected_message_record.efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] = wire[at]; at = at + 1; breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
@@ -4949,17 +4949,17 @@ inline decode_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clea
 inline equal_breach_clear_all_by_efid_or_underlier_rejected_message(breach_clear_all_by_efid_or_underlier_rejected_message_read, breach_clear_all_by_efid_or_underlier_rejected_message_written) {
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> assert(breach_clear_all_by_efid_or_underlier_rejected_message_read.cl_ord_id_breach_clear_all_by_efid_or_underlier_rejected_cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at] == breach_clear_all_by_efid_or_underlier_rejected_message_written.cl_ord_id_breach_clear_all_by_efid_or_underlier_rejected_cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at]); breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 20 -> assert(breach_clear_all_by_efid_or_underlier_rejected_message_read.cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at] == breach_clear_all_by_efid_or_underlier_rejected_message_written.cl_ord_id[breach_clear_all_by_efid_or_underlier_rejected_message_at]); breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> assert(breach_clear_all_by_efid_or_underlier_rejected_message_read.underlier_breach_clear_all_by_efid_or_underlier_rejected_underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] == breach_clear_all_by_efid_or_underlier_rejected_message_written.underlier_breach_clear_all_by_efid_or_underlier_rejected_underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at]); breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 6 -> assert(breach_clear_all_by_efid_or_underlier_rejected_message_read.underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] == breach_clear_all_by_efid_or_underlier_rejected_message_written.underlier_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at]); breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;
   do
-  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> assert(breach_clear_all_by_efid_or_underlier_rejected_message_read.efid_breach_clear_all_by_efid_or_underlier_rejected_efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] == breach_clear_all_by_efid_or_underlier_rejected_message_written.efid_breach_clear_all_by_efid_or_underlier_rejected_efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at]); breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
+  :: breach_clear_all_by_efid_or_underlier_rejected_message_at < 4 -> assert(breach_clear_all_by_efid_or_underlier_rejected_message_read.efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at] == breach_clear_all_by_efid_or_underlier_rejected_message_written.efid_optional[breach_clear_all_by_efid_or_underlier_rejected_message_at]); breach_clear_all_by_efid_or_underlier_rejected_message_at = breach_clear_all_by_efid_or_underlier_rejected_message_at + 1
   :: else -> break
   od;
   breach_clear_all_by_efid_or_underlier_rejected_message_at = 0;

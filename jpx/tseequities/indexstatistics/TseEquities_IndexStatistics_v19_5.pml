@@ -415,7 +415,7 @@ inline equal_c_b_issue_code(c_b_issue_code_read, c_b_issue_code_written) {
 /* Total market value */
 typedef TotalMarketValue {
   byte trading_volume_turnover_unit_flag;
-  byte total_market_value_c_14[14]
+  byte total_market_value_amount[14]
 };
 
 int total_market_value_at;
@@ -425,7 +425,7 @@ inline fill_total_market_value(total_market_value_record, total_market_value_val
   total_market_value_record.trading_volume_turnover_unit_flag = total_market_value_value;
   total_market_value_at = 0;
   do
-  :: total_market_value_at < 14 -> total_market_value_record.total_market_value_c_14[total_market_value_at] = total_market_value_value; total_market_value_at = total_market_value_at + 1
+  :: total_market_value_at < 14 -> total_market_value_record.total_market_value_amount[total_market_value_at] = total_market_value_value; total_market_value_at = total_market_value_at + 1
   :: else -> break
   od;
   skip
@@ -436,7 +436,7 @@ inline ramp_total_market_value(total_market_value_record, total_market_value_bas
   total_market_value_record.trading_volume_turnover_unit_flag = (total_market_value_base + 0 + 1) % 256;
   total_market_value_at = 0;
   do
-  :: total_market_value_at < 14 -> total_market_value_record.total_market_value_c_14[total_market_value_at] = (total_market_value_base + 1 + total_market_value_at + 1) % 256; total_market_value_at = total_market_value_at + 1
+  :: total_market_value_at < 14 -> total_market_value_record.total_market_value_amount[total_market_value_at] = (total_market_value_base + 1 + total_market_value_at + 1) % 256; total_market_value_at = total_market_value_at + 1
   :: else -> break
   od;
   skip
@@ -447,7 +447,7 @@ inline encode_total_market_value(total_market_value_record) {
   wire[at] = total_market_value_record.trading_volume_turnover_unit_flag; at = at + 1;
   total_market_value_at = 0;
   do
-  :: total_market_value_at < 14 -> wire[at] = total_market_value_record.total_market_value_c_14[total_market_value_at]; at = at + 1; total_market_value_at = total_market_value_at + 1
+  :: total_market_value_at < 14 -> wire[at] = total_market_value_record.total_market_value_amount[total_market_value_at]; at = at + 1; total_market_value_at = total_market_value_at + 1
   :: else -> break
   od;
   skip
@@ -458,7 +458,7 @@ inline decode_total_market_value(total_market_value_record) {
   total_market_value_record.trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   total_market_value_at = 0;
   do
-  :: total_market_value_at < 14 -> total_market_value_record.total_market_value_c_14[total_market_value_at] = wire[at]; at = at + 1; total_market_value_at = total_market_value_at + 1
+  :: total_market_value_at < 14 -> total_market_value_record.total_market_value_amount[total_market_value_at] = wire[at]; at = at + 1; total_market_value_at = total_market_value_at + 1
   :: else -> break
   od;
   skip
@@ -469,7 +469,7 @@ inline equal_total_market_value(total_market_value_read, total_market_value_writ
   assert(total_market_value_read.trading_volume_turnover_unit_flag == total_market_value_written.trading_volume_turnover_unit_flag);
   total_market_value_at = 0;
   do
-  :: total_market_value_at < 14 -> assert(total_market_value_read.total_market_value_c_14[total_market_value_at] == total_market_value_written.total_market_value_c_14[total_market_value_at]); total_market_value_at = total_market_value_at + 1
+  :: total_market_value_at < 14 -> assert(total_market_value_read.total_market_value_amount[total_market_value_at] == total_market_value_written.total_market_value_amount[total_market_value_at]); total_market_value_at = total_market_value_at + 1
   :: else -> break
   od;
   skip
@@ -480,7 +480,7 @@ inline equal_total_market_value(total_market_value_read, total_market_value_writ
 /* Market value Day-on-day comparison */
 typedef MarketValueDayOnDayComparison {
   byte trading_volume_turnover_unit_flag;
-  byte day_on_day_comparison_c_14[14];
+  byte day_on_day_comparison[14];
   byte sign
 };
 
@@ -491,7 +491,7 @@ inline fill_market_value_day_on_day_comparison(market_value_day_on_day_compariso
   market_value_day_on_day_comparison_record.trading_volume_turnover_unit_flag = market_value_day_on_day_comparison_value;
   market_value_day_on_day_comparison_at = 0;
   do
-  :: market_value_day_on_day_comparison_at < 14 -> market_value_day_on_day_comparison_record.day_on_day_comparison_c_14[market_value_day_on_day_comparison_at] = market_value_day_on_day_comparison_value; market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
+  :: market_value_day_on_day_comparison_at < 14 -> market_value_day_on_day_comparison_record.day_on_day_comparison[market_value_day_on_day_comparison_at] = market_value_day_on_day_comparison_value; market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
   :: else -> break
   od;
   market_value_day_on_day_comparison_record.sign = market_value_day_on_day_comparison_value;
@@ -503,7 +503,7 @@ inline ramp_market_value_day_on_day_comparison(market_value_day_on_day_compariso
   market_value_day_on_day_comparison_record.trading_volume_turnover_unit_flag = (market_value_day_on_day_comparison_base + 0 + 1) % 256;
   market_value_day_on_day_comparison_at = 0;
   do
-  :: market_value_day_on_day_comparison_at < 14 -> market_value_day_on_day_comparison_record.day_on_day_comparison_c_14[market_value_day_on_day_comparison_at] = (market_value_day_on_day_comparison_base + 1 + market_value_day_on_day_comparison_at + 1) % 256; market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
+  :: market_value_day_on_day_comparison_at < 14 -> market_value_day_on_day_comparison_record.day_on_day_comparison[market_value_day_on_day_comparison_at] = (market_value_day_on_day_comparison_base + 1 + market_value_day_on_day_comparison_at + 1) % 256; market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
   :: else -> break
   od;
   market_value_day_on_day_comparison_record.sign = (market_value_day_on_day_comparison_base + 15 + 1) % 256;
@@ -515,7 +515,7 @@ inline encode_market_value_day_on_day_comparison(market_value_day_on_day_compari
   wire[at] = market_value_day_on_day_comparison_record.trading_volume_turnover_unit_flag; at = at + 1;
   market_value_day_on_day_comparison_at = 0;
   do
-  :: market_value_day_on_day_comparison_at < 14 -> wire[at] = market_value_day_on_day_comparison_record.day_on_day_comparison_c_14[market_value_day_on_day_comparison_at]; at = at + 1; market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
+  :: market_value_day_on_day_comparison_at < 14 -> wire[at] = market_value_day_on_day_comparison_record.day_on_day_comparison[market_value_day_on_day_comparison_at]; at = at + 1; market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
   :: else -> break
   od;
   wire[at] = market_value_day_on_day_comparison_record.sign; at = at + 1;
@@ -527,7 +527,7 @@ inline decode_market_value_day_on_day_comparison(market_value_day_on_day_compari
   market_value_day_on_day_comparison_record.trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   market_value_day_on_day_comparison_at = 0;
   do
-  :: market_value_day_on_day_comparison_at < 14 -> market_value_day_on_day_comparison_record.day_on_day_comparison_c_14[market_value_day_on_day_comparison_at] = wire[at]; at = at + 1; market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
+  :: market_value_day_on_day_comparison_at < 14 -> market_value_day_on_day_comparison_record.day_on_day_comparison[market_value_day_on_day_comparison_at] = wire[at]; at = at + 1; market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
   :: else -> break
   od;
   market_value_day_on_day_comparison_record.sign = wire[at]; at = at + 1;
@@ -539,7 +539,7 @@ inline equal_market_value_day_on_day_comparison(market_value_day_on_day_comparis
   assert(market_value_day_on_day_comparison_read.trading_volume_turnover_unit_flag == market_value_day_on_day_comparison_written.trading_volume_turnover_unit_flag);
   market_value_day_on_day_comparison_at = 0;
   do
-  :: market_value_day_on_day_comparison_at < 14 -> assert(market_value_day_on_day_comparison_read.day_on_day_comparison_c_14[market_value_day_on_day_comparison_at] == market_value_day_on_day_comparison_written.day_on_day_comparison_c_14[market_value_day_on_day_comparison_at]); market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
+  :: market_value_day_on_day_comparison_at < 14 -> assert(market_value_day_on_day_comparison_read.day_on_day_comparison[market_value_day_on_day_comparison_at] == market_value_day_on_day_comparison_written.day_on_day_comparison[market_value_day_on_day_comparison_at]); market_value_day_on_day_comparison_at = market_value_day_on_day_comparison_at + 1
   :: else -> break
   od;
   assert(market_value_day_on_day_comparison_read.sign == market_value_day_on_day_comparison_written.sign);
@@ -673,20 +673,20 @@ inline equal_market_value_message(market_value_message_read, market_value_messag
 
 /* Simple yield */
 typedef SimpleYield {
-  byte simple_yield_c_8[8];
+  byte simple_yield_value[8];
   byte sign
 };
 
 int simple_yield_at;
 
 /* every byte of Simple Yield set to one value */
-inline fill_simple_yield(simple_yield_record, simple_yield_value) {
+inline fill_simple_yield(simple_yield_record, simple_yield_value_) {
   simple_yield_at = 0;
   do
-  :: simple_yield_at < 8 -> simple_yield_record.simple_yield_c_8[simple_yield_at] = simple_yield_value; simple_yield_at = simple_yield_at + 1
+  :: simple_yield_at < 8 -> simple_yield_record.simple_yield_value[simple_yield_at] = simple_yield_value_; simple_yield_at = simple_yield_at + 1
   :: else -> break
   od;
-  simple_yield_record.sign = simple_yield_value;
+  simple_yield_record.sign = simple_yield_value_;
   skip
 }
 
@@ -694,7 +694,7 @@ inline fill_simple_yield(simple_yield_record, simple_yield_value) {
 inline ramp_simple_yield(simple_yield_record, simple_yield_base) {
   simple_yield_at = 0;
   do
-  :: simple_yield_at < 8 -> simple_yield_record.simple_yield_c_8[simple_yield_at] = (simple_yield_base + 0 + simple_yield_at + 1) % 256; simple_yield_at = simple_yield_at + 1
+  :: simple_yield_at < 8 -> simple_yield_record.simple_yield_value[simple_yield_at] = (simple_yield_base + 0 + simple_yield_at + 1) % 256; simple_yield_at = simple_yield_at + 1
   :: else -> break
   od;
   simple_yield_record.sign = (simple_yield_base + 8 + 1) % 256;
@@ -705,7 +705,7 @@ inline ramp_simple_yield(simple_yield_record, simple_yield_base) {
 inline encode_simple_yield(simple_yield_record) {
   simple_yield_at = 0;
   do
-  :: simple_yield_at < 8 -> wire[at] = simple_yield_record.simple_yield_c_8[simple_yield_at]; at = at + 1; simple_yield_at = simple_yield_at + 1
+  :: simple_yield_at < 8 -> wire[at] = simple_yield_record.simple_yield_value[simple_yield_at]; at = at + 1; simple_yield_at = simple_yield_at + 1
   :: else -> break
   od;
   wire[at] = simple_yield_record.sign; at = at + 1;
@@ -716,7 +716,7 @@ inline encode_simple_yield(simple_yield_record) {
 inline decode_simple_yield(simple_yield_record) {
   simple_yield_at = 0;
   do
-  :: simple_yield_at < 8 -> simple_yield_record.simple_yield_c_8[simple_yield_at] = wire[at]; at = at + 1; simple_yield_at = simple_yield_at + 1
+  :: simple_yield_at < 8 -> simple_yield_record.simple_yield_value[simple_yield_at] = wire[at]; at = at + 1; simple_yield_at = simple_yield_at + 1
   :: else -> break
   od;
   simple_yield_record.sign = wire[at]; at = at + 1;
@@ -727,7 +727,7 @@ inline decode_simple_yield(simple_yield_record) {
 inline equal_simple_yield(simple_yield_read, simple_yield_written) {
   simple_yield_at = 0;
   do
-  :: simple_yield_at < 8 -> assert(simple_yield_read.simple_yield_c_8[simple_yield_at] == simple_yield_written.simple_yield_c_8[simple_yield_at]); simple_yield_at = simple_yield_at + 1
+  :: simple_yield_at < 8 -> assert(simple_yield_read.simple_yield_value[simple_yield_at] == simple_yield_written.simple_yield_value[simple_yield_at]); simple_yield_at = simple_yield_at + 1
   :: else -> break
   od;
   assert(simple_yield_read.sign == simple_yield_written.sign);
@@ -738,7 +738,7 @@ inline equal_simple_yield(simple_yield_read, simple_yield_written) {
 
 /* Yield Day-on-day comparison */
 typedef YieldDayOnDayComparison {
-  byte day_on_day_comparison_c_8[8];
+  byte day_on_day_comparison_rate[8];
   byte sign
 };
 
@@ -748,7 +748,7 @@ int yield_day_on_day_comparison_at;
 inline fill_yield_day_on_day_comparison(yield_day_on_day_comparison_record, yield_day_on_day_comparison_value) {
   yield_day_on_day_comparison_at = 0;
   do
-  :: yield_day_on_day_comparison_at < 8 -> yield_day_on_day_comparison_record.day_on_day_comparison_c_8[yield_day_on_day_comparison_at] = yield_day_on_day_comparison_value; yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
+  :: yield_day_on_day_comparison_at < 8 -> yield_day_on_day_comparison_record.day_on_day_comparison_rate[yield_day_on_day_comparison_at] = yield_day_on_day_comparison_value; yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
   :: else -> break
   od;
   yield_day_on_day_comparison_record.sign = yield_day_on_day_comparison_value;
@@ -759,7 +759,7 @@ inline fill_yield_day_on_day_comparison(yield_day_on_day_comparison_record, yiel
 inline ramp_yield_day_on_day_comparison(yield_day_on_day_comparison_record, yield_day_on_day_comparison_base) {
   yield_day_on_day_comparison_at = 0;
   do
-  :: yield_day_on_day_comparison_at < 8 -> yield_day_on_day_comparison_record.day_on_day_comparison_c_8[yield_day_on_day_comparison_at] = (yield_day_on_day_comparison_base + 0 + yield_day_on_day_comparison_at + 1) % 256; yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
+  :: yield_day_on_day_comparison_at < 8 -> yield_day_on_day_comparison_record.day_on_day_comparison_rate[yield_day_on_day_comparison_at] = (yield_day_on_day_comparison_base + 0 + yield_day_on_day_comparison_at + 1) % 256; yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
   :: else -> break
   od;
   yield_day_on_day_comparison_record.sign = (yield_day_on_day_comparison_base + 8 + 1) % 256;
@@ -770,7 +770,7 @@ inline ramp_yield_day_on_day_comparison(yield_day_on_day_comparison_record, yiel
 inline encode_yield_day_on_day_comparison(yield_day_on_day_comparison_record) {
   yield_day_on_day_comparison_at = 0;
   do
-  :: yield_day_on_day_comparison_at < 8 -> wire[at] = yield_day_on_day_comparison_record.day_on_day_comparison_c_8[yield_day_on_day_comparison_at]; at = at + 1; yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
+  :: yield_day_on_day_comparison_at < 8 -> wire[at] = yield_day_on_day_comparison_record.day_on_day_comparison_rate[yield_day_on_day_comparison_at]; at = at + 1; yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
   :: else -> break
   od;
   wire[at] = yield_day_on_day_comparison_record.sign; at = at + 1;
@@ -781,7 +781,7 @@ inline encode_yield_day_on_day_comparison(yield_day_on_day_comparison_record) {
 inline decode_yield_day_on_day_comparison(yield_day_on_day_comparison_record) {
   yield_day_on_day_comparison_at = 0;
   do
-  :: yield_day_on_day_comparison_at < 8 -> yield_day_on_day_comparison_record.day_on_day_comparison_c_8[yield_day_on_day_comparison_at] = wire[at]; at = at + 1; yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
+  :: yield_day_on_day_comparison_at < 8 -> yield_day_on_day_comparison_record.day_on_day_comparison_rate[yield_day_on_day_comparison_at] = wire[at]; at = at + 1; yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
   :: else -> break
   od;
   yield_day_on_day_comparison_record.sign = wire[at]; at = at + 1;
@@ -792,7 +792,7 @@ inline decode_yield_day_on_day_comparison(yield_day_on_day_comparison_record) {
 inline equal_yield_day_on_day_comparison(yield_day_on_day_comparison_read, yield_day_on_day_comparison_written) {
   yield_day_on_day_comparison_at = 0;
   do
-  :: yield_day_on_day_comparison_at < 8 -> assert(yield_day_on_day_comparison_read.day_on_day_comparison_c_8[yield_day_on_day_comparison_at] == yield_day_on_day_comparison_written.day_on_day_comparison_c_8[yield_day_on_day_comparison_at]); yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
+  :: yield_day_on_day_comparison_at < 8 -> assert(yield_day_on_day_comparison_read.day_on_day_comparison_rate[yield_day_on_day_comparison_at] == yield_day_on_day_comparison_written.day_on_day_comparison_rate[yield_day_on_day_comparison_at]); yield_day_on_day_comparison_at = yield_day_on_day_comparison_at + 1
   :: else -> break
   od;
   assert(yield_day_on_day_comparison_read.sign == yield_day_on_day_comparison_written.sign);
@@ -926,20 +926,20 @@ inline equal_simple_yield_message(simple_yield_message_read, simple_yield_messag
 
 /* Weighted yield */
 typedef WeightedYield {
-  byte weighted_yield_c_8[8];
+  byte weighted_yield_value[8];
   byte sign
 };
 
 int weighted_yield_at;
 
 /* every byte of Weighted Yield set to one value */
-inline fill_weighted_yield(weighted_yield_record, weighted_yield_value) {
+inline fill_weighted_yield(weighted_yield_record, weighted_yield_value_) {
   weighted_yield_at = 0;
   do
-  :: weighted_yield_at < 8 -> weighted_yield_record.weighted_yield_c_8[weighted_yield_at] = weighted_yield_value; weighted_yield_at = weighted_yield_at + 1
+  :: weighted_yield_at < 8 -> weighted_yield_record.weighted_yield_value[weighted_yield_at] = weighted_yield_value_; weighted_yield_at = weighted_yield_at + 1
   :: else -> break
   od;
-  weighted_yield_record.sign = weighted_yield_value;
+  weighted_yield_record.sign = weighted_yield_value_;
   skip
 }
 
@@ -947,7 +947,7 @@ inline fill_weighted_yield(weighted_yield_record, weighted_yield_value) {
 inline ramp_weighted_yield(weighted_yield_record, weighted_yield_base) {
   weighted_yield_at = 0;
   do
-  :: weighted_yield_at < 8 -> weighted_yield_record.weighted_yield_c_8[weighted_yield_at] = (weighted_yield_base + 0 + weighted_yield_at + 1) % 256; weighted_yield_at = weighted_yield_at + 1
+  :: weighted_yield_at < 8 -> weighted_yield_record.weighted_yield_value[weighted_yield_at] = (weighted_yield_base + 0 + weighted_yield_at + 1) % 256; weighted_yield_at = weighted_yield_at + 1
   :: else -> break
   od;
   weighted_yield_record.sign = (weighted_yield_base + 8 + 1) % 256;
@@ -958,7 +958,7 @@ inline ramp_weighted_yield(weighted_yield_record, weighted_yield_base) {
 inline encode_weighted_yield(weighted_yield_record) {
   weighted_yield_at = 0;
   do
-  :: weighted_yield_at < 8 -> wire[at] = weighted_yield_record.weighted_yield_c_8[weighted_yield_at]; at = at + 1; weighted_yield_at = weighted_yield_at + 1
+  :: weighted_yield_at < 8 -> wire[at] = weighted_yield_record.weighted_yield_value[weighted_yield_at]; at = at + 1; weighted_yield_at = weighted_yield_at + 1
   :: else -> break
   od;
   wire[at] = weighted_yield_record.sign; at = at + 1;
@@ -969,7 +969,7 @@ inline encode_weighted_yield(weighted_yield_record) {
 inline decode_weighted_yield(weighted_yield_record) {
   weighted_yield_at = 0;
   do
-  :: weighted_yield_at < 8 -> weighted_yield_record.weighted_yield_c_8[weighted_yield_at] = wire[at]; at = at + 1; weighted_yield_at = weighted_yield_at + 1
+  :: weighted_yield_at < 8 -> weighted_yield_record.weighted_yield_value[weighted_yield_at] = wire[at]; at = at + 1; weighted_yield_at = weighted_yield_at + 1
   :: else -> break
   od;
   weighted_yield_record.sign = wire[at]; at = at + 1;
@@ -980,7 +980,7 @@ inline decode_weighted_yield(weighted_yield_record) {
 inline equal_weighted_yield(weighted_yield_read, weighted_yield_written) {
   weighted_yield_at = 0;
   do
-  :: weighted_yield_at < 8 -> assert(weighted_yield_read.weighted_yield_c_8[weighted_yield_at] == weighted_yield_written.weighted_yield_c_8[weighted_yield_at]); weighted_yield_at = weighted_yield_at + 1
+  :: weighted_yield_at < 8 -> assert(weighted_yield_read.weighted_yield_value[weighted_yield_at] == weighted_yield_written.weighted_yield_value[weighted_yield_at]); weighted_yield_at = weighted_yield_at + 1
   :: else -> break
   od;
   assert(weighted_yield_read.sign == weighted_yield_written.sign);
@@ -1115,21 +1115,21 @@ inline equal_weighted_yield_message(weighted_yield_message_read, weighted_yield_
 /* Simple stock price average */
 typedef SimpleStockPriceAverage {
   byte unit_flag;
-  byte simple_stock_price_average_c_14[14];
+  byte simple_stock_price_average_value[14];
   byte sign
 };
 
 int simple_stock_price_average_at;
 
 /* every byte of Simple Stock Price Average set to one value */
-inline fill_simple_stock_price_average(simple_stock_price_average_record, simple_stock_price_average_value) {
-  simple_stock_price_average_record.unit_flag = simple_stock_price_average_value;
+inline fill_simple_stock_price_average(simple_stock_price_average_record, simple_stock_price_average_value_) {
+  simple_stock_price_average_record.unit_flag = simple_stock_price_average_value_;
   simple_stock_price_average_at = 0;
   do
-  :: simple_stock_price_average_at < 14 -> simple_stock_price_average_record.simple_stock_price_average_c_14[simple_stock_price_average_at] = simple_stock_price_average_value; simple_stock_price_average_at = simple_stock_price_average_at + 1
+  :: simple_stock_price_average_at < 14 -> simple_stock_price_average_record.simple_stock_price_average_value[simple_stock_price_average_at] = simple_stock_price_average_value_; simple_stock_price_average_at = simple_stock_price_average_at + 1
   :: else -> break
   od;
-  simple_stock_price_average_record.sign = simple_stock_price_average_value;
+  simple_stock_price_average_record.sign = simple_stock_price_average_value_;
   skip
 }
 
@@ -1138,7 +1138,7 @@ inline ramp_simple_stock_price_average(simple_stock_price_average_record, simple
   simple_stock_price_average_record.unit_flag = (simple_stock_price_average_base + 0 + 1) % 256;
   simple_stock_price_average_at = 0;
   do
-  :: simple_stock_price_average_at < 14 -> simple_stock_price_average_record.simple_stock_price_average_c_14[simple_stock_price_average_at] = (simple_stock_price_average_base + 1 + simple_stock_price_average_at + 1) % 256; simple_stock_price_average_at = simple_stock_price_average_at + 1
+  :: simple_stock_price_average_at < 14 -> simple_stock_price_average_record.simple_stock_price_average_value[simple_stock_price_average_at] = (simple_stock_price_average_base + 1 + simple_stock_price_average_at + 1) % 256; simple_stock_price_average_at = simple_stock_price_average_at + 1
   :: else -> break
   od;
   simple_stock_price_average_record.sign = (simple_stock_price_average_base + 15 + 1) % 256;
@@ -1150,7 +1150,7 @@ inline encode_simple_stock_price_average(simple_stock_price_average_record) {
   wire[at] = simple_stock_price_average_record.unit_flag; at = at + 1;
   simple_stock_price_average_at = 0;
   do
-  :: simple_stock_price_average_at < 14 -> wire[at] = simple_stock_price_average_record.simple_stock_price_average_c_14[simple_stock_price_average_at]; at = at + 1; simple_stock_price_average_at = simple_stock_price_average_at + 1
+  :: simple_stock_price_average_at < 14 -> wire[at] = simple_stock_price_average_record.simple_stock_price_average_value[simple_stock_price_average_at]; at = at + 1; simple_stock_price_average_at = simple_stock_price_average_at + 1
   :: else -> break
   od;
   wire[at] = simple_stock_price_average_record.sign; at = at + 1;
@@ -1162,7 +1162,7 @@ inline decode_simple_stock_price_average(simple_stock_price_average_record) {
   simple_stock_price_average_record.unit_flag = wire[at]; at = at + 1;
   simple_stock_price_average_at = 0;
   do
-  :: simple_stock_price_average_at < 14 -> simple_stock_price_average_record.simple_stock_price_average_c_14[simple_stock_price_average_at] = wire[at]; at = at + 1; simple_stock_price_average_at = simple_stock_price_average_at + 1
+  :: simple_stock_price_average_at < 14 -> simple_stock_price_average_record.simple_stock_price_average_value[simple_stock_price_average_at] = wire[at]; at = at + 1; simple_stock_price_average_at = simple_stock_price_average_at + 1
   :: else -> break
   od;
   simple_stock_price_average_record.sign = wire[at]; at = at + 1;
@@ -1174,7 +1174,7 @@ inline equal_simple_stock_price_average(simple_stock_price_average_read, simple_
   assert(simple_stock_price_average_read.unit_flag == simple_stock_price_average_written.unit_flag);
   simple_stock_price_average_at = 0;
   do
-  :: simple_stock_price_average_at < 14 -> assert(simple_stock_price_average_read.simple_stock_price_average_c_14[simple_stock_price_average_at] == simple_stock_price_average_written.simple_stock_price_average_c_14[simple_stock_price_average_at]); simple_stock_price_average_at = simple_stock_price_average_at + 1
+  :: simple_stock_price_average_at < 14 -> assert(simple_stock_price_average_read.simple_stock_price_average_value[simple_stock_price_average_at] == simple_stock_price_average_written.simple_stock_price_average_value[simple_stock_price_average_at]); simple_stock_price_average_at = simple_stock_price_average_at + 1
   :: else -> break
   od;
   assert(simple_stock_price_average_read.sign == simple_stock_price_average_written.sign);
@@ -1186,7 +1186,7 @@ inline equal_simple_stock_price_average(simple_stock_price_average_read, simple_
 /* Stock price average Day-on-day comparison */
 typedef StockPriceAverageDayOnDayComparison {
   byte unit_flag;
-  byte day_on_day_comparison_c_14[14];
+  byte day_on_day_comparison[14];
   byte sign
 };
 
@@ -1197,7 +1197,7 @@ inline fill_stock_price_average_day_on_day_comparison(stock_price_average_day_on
   stock_price_average_day_on_day_comparison_record.unit_flag = stock_price_average_day_on_day_comparison_value;
   stock_price_average_day_on_day_comparison_at = 0;
   do
-  :: stock_price_average_day_on_day_comparison_at < 14 -> stock_price_average_day_on_day_comparison_record.day_on_day_comparison_c_14[stock_price_average_day_on_day_comparison_at] = stock_price_average_day_on_day_comparison_value; stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
+  :: stock_price_average_day_on_day_comparison_at < 14 -> stock_price_average_day_on_day_comparison_record.day_on_day_comparison[stock_price_average_day_on_day_comparison_at] = stock_price_average_day_on_day_comparison_value; stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
   :: else -> break
   od;
   stock_price_average_day_on_day_comparison_record.sign = stock_price_average_day_on_day_comparison_value;
@@ -1209,7 +1209,7 @@ inline ramp_stock_price_average_day_on_day_comparison(stock_price_average_day_on
   stock_price_average_day_on_day_comparison_record.unit_flag = (stock_price_average_day_on_day_comparison_base + 0 + 1) % 256;
   stock_price_average_day_on_day_comparison_at = 0;
   do
-  :: stock_price_average_day_on_day_comparison_at < 14 -> stock_price_average_day_on_day_comparison_record.day_on_day_comparison_c_14[stock_price_average_day_on_day_comparison_at] = (stock_price_average_day_on_day_comparison_base + 1 + stock_price_average_day_on_day_comparison_at + 1) % 256; stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
+  :: stock_price_average_day_on_day_comparison_at < 14 -> stock_price_average_day_on_day_comparison_record.day_on_day_comparison[stock_price_average_day_on_day_comparison_at] = (stock_price_average_day_on_day_comparison_base + 1 + stock_price_average_day_on_day_comparison_at + 1) % 256; stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
   :: else -> break
   od;
   stock_price_average_day_on_day_comparison_record.sign = (stock_price_average_day_on_day_comparison_base + 15 + 1) % 256;
@@ -1221,7 +1221,7 @@ inline encode_stock_price_average_day_on_day_comparison(stock_price_average_day_
   wire[at] = stock_price_average_day_on_day_comparison_record.unit_flag; at = at + 1;
   stock_price_average_day_on_day_comparison_at = 0;
   do
-  :: stock_price_average_day_on_day_comparison_at < 14 -> wire[at] = stock_price_average_day_on_day_comparison_record.day_on_day_comparison_c_14[stock_price_average_day_on_day_comparison_at]; at = at + 1; stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
+  :: stock_price_average_day_on_day_comparison_at < 14 -> wire[at] = stock_price_average_day_on_day_comparison_record.day_on_day_comparison[stock_price_average_day_on_day_comparison_at]; at = at + 1; stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
   :: else -> break
   od;
   wire[at] = stock_price_average_day_on_day_comparison_record.sign; at = at + 1;
@@ -1233,7 +1233,7 @@ inline decode_stock_price_average_day_on_day_comparison(stock_price_average_day_
   stock_price_average_day_on_day_comparison_record.unit_flag = wire[at]; at = at + 1;
   stock_price_average_day_on_day_comparison_at = 0;
   do
-  :: stock_price_average_day_on_day_comparison_at < 14 -> stock_price_average_day_on_day_comparison_record.day_on_day_comparison_c_14[stock_price_average_day_on_day_comparison_at] = wire[at]; at = at + 1; stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
+  :: stock_price_average_day_on_day_comparison_at < 14 -> stock_price_average_day_on_day_comparison_record.day_on_day_comparison[stock_price_average_day_on_day_comparison_at] = wire[at]; at = at + 1; stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
   :: else -> break
   od;
   stock_price_average_day_on_day_comparison_record.sign = wire[at]; at = at + 1;
@@ -1245,7 +1245,7 @@ inline equal_stock_price_average_day_on_day_comparison(stock_price_average_day_o
   assert(stock_price_average_day_on_day_comparison_read.unit_flag == stock_price_average_day_on_day_comparison_written.unit_flag);
   stock_price_average_day_on_day_comparison_at = 0;
   do
-  :: stock_price_average_day_on_day_comparison_at < 14 -> assert(stock_price_average_day_on_day_comparison_read.day_on_day_comparison_c_14[stock_price_average_day_on_day_comparison_at] == stock_price_average_day_on_day_comparison_written.day_on_day_comparison_c_14[stock_price_average_day_on_day_comparison_at]); stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
+  :: stock_price_average_day_on_day_comparison_at < 14 -> assert(stock_price_average_day_on_day_comparison_read.day_on_day_comparison[stock_price_average_day_on_day_comparison_at] == stock_price_average_day_on_day_comparison_written.day_on_day_comparison[stock_price_average_day_on_day_comparison_at]); stock_price_average_day_on_day_comparison_at = stock_price_average_day_on_day_comparison_at + 1
   :: else -> break
   od;
   assert(stock_price_average_day_on_day_comparison_read.sign == stock_price_average_day_on_day_comparison_written.sign);
@@ -1380,21 +1380,21 @@ inline equal_simple_stock_price_average_message(simple_stock_price_average_messa
 /* Weighted stock price average */
 typedef WeightedStockPriceAverage {
   byte unit_flag;
-  byte weighted_stock_price_average_c_14[14];
+  byte weighted_stock_price_average_value[14];
   byte sign
 };
 
 int weighted_stock_price_average_at;
 
 /* every byte of Weighted Stock Price Average set to one value */
-inline fill_weighted_stock_price_average(weighted_stock_price_average_record, weighted_stock_price_average_value) {
-  weighted_stock_price_average_record.unit_flag = weighted_stock_price_average_value;
+inline fill_weighted_stock_price_average(weighted_stock_price_average_record, weighted_stock_price_average_value_) {
+  weighted_stock_price_average_record.unit_flag = weighted_stock_price_average_value_;
   weighted_stock_price_average_at = 0;
   do
-  :: weighted_stock_price_average_at < 14 -> weighted_stock_price_average_record.weighted_stock_price_average_c_14[weighted_stock_price_average_at] = weighted_stock_price_average_value; weighted_stock_price_average_at = weighted_stock_price_average_at + 1
+  :: weighted_stock_price_average_at < 14 -> weighted_stock_price_average_record.weighted_stock_price_average_value[weighted_stock_price_average_at] = weighted_stock_price_average_value_; weighted_stock_price_average_at = weighted_stock_price_average_at + 1
   :: else -> break
   od;
-  weighted_stock_price_average_record.sign = weighted_stock_price_average_value;
+  weighted_stock_price_average_record.sign = weighted_stock_price_average_value_;
   skip
 }
 
@@ -1403,7 +1403,7 @@ inline ramp_weighted_stock_price_average(weighted_stock_price_average_record, we
   weighted_stock_price_average_record.unit_flag = (weighted_stock_price_average_base + 0 + 1) % 256;
   weighted_stock_price_average_at = 0;
   do
-  :: weighted_stock_price_average_at < 14 -> weighted_stock_price_average_record.weighted_stock_price_average_c_14[weighted_stock_price_average_at] = (weighted_stock_price_average_base + 1 + weighted_stock_price_average_at + 1) % 256; weighted_stock_price_average_at = weighted_stock_price_average_at + 1
+  :: weighted_stock_price_average_at < 14 -> weighted_stock_price_average_record.weighted_stock_price_average_value[weighted_stock_price_average_at] = (weighted_stock_price_average_base + 1 + weighted_stock_price_average_at + 1) % 256; weighted_stock_price_average_at = weighted_stock_price_average_at + 1
   :: else -> break
   od;
   weighted_stock_price_average_record.sign = (weighted_stock_price_average_base + 15 + 1) % 256;
@@ -1415,7 +1415,7 @@ inline encode_weighted_stock_price_average(weighted_stock_price_average_record) 
   wire[at] = weighted_stock_price_average_record.unit_flag; at = at + 1;
   weighted_stock_price_average_at = 0;
   do
-  :: weighted_stock_price_average_at < 14 -> wire[at] = weighted_stock_price_average_record.weighted_stock_price_average_c_14[weighted_stock_price_average_at]; at = at + 1; weighted_stock_price_average_at = weighted_stock_price_average_at + 1
+  :: weighted_stock_price_average_at < 14 -> wire[at] = weighted_stock_price_average_record.weighted_stock_price_average_value[weighted_stock_price_average_at]; at = at + 1; weighted_stock_price_average_at = weighted_stock_price_average_at + 1
   :: else -> break
   od;
   wire[at] = weighted_stock_price_average_record.sign; at = at + 1;
@@ -1427,7 +1427,7 @@ inline decode_weighted_stock_price_average(weighted_stock_price_average_record) 
   weighted_stock_price_average_record.unit_flag = wire[at]; at = at + 1;
   weighted_stock_price_average_at = 0;
   do
-  :: weighted_stock_price_average_at < 14 -> weighted_stock_price_average_record.weighted_stock_price_average_c_14[weighted_stock_price_average_at] = wire[at]; at = at + 1; weighted_stock_price_average_at = weighted_stock_price_average_at + 1
+  :: weighted_stock_price_average_at < 14 -> weighted_stock_price_average_record.weighted_stock_price_average_value[weighted_stock_price_average_at] = wire[at]; at = at + 1; weighted_stock_price_average_at = weighted_stock_price_average_at + 1
   :: else -> break
   od;
   weighted_stock_price_average_record.sign = wire[at]; at = at + 1;
@@ -1439,7 +1439,7 @@ inline equal_weighted_stock_price_average(weighted_stock_price_average_read, wei
   assert(weighted_stock_price_average_read.unit_flag == weighted_stock_price_average_written.unit_flag);
   weighted_stock_price_average_at = 0;
   do
-  :: weighted_stock_price_average_at < 14 -> assert(weighted_stock_price_average_read.weighted_stock_price_average_c_14[weighted_stock_price_average_at] == weighted_stock_price_average_written.weighted_stock_price_average_c_14[weighted_stock_price_average_at]); weighted_stock_price_average_at = weighted_stock_price_average_at + 1
+  :: weighted_stock_price_average_at < 14 -> assert(weighted_stock_price_average_read.weighted_stock_price_average_value[weighted_stock_price_average_at] == weighted_stock_price_average_written.weighted_stock_price_average_value[weighted_stock_price_average_at]); weighted_stock_price_average_at = weighted_stock_price_average_at + 1
   :: else -> break
   od;
   assert(weighted_stock_price_average_read.sign == weighted_stock_price_average_written.sign);
@@ -1697,10 +1697,10 @@ inline equal_simple_stock_price_average_by_industry_message(simple_stock_price_a
 /* Overall Simple average */
 typedef OverallSimpleAverage {
   byte unit_flag;
-  byte simple_average_c_14[14];
+  byte simple_average_value[14];
   byte sign;
   byte second_unit_flag;
-  byte day_on_day_comparison_c_14[14];
+  byte day_on_day_comparison[14];
   byte second_sign
 };
 
@@ -1711,14 +1711,14 @@ inline fill_overall_simple_average(overall_simple_average_record, overall_simple
   overall_simple_average_record.unit_flag = overall_simple_average_value;
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> overall_simple_average_record.simple_average_c_14[overall_simple_average_at] = overall_simple_average_value; overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> overall_simple_average_record.simple_average_value[overall_simple_average_at] = overall_simple_average_value; overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   overall_simple_average_record.sign = overall_simple_average_value;
   overall_simple_average_record.second_unit_flag = overall_simple_average_value;
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> overall_simple_average_record.day_on_day_comparison_c_14[overall_simple_average_at] = overall_simple_average_value; overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> overall_simple_average_record.day_on_day_comparison[overall_simple_average_at] = overall_simple_average_value; overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   overall_simple_average_record.second_sign = overall_simple_average_value;
@@ -1730,14 +1730,14 @@ inline ramp_overall_simple_average(overall_simple_average_record, overall_simple
   overall_simple_average_record.unit_flag = (overall_simple_average_base + 0 + 1) % 256;
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> overall_simple_average_record.simple_average_c_14[overall_simple_average_at] = (overall_simple_average_base + 1 + overall_simple_average_at + 1) % 256; overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> overall_simple_average_record.simple_average_value[overall_simple_average_at] = (overall_simple_average_base + 1 + overall_simple_average_at + 1) % 256; overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   overall_simple_average_record.sign = (overall_simple_average_base + 15 + 1) % 256;
   overall_simple_average_record.second_unit_flag = (overall_simple_average_base + 16 + 1) % 256;
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> overall_simple_average_record.day_on_day_comparison_c_14[overall_simple_average_at] = (overall_simple_average_base + 17 + overall_simple_average_at + 1) % 256; overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> overall_simple_average_record.day_on_day_comparison[overall_simple_average_at] = (overall_simple_average_base + 17 + overall_simple_average_at + 1) % 256; overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   overall_simple_average_record.second_sign = (overall_simple_average_base + 31 + 1) % 256;
@@ -1749,14 +1749,14 @@ inline encode_overall_simple_average(overall_simple_average_record) {
   wire[at] = overall_simple_average_record.unit_flag; at = at + 1;
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> wire[at] = overall_simple_average_record.simple_average_c_14[overall_simple_average_at]; at = at + 1; overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> wire[at] = overall_simple_average_record.simple_average_value[overall_simple_average_at]; at = at + 1; overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   wire[at] = overall_simple_average_record.sign; at = at + 1;
   wire[at] = overall_simple_average_record.second_unit_flag; at = at + 1;
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> wire[at] = overall_simple_average_record.day_on_day_comparison_c_14[overall_simple_average_at]; at = at + 1; overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> wire[at] = overall_simple_average_record.day_on_day_comparison[overall_simple_average_at]; at = at + 1; overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   wire[at] = overall_simple_average_record.second_sign; at = at + 1;
@@ -1768,14 +1768,14 @@ inline decode_overall_simple_average(overall_simple_average_record) {
   overall_simple_average_record.unit_flag = wire[at]; at = at + 1;
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> overall_simple_average_record.simple_average_c_14[overall_simple_average_at] = wire[at]; at = at + 1; overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> overall_simple_average_record.simple_average_value[overall_simple_average_at] = wire[at]; at = at + 1; overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   overall_simple_average_record.sign = wire[at]; at = at + 1;
   overall_simple_average_record.second_unit_flag = wire[at]; at = at + 1;
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> overall_simple_average_record.day_on_day_comparison_c_14[overall_simple_average_at] = wire[at]; at = at + 1; overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> overall_simple_average_record.day_on_day_comparison[overall_simple_average_at] = wire[at]; at = at + 1; overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   overall_simple_average_record.second_sign = wire[at]; at = at + 1;
@@ -1787,14 +1787,14 @@ inline equal_overall_simple_average(overall_simple_average_read, overall_simple_
   assert(overall_simple_average_read.unit_flag == overall_simple_average_written.unit_flag);
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> assert(overall_simple_average_read.simple_average_c_14[overall_simple_average_at] == overall_simple_average_written.simple_average_c_14[overall_simple_average_at]); overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> assert(overall_simple_average_read.simple_average_value[overall_simple_average_at] == overall_simple_average_written.simple_average_value[overall_simple_average_at]); overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   assert(overall_simple_average_read.sign == overall_simple_average_written.sign);
   assert(overall_simple_average_read.second_unit_flag == overall_simple_average_written.second_unit_flag);
   overall_simple_average_at = 0;
   do
-  :: overall_simple_average_at < 14 -> assert(overall_simple_average_read.day_on_day_comparison_c_14[overall_simple_average_at] == overall_simple_average_written.day_on_day_comparison_c_14[overall_simple_average_at]); overall_simple_average_at = overall_simple_average_at + 1
+  :: overall_simple_average_at < 14 -> assert(overall_simple_average_read.day_on_day_comparison[overall_simple_average_at] == overall_simple_average_written.day_on_day_comparison[overall_simple_average_at]); overall_simple_average_at = overall_simple_average_at + 1
   :: else -> break
   od;
   assert(overall_simple_average_read.second_sign == overall_simple_average_written.second_sign);
@@ -1805,9 +1805,9 @@ inline equal_overall_simple_average(overall_simple_average_read, overall_simple_
 
 /* Overall Divergence average */
 typedef OverallDivergenceAverage {
-  byte divergence_average_c_8[8];
+  byte divergence_average_value[8];
   byte sign;
-  byte day_on_day_comparison_c_8[8];
+  byte day_on_day_comparison_rate[8];
   byte second_sign
 };
 
@@ -1817,13 +1817,13 @@ int overall_divergence_average_at;
 inline fill_overall_divergence_average(overall_divergence_average_record, overall_divergence_average_value) {
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.divergence_average_c_8[overall_divergence_average_at] = overall_divergence_average_value; overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.divergence_average_value[overall_divergence_average_at] = overall_divergence_average_value; overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   overall_divergence_average_record.sign = overall_divergence_average_value;
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.day_on_day_comparison_c_8[overall_divergence_average_at] = overall_divergence_average_value; overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.day_on_day_comparison_rate[overall_divergence_average_at] = overall_divergence_average_value; overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   overall_divergence_average_record.second_sign = overall_divergence_average_value;
@@ -1834,13 +1834,13 @@ inline fill_overall_divergence_average(overall_divergence_average_record, overal
 inline ramp_overall_divergence_average(overall_divergence_average_record, overall_divergence_average_base) {
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.divergence_average_c_8[overall_divergence_average_at] = (overall_divergence_average_base + 0 + overall_divergence_average_at + 1) % 256; overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.divergence_average_value[overall_divergence_average_at] = (overall_divergence_average_base + 0 + overall_divergence_average_at + 1) % 256; overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   overall_divergence_average_record.sign = (overall_divergence_average_base + 8 + 1) % 256;
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.day_on_day_comparison_c_8[overall_divergence_average_at] = (overall_divergence_average_base + 9 + overall_divergence_average_at + 1) % 256; overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.day_on_day_comparison_rate[overall_divergence_average_at] = (overall_divergence_average_base + 9 + overall_divergence_average_at + 1) % 256; overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   overall_divergence_average_record.second_sign = (overall_divergence_average_base + 17 + 1) % 256;
@@ -1851,13 +1851,13 @@ inline ramp_overall_divergence_average(overall_divergence_average_record, overal
 inline encode_overall_divergence_average(overall_divergence_average_record) {
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> wire[at] = overall_divergence_average_record.divergence_average_c_8[overall_divergence_average_at]; at = at + 1; overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> wire[at] = overall_divergence_average_record.divergence_average_value[overall_divergence_average_at]; at = at + 1; overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   wire[at] = overall_divergence_average_record.sign; at = at + 1;
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> wire[at] = overall_divergence_average_record.day_on_day_comparison_c_8[overall_divergence_average_at]; at = at + 1; overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> wire[at] = overall_divergence_average_record.day_on_day_comparison_rate[overall_divergence_average_at]; at = at + 1; overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   wire[at] = overall_divergence_average_record.second_sign; at = at + 1;
@@ -1868,13 +1868,13 @@ inline encode_overall_divergence_average(overall_divergence_average_record) {
 inline decode_overall_divergence_average(overall_divergence_average_record) {
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.divergence_average_c_8[overall_divergence_average_at] = wire[at]; at = at + 1; overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.divergence_average_value[overall_divergence_average_at] = wire[at]; at = at + 1; overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   overall_divergence_average_record.sign = wire[at]; at = at + 1;
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.day_on_day_comparison_c_8[overall_divergence_average_at] = wire[at]; at = at + 1; overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> overall_divergence_average_record.day_on_day_comparison_rate[overall_divergence_average_at] = wire[at]; at = at + 1; overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   overall_divergence_average_record.second_sign = wire[at]; at = at + 1;
@@ -1885,13 +1885,13 @@ inline decode_overall_divergence_average(overall_divergence_average_record) {
 inline equal_overall_divergence_average(overall_divergence_average_read, overall_divergence_average_written) {
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> assert(overall_divergence_average_read.divergence_average_c_8[overall_divergence_average_at] == overall_divergence_average_written.divergence_average_c_8[overall_divergence_average_at]); overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> assert(overall_divergence_average_read.divergence_average_value[overall_divergence_average_at] == overall_divergence_average_written.divergence_average_value[overall_divergence_average_at]); overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   assert(overall_divergence_average_read.sign == overall_divergence_average_written.sign);
   overall_divergence_average_at = 0;
   do
-  :: overall_divergence_average_at < 8 -> assert(overall_divergence_average_read.day_on_day_comparison_c_8[overall_divergence_average_at] == overall_divergence_average_written.day_on_day_comparison_c_8[overall_divergence_average_at]); overall_divergence_average_at = overall_divergence_average_at + 1
+  :: overall_divergence_average_at < 8 -> assert(overall_divergence_average_read.day_on_day_comparison_rate[overall_divergence_average_at] == overall_divergence_average_written.day_on_day_comparison_rate[overall_divergence_average_at]); overall_divergence_average_at = overall_divergence_average_at + 1
   :: else -> break
   od;
   assert(overall_divergence_average_read.second_sign == overall_divergence_average_written.second_sign);
@@ -1903,10 +1903,10 @@ inline equal_overall_divergence_average(overall_divergence_average_read, overall
 /* Overall Parity average */
 typedef OverallParityAverage {
   byte unit_flag;
-  byte parity_average_c_14[14];
+  byte parity_average_value[14];
   byte sign;
   byte second_unit_flag;
-  byte day_on_day_comparison_c_14[14];
+  byte day_on_day_comparison[14];
   byte second_sign
 };
 
@@ -1917,14 +1917,14 @@ inline fill_overall_parity_average(overall_parity_average_record, overall_parity
   overall_parity_average_record.unit_flag = overall_parity_average_value;
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> overall_parity_average_record.parity_average_c_14[overall_parity_average_at] = overall_parity_average_value; overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> overall_parity_average_record.parity_average_value[overall_parity_average_at] = overall_parity_average_value; overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   overall_parity_average_record.sign = overall_parity_average_value;
   overall_parity_average_record.second_unit_flag = overall_parity_average_value;
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> overall_parity_average_record.day_on_day_comparison_c_14[overall_parity_average_at] = overall_parity_average_value; overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> overall_parity_average_record.day_on_day_comparison[overall_parity_average_at] = overall_parity_average_value; overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   overall_parity_average_record.second_sign = overall_parity_average_value;
@@ -1936,14 +1936,14 @@ inline ramp_overall_parity_average(overall_parity_average_record, overall_parity
   overall_parity_average_record.unit_flag = (overall_parity_average_base + 0 + 1) % 256;
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> overall_parity_average_record.parity_average_c_14[overall_parity_average_at] = (overall_parity_average_base + 1 + overall_parity_average_at + 1) % 256; overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> overall_parity_average_record.parity_average_value[overall_parity_average_at] = (overall_parity_average_base + 1 + overall_parity_average_at + 1) % 256; overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   overall_parity_average_record.sign = (overall_parity_average_base + 15 + 1) % 256;
   overall_parity_average_record.second_unit_flag = (overall_parity_average_base + 16 + 1) % 256;
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> overall_parity_average_record.day_on_day_comparison_c_14[overall_parity_average_at] = (overall_parity_average_base + 17 + overall_parity_average_at + 1) % 256; overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> overall_parity_average_record.day_on_day_comparison[overall_parity_average_at] = (overall_parity_average_base + 17 + overall_parity_average_at + 1) % 256; overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   overall_parity_average_record.second_sign = (overall_parity_average_base + 31 + 1) % 256;
@@ -1955,14 +1955,14 @@ inline encode_overall_parity_average(overall_parity_average_record) {
   wire[at] = overall_parity_average_record.unit_flag; at = at + 1;
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> wire[at] = overall_parity_average_record.parity_average_c_14[overall_parity_average_at]; at = at + 1; overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> wire[at] = overall_parity_average_record.parity_average_value[overall_parity_average_at]; at = at + 1; overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   wire[at] = overall_parity_average_record.sign; at = at + 1;
   wire[at] = overall_parity_average_record.second_unit_flag; at = at + 1;
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> wire[at] = overall_parity_average_record.day_on_day_comparison_c_14[overall_parity_average_at]; at = at + 1; overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> wire[at] = overall_parity_average_record.day_on_day_comparison[overall_parity_average_at]; at = at + 1; overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   wire[at] = overall_parity_average_record.second_sign; at = at + 1;
@@ -1974,14 +1974,14 @@ inline decode_overall_parity_average(overall_parity_average_record) {
   overall_parity_average_record.unit_flag = wire[at]; at = at + 1;
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> overall_parity_average_record.parity_average_c_14[overall_parity_average_at] = wire[at]; at = at + 1; overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> overall_parity_average_record.parity_average_value[overall_parity_average_at] = wire[at]; at = at + 1; overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   overall_parity_average_record.sign = wire[at]; at = at + 1;
   overall_parity_average_record.second_unit_flag = wire[at]; at = at + 1;
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> overall_parity_average_record.day_on_day_comparison_c_14[overall_parity_average_at] = wire[at]; at = at + 1; overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> overall_parity_average_record.day_on_day_comparison[overall_parity_average_at] = wire[at]; at = at + 1; overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   overall_parity_average_record.second_sign = wire[at]; at = at + 1;
@@ -1993,14 +1993,14 @@ inline equal_overall_parity_average(overall_parity_average_read, overall_parity_
   assert(overall_parity_average_read.unit_flag == overall_parity_average_written.unit_flag);
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> assert(overall_parity_average_read.parity_average_c_14[overall_parity_average_at] == overall_parity_average_written.parity_average_c_14[overall_parity_average_at]); overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> assert(overall_parity_average_read.parity_average_value[overall_parity_average_at] == overall_parity_average_written.parity_average_value[overall_parity_average_at]); overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   assert(overall_parity_average_read.sign == overall_parity_average_written.sign);
   assert(overall_parity_average_read.second_unit_flag == overall_parity_average_written.second_unit_flag);
   overall_parity_average_at = 0;
   do
-  :: overall_parity_average_at < 14 -> assert(overall_parity_average_read.day_on_day_comparison_c_14[overall_parity_average_at] == overall_parity_average_written.day_on_day_comparison_c_14[overall_parity_average_at]); overall_parity_average_at = overall_parity_average_at + 1
+  :: overall_parity_average_at < 14 -> assert(overall_parity_average_read.day_on_day_comparison[overall_parity_average_at] == overall_parity_average_written.day_on_day_comparison[overall_parity_average_at]); overall_parity_average_at = overall_parity_average_at + 1
   :: else -> break
   od;
   assert(overall_parity_average_read.second_sign == overall_parity_average_written.second_sign);
@@ -2011,9 +2011,9 @@ inline equal_overall_parity_average(overall_parity_average_read, overall_parity_
 
 /* Overall Direct yield average */
 typedef OverallDirectYieldAverage {
-  byte direct_yield_average_c_8[8];
+  byte direct_yield_average_value[8];
   byte sign;
-  byte day_on_day_comparison_c_8[8];
+  byte day_on_day_comparison_rate[8];
   byte second_sign
 };
 
@@ -2023,13 +2023,13 @@ int overall_direct_yield_average_at;
 inline fill_overall_direct_yield_average(overall_direct_yield_average_record, overall_direct_yield_average_value) {
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.direct_yield_average_c_8[overall_direct_yield_average_at] = overall_direct_yield_average_value; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.direct_yield_average_value[overall_direct_yield_average_at] = overall_direct_yield_average_value; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   overall_direct_yield_average_record.sign = overall_direct_yield_average_value;
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.day_on_day_comparison_c_8[overall_direct_yield_average_at] = overall_direct_yield_average_value; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.day_on_day_comparison_rate[overall_direct_yield_average_at] = overall_direct_yield_average_value; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   overall_direct_yield_average_record.second_sign = overall_direct_yield_average_value;
@@ -2040,13 +2040,13 @@ inline fill_overall_direct_yield_average(overall_direct_yield_average_record, ov
 inline ramp_overall_direct_yield_average(overall_direct_yield_average_record, overall_direct_yield_average_base) {
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.direct_yield_average_c_8[overall_direct_yield_average_at] = (overall_direct_yield_average_base + 0 + overall_direct_yield_average_at + 1) % 256; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.direct_yield_average_value[overall_direct_yield_average_at] = (overall_direct_yield_average_base + 0 + overall_direct_yield_average_at + 1) % 256; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   overall_direct_yield_average_record.sign = (overall_direct_yield_average_base + 8 + 1) % 256;
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.day_on_day_comparison_c_8[overall_direct_yield_average_at] = (overall_direct_yield_average_base + 9 + overall_direct_yield_average_at + 1) % 256; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.day_on_day_comparison_rate[overall_direct_yield_average_at] = (overall_direct_yield_average_base + 9 + overall_direct_yield_average_at + 1) % 256; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   overall_direct_yield_average_record.second_sign = (overall_direct_yield_average_base + 17 + 1) % 256;
@@ -2057,13 +2057,13 @@ inline ramp_overall_direct_yield_average(overall_direct_yield_average_record, ov
 inline encode_overall_direct_yield_average(overall_direct_yield_average_record) {
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> wire[at] = overall_direct_yield_average_record.direct_yield_average_c_8[overall_direct_yield_average_at]; at = at + 1; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> wire[at] = overall_direct_yield_average_record.direct_yield_average_value[overall_direct_yield_average_at]; at = at + 1; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   wire[at] = overall_direct_yield_average_record.sign; at = at + 1;
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> wire[at] = overall_direct_yield_average_record.day_on_day_comparison_c_8[overall_direct_yield_average_at]; at = at + 1; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> wire[at] = overall_direct_yield_average_record.day_on_day_comparison_rate[overall_direct_yield_average_at]; at = at + 1; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   wire[at] = overall_direct_yield_average_record.second_sign; at = at + 1;
@@ -2074,13 +2074,13 @@ inline encode_overall_direct_yield_average(overall_direct_yield_average_record) 
 inline decode_overall_direct_yield_average(overall_direct_yield_average_record) {
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.direct_yield_average_c_8[overall_direct_yield_average_at] = wire[at]; at = at + 1; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.direct_yield_average_value[overall_direct_yield_average_at] = wire[at]; at = at + 1; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   overall_direct_yield_average_record.sign = wire[at]; at = at + 1;
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.day_on_day_comparison_c_8[overall_direct_yield_average_at] = wire[at]; at = at + 1; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> overall_direct_yield_average_record.day_on_day_comparison_rate[overall_direct_yield_average_at] = wire[at]; at = at + 1; overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   overall_direct_yield_average_record.second_sign = wire[at]; at = at + 1;
@@ -2091,13 +2091,13 @@ inline decode_overall_direct_yield_average(overall_direct_yield_average_record) 
 inline equal_overall_direct_yield_average(overall_direct_yield_average_read, overall_direct_yield_average_written) {
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> assert(overall_direct_yield_average_read.direct_yield_average_c_8[overall_direct_yield_average_at] == overall_direct_yield_average_written.direct_yield_average_c_8[overall_direct_yield_average_at]); overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> assert(overall_direct_yield_average_read.direct_yield_average_value[overall_direct_yield_average_at] == overall_direct_yield_average_written.direct_yield_average_value[overall_direct_yield_average_at]); overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   assert(overall_direct_yield_average_read.sign == overall_direct_yield_average_written.sign);
   overall_direct_yield_average_at = 0;
   do
-  :: overall_direct_yield_average_at < 8 -> assert(overall_direct_yield_average_read.day_on_day_comparison_c_8[overall_direct_yield_average_at] == overall_direct_yield_average_written.day_on_day_comparison_c_8[overall_direct_yield_average_at]); overall_direct_yield_average_at = overall_direct_yield_average_at + 1
+  :: overall_direct_yield_average_at < 8 -> assert(overall_direct_yield_average_read.day_on_day_comparison_rate[overall_direct_yield_average_at] == overall_direct_yield_average_written.day_on_day_comparison_rate[overall_direct_yield_average_at]); overall_direct_yield_average_at = overall_direct_yield_average_at + 1
   :: else -> break
   od;
   assert(overall_direct_yield_average_read.second_sign == overall_direct_yield_average_written.second_sign);
@@ -2164,21 +2164,21 @@ inline equal_overall(overall_read, overall_written) {
 /* Simple average */
 typedef SimpleAverage {
   byte unit_flag;
-  byte simple_average_c_14[14];
+  byte simple_average_value[14];
   byte sign
 };
 
 int simple_average_at;
 
 /* every byte of Simple Average set to one value */
-inline fill_simple_average(simple_average_record, simple_average_value) {
-  simple_average_record.unit_flag = simple_average_value;
+inline fill_simple_average(simple_average_record, simple_average_value_) {
+  simple_average_record.unit_flag = simple_average_value_;
   simple_average_at = 0;
   do
-  :: simple_average_at < 14 -> simple_average_record.simple_average_c_14[simple_average_at] = simple_average_value; simple_average_at = simple_average_at + 1
+  :: simple_average_at < 14 -> simple_average_record.simple_average_value[simple_average_at] = simple_average_value_; simple_average_at = simple_average_at + 1
   :: else -> break
   od;
-  simple_average_record.sign = simple_average_value;
+  simple_average_record.sign = simple_average_value_;
   skip
 }
 
@@ -2187,7 +2187,7 @@ inline ramp_simple_average(simple_average_record, simple_average_base) {
   simple_average_record.unit_flag = (simple_average_base + 0 + 1) % 256;
   simple_average_at = 0;
   do
-  :: simple_average_at < 14 -> simple_average_record.simple_average_c_14[simple_average_at] = (simple_average_base + 1 + simple_average_at + 1) % 256; simple_average_at = simple_average_at + 1
+  :: simple_average_at < 14 -> simple_average_record.simple_average_value[simple_average_at] = (simple_average_base + 1 + simple_average_at + 1) % 256; simple_average_at = simple_average_at + 1
   :: else -> break
   od;
   simple_average_record.sign = (simple_average_base + 15 + 1) % 256;
@@ -2199,7 +2199,7 @@ inline encode_simple_average(simple_average_record) {
   wire[at] = simple_average_record.unit_flag; at = at + 1;
   simple_average_at = 0;
   do
-  :: simple_average_at < 14 -> wire[at] = simple_average_record.simple_average_c_14[simple_average_at]; at = at + 1; simple_average_at = simple_average_at + 1
+  :: simple_average_at < 14 -> wire[at] = simple_average_record.simple_average_value[simple_average_at]; at = at + 1; simple_average_at = simple_average_at + 1
   :: else -> break
   od;
   wire[at] = simple_average_record.sign; at = at + 1;
@@ -2211,7 +2211,7 @@ inline decode_simple_average(simple_average_record) {
   simple_average_record.unit_flag = wire[at]; at = at + 1;
   simple_average_at = 0;
   do
-  :: simple_average_at < 14 -> simple_average_record.simple_average_c_14[simple_average_at] = wire[at]; at = at + 1; simple_average_at = simple_average_at + 1
+  :: simple_average_at < 14 -> simple_average_record.simple_average_value[simple_average_at] = wire[at]; at = at + 1; simple_average_at = simple_average_at + 1
   :: else -> break
   od;
   simple_average_record.sign = wire[at]; at = at + 1;
@@ -2223,7 +2223,7 @@ inline equal_simple_average(simple_average_read, simple_average_written) {
   assert(simple_average_read.unit_flag == simple_average_written.unit_flag);
   simple_average_at = 0;
   do
-  :: simple_average_at < 14 -> assert(simple_average_read.simple_average_c_14[simple_average_at] == simple_average_written.simple_average_c_14[simple_average_at]); simple_average_at = simple_average_at + 1
+  :: simple_average_at < 14 -> assert(simple_average_read.simple_average_value[simple_average_at] == simple_average_written.simple_average_value[simple_average_at]); simple_average_at = simple_average_at + 1
   :: else -> break
   od;
   assert(simple_average_read.sign == simple_average_written.sign);
@@ -2234,20 +2234,20 @@ inline equal_simple_average(simple_average_read, simple_average_written) {
 
 /* Divergence average */
 typedef DivergenceAverage {
-  byte divergence_average_c_8[8];
+  byte divergence_average_value[8];
   byte sign
 };
 
 int divergence_average_at;
 
 /* every byte of Divergence Average set to one value */
-inline fill_divergence_average(divergence_average_record, divergence_average_value) {
+inline fill_divergence_average(divergence_average_record, divergence_average_value_) {
   divergence_average_at = 0;
   do
-  :: divergence_average_at < 8 -> divergence_average_record.divergence_average_c_8[divergence_average_at] = divergence_average_value; divergence_average_at = divergence_average_at + 1
+  :: divergence_average_at < 8 -> divergence_average_record.divergence_average_value[divergence_average_at] = divergence_average_value_; divergence_average_at = divergence_average_at + 1
   :: else -> break
   od;
-  divergence_average_record.sign = divergence_average_value;
+  divergence_average_record.sign = divergence_average_value_;
   skip
 }
 
@@ -2255,7 +2255,7 @@ inline fill_divergence_average(divergence_average_record, divergence_average_val
 inline ramp_divergence_average(divergence_average_record, divergence_average_base) {
   divergence_average_at = 0;
   do
-  :: divergence_average_at < 8 -> divergence_average_record.divergence_average_c_8[divergence_average_at] = (divergence_average_base + 0 + divergence_average_at + 1) % 256; divergence_average_at = divergence_average_at + 1
+  :: divergence_average_at < 8 -> divergence_average_record.divergence_average_value[divergence_average_at] = (divergence_average_base + 0 + divergence_average_at + 1) % 256; divergence_average_at = divergence_average_at + 1
   :: else -> break
   od;
   divergence_average_record.sign = (divergence_average_base + 8 + 1) % 256;
@@ -2266,7 +2266,7 @@ inline ramp_divergence_average(divergence_average_record, divergence_average_bas
 inline encode_divergence_average(divergence_average_record) {
   divergence_average_at = 0;
   do
-  :: divergence_average_at < 8 -> wire[at] = divergence_average_record.divergence_average_c_8[divergence_average_at]; at = at + 1; divergence_average_at = divergence_average_at + 1
+  :: divergence_average_at < 8 -> wire[at] = divergence_average_record.divergence_average_value[divergence_average_at]; at = at + 1; divergence_average_at = divergence_average_at + 1
   :: else -> break
   od;
   wire[at] = divergence_average_record.sign; at = at + 1;
@@ -2277,7 +2277,7 @@ inline encode_divergence_average(divergence_average_record) {
 inline decode_divergence_average(divergence_average_record) {
   divergence_average_at = 0;
   do
-  :: divergence_average_at < 8 -> divergence_average_record.divergence_average_c_8[divergence_average_at] = wire[at]; at = at + 1; divergence_average_at = divergence_average_at + 1
+  :: divergence_average_at < 8 -> divergence_average_record.divergence_average_value[divergence_average_at] = wire[at]; at = at + 1; divergence_average_at = divergence_average_at + 1
   :: else -> break
   od;
   divergence_average_record.sign = wire[at]; at = at + 1;
@@ -2288,7 +2288,7 @@ inline decode_divergence_average(divergence_average_record) {
 inline equal_divergence_average(divergence_average_read, divergence_average_written) {
   divergence_average_at = 0;
   do
-  :: divergence_average_at < 8 -> assert(divergence_average_read.divergence_average_c_8[divergence_average_at] == divergence_average_written.divergence_average_c_8[divergence_average_at]); divergence_average_at = divergence_average_at + 1
+  :: divergence_average_at < 8 -> assert(divergence_average_read.divergence_average_value[divergence_average_at] == divergence_average_written.divergence_average_value[divergence_average_at]); divergence_average_at = divergence_average_at + 1
   :: else -> break
   od;
   assert(divergence_average_read.sign == divergence_average_written.sign);
@@ -2300,21 +2300,21 @@ inline equal_divergence_average(divergence_average_read, divergence_average_writ
 /* Parity average */
 typedef ParityAverage {
   byte unit_flag;
-  byte parity_average_c_14[14];
+  byte parity_average_value[14];
   byte sign
 };
 
 int parity_average_at;
 
 /* every byte of Parity Average set to one value */
-inline fill_parity_average(parity_average_record, parity_average_value) {
-  parity_average_record.unit_flag = parity_average_value;
+inline fill_parity_average(parity_average_record, parity_average_value_) {
+  parity_average_record.unit_flag = parity_average_value_;
   parity_average_at = 0;
   do
-  :: parity_average_at < 14 -> parity_average_record.parity_average_c_14[parity_average_at] = parity_average_value; parity_average_at = parity_average_at + 1
+  :: parity_average_at < 14 -> parity_average_record.parity_average_value[parity_average_at] = parity_average_value_; parity_average_at = parity_average_at + 1
   :: else -> break
   od;
-  parity_average_record.sign = parity_average_value;
+  parity_average_record.sign = parity_average_value_;
   skip
 }
 
@@ -2323,7 +2323,7 @@ inline ramp_parity_average(parity_average_record, parity_average_base) {
   parity_average_record.unit_flag = (parity_average_base + 0 + 1) % 256;
   parity_average_at = 0;
   do
-  :: parity_average_at < 14 -> parity_average_record.parity_average_c_14[parity_average_at] = (parity_average_base + 1 + parity_average_at + 1) % 256; parity_average_at = parity_average_at + 1
+  :: parity_average_at < 14 -> parity_average_record.parity_average_value[parity_average_at] = (parity_average_base + 1 + parity_average_at + 1) % 256; parity_average_at = parity_average_at + 1
   :: else -> break
   od;
   parity_average_record.sign = (parity_average_base + 15 + 1) % 256;
@@ -2335,7 +2335,7 @@ inline encode_parity_average(parity_average_record) {
   wire[at] = parity_average_record.unit_flag; at = at + 1;
   parity_average_at = 0;
   do
-  :: parity_average_at < 14 -> wire[at] = parity_average_record.parity_average_c_14[parity_average_at]; at = at + 1; parity_average_at = parity_average_at + 1
+  :: parity_average_at < 14 -> wire[at] = parity_average_record.parity_average_value[parity_average_at]; at = at + 1; parity_average_at = parity_average_at + 1
   :: else -> break
   od;
   wire[at] = parity_average_record.sign; at = at + 1;
@@ -2347,7 +2347,7 @@ inline decode_parity_average(parity_average_record) {
   parity_average_record.unit_flag = wire[at]; at = at + 1;
   parity_average_at = 0;
   do
-  :: parity_average_at < 14 -> parity_average_record.parity_average_c_14[parity_average_at] = wire[at]; at = at + 1; parity_average_at = parity_average_at + 1
+  :: parity_average_at < 14 -> parity_average_record.parity_average_value[parity_average_at] = wire[at]; at = at + 1; parity_average_at = parity_average_at + 1
   :: else -> break
   od;
   parity_average_record.sign = wire[at]; at = at + 1;
@@ -2359,7 +2359,7 @@ inline equal_parity_average(parity_average_read, parity_average_written) {
   assert(parity_average_read.unit_flag == parity_average_written.unit_flag);
   parity_average_at = 0;
   do
-  :: parity_average_at < 14 -> assert(parity_average_read.parity_average_c_14[parity_average_at] == parity_average_written.parity_average_c_14[parity_average_at]); parity_average_at = parity_average_at + 1
+  :: parity_average_at < 14 -> assert(parity_average_read.parity_average_value[parity_average_at] == parity_average_written.parity_average_value[parity_average_at]); parity_average_at = parity_average_at + 1
   :: else -> break
   od;
   assert(parity_average_read.sign == parity_average_written.sign);
@@ -2370,20 +2370,20 @@ inline equal_parity_average(parity_average_read, parity_average_written) {
 
 /* Direct yield average */
 typedef DirectYieldAverage {
-  byte direct_yield_average_c_8[8];
+  byte direct_yield_average_value[8];
   byte sign
 };
 
 int direct_yield_average_at;
 
 /* every byte of Direct Yield Average set to one value */
-inline fill_direct_yield_average(direct_yield_average_record, direct_yield_average_value) {
+inline fill_direct_yield_average(direct_yield_average_record, direct_yield_average_value_) {
   direct_yield_average_at = 0;
   do
-  :: direct_yield_average_at < 8 -> direct_yield_average_record.direct_yield_average_c_8[direct_yield_average_at] = direct_yield_average_value; direct_yield_average_at = direct_yield_average_at + 1
+  :: direct_yield_average_at < 8 -> direct_yield_average_record.direct_yield_average_value[direct_yield_average_at] = direct_yield_average_value_; direct_yield_average_at = direct_yield_average_at + 1
   :: else -> break
   od;
-  direct_yield_average_record.sign = direct_yield_average_value;
+  direct_yield_average_record.sign = direct_yield_average_value_;
   skip
 }
 
@@ -2391,7 +2391,7 @@ inline fill_direct_yield_average(direct_yield_average_record, direct_yield_avera
 inline ramp_direct_yield_average(direct_yield_average_record, direct_yield_average_base) {
   direct_yield_average_at = 0;
   do
-  :: direct_yield_average_at < 8 -> direct_yield_average_record.direct_yield_average_c_8[direct_yield_average_at] = (direct_yield_average_base + 0 + direct_yield_average_at + 1) % 256; direct_yield_average_at = direct_yield_average_at + 1
+  :: direct_yield_average_at < 8 -> direct_yield_average_record.direct_yield_average_value[direct_yield_average_at] = (direct_yield_average_base + 0 + direct_yield_average_at + 1) % 256; direct_yield_average_at = direct_yield_average_at + 1
   :: else -> break
   od;
   direct_yield_average_record.sign = (direct_yield_average_base + 8 + 1) % 256;
@@ -2402,7 +2402,7 @@ inline ramp_direct_yield_average(direct_yield_average_record, direct_yield_avera
 inline encode_direct_yield_average(direct_yield_average_record) {
   direct_yield_average_at = 0;
   do
-  :: direct_yield_average_at < 8 -> wire[at] = direct_yield_average_record.direct_yield_average_c_8[direct_yield_average_at]; at = at + 1; direct_yield_average_at = direct_yield_average_at + 1
+  :: direct_yield_average_at < 8 -> wire[at] = direct_yield_average_record.direct_yield_average_value[direct_yield_average_at]; at = at + 1; direct_yield_average_at = direct_yield_average_at + 1
   :: else -> break
   od;
   wire[at] = direct_yield_average_record.sign; at = at + 1;
@@ -2413,7 +2413,7 @@ inline encode_direct_yield_average(direct_yield_average_record) {
 inline decode_direct_yield_average(direct_yield_average_record) {
   direct_yield_average_at = 0;
   do
-  :: direct_yield_average_at < 8 -> direct_yield_average_record.direct_yield_average_c_8[direct_yield_average_at] = wire[at]; at = at + 1; direct_yield_average_at = direct_yield_average_at + 1
+  :: direct_yield_average_at < 8 -> direct_yield_average_record.direct_yield_average_value[direct_yield_average_at] = wire[at]; at = at + 1; direct_yield_average_at = direct_yield_average_at + 1
   :: else -> break
   od;
   direct_yield_average_record.sign = wire[at]; at = at + 1;
@@ -2424,7 +2424,7 @@ inline decode_direct_yield_average(direct_yield_average_record) {
 inline equal_direct_yield_average(direct_yield_average_read, direct_yield_average_written) {
   direct_yield_average_at = 0;
   do
-  :: direct_yield_average_at < 8 -> assert(direct_yield_average_read.direct_yield_average_c_8[direct_yield_average_at] == direct_yield_average_written.direct_yield_average_c_8[direct_yield_average_at]); direct_yield_average_at = direct_yield_average_at + 1
+  :: direct_yield_average_at < 8 -> assert(direct_yield_average_read.direct_yield_average_value[direct_yield_average_at] == direct_yield_average_written.direct_yield_average_value[direct_yield_average_at]); direct_yield_average_at = direct_yield_average_at + 1
   :: else -> break
   od;
   assert(direct_yield_average_read.sign == direct_yield_average_written.sign);
@@ -3358,17 +3358,17 @@ inline equal_number_of_gainers_decliners_message(number_of_gainers_decliners_mes
 /* Estimated total trading volume */
 typedef EstimatedTotalTradingVolume {
   byte trading_volume_turnover_unit_flag;
-  byte estimated_total_trading_volume_c_14[14]
+  byte estimated_total_trading_volume_value[14]
 };
 
 int estimated_total_trading_volume_at;
 
 /* every byte of Estimated Total Trading Volume set to one value */
-inline fill_estimated_total_trading_volume(estimated_total_trading_volume_record, estimated_total_trading_volume_value) {
-  estimated_total_trading_volume_record.trading_volume_turnover_unit_flag = estimated_total_trading_volume_value;
+inline fill_estimated_total_trading_volume(estimated_total_trading_volume_record, estimated_total_trading_volume_value_) {
+  estimated_total_trading_volume_record.trading_volume_turnover_unit_flag = estimated_total_trading_volume_value_;
   estimated_total_trading_volume_at = 0;
   do
-  :: estimated_total_trading_volume_at < 14 -> estimated_total_trading_volume_record.estimated_total_trading_volume_c_14[estimated_total_trading_volume_at] = estimated_total_trading_volume_value; estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
+  :: estimated_total_trading_volume_at < 14 -> estimated_total_trading_volume_record.estimated_total_trading_volume_value[estimated_total_trading_volume_at] = estimated_total_trading_volume_value_; estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
   :: else -> break
   od;
   skip
@@ -3379,7 +3379,7 @@ inline ramp_estimated_total_trading_volume(estimated_total_trading_volume_record
   estimated_total_trading_volume_record.trading_volume_turnover_unit_flag = (estimated_total_trading_volume_base + 0 + 1) % 256;
   estimated_total_trading_volume_at = 0;
   do
-  :: estimated_total_trading_volume_at < 14 -> estimated_total_trading_volume_record.estimated_total_trading_volume_c_14[estimated_total_trading_volume_at] = (estimated_total_trading_volume_base + 1 + estimated_total_trading_volume_at + 1) % 256; estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
+  :: estimated_total_trading_volume_at < 14 -> estimated_total_trading_volume_record.estimated_total_trading_volume_value[estimated_total_trading_volume_at] = (estimated_total_trading_volume_base + 1 + estimated_total_trading_volume_at + 1) % 256; estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
   :: else -> break
   od;
   skip
@@ -3390,7 +3390,7 @@ inline encode_estimated_total_trading_volume(estimated_total_trading_volume_reco
   wire[at] = estimated_total_trading_volume_record.trading_volume_turnover_unit_flag; at = at + 1;
   estimated_total_trading_volume_at = 0;
   do
-  :: estimated_total_trading_volume_at < 14 -> wire[at] = estimated_total_trading_volume_record.estimated_total_trading_volume_c_14[estimated_total_trading_volume_at]; at = at + 1; estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
+  :: estimated_total_trading_volume_at < 14 -> wire[at] = estimated_total_trading_volume_record.estimated_total_trading_volume_value[estimated_total_trading_volume_at]; at = at + 1; estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
   :: else -> break
   od;
   skip
@@ -3401,7 +3401,7 @@ inline decode_estimated_total_trading_volume(estimated_total_trading_volume_reco
   estimated_total_trading_volume_record.trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   estimated_total_trading_volume_at = 0;
   do
-  :: estimated_total_trading_volume_at < 14 -> estimated_total_trading_volume_record.estimated_total_trading_volume_c_14[estimated_total_trading_volume_at] = wire[at]; at = at + 1; estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
+  :: estimated_total_trading_volume_at < 14 -> estimated_total_trading_volume_record.estimated_total_trading_volume_value[estimated_total_trading_volume_at] = wire[at]; at = at + 1; estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
   :: else -> break
   od;
   skip
@@ -3412,7 +3412,7 @@ inline equal_estimated_total_trading_volume(estimated_total_trading_volume_read,
   assert(estimated_total_trading_volume_read.trading_volume_turnover_unit_flag == estimated_total_trading_volume_written.trading_volume_turnover_unit_flag);
   estimated_total_trading_volume_at = 0;
   do
-  :: estimated_total_trading_volume_at < 14 -> assert(estimated_total_trading_volume_read.estimated_total_trading_volume_c_14[estimated_total_trading_volume_at] == estimated_total_trading_volume_written.estimated_total_trading_volume_c_14[estimated_total_trading_volume_at]); estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
+  :: estimated_total_trading_volume_at < 14 -> assert(estimated_total_trading_volume_read.estimated_total_trading_volume_value[estimated_total_trading_volume_at] == estimated_total_trading_volume_written.estimated_total_trading_volume_value[estimated_total_trading_volume_at]); estimated_total_trading_volume_at = estimated_total_trading_volume_at + 1
   :: else -> break
   od;
   skip
@@ -3566,21 +3566,21 @@ inline equal_estimated_total_trading_volume_message(estimated_total_trading_volu
 /* Estimated total turnover */
 typedef EstimatedTotalTurnover {
   byte trading_volume_turnover_unit_flag;
-  byte estimated_total_turnover_c_14[14];
+  byte estimated_total_turnover_value[14];
   byte reserved_1
 };
 
 int estimated_total_turnover_at;
 
 /* every byte of Estimated Total Turnover set to one value */
-inline fill_estimated_total_turnover(estimated_total_turnover_record, estimated_total_turnover_value) {
-  estimated_total_turnover_record.trading_volume_turnover_unit_flag = estimated_total_turnover_value;
+inline fill_estimated_total_turnover(estimated_total_turnover_record, estimated_total_turnover_value_) {
+  estimated_total_turnover_record.trading_volume_turnover_unit_flag = estimated_total_turnover_value_;
   estimated_total_turnover_at = 0;
   do
-  :: estimated_total_turnover_at < 14 -> estimated_total_turnover_record.estimated_total_turnover_c_14[estimated_total_turnover_at] = estimated_total_turnover_value; estimated_total_turnover_at = estimated_total_turnover_at + 1
+  :: estimated_total_turnover_at < 14 -> estimated_total_turnover_record.estimated_total_turnover_value[estimated_total_turnover_at] = estimated_total_turnover_value_; estimated_total_turnover_at = estimated_total_turnover_at + 1
   :: else -> break
   od;
-  estimated_total_turnover_record.reserved_1 = estimated_total_turnover_value;
+  estimated_total_turnover_record.reserved_1 = estimated_total_turnover_value_;
   skip
 }
 
@@ -3589,7 +3589,7 @@ inline ramp_estimated_total_turnover(estimated_total_turnover_record, estimated_
   estimated_total_turnover_record.trading_volume_turnover_unit_flag = (estimated_total_turnover_base + 0 + 1) % 256;
   estimated_total_turnover_at = 0;
   do
-  :: estimated_total_turnover_at < 14 -> estimated_total_turnover_record.estimated_total_turnover_c_14[estimated_total_turnover_at] = (estimated_total_turnover_base + 1 + estimated_total_turnover_at + 1) % 256; estimated_total_turnover_at = estimated_total_turnover_at + 1
+  :: estimated_total_turnover_at < 14 -> estimated_total_turnover_record.estimated_total_turnover_value[estimated_total_turnover_at] = (estimated_total_turnover_base + 1 + estimated_total_turnover_at + 1) % 256; estimated_total_turnover_at = estimated_total_turnover_at + 1
   :: else -> break
   od;
   estimated_total_turnover_record.reserved_1 = (estimated_total_turnover_base + 15 + 1) % 256;
@@ -3601,7 +3601,7 @@ inline encode_estimated_total_turnover(estimated_total_turnover_record) {
   wire[at] = estimated_total_turnover_record.trading_volume_turnover_unit_flag; at = at + 1;
   estimated_total_turnover_at = 0;
   do
-  :: estimated_total_turnover_at < 14 -> wire[at] = estimated_total_turnover_record.estimated_total_turnover_c_14[estimated_total_turnover_at]; at = at + 1; estimated_total_turnover_at = estimated_total_turnover_at + 1
+  :: estimated_total_turnover_at < 14 -> wire[at] = estimated_total_turnover_record.estimated_total_turnover_value[estimated_total_turnover_at]; at = at + 1; estimated_total_turnover_at = estimated_total_turnover_at + 1
   :: else -> break
   od;
   wire[at] = estimated_total_turnover_record.reserved_1; at = at + 1;
@@ -3613,7 +3613,7 @@ inline decode_estimated_total_turnover(estimated_total_turnover_record) {
   estimated_total_turnover_record.trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   estimated_total_turnover_at = 0;
   do
-  :: estimated_total_turnover_at < 14 -> estimated_total_turnover_record.estimated_total_turnover_c_14[estimated_total_turnover_at] = wire[at]; at = at + 1; estimated_total_turnover_at = estimated_total_turnover_at + 1
+  :: estimated_total_turnover_at < 14 -> estimated_total_turnover_record.estimated_total_turnover_value[estimated_total_turnover_at] = wire[at]; at = at + 1; estimated_total_turnover_at = estimated_total_turnover_at + 1
   :: else -> break
   od;
   estimated_total_turnover_record.reserved_1 = wire[at]; at = at + 1;
@@ -3625,7 +3625,7 @@ inline equal_estimated_total_turnover(estimated_total_turnover_read, estimated_t
   assert(estimated_total_turnover_read.trading_volume_turnover_unit_flag == estimated_total_turnover_written.trading_volume_turnover_unit_flag);
   estimated_total_turnover_at = 0;
   do
-  :: estimated_total_turnover_at < 14 -> assert(estimated_total_turnover_read.estimated_total_turnover_c_14[estimated_total_turnover_at] == estimated_total_turnover_written.estimated_total_turnover_c_14[estimated_total_turnover_at]); estimated_total_turnover_at = estimated_total_turnover_at + 1
+  :: estimated_total_turnover_at < 14 -> assert(estimated_total_turnover_read.estimated_total_turnover_value[estimated_total_turnover_at] == estimated_total_turnover_written.estimated_total_turnover_value[estimated_total_turnover_at]); estimated_total_turnover_at = estimated_total_turnover_at + 1
   :: else -> break
   od;
   assert(estimated_total_turnover_read.reserved_1 == estimated_total_turnover_written.reserved_1);
@@ -3780,33 +3780,33 @@ inline equal_estimated_total_turnover_message(estimated_total_turnover_message_r
 /* VWAP by market */
 typedef VwapByMarket {
   byte unit_flag;
-  byte vwap_by_market_c_14[14];
+  byte vwap_by_market_value[14];
   byte sign;
   byte reserved_1;
   byte second_unit_flag;
-  byte day_on_day_comparison_c_14[14];
+  byte day_on_day_comparison[14];
   byte second_sign
 };
 
 int vwap_by_market_at;
 
 /* every byte of Vwap By Market set to one value */
-inline fill_vwap_by_market(vwap_by_market_record, vwap_by_market_value) {
-  vwap_by_market_record.unit_flag = vwap_by_market_value;
+inline fill_vwap_by_market(vwap_by_market_record, vwap_by_market_value_) {
+  vwap_by_market_record.unit_flag = vwap_by_market_value_;
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> vwap_by_market_record.vwap_by_market_c_14[vwap_by_market_at] = vwap_by_market_value; vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> vwap_by_market_record.vwap_by_market_value[vwap_by_market_at] = vwap_by_market_value_; vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
-  vwap_by_market_record.sign = vwap_by_market_value;
-  vwap_by_market_record.reserved_1 = vwap_by_market_value;
-  vwap_by_market_record.second_unit_flag = vwap_by_market_value;
+  vwap_by_market_record.sign = vwap_by_market_value_;
+  vwap_by_market_record.reserved_1 = vwap_by_market_value_;
+  vwap_by_market_record.second_unit_flag = vwap_by_market_value_;
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> vwap_by_market_record.day_on_day_comparison_c_14[vwap_by_market_at] = vwap_by_market_value; vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> vwap_by_market_record.day_on_day_comparison[vwap_by_market_at] = vwap_by_market_value_; vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
-  vwap_by_market_record.second_sign = vwap_by_market_value;
+  vwap_by_market_record.second_sign = vwap_by_market_value_;
   skip
 }
 
@@ -3815,7 +3815,7 @@ inline ramp_vwap_by_market(vwap_by_market_record, vwap_by_market_base) {
   vwap_by_market_record.unit_flag = (vwap_by_market_base + 0 + 1) % 256;
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> vwap_by_market_record.vwap_by_market_c_14[vwap_by_market_at] = (vwap_by_market_base + 1 + vwap_by_market_at + 1) % 256; vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> vwap_by_market_record.vwap_by_market_value[vwap_by_market_at] = (vwap_by_market_base + 1 + vwap_by_market_at + 1) % 256; vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
   vwap_by_market_record.sign = (vwap_by_market_base + 15 + 1) % 256;
@@ -3823,7 +3823,7 @@ inline ramp_vwap_by_market(vwap_by_market_record, vwap_by_market_base) {
   vwap_by_market_record.second_unit_flag = (vwap_by_market_base + 17 + 1) % 256;
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> vwap_by_market_record.day_on_day_comparison_c_14[vwap_by_market_at] = (vwap_by_market_base + 18 + vwap_by_market_at + 1) % 256; vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> vwap_by_market_record.day_on_day_comparison[vwap_by_market_at] = (vwap_by_market_base + 18 + vwap_by_market_at + 1) % 256; vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
   vwap_by_market_record.second_sign = (vwap_by_market_base + 32 + 1) % 256;
@@ -3835,7 +3835,7 @@ inline encode_vwap_by_market(vwap_by_market_record) {
   wire[at] = vwap_by_market_record.unit_flag; at = at + 1;
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> wire[at] = vwap_by_market_record.vwap_by_market_c_14[vwap_by_market_at]; at = at + 1; vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> wire[at] = vwap_by_market_record.vwap_by_market_value[vwap_by_market_at]; at = at + 1; vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
   wire[at] = vwap_by_market_record.sign; at = at + 1;
@@ -3843,7 +3843,7 @@ inline encode_vwap_by_market(vwap_by_market_record) {
   wire[at] = vwap_by_market_record.second_unit_flag; at = at + 1;
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> wire[at] = vwap_by_market_record.day_on_day_comparison_c_14[vwap_by_market_at]; at = at + 1; vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> wire[at] = vwap_by_market_record.day_on_day_comparison[vwap_by_market_at]; at = at + 1; vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
   wire[at] = vwap_by_market_record.second_sign; at = at + 1;
@@ -3855,7 +3855,7 @@ inline decode_vwap_by_market(vwap_by_market_record) {
   vwap_by_market_record.unit_flag = wire[at]; at = at + 1;
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> vwap_by_market_record.vwap_by_market_c_14[vwap_by_market_at] = wire[at]; at = at + 1; vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> vwap_by_market_record.vwap_by_market_value[vwap_by_market_at] = wire[at]; at = at + 1; vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
   vwap_by_market_record.sign = wire[at]; at = at + 1;
@@ -3863,7 +3863,7 @@ inline decode_vwap_by_market(vwap_by_market_record) {
   vwap_by_market_record.second_unit_flag = wire[at]; at = at + 1;
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> vwap_by_market_record.day_on_day_comparison_c_14[vwap_by_market_at] = wire[at]; at = at + 1; vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> vwap_by_market_record.day_on_day_comparison[vwap_by_market_at] = wire[at]; at = at + 1; vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
   vwap_by_market_record.second_sign = wire[at]; at = at + 1;
@@ -3875,7 +3875,7 @@ inline equal_vwap_by_market(vwap_by_market_read, vwap_by_market_written) {
   assert(vwap_by_market_read.unit_flag == vwap_by_market_written.unit_flag);
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> assert(vwap_by_market_read.vwap_by_market_c_14[vwap_by_market_at] == vwap_by_market_written.vwap_by_market_c_14[vwap_by_market_at]); vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> assert(vwap_by_market_read.vwap_by_market_value[vwap_by_market_at] == vwap_by_market_written.vwap_by_market_value[vwap_by_market_at]); vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
   assert(vwap_by_market_read.sign == vwap_by_market_written.sign);
@@ -3883,7 +3883,7 @@ inline equal_vwap_by_market(vwap_by_market_read, vwap_by_market_written) {
   assert(vwap_by_market_read.second_unit_flag == vwap_by_market_written.second_unit_flag);
   vwap_by_market_at = 0;
   do
-  :: vwap_by_market_at < 14 -> assert(vwap_by_market_read.day_on_day_comparison_c_14[vwap_by_market_at] == vwap_by_market_written.day_on_day_comparison_c_14[vwap_by_market_at]); vwap_by_market_at = vwap_by_market_at + 1
+  :: vwap_by_market_at < 14 -> assert(vwap_by_market_read.day_on_day_comparison[vwap_by_market_at] == vwap_by_market_written.day_on_day_comparison[vwap_by_market_at]); vwap_by_market_at = vwap_by_market_at + 1
   :: else -> break
   od;
   assert(vwap_by_market_read.second_sign == vwap_by_market_written.second_sign);
@@ -4012,11 +4012,11 @@ inline equal_vwap_by_market_message(vwap_by_market_message_read, vwap_by_market_
 /* Trading volume */
 typedef TradingVolume {
   byte trading_volume_turnover_unit_flag;
-  byte single_issue_transaction_c_14[14];
+  byte single_issue_transaction[14];
   byte second_trading_volume_turnover_unit_flag;
   byte closing_price_transaction[14];
   byte third_trading_volume_turnover_unit_flag;
-  byte basket_transaction_c_14[14];
+  byte basket_transaction[14];
   byte fourth_trading_volume_turnover_unit_flag;
   byte aggregate_trading_volume[14]
 };
@@ -4028,7 +4028,7 @@ inline fill_trading_volume(trading_volume_record, trading_volume_value) {
   trading_volume_record.trading_volume_turnover_unit_flag = trading_volume_value;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.single_issue_transaction_c_14[trading_volume_at] = trading_volume_value; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.single_issue_transaction[trading_volume_at] = trading_volume_value; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_record.second_trading_volume_turnover_unit_flag = trading_volume_value;
@@ -4040,7 +4040,7 @@ inline fill_trading_volume(trading_volume_record, trading_volume_value) {
   trading_volume_record.third_trading_volume_turnover_unit_flag = trading_volume_value;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.basket_transaction_c_14[trading_volume_at] = trading_volume_value; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.basket_transaction[trading_volume_at] = trading_volume_value; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_record.fourth_trading_volume_turnover_unit_flag = trading_volume_value;
@@ -4057,7 +4057,7 @@ inline ramp_trading_volume(trading_volume_record, trading_volume_base) {
   trading_volume_record.trading_volume_turnover_unit_flag = (trading_volume_base + 0 + 1) % 256;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.single_issue_transaction_c_14[trading_volume_at] = (trading_volume_base + 1 + trading_volume_at + 1) % 256; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.single_issue_transaction[trading_volume_at] = (trading_volume_base + 1 + trading_volume_at + 1) % 256; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_record.second_trading_volume_turnover_unit_flag = (trading_volume_base + 15 + 1) % 256;
@@ -4069,7 +4069,7 @@ inline ramp_trading_volume(trading_volume_record, trading_volume_base) {
   trading_volume_record.third_trading_volume_turnover_unit_flag = (trading_volume_base + 30 + 1) % 256;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.basket_transaction_c_14[trading_volume_at] = (trading_volume_base + 31 + trading_volume_at + 1) % 256; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.basket_transaction[trading_volume_at] = (trading_volume_base + 31 + trading_volume_at + 1) % 256; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_record.fourth_trading_volume_turnover_unit_flag = (trading_volume_base + 45 + 1) % 256;
@@ -4086,7 +4086,7 @@ inline encode_trading_volume(trading_volume_record) {
   wire[at] = trading_volume_record.trading_volume_turnover_unit_flag; at = at + 1;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> wire[at] = trading_volume_record.single_issue_transaction_c_14[trading_volume_at]; at = at + 1; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> wire[at] = trading_volume_record.single_issue_transaction[trading_volume_at]; at = at + 1; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   wire[at] = trading_volume_record.second_trading_volume_turnover_unit_flag; at = at + 1;
@@ -4098,7 +4098,7 @@ inline encode_trading_volume(trading_volume_record) {
   wire[at] = trading_volume_record.third_trading_volume_turnover_unit_flag; at = at + 1;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> wire[at] = trading_volume_record.basket_transaction_c_14[trading_volume_at]; at = at + 1; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> wire[at] = trading_volume_record.basket_transaction[trading_volume_at]; at = at + 1; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   wire[at] = trading_volume_record.fourth_trading_volume_turnover_unit_flag; at = at + 1;
@@ -4115,7 +4115,7 @@ inline decode_trading_volume(trading_volume_record) {
   trading_volume_record.trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.single_issue_transaction_c_14[trading_volume_at] = wire[at]; at = at + 1; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.single_issue_transaction[trading_volume_at] = wire[at]; at = at + 1; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_record.second_trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
@@ -4127,7 +4127,7 @@ inline decode_trading_volume(trading_volume_record) {
   trading_volume_record.third_trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> trading_volume_record.basket_transaction_c_14[trading_volume_at] = wire[at]; at = at + 1; trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> trading_volume_record.basket_transaction[trading_volume_at] = wire[at]; at = at + 1; trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   trading_volume_record.fourth_trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
@@ -4144,7 +4144,7 @@ inline equal_trading_volume(trading_volume_read, trading_volume_written) {
   assert(trading_volume_read.trading_volume_turnover_unit_flag == trading_volume_written.trading_volume_turnover_unit_flag);
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> assert(trading_volume_read.single_issue_transaction_c_14[trading_volume_at] == trading_volume_written.single_issue_transaction_c_14[trading_volume_at]); trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> assert(trading_volume_read.single_issue_transaction[trading_volume_at] == trading_volume_written.single_issue_transaction[trading_volume_at]); trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   assert(trading_volume_read.second_trading_volume_turnover_unit_flag == trading_volume_written.second_trading_volume_turnover_unit_flag);
@@ -4156,7 +4156,7 @@ inline equal_trading_volume(trading_volume_read, trading_volume_written) {
   assert(trading_volume_read.third_trading_volume_turnover_unit_flag == trading_volume_written.third_trading_volume_turnover_unit_flag);
   trading_volume_at = 0;
   do
-  :: trading_volume_at < 14 -> assert(trading_volume_read.basket_transaction_c_14[trading_volume_at] == trading_volume_written.basket_transaction_c_14[trading_volume_at]); trading_volume_at = trading_volume_at + 1
+  :: trading_volume_at < 14 -> assert(trading_volume_read.basket_transaction[trading_volume_at] == trading_volume_written.basket_transaction[trading_volume_at]); trading_volume_at = trading_volume_at + 1
   :: else -> break
   od;
   assert(trading_volume_read.fourth_trading_volume_turnover_unit_flag == trading_volume_written.fourth_trading_volume_turnover_unit_flag);
@@ -4173,11 +4173,11 @@ inline equal_trading_volume(trading_volume_read, trading_volume_written) {
 /* Turnover */
 typedef Turnover {
   byte trading_volume_turnover_unit_flag;
-  byte single_issue_transaction_c_14[14];
+  byte single_issue_transaction[14];
   byte second_trading_volume_turnover_unit_flag;
   byte closing_price_transaction[14];
   byte third_trading_volume_turnover_unit_flag;
-  byte basket_transaction_c_14[14];
+  byte basket_transaction[14];
   byte fourth_trading_volume_turnover_unit_flag;
   byte aggregate_turnover[14]
 };
@@ -4189,7 +4189,7 @@ inline fill_turnover(turnover_record, turnover_value) {
   turnover_record.trading_volume_turnover_unit_flag = turnover_value;
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> turnover_record.single_issue_transaction_c_14[turnover_at] = turnover_value; turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> turnover_record.single_issue_transaction[turnover_at] = turnover_value; turnover_at = turnover_at + 1
   :: else -> break
   od;
   turnover_record.second_trading_volume_turnover_unit_flag = turnover_value;
@@ -4201,7 +4201,7 @@ inline fill_turnover(turnover_record, turnover_value) {
   turnover_record.third_trading_volume_turnover_unit_flag = turnover_value;
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> turnover_record.basket_transaction_c_14[turnover_at] = turnover_value; turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> turnover_record.basket_transaction[turnover_at] = turnover_value; turnover_at = turnover_at + 1
   :: else -> break
   od;
   turnover_record.fourth_trading_volume_turnover_unit_flag = turnover_value;
@@ -4218,7 +4218,7 @@ inline ramp_turnover(turnover_record, turnover_base) {
   turnover_record.trading_volume_turnover_unit_flag = (turnover_base + 0 + 1) % 256;
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> turnover_record.single_issue_transaction_c_14[turnover_at] = (turnover_base + 1 + turnover_at + 1) % 256; turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> turnover_record.single_issue_transaction[turnover_at] = (turnover_base + 1 + turnover_at + 1) % 256; turnover_at = turnover_at + 1
   :: else -> break
   od;
   turnover_record.second_trading_volume_turnover_unit_flag = (turnover_base + 15 + 1) % 256;
@@ -4230,7 +4230,7 @@ inline ramp_turnover(turnover_record, turnover_base) {
   turnover_record.third_trading_volume_turnover_unit_flag = (turnover_base + 30 + 1) % 256;
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> turnover_record.basket_transaction_c_14[turnover_at] = (turnover_base + 31 + turnover_at + 1) % 256; turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> turnover_record.basket_transaction[turnover_at] = (turnover_base + 31 + turnover_at + 1) % 256; turnover_at = turnover_at + 1
   :: else -> break
   od;
   turnover_record.fourth_trading_volume_turnover_unit_flag = (turnover_base + 45 + 1) % 256;
@@ -4247,7 +4247,7 @@ inline encode_turnover(turnover_record) {
   wire[at] = turnover_record.trading_volume_turnover_unit_flag; at = at + 1;
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> wire[at] = turnover_record.single_issue_transaction_c_14[turnover_at]; at = at + 1; turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> wire[at] = turnover_record.single_issue_transaction[turnover_at]; at = at + 1; turnover_at = turnover_at + 1
   :: else -> break
   od;
   wire[at] = turnover_record.second_trading_volume_turnover_unit_flag; at = at + 1;
@@ -4259,7 +4259,7 @@ inline encode_turnover(turnover_record) {
   wire[at] = turnover_record.third_trading_volume_turnover_unit_flag; at = at + 1;
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> wire[at] = turnover_record.basket_transaction_c_14[turnover_at]; at = at + 1; turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> wire[at] = turnover_record.basket_transaction[turnover_at]; at = at + 1; turnover_at = turnover_at + 1
   :: else -> break
   od;
   wire[at] = turnover_record.fourth_trading_volume_turnover_unit_flag; at = at + 1;
@@ -4276,7 +4276,7 @@ inline decode_turnover(turnover_record) {
   turnover_record.trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> turnover_record.single_issue_transaction_c_14[turnover_at] = wire[at]; at = at + 1; turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> turnover_record.single_issue_transaction[turnover_at] = wire[at]; at = at + 1; turnover_at = turnover_at + 1
   :: else -> break
   od;
   turnover_record.second_trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
@@ -4288,7 +4288,7 @@ inline decode_turnover(turnover_record) {
   turnover_record.third_trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> turnover_record.basket_transaction_c_14[turnover_at] = wire[at]; at = at + 1; turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> turnover_record.basket_transaction[turnover_at] = wire[at]; at = at + 1; turnover_at = turnover_at + 1
   :: else -> break
   od;
   turnover_record.fourth_trading_volume_turnover_unit_flag = wire[at]; at = at + 1;
@@ -4305,7 +4305,7 @@ inline equal_turnover(turnover_read, turnover_written) {
   assert(turnover_read.trading_volume_turnover_unit_flag == turnover_written.trading_volume_turnover_unit_flag);
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> assert(turnover_read.single_issue_transaction_c_14[turnover_at] == turnover_written.single_issue_transaction_c_14[turnover_at]); turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> assert(turnover_read.single_issue_transaction[turnover_at] == turnover_written.single_issue_transaction[turnover_at]); turnover_at = turnover_at + 1
   :: else -> break
   od;
   assert(turnover_read.second_trading_volume_turnover_unit_flag == turnover_written.second_trading_volume_turnover_unit_flag);
@@ -4317,7 +4317,7 @@ inline equal_turnover(turnover_read, turnover_written) {
   assert(turnover_read.third_trading_volume_turnover_unit_flag == turnover_written.third_trading_volume_turnover_unit_flag);
   turnover_at = 0;
   do
-  :: turnover_at < 14 -> assert(turnover_read.basket_transaction_c_14[turnover_at] == turnover_written.basket_transaction_c_14[turnover_at]); turnover_at = turnover_at + 1
+  :: turnover_at < 14 -> assert(turnover_read.basket_transaction[turnover_at] == turnover_written.basket_transaction[turnover_at]); turnover_at = turnover_at + 1
   :: else -> break
   od;
   assert(turnover_read.fourth_trading_volume_turnover_unit_flag == turnover_written.fourth_trading_volume_turnover_unit_flag);
@@ -4333,8 +4333,8 @@ inline equal_turnover(turnover_read, turnover_written) {
 
 /* Number of transactions */
 typedef NumberOfTransactions {
-  byte single_issue_transaction_c_8[8];
-  byte basket_transaction_c_8[8]
+  byte single_issue_transaction_count[8];
+  byte basket_transaction_count[8]
 };
 
 int number_of_transactions_at;
@@ -4343,12 +4343,12 @@ int number_of_transactions_at;
 inline fill_number_of_transactions(number_of_transactions_record, number_of_transactions_value) {
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> number_of_transactions_record.single_issue_transaction_c_8[number_of_transactions_at] = number_of_transactions_value; number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> number_of_transactions_record.single_issue_transaction_count[number_of_transactions_at] = number_of_transactions_value; number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> number_of_transactions_record.basket_transaction_c_8[number_of_transactions_at] = number_of_transactions_value; number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> number_of_transactions_record.basket_transaction_count[number_of_transactions_at] = number_of_transactions_value; number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   skip
@@ -4358,12 +4358,12 @@ inline fill_number_of_transactions(number_of_transactions_record, number_of_tran
 inline ramp_number_of_transactions(number_of_transactions_record, number_of_transactions_base) {
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> number_of_transactions_record.single_issue_transaction_c_8[number_of_transactions_at] = (number_of_transactions_base + 0 + number_of_transactions_at + 1) % 256; number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> number_of_transactions_record.single_issue_transaction_count[number_of_transactions_at] = (number_of_transactions_base + 0 + number_of_transactions_at + 1) % 256; number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> number_of_transactions_record.basket_transaction_c_8[number_of_transactions_at] = (number_of_transactions_base + 8 + number_of_transactions_at + 1) % 256; number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> number_of_transactions_record.basket_transaction_count[number_of_transactions_at] = (number_of_transactions_base + 8 + number_of_transactions_at + 1) % 256; number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   skip
@@ -4373,12 +4373,12 @@ inline ramp_number_of_transactions(number_of_transactions_record, number_of_tran
 inline encode_number_of_transactions(number_of_transactions_record) {
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> wire[at] = number_of_transactions_record.single_issue_transaction_c_8[number_of_transactions_at]; at = at + 1; number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> wire[at] = number_of_transactions_record.single_issue_transaction_count[number_of_transactions_at]; at = at + 1; number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> wire[at] = number_of_transactions_record.basket_transaction_c_8[number_of_transactions_at]; at = at + 1; number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> wire[at] = number_of_transactions_record.basket_transaction_count[number_of_transactions_at]; at = at + 1; number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   skip
@@ -4388,12 +4388,12 @@ inline encode_number_of_transactions(number_of_transactions_record) {
 inline decode_number_of_transactions(number_of_transactions_record) {
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> number_of_transactions_record.single_issue_transaction_c_8[number_of_transactions_at] = wire[at]; at = at + 1; number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> number_of_transactions_record.single_issue_transaction_count[number_of_transactions_at] = wire[at]; at = at + 1; number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> number_of_transactions_record.basket_transaction_c_8[number_of_transactions_at] = wire[at]; at = at + 1; number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> number_of_transactions_record.basket_transaction_count[number_of_transactions_at] = wire[at]; at = at + 1; number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   skip
@@ -4403,12 +4403,12 @@ inline decode_number_of_transactions(number_of_transactions_record) {
 inline equal_number_of_transactions(number_of_transactions_read, number_of_transactions_written) {
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> assert(number_of_transactions_read.single_issue_transaction_c_8[number_of_transactions_at] == number_of_transactions_written.single_issue_transaction_c_8[number_of_transactions_at]); number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> assert(number_of_transactions_read.single_issue_transaction_count[number_of_transactions_at] == number_of_transactions_written.single_issue_transaction_count[number_of_transactions_at]); number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   number_of_transactions_at = 0;
   do
-  :: number_of_transactions_at < 8 -> assert(number_of_transactions_read.basket_transaction_c_8[number_of_transactions_at] == number_of_transactions_written.basket_transaction_c_8[number_of_transactions_at]); number_of_transactions_at = number_of_transactions_at + 1
+  :: number_of_transactions_at < 8 -> assert(number_of_transactions_read.basket_transaction_count[number_of_transactions_at] == number_of_transactions_written.basket_transaction_count[number_of_transactions_at]); number_of_transactions_at = number_of_transactions_at + 1
   :: else -> break
   od;
   skip

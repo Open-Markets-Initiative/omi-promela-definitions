@@ -2131,14 +2131,15 @@ inline equal_stream_id_message(stream_id_message_read, stream_id_message_written
   skip
 }
 
-/* ---- Sequence Number Reset Message: 10 bytes --------------------------------- */
+/* ---- Sequence Number Reset Message: 12 bytes --------------------------------- */
 
 /* This message is sent to reset the Message Sequence Number at start of day, or in response to failures. */
 typedef SequenceNumberResetMessage {
   byte source_time[4];
   byte source_time_ns[4];
   byte product_id;
-  byte channel_id
+  byte channel_id;
+  byte reserved_2[2]
 };
 
 int sequence_number_reset_message_at;
@@ -2157,6 +2158,11 @@ inline fill_sequence_number_reset_message(sequence_number_reset_message_record, 
   od;
   sequence_number_reset_message_record.product_id = sequence_number_reset_message_value;
   sequence_number_reset_message_record.channel_id = sequence_number_reset_message_value;
+  sequence_number_reset_message_at = 0;
+  do
+  :: sequence_number_reset_message_at < 2 -> sequence_number_reset_message_record.reserved_2[sequence_number_reset_message_at] = sequence_number_reset_message_value; sequence_number_reset_message_at = sequence_number_reset_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -2174,10 +2180,15 @@ inline ramp_sequence_number_reset_message(sequence_number_reset_message_record, 
   od;
   sequence_number_reset_message_record.product_id = (sequence_number_reset_message_base + 8 + 1) % 256;
   sequence_number_reset_message_record.channel_id = (sequence_number_reset_message_base + 9 + 1) % 256;
+  sequence_number_reset_message_at = 0;
+  do
+  :: sequence_number_reset_message_at < 2 -> sequence_number_reset_message_record.reserved_2[sequence_number_reset_message_at] = (sequence_number_reset_message_base + 10 + sequence_number_reset_message_at + 1) % 256; sequence_number_reset_message_at = sequence_number_reset_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
-/* Sequence Number Reset Message to the wire, 10 bytes from where the cursor stands */
+/* Sequence Number Reset Message to the wire, 12 bytes from where the cursor stands */
 inline encode_sequence_number_reset_message(sequence_number_reset_message_record) {
   sequence_number_reset_message_at = 0;
   do
@@ -2191,10 +2202,15 @@ inline encode_sequence_number_reset_message(sequence_number_reset_message_record
   od;
   wire[at] = sequence_number_reset_message_record.product_id; at = at + 1;
   wire[at] = sequence_number_reset_message_record.channel_id; at = at + 1;
+  sequence_number_reset_message_at = 0;
+  do
+  :: sequence_number_reset_message_at < 2 -> wire[at] = sequence_number_reset_message_record.reserved_2[sequence_number_reset_message_at]; at = at + 1; sequence_number_reset_message_at = sequence_number_reset_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
-/* Sequence Number Reset Message off the wire, 10 bytes from where the cursor stands */
+/* Sequence Number Reset Message off the wire, 12 bytes from where the cursor stands */
 inline decode_sequence_number_reset_message(sequence_number_reset_message_record) {
   sequence_number_reset_message_at = 0;
   do
@@ -2208,6 +2224,11 @@ inline decode_sequence_number_reset_message(sequence_number_reset_message_record
   od;
   sequence_number_reset_message_record.product_id = wire[at]; at = at + 1;
   sequence_number_reset_message_record.channel_id = wire[at]; at = at + 1;
+  sequence_number_reset_message_at = 0;
+  do
+  :: sequence_number_reset_message_at < 2 -> sequence_number_reset_message_record.reserved_2[sequence_number_reset_message_at] = wire[at]; at = at + 1; sequence_number_reset_message_at = sequence_number_reset_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -2225,6 +2246,11 @@ inline equal_sequence_number_reset_message(sequence_number_reset_message_read, s
   od;
   assert(sequence_number_reset_message_read.product_id == sequence_number_reset_message_written.product_id);
   assert(sequence_number_reset_message_read.channel_id == sequence_number_reset_message_written.channel_id);
+  sequence_number_reset_message_at = 0;
+  do
+  :: sequence_number_reset_message_at < 2 -> assert(sequence_number_reset_message_read.reserved_2[sequence_number_reset_message_at] == sequence_number_reset_message_written.reserved_2[sequence_number_reset_message_at]); sequence_number_reset_message_at = sequence_number_reset_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -2594,10 +2620,10 @@ proctype check_sequence_number_reset_message() {
   atomic {
     at = 0;
     encode_sequence_number_reset_message(sequence_number_reset_message_sent);
-    assert(at == 10);
+    assert(at == 12);
     at = 0;
     decode_sequence_number_reset_message(sequence_number_reset_message_got);
-    assert(at == 10);
+    assert(at == 12);
     equal_sequence_number_reset_message(sequence_number_reset_message_got, sequence_number_reset_message_sent)
   }
 }

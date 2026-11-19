@@ -1316,7 +1316,7 @@ inline equal_collar_group(collar_group_read, collar_group_written) {
 /* The message contains a list of underlyings not traded in WATS. It concerns underlyings for derivatives and structured products */
 typedef ExternalUnderlying {
   byte external_underlying_id[4];
-  byte product_identification_product_identification[30];
+  byte product_identification[30];
   byte product_identification_type;
   byte product_code[20];
   byte product_name[50];
@@ -1336,7 +1336,7 @@ inline fill_external_underlying(external_underlying_record, external_underlying_
   od;
   external_underlying_at = 0;
   do
-  :: external_underlying_at < 30 -> external_underlying_record.product_identification_product_identification[external_underlying_at] = external_underlying_value; external_underlying_at = external_underlying_at + 1
+  :: external_underlying_at < 30 -> external_underlying_record.product_identification[external_underlying_at] = external_underlying_value; external_underlying_at = external_underlying_at + 1
   :: else -> break
   od;
   external_underlying_record.product_identification_type = external_underlying_value;
@@ -1377,7 +1377,7 @@ inline ramp_external_underlying(external_underlying_record, external_underlying_
   od;
   external_underlying_at = 0;
   do
-  :: external_underlying_at < 30 -> external_underlying_record.product_identification_product_identification[external_underlying_at] = (external_underlying_base + 4 + external_underlying_at + 1) % 256; external_underlying_at = external_underlying_at + 1
+  :: external_underlying_at < 30 -> external_underlying_record.product_identification[external_underlying_at] = (external_underlying_base + 4 + external_underlying_at + 1) % 256; external_underlying_at = external_underlying_at + 1
   :: else -> break
   od;
   external_underlying_record.product_identification_type = (external_underlying_base + 34 + 1) % 256;
@@ -1418,7 +1418,7 @@ inline encode_external_underlying(external_underlying_record) {
   od;
   external_underlying_at = 0;
   do
-  :: external_underlying_at < 30 -> wire[at] = external_underlying_record.product_identification_product_identification[external_underlying_at]; at = at + 1; external_underlying_at = external_underlying_at + 1
+  :: external_underlying_at < 30 -> wire[at] = external_underlying_record.product_identification[external_underlying_at]; at = at + 1; external_underlying_at = external_underlying_at + 1
   :: else -> break
   od;
   wire[at] = external_underlying_record.product_identification_type; at = at + 1;
@@ -1459,7 +1459,7 @@ inline decode_external_underlying(external_underlying_record) {
   od;
   external_underlying_at = 0;
   do
-  :: external_underlying_at < 30 -> external_underlying_record.product_identification_product_identification[external_underlying_at] = wire[at]; at = at + 1; external_underlying_at = external_underlying_at + 1
+  :: external_underlying_at < 30 -> external_underlying_record.product_identification[external_underlying_at] = wire[at]; at = at + 1; external_underlying_at = external_underlying_at + 1
   :: else -> break
   od;
   external_underlying_record.product_identification_type = wire[at]; at = at + 1;
@@ -1500,7 +1500,7 @@ inline equal_external_underlying(external_underlying_read, external_underlying_w
   od;
   external_underlying_at = 0;
   do
-  :: external_underlying_at < 30 -> assert(external_underlying_read.product_identification_product_identification[external_underlying_at] == external_underlying_written.product_identification_product_identification[external_underlying_at]); external_underlying_at = external_underlying_at + 1
+  :: external_underlying_at < 30 -> assert(external_underlying_read.product_identification[external_underlying_at] == external_underlying_written.product_identification[external_underlying_at]); external_underlying_at = external_underlying_at + 1
   :: else -> break
   od;
   assert(external_underlying_read.product_identification_type == external_underlying_written.product_identification_type);
@@ -1554,12 +1554,12 @@ typedef Instrument {
   byte trading_schedule_id[4];
   byte description[64];
   byte mic[4];
-  byte nominal_value_price[8];
+  byte nominal_value[8];
   byte nominal_value_type;
-  byte multiplier_multiplier[8];
+  byte multiplier[8];
   byte strike_price[8];
   byte strike_price_currency[2];
-  byte product_identification_product_identification[30];
+  byte product_identification[30];
   byte product_identification_type;
   byte settlement_calendar_id[4];
   byte bond_coupon_type;
@@ -1683,13 +1683,13 @@ inline fill_instrument(instrument_record, instrument_value) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> instrument_record.nominal_value_price[instrument_at] = instrument_value; instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> instrument_record.nominal_value[instrument_at] = instrument_value; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_record.nominal_value_type = instrument_value;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> instrument_record.multiplier_multiplier[instrument_at] = instrument_value; instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> instrument_record.multiplier[instrument_at] = instrument_value; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_at = 0;
@@ -1704,7 +1704,7 @@ inline fill_instrument(instrument_record, instrument_value) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 30 -> instrument_record.product_identification_product_identification[instrument_at] = instrument_value; instrument_at = instrument_at + 1
+  :: instrument_at < 30 -> instrument_record.product_identification[instrument_at] = instrument_value; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_record.product_identification_type = instrument_value;
@@ -1929,13 +1929,13 @@ inline ramp_instrument(instrument_record, instrument_base) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> instrument_record.nominal_value_price[instrument_at] = (instrument_base + 125 + instrument_at + 1) % 256; instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> instrument_record.nominal_value[instrument_at] = (instrument_base + 125 + instrument_at + 1) % 256; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_record.nominal_value_type = (instrument_base + 133 + 1) % 256;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> instrument_record.multiplier_multiplier[instrument_at] = (instrument_base + 134 + instrument_at + 1) % 256; instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> instrument_record.multiplier[instrument_at] = (instrument_base + 134 + instrument_at + 1) % 256; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_at = 0;
@@ -1950,7 +1950,7 @@ inline ramp_instrument(instrument_record, instrument_base) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 30 -> instrument_record.product_identification_product_identification[instrument_at] = (instrument_base + 152 + instrument_at + 1) % 256; instrument_at = instrument_at + 1
+  :: instrument_at < 30 -> instrument_record.product_identification[instrument_at] = (instrument_base + 152 + instrument_at + 1) % 256; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_record.product_identification_type = (instrument_base + 182 + 1) % 256;
@@ -2175,13 +2175,13 @@ inline encode_instrument(instrument_record) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> wire[at] = instrument_record.nominal_value_price[instrument_at]; at = at + 1; instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> wire[at] = instrument_record.nominal_value[instrument_at]; at = at + 1; instrument_at = instrument_at + 1
   :: else -> break
   od;
   wire[at] = instrument_record.nominal_value_type; at = at + 1;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> wire[at] = instrument_record.multiplier_multiplier[instrument_at]; at = at + 1; instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> wire[at] = instrument_record.multiplier[instrument_at]; at = at + 1; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_at = 0;
@@ -2196,7 +2196,7 @@ inline encode_instrument(instrument_record) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 30 -> wire[at] = instrument_record.product_identification_product_identification[instrument_at]; at = at + 1; instrument_at = instrument_at + 1
+  :: instrument_at < 30 -> wire[at] = instrument_record.product_identification[instrument_at]; at = at + 1; instrument_at = instrument_at + 1
   :: else -> break
   od;
   wire[at] = instrument_record.product_identification_type; at = at + 1;
@@ -2421,13 +2421,13 @@ inline decode_instrument(instrument_record) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> instrument_record.nominal_value_price[instrument_at] = wire[at]; at = at + 1; instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> instrument_record.nominal_value[instrument_at] = wire[at]; at = at + 1; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_record.nominal_value_type = wire[at]; at = at + 1;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> instrument_record.multiplier_multiplier[instrument_at] = wire[at]; at = at + 1; instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> instrument_record.multiplier[instrument_at] = wire[at]; at = at + 1; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_at = 0;
@@ -2442,7 +2442,7 @@ inline decode_instrument(instrument_record) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 30 -> instrument_record.product_identification_product_identification[instrument_at] = wire[at]; at = at + 1; instrument_at = instrument_at + 1
+  :: instrument_at < 30 -> instrument_record.product_identification[instrument_at] = wire[at]; at = at + 1; instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_record.product_identification_type = wire[at]; at = at + 1;
@@ -2667,13 +2667,13 @@ inline equal_instrument(instrument_read, instrument_written) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> assert(instrument_read.nominal_value_price[instrument_at] == instrument_written.nominal_value_price[instrument_at]); instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> assert(instrument_read.nominal_value[instrument_at] == instrument_written.nominal_value[instrument_at]); instrument_at = instrument_at + 1
   :: else -> break
   od;
   assert(instrument_read.nominal_value_type == instrument_written.nominal_value_type);
   instrument_at = 0;
   do
-  :: instrument_at < 8 -> assert(instrument_read.multiplier_multiplier[instrument_at] == instrument_written.multiplier_multiplier[instrument_at]); instrument_at = instrument_at + 1
+  :: instrument_at < 8 -> assert(instrument_read.multiplier[instrument_at] == instrument_written.multiplier[instrument_at]); instrument_at = instrument_at + 1
   :: else -> break
   od;
   instrument_at = 0;
@@ -2688,7 +2688,7 @@ inline equal_instrument(instrument_read, instrument_written) {
   od;
   instrument_at = 0;
   do
-  :: instrument_at < 30 -> assert(instrument_read.product_identification_product_identification[instrument_at] == instrument_written.product_identification_product_identification[instrument_at]); instrument_at = instrument_at + 1
+  :: instrument_at < 30 -> assert(instrument_read.product_identification[instrument_at] == instrument_written.product_identification[instrument_at]); instrument_at = instrument_at + 1
   :: else -> break
   od;
   assert(instrument_read.product_identification_type == instrument_written.product_identification_type);
@@ -3057,7 +3057,7 @@ inline equal_indexation_table_entry(indexation_table_entry_read, indexation_tabl
 
 /* PublicProductIdentification */
 typedef ProductIdentificationPublicProductIdentification {
-  byte product_identification_product_identification[30];
+  byte product_identification[30];
   byte product_identification_type
 };
 
@@ -3067,7 +3067,7 @@ int product_identification_public_product_identification_at;
 inline fill_product_identification_public_product_identification(product_identification_public_product_identification_record, product_identification_public_product_identification_value) {
   product_identification_public_product_identification_at = 0;
   do
-  :: product_identification_public_product_identification_at < 30 -> product_identification_public_product_identification_record.product_identification_product_identification[product_identification_public_product_identification_at] = product_identification_public_product_identification_value; product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
+  :: product_identification_public_product_identification_at < 30 -> product_identification_public_product_identification_record.product_identification[product_identification_public_product_identification_at] = product_identification_public_product_identification_value; product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
   :: else -> break
   od;
   product_identification_public_product_identification_record.product_identification_type = product_identification_public_product_identification_value;
@@ -3078,7 +3078,7 @@ inline fill_product_identification_public_product_identification(product_identif
 inline ramp_product_identification_public_product_identification(product_identification_public_product_identification_record, product_identification_public_product_identification_base) {
   product_identification_public_product_identification_at = 0;
   do
-  :: product_identification_public_product_identification_at < 30 -> product_identification_public_product_identification_record.product_identification_product_identification[product_identification_public_product_identification_at] = (product_identification_public_product_identification_base + 0 + product_identification_public_product_identification_at + 1) % 256; product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
+  :: product_identification_public_product_identification_at < 30 -> product_identification_public_product_identification_record.product_identification[product_identification_public_product_identification_at] = (product_identification_public_product_identification_base + 0 + product_identification_public_product_identification_at + 1) % 256; product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
   :: else -> break
   od;
   product_identification_public_product_identification_record.product_identification_type = (product_identification_public_product_identification_base + 30 + 1) % 256;
@@ -3089,7 +3089,7 @@ inline ramp_product_identification_public_product_identification(product_identif
 inline encode_product_identification_public_product_identification(product_identification_public_product_identification_record) {
   product_identification_public_product_identification_at = 0;
   do
-  :: product_identification_public_product_identification_at < 30 -> wire[at] = product_identification_public_product_identification_record.product_identification_product_identification[product_identification_public_product_identification_at]; at = at + 1; product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
+  :: product_identification_public_product_identification_at < 30 -> wire[at] = product_identification_public_product_identification_record.product_identification[product_identification_public_product_identification_at]; at = at + 1; product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
   :: else -> break
   od;
   wire[at] = product_identification_public_product_identification_record.product_identification_type; at = at + 1;
@@ -3100,7 +3100,7 @@ inline encode_product_identification_public_product_identification(product_ident
 inline decode_product_identification_public_product_identification(product_identification_public_product_identification_record) {
   product_identification_public_product_identification_at = 0;
   do
-  :: product_identification_public_product_identification_at < 30 -> product_identification_public_product_identification_record.product_identification_product_identification[product_identification_public_product_identification_at] = wire[at]; at = at + 1; product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
+  :: product_identification_public_product_identification_at < 30 -> product_identification_public_product_identification_record.product_identification[product_identification_public_product_identification_at] = wire[at]; at = at + 1; product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
   :: else -> break
   od;
   product_identification_public_product_identification_record.product_identification_type = wire[at]; at = at + 1;
@@ -3111,7 +3111,7 @@ inline decode_product_identification_public_product_identification(product_ident
 inline equal_product_identification_public_product_identification(product_identification_public_product_identification_read, product_identification_public_product_identification_written) {
   product_identification_public_product_identification_at = 0;
   do
-  :: product_identification_public_product_identification_at < 30 -> assert(product_identification_public_product_identification_read.product_identification_product_identification[product_identification_public_product_identification_at] == product_identification_public_product_identification_written.product_identification_product_identification[product_identification_public_product_identification_at]); product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
+  :: product_identification_public_product_identification_at < 30 -> assert(product_identification_public_product_identification_read.product_identification[product_identification_public_product_identification_at] == product_identification_public_product_identification_written.product_identification[product_identification_public_product_identification_at]); product_identification_public_product_identification_at = product_identification_public_product_identification_at + 1
   :: else -> break
   od;
   assert(product_identification_public_product_identification_read.product_identification_type == product_identification_public_product_identification_written.product_identification_type);
@@ -3165,7 +3165,7 @@ inline equal_index_underlying(index_underlying_read, index_underlying_written) {
 
 /* PublicProductIdentification */
 typedef PublicProductIdentification {
-  byte product_identification_product_identification[30];
+  byte product_identification[30];
   byte product_identification_type
 };
 
@@ -3175,7 +3175,7 @@ int public_product_identification_at;
 inline fill_public_product_identification(public_product_identification_record, public_product_identification_value) {
   public_product_identification_at = 0;
   do
-  :: public_product_identification_at < 30 -> public_product_identification_record.product_identification_product_identification[public_product_identification_at] = public_product_identification_value; public_product_identification_at = public_product_identification_at + 1
+  :: public_product_identification_at < 30 -> public_product_identification_record.product_identification[public_product_identification_at] = public_product_identification_value; public_product_identification_at = public_product_identification_at + 1
   :: else -> break
   od;
   public_product_identification_record.product_identification_type = public_product_identification_value;
@@ -3186,7 +3186,7 @@ inline fill_public_product_identification(public_product_identification_record, 
 inline ramp_public_product_identification(public_product_identification_record, public_product_identification_base) {
   public_product_identification_at = 0;
   do
-  :: public_product_identification_at < 30 -> public_product_identification_record.product_identification_product_identification[public_product_identification_at] = (public_product_identification_base + 0 + public_product_identification_at + 1) % 256; public_product_identification_at = public_product_identification_at + 1
+  :: public_product_identification_at < 30 -> public_product_identification_record.product_identification[public_product_identification_at] = (public_product_identification_base + 0 + public_product_identification_at + 1) % 256; public_product_identification_at = public_product_identification_at + 1
   :: else -> break
   od;
   public_product_identification_record.product_identification_type = (public_product_identification_base + 30 + 1) % 256;
@@ -3197,7 +3197,7 @@ inline ramp_public_product_identification(public_product_identification_record, 
 inline encode_public_product_identification(public_product_identification_record) {
   public_product_identification_at = 0;
   do
-  :: public_product_identification_at < 30 -> wire[at] = public_product_identification_record.product_identification_product_identification[public_product_identification_at]; at = at + 1; public_product_identification_at = public_product_identification_at + 1
+  :: public_product_identification_at < 30 -> wire[at] = public_product_identification_record.product_identification[public_product_identification_at]; at = at + 1; public_product_identification_at = public_product_identification_at + 1
   :: else -> break
   od;
   wire[at] = public_product_identification_record.product_identification_type; at = at + 1;
@@ -3208,7 +3208,7 @@ inline encode_public_product_identification(public_product_identification_record
 inline decode_public_product_identification(public_product_identification_record) {
   public_product_identification_at = 0;
   do
-  :: public_product_identification_at < 30 -> public_product_identification_record.product_identification_product_identification[public_product_identification_at] = wire[at]; at = at + 1; public_product_identification_at = public_product_identification_at + 1
+  :: public_product_identification_at < 30 -> public_product_identification_record.product_identification[public_product_identification_at] = wire[at]; at = at + 1; public_product_identification_at = public_product_identification_at + 1
   :: else -> break
   od;
   public_product_identification_record.product_identification_type = wire[at]; at = at + 1;
@@ -3219,7 +3219,7 @@ inline decode_public_product_identification(public_product_identification_record
 inline equal_public_product_identification(public_product_identification_read, public_product_identification_written) {
   public_product_identification_at = 0;
   do
-  :: public_product_identification_at < 30 -> assert(public_product_identification_read.product_identification_product_identification[public_product_identification_at] == public_product_identification_written.product_identification_product_identification[public_product_identification_at]); public_product_identification_at = public_product_identification_at + 1
+  :: public_product_identification_at < 30 -> assert(public_product_identification_read.product_identification[public_product_identification_at] == public_product_identification_written.product_identification[public_product_identification_at]); public_product_identification_at = public_product_identification_at + 1
   :: else -> break
   od;
   assert(public_product_identification_read.product_identification_type == public_product_identification_written.product_identification_type);
@@ -3927,7 +3927,7 @@ inline equal_top_price_level_update(top_price_level_update_read, top_price_level
 /* Enriched trade report */
 typedef Trade {
   byte instrument_id[4];
-  byte settlement_value_value[8];
+  byte trade_settlement_value[8];
   byte settlement_date[4];
   byte trading_timestamp[8];
   PublicProductIdentification public_product_id_aqo3ef;
@@ -3935,7 +3935,7 @@ typedef Trade {
   byte price_currency[2];
   byte price_notation;
   byte quantity[8];
-  byte nominal_value_value[8];
+  byte trade_nominal_value[8];
   byte nominal_currency[2];
   byte mic[4];
   byte publication_timestamp[8];
@@ -3975,7 +3975,7 @@ inline fill_trade(trade_record, trade_value) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> trade_record.settlement_value_value[trade_at] = trade_value; trade_at = trade_at + 1
+  :: trade_at < 8 -> trade_record.trade_settlement_value[trade_at] = trade_value; trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4007,7 +4007,7 @@ inline fill_trade(trade_record, trade_value) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> trade_record.nominal_value_value[trade_at] = trade_value; trade_at = trade_at + 1
+  :: trade_at < 8 -> trade_record.trade_nominal_value[trade_at] = trade_value; trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4096,7 +4096,7 @@ inline ramp_trade(trade_record, trade_base) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> trade_record.settlement_value_value[trade_at] = (trade_base + 4 + trade_at + 1) % 256; trade_at = trade_at + 1
+  :: trade_at < 8 -> trade_record.trade_settlement_value[trade_at] = (trade_base + 4 + trade_at + 1) % 256; trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4128,7 +4128,7 @@ inline ramp_trade(trade_record, trade_base) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> trade_record.nominal_value_value[trade_at] = (trade_base + 74 + trade_at + 1) % 256; trade_at = trade_at + 1
+  :: trade_at < 8 -> trade_record.trade_nominal_value[trade_at] = (trade_base + 74 + trade_at + 1) % 256; trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4217,7 +4217,7 @@ inline encode_trade(trade_record) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> wire[at] = trade_record.settlement_value_value[trade_at]; at = at + 1; trade_at = trade_at + 1
+  :: trade_at < 8 -> wire[at] = trade_record.trade_settlement_value[trade_at]; at = at + 1; trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4249,7 +4249,7 @@ inline encode_trade(trade_record) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> wire[at] = trade_record.nominal_value_value[trade_at]; at = at + 1; trade_at = trade_at + 1
+  :: trade_at < 8 -> wire[at] = trade_record.trade_nominal_value[trade_at]; at = at + 1; trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4338,7 +4338,7 @@ inline decode_trade(trade_record) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> trade_record.settlement_value_value[trade_at] = wire[at]; at = at + 1; trade_at = trade_at + 1
+  :: trade_at < 8 -> trade_record.trade_settlement_value[trade_at] = wire[at]; at = at + 1; trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4370,7 +4370,7 @@ inline decode_trade(trade_record) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> trade_record.nominal_value_value[trade_at] = wire[at]; at = at + 1; trade_at = trade_at + 1
+  :: trade_at < 8 -> trade_record.trade_nominal_value[trade_at] = wire[at]; at = at + 1; trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4459,7 +4459,7 @@ inline equal_trade(trade_read, trade_written) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> assert(trade_read.settlement_value_value[trade_at] == trade_written.settlement_value_value[trade_at]); trade_at = trade_at + 1
+  :: trade_at < 8 -> assert(trade_read.trade_settlement_value[trade_at] == trade_written.trade_settlement_value[trade_at]); trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -4491,7 +4491,7 @@ inline equal_trade(trade_read, trade_written) {
   od;
   trade_at = 0;
   do
-  :: trade_at < 8 -> assert(trade_read.nominal_value_value[trade_at] == trade_written.nominal_value_value[trade_at]); trade_at = trade_at + 1
+  :: trade_at < 8 -> assert(trade_read.trade_nominal_value[trade_at] == trade_written.trade_nominal_value[trade_at]); trade_at = trade_at + 1
   :: else -> break
   od;
   trade_at = 0;
@@ -5492,7 +5492,7 @@ typedef ClobInstrument {
   byte max_price[8];
   byte min_price[8];
   byte settlement_price[8];
-  byte settlement_value_price[8];
+  byte settlement_value[8];
   byte end_trading_date[4];
   byte last_trade_date[4]
 };
@@ -5571,7 +5571,7 @@ inline fill_clob_instrument(clob_instrument_record, clob_instrument_value) {
   od;
   clob_instrument_at = 0;
   do
-  :: clob_instrument_at < 8 -> clob_instrument_record.settlement_value_price[clob_instrument_at] = clob_instrument_value; clob_instrument_at = clob_instrument_at + 1
+  :: clob_instrument_at < 8 -> clob_instrument_record.settlement_value[clob_instrument_at] = clob_instrument_value; clob_instrument_at = clob_instrument_at + 1
   :: else -> break
   od;
   clob_instrument_at = 0;
@@ -5659,7 +5659,7 @@ inline ramp_clob_instrument(clob_instrument_record, clob_instrument_base) {
   od;
   clob_instrument_at = 0;
   do
-  :: clob_instrument_at < 8 -> clob_instrument_record.settlement_value_price[clob_instrument_at] = (clob_instrument_base + 103 + clob_instrument_at + 1) % 256; clob_instrument_at = clob_instrument_at + 1
+  :: clob_instrument_at < 8 -> clob_instrument_record.settlement_value[clob_instrument_at] = (clob_instrument_base + 103 + clob_instrument_at + 1) % 256; clob_instrument_at = clob_instrument_at + 1
   :: else -> break
   od;
   clob_instrument_at = 0;
@@ -5747,7 +5747,7 @@ inline encode_clob_instrument(clob_instrument_record) {
   od;
   clob_instrument_at = 0;
   do
-  :: clob_instrument_at < 8 -> wire[at] = clob_instrument_record.settlement_value_price[clob_instrument_at]; at = at + 1; clob_instrument_at = clob_instrument_at + 1
+  :: clob_instrument_at < 8 -> wire[at] = clob_instrument_record.settlement_value[clob_instrument_at]; at = at + 1; clob_instrument_at = clob_instrument_at + 1
   :: else -> break
   od;
   clob_instrument_at = 0;
@@ -5835,7 +5835,7 @@ inline decode_clob_instrument(clob_instrument_record) {
   od;
   clob_instrument_at = 0;
   do
-  :: clob_instrument_at < 8 -> clob_instrument_record.settlement_value_price[clob_instrument_at] = wire[at]; at = at + 1; clob_instrument_at = clob_instrument_at + 1
+  :: clob_instrument_at < 8 -> clob_instrument_record.settlement_value[clob_instrument_at] = wire[at]; at = at + 1; clob_instrument_at = clob_instrument_at + 1
   :: else -> break
   od;
   clob_instrument_at = 0;
@@ -5923,7 +5923,7 @@ inline equal_clob_instrument(clob_instrument_read, clob_instrument_written) {
   od;
   clob_instrument_at = 0;
   do
-  :: clob_instrument_at < 8 -> assert(clob_instrument_read.settlement_value_price[clob_instrument_at] == clob_instrument_written.settlement_value_price[clob_instrument_at]); clob_instrument_at = clob_instrument_at + 1
+  :: clob_instrument_at < 8 -> assert(clob_instrument_read.settlement_value[clob_instrument_at] == clob_instrument_written.settlement_value[clob_instrument_at]); clob_instrument_at = clob_instrument_at + 1
   :: else -> break
   od;
   clob_instrument_at = 0;
@@ -5959,7 +5959,7 @@ typedef CrossInstrument {
   byte max_price[8];
   byte min_price[8];
   byte settlement_price[8];
-  byte settlement_value_price[8];
+  byte settlement_value[8];
   byte end_trading_date[4];
   byte last_trade_date[4]
 };
@@ -6038,7 +6038,7 @@ inline fill_cross_instrument(cross_instrument_record, cross_instrument_value) {
   od;
   cross_instrument_at = 0;
   do
-  :: cross_instrument_at < 8 -> cross_instrument_record.settlement_value_price[cross_instrument_at] = cross_instrument_value; cross_instrument_at = cross_instrument_at + 1
+  :: cross_instrument_at < 8 -> cross_instrument_record.settlement_value[cross_instrument_at] = cross_instrument_value; cross_instrument_at = cross_instrument_at + 1
   :: else -> break
   od;
   cross_instrument_at = 0;
@@ -6126,7 +6126,7 @@ inline ramp_cross_instrument(cross_instrument_record, cross_instrument_base) {
   od;
   cross_instrument_at = 0;
   do
-  :: cross_instrument_at < 8 -> cross_instrument_record.settlement_value_price[cross_instrument_at] = (cross_instrument_base + 103 + cross_instrument_at + 1) % 256; cross_instrument_at = cross_instrument_at + 1
+  :: cross_instrument_at < 8 -> cross_instrument_record.settlement_value[cross_instrument_at] = (cross_instrument_base + 103 + cross_instrument_at + 1) % 256; cross_instrument_at = cross_instrument_at + 1
   :: else -> break
   od;
   cross_instrument_at = 0;
@@ -6214,7 +6214,7 @@ inline encode_cross_instrument(cross_instrument_record) {
   od;
   cross_instrument_at = 0;
   do
-  :: cross_instrument_at < 8 -> wire[at] = cross_instrument_record.settlement_value_price[cross_instrument_at]; at = at + 1; cross_instrument_at = cross_instrument_at + 1
+  :: cross_instrument_at < 8 -> wire[at] = cross_instrument_record.settlement_value[cross_instrument_at]; at = at + 1; cross_instrument_at = cross_instrument_at + 1
   :: else -> break
   od;
   cross_instrument_at = 0;
@@ -6302,7 +6302,7 @@ inline decode_cross_instrument(cross_instrument_record) {
   od;
   cross_instrument_at = 0;
   do
-  :: cross_instrument_at < 8 -> cross_instrument_record.settlement_value_price[cross_instrument_at] = wire[at]; at = at + 1; cross_instrument_at = cross_instrument_at + 1
+  :: cross_instrument_at < 8 -> cross_instrument_record.settlement_value[cross_instrument_at] = wire[at]; at = at + 1; cross_instrument_at = cross_instrument_at + 1
   :: else -> break
   od;
   cross_instrument_at = 0;
@@ -6390,7 +6390,7 @@ inline equal_cross_instrument(cross_instrument_read, cross_instrument_written) {
   od;
   cross_instrument_at = 0;
   do
-  :: cross_instrument_at < 8 -> assert(cross_instrument_read.settlement_value_price[cross_instrument_at] == cross_instrument_written.settlement_value_price[cross_instrument_at]); cross_instrument_at = cross_instrument_at + 1
+  :: cross_instrument_at < 8 -> assert(cross_instrument_read.settlement_value[cross_instrument_at] == cross_instrument_written.settlement_value[cross_instrument_at]); cross_instrument_at = cross_instrument_at + 1
   :: else -> break
   od;
   cross_instrument_at = 0;
@@ -6426,7 +6426,7 @@ typedef BlockInstrument {
   byte max_price[8];
   byte min_price[8];
   byte settlement_price[8];
-  byte settlement_value_price[8];
+  byte settlement_value[8];
   byte end_trading_date[4];
   byte last_trade_date[4]
 };
@@ -6505,7 +6505,7 @@ inline fill_block_instrument(block_instrument_record, block_instrument_value) {
   od;
   block_instrument_at = 0;
   do
-  :: block_instrument_at < 8 -> block_instrument_record.settlement_value_price[block_instrument_at] = block_instrument_value; block_instrument_at = block_instrument_at + 1
+  :: block_instrument_at < 8 -> block_instrument_record.settlement_value[block_instrument_at] = block_instrument_value; block_instrument_at = block_instrument_at + 1
   :: else -> break
   od;
   block_instrument_at = 0;
@@ -6593,7 +6593,7 @@ inline ramp_block_instrument(block_instrument_record, block_instrument_base) {
   od;
   block_instrument_at = 0;
   do
-  :: block_instrument_at < 8 -> block_instrument_record.settlement_value_price[block_instrument_at] = (block_instrument_base + 103 + block_instrument_at + 1) % 256; block_instrument_at = block_instrument_at + 1
+  :: block_instrument_at < 8 -> block_instrument_record.settlement_value[block_instrument_at] = (block_instrument_base + 103 + block_instrument_at + 1) % 256; block_instrument_at = block_instrument_at + 1
   :: else -> break
   od;
   block_instrument_at = 0;
@@ -6681,7 +6681,7 @@ inline encode_block_instrument(block_instrument_record) {
   od;
   block_instrument_at = 0;
   do
-  :: block_instrument_at < 8 -> wire[at] = block_instrument_record.settlement_value_price[block_instrument_at]; at = at + 1; block_instrument_at = block_instrument_at + 1
+  :: block_instrument_at < 8 -> wire[at] = block_instrument_record.settlement_value[block_instrument_at]; at = at + 1; block_instrument_at = block_instrument_at + 1
   :: else -> break
   od;
   block_instrument_at = 0;
@@ -6769,7 +6769,7 @@ inline decode_block_instrument(block_instrument_record) {
   od;
   block_instrument_at = 0;
   do
-  :: block_instrument_at < 8 -> block_instrument_record.settlement_value_price[block_instrument_at] = wire[at]; at = at + 1; block_instrument_at = block_instrument_at + 1
+  :: block_instrument_at < 8 -> block_instrument_record.settlement_value[block_instrument_at] = wire[at]; at = at + 1; block_instrument_at = block_instrument_at + 1
   :: else -> break
   od;
   block_instrument_at = 0;
@@ -6857,7 +6857,7 @@ inline equal_block_instrument(block_instrument_read, block_instrument_written) {
   od;
   block_instrument_at = 0;
   do
-  :: block_instrument_at < 8 -> assert(block_instrument_read.settlement_value_price[block_instrument_at] == block_instrument_written.settlement_value_price[block_instrument_at]); block_instrument_at = block_instrument_at + 1
+  :: block_instrument_at < 8 -> assert(block_instrument_read.settlement_value[block_instrument_at] == block_instrument_written.settlement_value[block_instrument_at]); block_instrument_at = block_instrument_at + 1
   :: else -> break
   od;
   block_instrument_at = 0;
@@ -6893,7 +6893,7 @@ typedef HybridInstrument {
   byte max_price[8];
   byte min_price[8];
   byte settlement_price[8];
-  byte settlement_value_price[8];
+  byte settlement_value[8];
   byte end_trading_date[4];
   byte last_trade_date[4]
 };
@@ -6972,7 +6972,7 @@ inline fill_hybrid_instrument(hybrid_instrument_record, hybrid_instrument_value)
   od;
   hybrid_instrument_at = 0;
   do
-  :: hybrid_instrument_at < 8 -> hybrid_instrument_record.settlement_value_price[hybrid_instrument_at] = hybrid_instrument_value; hybrid_instrument_at = hybrid_instrument_at + 1
+  :: hybrid_instrument_at < 8 -> hybrid_instrument_record.settlement_value[hybrid_instrument_at] = hybrid_instrument_value; hybrid_instrument_at = hybrid_instrument_at + 1
   :: else -> break
   od;
   hybrid_instrument_at = 0;
@@ -7060,7 +7060,7 @@ inline ramp_hybrid_instrument(hybrid_instrument_record, hybrid_instrument_base) 
   od;
   hybrid_instrument_at = 0;
   do
-  :: hybrid_instrument_at < 8 -> hybrid_instrument_record.settlement_value_price[hybrid_instrument_at] = (hybrid_instrument_base + 103 + hybrid_instrument_at + 1) % 256; hybrid_instrument_at = hybrid_instrument_at + 1
+  :: hybrid_instrument_at < 8 -> hybrid_instrument_record.settlement_value[hybrid_instrument_at] = (hybrid_instrument_base + 103 + hybrid_instrument_at + 1) % 256; hybrid_instrument_at = hybrid_instrument_at + 1
   :: else -> break
   od;
   hybrid_instrument_at = 0;
@@ -7148,7 +7148,7 @@ inline encode_hybrid_instrument(hybrid_instrument_record) {
   od;
   hybrid_instrument_at = 0;
   do
-  :: hybrid_instrument_at < 8 -> wire[at] = hybrid_instrument_record.settlement_value_price[hybrid_instrument_at]; at = at + 1; hybrid_instrument_at = hybrid_instrument_at + 1
+  :: hybrid_instrument_at < 8 -> wire[at] = hybrid_instrument_record.settlement_value[hybrid_instrument_at]; at = at + 1; hybrid_instrument_at = hybrid_instrument_at + 1
   :: else -> break
   od;
   hybrid_instrument_at = 0;
@@ -7236,7 +7236,7 @@ inline decode_hybrid_instrument(hybrid_instrument_record) {
   od;
   hybrid_instrument_at = 0;
   do
-  :: hybrid_instrument_at < 8 -> hybrid_instrument_record.settlement_value_price[hybrid_instrument_at] = wire[at]; at = at + 1; hybrid_instrument_at = hybrid_instrument_at + 1
+  :: hybrid_instrument_at < 8 -> hybrid_instrument_record.settlement_value[hybrid_instrument_at] = wire[at]; at = at + 1; hybrid_instrument_at = hybrid_instrument_at + 1
   :: else -> break
   od;
   hybrid_instrument_at = 0;
@@ -7324,7 +7324,7 @@ inline equal_hybrid_instrument(hybrid_instrument_read, hybrid_instrument_written
   od;
   hybrid_instrument_at = 0;
   do
-  :: hybrid_instrument_at < 8 -> assert(hybrid_instrument_read.settlement_value_price[hybrid_instrument_at] == hybrid_instrument_written.settlement_value_price[hybrid_instrument_at]); hybrid_instrument_at = hybrid_instrument_at + 1
+  :: hybrid_instrument_at < 8 -> assert(hybrid_instrument_read.settlement_value[hybrid_instrument_at] == hybrid_instrument_written.settlement_value[hybrid_instrument_at]); hybrid_instrument_at = hybrid_instrument_at + 1
   :: else -> break
   od;
   hybrid_instrument_at = 0;
@@ -7349,7 +7349,7 @@ typedef ProductSummary {
   BlockInstrument block_instrument;
   HybridInstrument hybrid_instrument;
   byte product_identification_type;
-  byte product_identification_product_identification[30];
+  byte product_identification[30];
   byte product_id[4];
   byte mic[4];
   byte accumulated_interest[8];
@@ -7362,7 +7362,7 @@ typedef ProductSummary {
   byte market;
   byte marker_price_change;
   byte lower_liquidity;
-  byte multiplier_number[8];
+  byte product_summary_multiplier[8];
   byte dividend_rate[8];
   byte delta[8];
   byte gamma[8];
@@ -7390,7 +7390,7 @@ inline fill_product_summary(product_summary_record, product_summary_value) {
   product_summary_record.product_identification_type = product_summary_value;
   product_summary_at = 0;
   do
-  :: product_summary_at < 30 -> product_summary_record.product_identification_product_identification[product_summary_at] = product_summary_value; product_summary_at = product_summary_at + 1
+  :: product_summary_at < 30 -> product_summary_record.product_identification[product_summary_at] = product_summary_value; product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7439,7 +7439,7 @@ inline fill_product_summary(product_summary_record, product_summary_value) {
   product_summary_record.lower_liquidity = product_summary_value;
   product_summary_at = 0;
   do
-  :: product_summary_at < 8 -> product_summary_record.multiplier_number[product_summary_at] = product_summary_value; product_summary_at = product_summary_at + 1
+  :: product_summary_at < 8 -> product_summary_record.product_summary_multiplier[product_summary_at] = product_summary_value; product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7500,7 +7500,7 @@ inline ramp_product_summary(product_summary_record, product_summary_base) {
   product_summary_record.product_identification_type = (product_summary_base + 476 + 1) % 256;
   product_summary_at = 0;
   do
-  :: product_summary_at < 30 -> product_summary_record.product_identification_product_identification[product_summary_at] = (product_summary_base + 477 + product_summary_at + 1) % 256; product_summary_at = product_summary_at + 1
+  :: product_summary_at < 30 -> product_summary_record.product_identification[product_summary_at] = (product_summary_base + 477 + product_summary_at + 1) % 256; product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7549,7 +7549,7 @@ inline ramp_product_summary(product_summary_record, product_summary_base) {
   product_summary_record.lower_liquidity = (product_summary_base + 550 + 1) % 256;
   product_summary_at = 0;
   do
-  :: product_summary_at < 8 -> product_summary_record.multiplier_number[product_summary_at] = (product_summary_base + 551 + product_summary_at + 1) % 256; product_summary_at = product_summary_at + 1
+  :: product_summary_at < 8 -> product_summary_record.product_summary_multiplier[product_summary_at] = (product_summary_base + 551 + product_summary_at + 1) % 256; product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7610,7 +7610,7 @@ inline encode_product_summary(product_summary_record) {
   wire[at] = product_summary_record.product_identification_type; at = at + 1;
   product_summary_at = 0;
   do
-  :: product_summary_at < 30 -> wire[at] = product_summary_record.product_identification_product_identification[product_summary_at]; at = at + 1; product_summary_at = product_summary_at + 1
+  :: product_summary_at < 30 -> wire[at] = product_summary_record.product_identification[product_summary_at]; at = at + 1; product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7659,7 +7659,7 @@ inline encode_product_summary(product_summary_record) {
   wire[at] = product_summary_record.lower_liquidity; at = at + 1;
   product_summary_at = 0;
   do
-  :: product_summary_at < 8 -> wire[at] = product_summary_record.multiplier_number[product_summary_at]; at = at + 1; product_summary_at = product_summary_at + 1
+  :: product_summary_at < 8 -> wire[at] = product_summary_record.product_summary_multiplier[product_summary_at]; at = at + 1; product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7720,7 +7720,7 @@ inline decode_product_summary(product_summary_record) {
   product_summary_record.product_identification_type = wire[at]; at = at + 1;
   product_summary_at = 0;
   do
-  :: product_summary_at < 30 -> product_summary_record.product_identification_product_identification[product_summary_at] = wire[at]; at = at + 1; product_summary_at = product_summary_at + 1
+  :: product_summary_at < 30 -> product_summary_record.product_identification[product_summary_at] = wire[at]; at = at + 1; product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7769,7 +7769,7 @@ inline decode_product_summary(product_summary_record) {
   product_summary_record.lower_liquidity = wire[at]; at = at + 1;
   product_summary_at = 0;
   do
-  :: product_summary_at < 8 -> product_summary_record.multiplier_number[product_summary_at] = wire[at]; at = at + 1; product_summary_at = product_summary_at + 1
+  :: product_summary_at < 8 -> product_summary_record.product_summary_multiplier[product_summary_at] = wire[at]; at = at + 1; product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7830,7 +7830,7 @@ inline equal_product_summary(product_summary_read, product_summary_written) {
   assert(product_summary_read.product_identification_type == product_summary_written.product_identification_type);
   product_summary_at = 0;
   do
-  :: product_summary_at < 30 -> assert(product_summary_read.product_identification_product_identification[product_summary_at] == product_summary_written.product_identification_product_identification[product_summary_at]); product_summary_at = product_summary_at + 1
+  :: product_summary_at < 30 -> assert(product_summary_read.product_identification[product_summary_at] == product_summary_written.product_identification[product_summary_at]); product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;
@@ -7879,7 +7879,7 @@ inline equal_product_summary(product_summary_read, product_summary_written) {
   assert(product_summary_read.lower_liquidity == product_summary_written.lower_liquidity);
   product_summary_at = 0;
   do
-  :: product_summary_at < 8 -> assert(product_summary_read.multiplier_number[product_summary_at] == product_summary_written.multiplier_number[product_summary_at]); product_summary_at = product_summary_at + 1
+  :: product_summary_at < 8 -> assert(product_summary_read.product_summary_multiplier[product_summary_at] == product_summary_written.product_summary_multiplier[product_summary_at]); product_summary_at = product_summary_at + 1
   :: else -> break
   od;
   product_summary_at = 0;

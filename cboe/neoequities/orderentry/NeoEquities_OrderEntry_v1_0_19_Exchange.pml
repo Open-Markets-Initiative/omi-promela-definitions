@@ -3327,7 +3327,7 @@ typedef DoneForDayCaEquitiesV1 {
   byte transaction_time[8];
   byte cl_ord_id[20];
   byte broker_id[2];
-  byte symbol_8[8]
+  byte symbol_short[8]
 };
 
 int done_for_day_ca_equities_v1_at;
@@ -3351,7 +3351,7 @@ inline fill_done_for_day_ca_equities_v1(done_for_day_ca_equities_v1_record, done
   od;
   done_for_day_ca_equities_v1_at = 0;
   do
-  :: done_for_day_ca_equities_v1_at < 8 -> done_for_day_ca_equities_v1_record.symbol_8[done_for_day_ca_equities_v1_at] = done_for_day_ca_equities_v1_value; done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
+  :: done_for_day_ca_equities_v1_at < 8 -> done_for_day_ca_equities_v1_record.symbol_short[done_for_day_ca_equities_v1_at] = done_for_day_ca_equities_v1_value; done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
   :: else -> break
   od;
   skip
@@ -3376,7 +3376,7 @@ inline ramp_done_for_day_ca_equities_v1(done_for_day_ca_equities_v1_record, done
   od;
   done_for_day_ca_equities_v1_at = 0;
   do
-  :: done_for_day_ca_equities_v1_at < 8 -> done_for_day_ca_equities_v1_record.symbol_8[done_for_day_ca_equities_v1_at] = (done_for_day_ca_equities_v1_base + 30 + done_for_day_ca_equities_v1_at + 1) % 256; done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
+  :: done_for_day_ca_equities_v1_at < 8 -> done_for_day_ca_equities_v1_record.symbol_short[done_for_day_ca_equities_v1_at] = (done_for_day_ca_equities_v1_base + 30 + done_for_day_ca_equities_v1_at + 1) % 256; done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
   :: else -> break
   od;
   skip
@@ -3401,7 +3401,7 @@ inline encode_done_for_day_ca_equities_v1(done_for_day_ca_equities_v1_record) {
   od;
   done_for_day_ca_equities_v1_at = 0;
   do
-  :: done_for_day_ca_equities_v1_at < 8 -> wire[at] = done_for_day_ca_equities_v1_record.symbol_8[done_for_day_ca_equities_v1_at]; at = at + 1; done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
+  :: done_for_day_ca_equities_v1_at < 8 -> wire[at] = done_for_day_ca_equities_v1_record.symbol_short[done_for_day_ca_equities_v1_at]; at = at + 1; done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
   :: else -> break
   od;
   skip
@@ -3426,7 +3426,7 @@ inline decode_done_for_day_ca_equities_v1(done_for_day_ca_equities_v1_record) {
   od;
   done_for_day_ca_equities_v1_at = 0;
   do
-  :: done_for_day_ca_equities_v1_at < 8 -> done_for_day_ca_equities_v1_record.symbol_8[done_for_day_ca_equities_v1_at] = wire[at]; at = at + 1; done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
+  :: done_for_day_ca_equities_v1_at < 8 -> done_for_day_ca_equities_v1_record.symbol_short[done_for_day_ca_equities_v1_at] = wire[at]; at = at + 1; done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
   :: else -> break
   od;
   skip
@@ -3451,7 +3451,7 @@ inline equal_done_for_day_ca_equities_v1(done_for_day_ca_equities_v1_read, done_
   od;
   done_for_day_ca_equities_v1_at = 0;
   do
-  :: done_for_day_ca_equities_v1_at < 8 -> assert(done_for_day_ca_equities_v1_read.symbol_8[done_for_day_ca_equities_v1_at] == done_for_day_ca_equities_v1_written.symbol_8[done_for_day_ca_equities_v1_at]); done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
+  :: done_for_day_ca_equities_v1_at < 8 -> assert(done_for_day_ca_equities_v1_read.symbol_short[done_for_day_ca_equities_v1_at] == done_for_day_ca_equities_v1_written.symbol_short[done_for_day_ca_equities_v1_at]); done_for_day_ca_equities_v1_at = done_for_day_ca_equities_v1_at + 1
   :: else -> break
   od;
   skip

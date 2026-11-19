@@ -319,7 +319,7 @@ typedef TradeFullInformationMessage {
   byte publication_date_time[27];
   byte instrument_id_code_type[4];
   byte instrument_id_code[12];
-  byte price_ascii_ch_20[20];
+  byte traded_price[20];
   byte quantity[20];
   byte notional_amount[20];
   byte notional_currency[3];
@@ -438,7 +438,7 @@ inline fill_trade_full_information_message(trade_full_information_message_record
   od;
   trade_full_information_message_at = 0;
   do
-  :: trade_full_information_message_at < 20 -> trade_full_information_message_record.price_ascii_ch_20[trade_full_information_message_at] = trade_full_information_message_value; trade_full_information_message_at = trade_full_information_message_at + 1
+  :: trade_full_information_message_at < 20 -> trade_full_information_message_record.traded_price[trade_full_information_message_at] = trade_full_information_message_value; trade_full_information_message_at = trade_full_information_message_at + 1
   :: else -> break
   od;
   trade_full_information_message_at = 0;
@@ -598,7 +598,7 @@ inline ramp_trade_full_information_message(trade_full_information_message_record
   od;
   trade_full_information_message_at = 0;
   do
-  :: trade_full_information_message_at < 20 -> trade_full_information_message_record.price_ascii_ch_20[trade_full_information_message_at] = (trade_full_information_message_base + 130 + trade_full_information_message_at + 1) % 256; trade_full_information_message_at = trade_full_information_message_at + 1
+  :: trade_full_information_message_at < 20 -> trade_full_information_message_record.traded_price[trade_full_information_message_at] = (trade_full_information_message_base + 130 + trade_full_information_message_at + 1) % 256; trade_full_information_message_at = trade_full_information_message_at + 1
   :: else -> break
   od;
   trade_full_information_message_at = 0;
@@ -758,7 +758,7 @@ inline encode_trade_full_information_message(trade_full_information_message_reco
   od;
   trade_full_information_message_at = 0;
   do
-  :: trade_full_information_message_at < 20 -> wire[at] = trade_full_information_message_record.price_ascii_ch_20[trade_full_information_message_at]; at = at + 1; trade_full_information_message_at = trade_full_information_message_at + 1
+  :: trade_full_information_message_at < 20 -> wire[at] = trade_full_information_message_record.traded_price[trade_full_information_message_at]; at = at + 1; trade_full_information_message_at = trade_full_information_message_at + 1
   :: else -> break
   od;
   trade_full_information_message_at = 0;
@@ -918,7 +918,7 @@ inline decode_trade_full_information_message(trade_full_information_message_reco
   od;
   trade_full_information_message_at = 0;
   do
-  :: trade_full_information_message_at < 20 -> trade_full_information_message_record.price_ascii_ch_20[trade_full_information_message_at] = wire[at]; at = at + 1; trade_full_information_message_at = trade_full_information_message_at + 1
+  :: trade_full_information_message_at < 20 -> trade_full_information_message_record.traded_price[trade_full_information_message_at] = wire[at]; at = at + 1; trade_full_information_message_at = trade_full_information_message_at + 1
   :: else -> break
   od;
   trade_full_information_message_at = 0;
@@ -1078,7 +1078,7 @@ inline equal_trade_full_information_message(trade_full_information_message_read,
   od;
   trade_full_information_message_at = 0;
   do
-  :: trade_full_information_message_at < 20 -> assert(trade_full_information_message_read.price_ascii_ch_20[trade_full_information_message_at] == trade_full_information_message_written.price_ascii_ch_20[trade_full_information_message_at]); trade_full_information_message_at = trade_full_information_message_at + 1
+  :: trade_full_information_message_at < 20 -> assert(trade_full_information_message_read.traded_price[trade_full_information_message_at] == trade_full_information_message_written.traded_price[trade_full_information_message_at]); trade_full_information_message_at = trade_full_information_message_at + 1
   :: else -> break
   od;
   trade_full_information_message_at = 0;
@@ -1144,7 +1144,7 @@ typedef PriceUpdateMessage {
   byte symbol_index[4];
   byte source_time[4];
   byte source_seq_num[4];
-  byte price_binary_int_4[4];
+  byte price[4];
   byte highest_price[4];
   byte lowest_price[4];
   byte variation_last_price[4];
@@ -1177,7 +1177,7 @@ inline fill_price_update_message(price_update_message_record, price_update_messa
   od;
   price_update_message_at = 0;
   do
-  :: price_update_message_at < 4 -> price_update_message_record.price_binary_int_4[price_update_message_at] = price_update_message_value; price_update_message_at = price_update_message_at + 1
+  :: price_update_message_at < 4 -> price_update_message_record.price[price_update_message_at] = price_update_message_value; price_update_message_at = price_update_message_at + 1
   :: else -> break
   od;
   price_update_message_at = 0;
@@ -1239,7 +1239,7 @@ inline ramp_price_update_message(price_update_message_record, price_update_messa
   od;
   price_update_message_at = 0;
   do
-  :: price_update_message_at < 4 -> price_update_message_record.price_binary_int_4[price_update_message_at] = (price_update_message_base + 12 + price_update_message_at + 1) % 256; price_update_message_at = price_update_message_at + 1
+  :: price_update_message_at < 4 -> price_update_message_record.price[price_update_message_at] = (price_update_message_base + 12 + price_update_message_at + 1) % 256; price_update_message_at = price_update_message_at + 1
   :: else -> break
   od;
   price_update_message_at = 0;
@@ -1301,7 +1301,7 @@ inline encode_price_update_message(price_update_message_record) {
   od;
   price_update_message_at = 0;
   do
-  :: price_update_message_at < 4 -> wire[at] = price_update_message_record.price_binary_int_4[price_update_message_at]; at = at + 1; price_update_message_at = price_update_message_at + 1
+  :: price_update_message_at < 4 -> wire[at] = price_update_message_record.price[price_update_message_at]; at = at + 1; price_update_message_at = price_update_message_at + 1
   :: else -> break
   od;
   price_update_message_at = 0;
@@ -1363,7 +1363,7 @@ inline decode_price_update_message(price_update_message_record) {
   od;
   price_update_message_at = 0;
   do
-  :: price_update_message_at < 4 -> price_update_message_record.price_binary_int_4[price_update_message_at] = wire[at]; at = at + 1; price_update_message_at = price_update_message_at + 1
+  :: price_update_message_at < 4 -> price_update_message_record.price[price_update_message_at] = wire[at]; at = at + 1; price_update_message_at = price_update_message_at + 1
   :: else -> break
   od;
   price_update_message_at = 0;
@@ -1425,7 +1425,7 @@ inline equal_price_update_message(price_update_message_read, price_update_messag
   od;
   price_update_message_at = 0;
   do
-  :: price_update_message_at < 4 -> assert(price_update_message_read.price_binary_int_4[price_update_message_at] == price_update_message_written.price_binary_int_4[price_update_message_at]); price_update_message_at = price_update_message_at + 1
+  :: price_update_message_at < 4 -> assert(price_update_message_read.price[price_update_message_at] == price_update_message_written.price[price_update_message_at]); price_update_message_at = price_update_message_at + 1
   :: else -> break
   od;
   price_update_message_at = 0;

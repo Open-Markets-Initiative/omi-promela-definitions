@@ -362,7 +362,7 @@ inline equal_login(login_read, login_written) {
 
 /* The login response message. The result field describes the login status, indicating whether the login was successful or not (i.e. successful login) */
 typedef LoginResponse {
-  byte result_login_result;
+  byte login_result;
   byte next_expected_seq_num[4];
   byte last_replay_seq_num[4];
   byte session_id[2]
@@ -372,7 +372,7 @@ int login_response_at;
 
 /* every byte of Login Response set to one value */
 inline fill_login_response(login_response_record, login_response_value) {
-  login_response_record.result_login_result = login_response_value;
+  login_response_record.login_result = login_response_value;
   login_response_at = 0;
   do
   :: login_response_at < 4 -> login_response_record.next_expected_seq_num[login_response_at] = login_response_value; login_response_at = login_response_at + 1
@@ -393,7 +393,7 @@ inline fill_login_response(login_response_record, login_response_value) {
 
 /* each byte of Login Response set to where it lies, so a field read out of place says so */
 inline ramp_login_response(login_response_record, login_response_base) {
-  login_response_record.result_login_result = (login_response_base + 0 + 1) % 256;
+  login_response_record.login_result = (login_response_base + 0 + 1) % 256;
   login_response_at = 0;
   do
   :: login_response_at < 4 -> login_response_record.next_expected_seq_num[login_response_at] = (login_response_base + 1 + login_response_at + 1) % 256; login_response_at = login_response_at + 1
@@ -414,7 +414,7 @@ inline ramp_login_response(login_response_record, login_response_base) {
 
 /* Login Response to the wire, 11 bytes from where the cursor stands */
 inline encode_login_response(login_response_record) {
-  wire[at] = login_response_record.result_login_result; at = at + 1;
+  wire[at] = login_response_record.login_result; at = at + 1;
   login_response_at = 0;
   do
   :: login_response_at < 4 -> wire[at] = login_response_record.next_expected_seq_num[login_response_at]; at = at + 1; login_response_at = login_response_at + 1
@@ -435,7 +435,7 @@ inline encode_login_response(login_response_record) {
 
 /* Login Response off the wire, 11 bytes from where the cursor stands */
 inline decode_login_response(login_response_record) {
-  login_response_record.result_login_result = wire[at]; at = at + 1;
+  login_response_record.login_result = wire[at]; at = at + 1;
   login_response_at = 0;
   do
   :: login_response_at < 4 -> login_response_record.next_expected_seq_num[login_response_at] = wire[at]; at = at + 1; login_response_at = login_response_at + 1
@@ -456,7 +456,7 @@ inline decode_login_response(login_response_record) {
 
 /* what was read of Login Response is what was written, byte for byte */
 inline equal_login_response(login_response_read, login_response_written) {
-  assert(login_response_read.result_login_result == login_response_written.result_login_result);
+  assert(login_response_read.login_result == login_response_written.login_result);
   login_response_at = 0;
   do
   :: login_response_at < 4 -> assert(login_response_read.next_expected_seq_num[login_response_at] == login_response_written.next_expected_seq_num[login_response_at]); login_response_at = login_response_at + 1
@@ -479,36 +479,36 @@ inline equal_login_response(login_response_read, login_response_written) {
 
 /* The ConnectionClose message confirms the termination of a session through the trading port service */
 typedef ConnectionClose {
-  byte reason_connection_close_reason
+  byte connection_close_reason
 };
 
 /* every byte of Connection Close set to one value */
 inline fill_connection_close(connection_close_record, connection_close_value) {
-  connection_close_record.reason_connection_close_reason = connection_close_value;
+  connection_close_record.connection_close_reason = connection_close_value;
   skip
 }
 
 /* each byte of Connection Close set to where it lies, so a field read out of place says so */
 inline ramp_connection_close(connection_close_record, connection_close_base) {
-  connection_close_record.reason_connection_close_reason = (connection_close_base + 0 + 1) % 256;
+  connection_close_record.connection_close_reason = (connection_close_base + 0 + 1) % 256;
   skip
 }
 
 /* Connection Close to the wire, 1 bytes from where the cursor stands */
 inline encode_connection_close(connection_close_record) {
-  wire[at] = connection_close_record.reason_connection_close_reason; at = at + 1;
+  wire[at] = connection_close_record.connection_close_reason; at = at + 1;
   skip
 }
 
 /* Connection Close off the wire, 1 bytes from where the cursor stands */
 inline decode_connection_close(connection_close_record) {
-  connection_close_record.reason_connection_close_reason = wire[at]; at = at + 1;
+  connection_close_record.connection_close_reason = wire[at]; at = at + 1;
   skip
 }
 
 /* what was read of Connection Close is what was written, byte for byte */
 inline equal_connection_close(connection_close_read, connection_close_written) {
-  assert(connection_close_read.reason_connection_close_reason == connection_close_written.reason_connection_close_reason);
+  assert(connection_close_read.connection_close_reason == connection_close_written.connection_close_reason);
   skip
 }
 
@@ -1502,7 +1502,7 @@ inline equal_market_maker_command(market_maker_command_read, market_maker_comman
 /* The response to the Market Maker command */
 typedef MarketMakerCommandResponse {
   byte ref_id[4];
-  byte result_command_result;
+  byte command_result;
   byte rejection_code[2]
 };
 
@@ -1515,7 +1515,7 @@ inline fill_market_maker_command_response(market_maker_command_response_record, 
   :: market_maker_command_response_at < 4 -> market_maker_command_response_record.ref_id[market_maker_command_response_at] = market_maker_command_response_value; market_maker_command_response_at = market_maker_command_response_at + 1
   :: else -> break
   od;
-  market_maker_command_response_record.result_command_result = market_maker_command_response_value;
+  market_maker_command_response_record.command_result = market_maker_command_response_value;
   market_maker_command_response_at = 0;
   do
   :: market_maker_command_response_at < 2 -> market_maker_command_response_record.rejection_code[market_maker_command_response_at] = market_maker_command_response_value; market_maker_command_response_at = market_maker_command_response_at + 1
@@ -1531,7 +1531,7 @@ inline ramp_market_maker_command_response(market_maker_command_response_record, 
   :: market_maker_command_response_at < 4 -> market_maker_command_response_record.ref_id[market_maker_command_response_at] = (market_maker_command_response_base + 0 + market_maker_command_response_at + 1) % 256; market_maker_command_response_at = market_maker_command_response_at + 1
   :: else -> break
   od;
-  market_maker_command_response_record.result_command_result = (market_maker_command_response_base + 4 + 1) % 256;
+  market_maker_command_response_record.command_result = (market_maker_command_response_base + 4 + 1) % 256;
   market_maker_command_response_at = 0;
   do
   :: market_maker_command_response_at < 2 -> market_maker_command_response_record.rejection_code[market_maker_command_response_at] = (market_maker_command_response_base + 5 + market_maker_command_response_at + 1) % 256; market_maker_command_response_at = market_maker_command_response_at + 1
@@ -1547,7 +1547,7 @@ inline encode_market_maker_command_response(market_maker_command_response_record
   :: market_maker_command_response_at < 4 -> wire[at] = market_maker_command_response_record.ref_id[market_maker_command_response_at]; at = at + 1; market_maker_command_response_at = market_maker_command_response_at + 1
   :: else -> break
   od;
-  wire[at] = market_maker_command_response_record.result_command_result; at = at + 1;
+  wire[at] = market_maker_command_response_record.command_result; at = at + 1;
   market_maker_command_response_at = 0;
   do
   :: market_maker_command_response_at < 2 -> wire[at] = market_maker_command_response_record.rejection_code[market_maker_command_response_at]; at = at + 1; market_maker_command_response_at = market_maker_command_response_at + 1
@@ -1563,7 +1563,7 @@ inline decode_market_maker_command_response(market_maker_command_response_record
   :: market_maker_command_response_at < 4 -> market_maker_command_response_record.ref_id[market_maker_command_response_at] = wire[at]; at = at + 1; market_maker_command_response_at = market_maker_command_response_at + 1
   :: else -> break
   od;
-  market_maker_command_response_record.result_command_result = wire[at]; at = at + 1;
+  market_maker_command_response_record.command_result = wire[at]; at = at + 1;
   market_maker_command_response_at = 0;
   do
   :: market_maker_command_response_at < 2 -> market_maker_command_response_record.rejection_code[market_maker_command_response_at] = wire[at]; at = at + 1; market_maker_command_response_at = market_maker_command_response_at + 1
@@ -1579,7 +1579,7 @@ inline equal_market_maker_command_response(market_maker_command_response_read, m
   :: market_maker_command_response_at < 4 -> assert(market_maker_command_response_read.ref_id[market_maker_command_response_at] == market_maker_command_response_written.ref_id[market_maker_command_response_at]); market_maker_command_response_at = market_maker_command_response_at + 1
   :: else -> break
   od;
-  assert(market_maker_command_response_read.result_command_result == market_maker_command_response_written.result_command_result);
+  assert(market_maker_command_response_read.command_result == market_maker_command_response_written.command_result);
   market_maker_command_response_at = 0;
   do
   :: market_maker_command_response_at < 2 -> assert(market_maker_command_response_read.rejection_code[market_maker_command_response_at] == market_maker_command_response_written.rejection_code[market_maker_command_response_at]); market_maker_command_response_at = market_maker_command_response_at + 1
@@ -1593,7 +1593,7 @@ inline equal_market_maker_command_response(market_maker_command_response_read, m
 /* The information for the MM that one of the quotes has been crossed */
 typedef RequestForExecution {
   byte instrument_id[4];
-  byte reason_request_for_execution_reason
+  byte request_for_execution_reason
 };
 
 int request_for_execution_at;
@@ -1605,7 +1605,7 @@ inline fill_request_for_execution(request_for_execution_record, request_for_exec
   :: request_for_execution_at < 4 -> request_for_execution_record.instrument_id[request_for_execution_at] = request_for_execution_value; request_for_execution_at = request_for_execution_at + 1
   :: else -> break
   od;
-  request_for_execution_record.reason_request_for_execution_reason = request_for_execution_value;
+  request_for_execution_record.request_for_execution_reason = request_for_execution_value;
   skip
 }
 
@@ -1616,7 +1616,7 @@ inline ramp_request_for_execution(request_for_execution_record, request_for_exec
   :: request_for_execution_at < 4 -> request_for_execution_record.instrument_id[request_for_execution_at] = (request_for_execution_base + 0 + request_for_execution_at + 1) % 256; request_for_execution_at = request_for_execution_at + 1
   :: else -> break
   od;
-  request_for_execution_record.reason_request_for_execution_reason = (request_for_execution_base + 4 + 1) % 256;
+  request_for_execution_record.request_for_execution_reason = (request_for_execution_base + 4 + 1) % 256;
   skip
 }
 
@@ -1627,7 +1627,7 @@ inline encode_request_for_execution(request_for_execution_record) {
   :: request_for_execution_at < 4 -> wire[at] = request_for_execution_record.instrument_id[request_for_execution_at]; at = at + 1; request_for_execution_at = request_for_execution_at + 1
   :: else -> break
   od;
-  wire[at] = request_for_execution_record.reason_request_for_execution_reason; at = at + 1;
+  wire[at] = request_for_execution_record.request_for_execution_reason; at = at + 1;
   skip
 }
 
@@ -1638,7 +1638,7 @@ inline decode_request_for_execution(request_for_execution_record) {
   :: request_for_execution_at < 4 -> request_for_execution_record.instrument_id[request_for_execution_at] = wire[at]; at = at + 1; request_for_execution_at = request_for_execution_at + 1
   :: else -> break
   od;
-  request_for_execution_record.reason_request_for_execution_reason = wire[at]; at = at + 1;
+  request_for_execution_record.request_for_execution_reason = wire[at]; at = at + 1;
   skip
 }
 
@@ -1649,7 +1649,7 @@ inline equal_request_for_execution(request_for_execution_read, request_for_execu
   :: request_for_execution_at < 4 -> assert(request_for_execution_read.instrument_id[request_for_execution_at] == request_for_execution_written.instrument_id[request_for_execution_at]); request_for_execution_at = request_for_execution_at + 1
   :: else -> break
   od;
-  assert(request_for_execution_read.reason_request_for_execution_reason == request_for_execution_written.reason_request_for_execution_reason);
+  assert(request_for_execution_read.request_for_execution_reason == request_for_execution_written.request_for_execution_reason);
   skip
 }
 

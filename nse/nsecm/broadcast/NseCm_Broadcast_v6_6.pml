@@ -979,9 +979,9 @@ inline equal_broker_reactivated_message(broker_reactivated_message_read, broker_
 
 /* ST_AUCTION_INQ_INFO */
 typedef StAuctionInqInfo {
-  byte token_long_4[4];
+  byte token[4];
   byte auction_number[2];
-  byte auction_status_short_2[2];
+  byte auction_status[2];
   byte initiator_type[2];
   byte total_buy_qty[4];
   byte best_buy_price[4];
@@ -998,7 +998,7 @@ int st_auction_inq_info_at;
 inline fill_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_value) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token_long_4[st_auction_inq_info_at] = st_auction_inq_info_value; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token[st_auction_inq_info_at] = st_auction_inq_info_value; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1008,7 +1008,7 @@ inline fill_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_
   od;
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 2 -> st_auction_inq_info_record.auction_status_short_2[st_auction_inq_info_at] = st_auction_inq_info_value; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 2 -> st_auction_inq_info_record.auction_status[st_auction_inq_info_at] = st_auction_inq_info_value; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1058,7 +1058,7 @@ inline fill_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_
 inline ramp_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_base) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token_long_4[st_auction_inq_info_at] = (st_auction_inq_info_base + 0 + st_auction_inq_info_at + 1) % 256; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token[st_auction_inq_info_at] = (st_auction_inq_info_base + 0 + st_auction_inq_info_at + 1) % 256; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1068,7 +1068,7 @@ inline ramp_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_
   od;
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 2 -> st_auction_inq_info_record.auction_status_short_2[st_auction_inq_info_at] = (st_auction_inq_info_base + 6 + st_auction_inq_info_at + 1) % 256; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 2 -> st_auction_inq_info_record.auction_status[st_auction_inq_info_at] = (st_auction_inq_info_base + 6 + st_auction_inq_info_at + 1) % 256; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1118,7 +1118,7 @@ inline ramp_st_auction_inq_info(st_auction_inq_info_record, st_auction_inq_info_
 inline encode_st_auction_inq_info(st_auction_inq_info_record) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> wire[at] = st_auction_inq_info_record.token_long_4[st_auction_inq_info_at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> wire[at] = st_auction_inq_info_record.token[st_auction_inq_info_at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1128,7 +1128,7 @@ inline encode_st_auction_inq_info(st_auction_inq_info_record) {
   od;
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 2 -> wire[at] = st_auction_inq_info_record.auction_status_short_2[st_auction_inq_info_at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 2 -> wire[at] = st_auction_inq_info_record.auction_status[st_auction_inq_info_at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1178,7 +1178,7 @@ inline encode_st_auction_inq_info(st_auction_inq_info_record) {
 inline decode_st_auction_inq_info(st_auction_inq_info_record) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token_long_4[st_auction_inq_info_at] = wire[at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> st_auction_inq_info_record.token[st_auction_inq_info_at] = wire[at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1188,7 +1188,7 @@ inline decode_st_auction_inq_info(st_auction_inq_info_record) {
   od;
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 2 -> st_auction_inq_info_record.auction_status_short_2[st_auction_inq_info_at] = wire[at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 2 -> st_auction_inq_info_record.auction_status[st_auction_inq_info_at] = wire[at]; at = at + 1; st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1238,7 +1238,7 @@ inline decode_st_auction_inq_info(st_auction_inq_info_record) {
 inline equal_st_auction_inq_info(st_auction_inq_info_read, st_auction_inq_info_written) {
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 4 -> assert(st_auction_inq_info_read.token_long_4[st_auction_inq_info_at] == st_auction_inq_info_written.token_long_4[st_auction_inq_info_at]); st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 4 -> assert(st_auction_inq_info_read.token[st_auction_inq_info_at] == st_auction_inq_info_written.token[st_auction_inq_info_at]); st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1248,7 +1248,7 @@ inline equal_st_auction_inq_info(st_auction_inq_info_read, st_auction_inq_info_w
   od;
   st_auction_inq_info_at = 0;
   do
-  :: st_auction_inq_info_at < 2 -> assert(st_auction_inq_info_read.auction_status_short_2[st_auction_inq_info_at] == st_auction_inq_info_written.auction_status_short_2[st_auction_inq_info_at]); st_auction_inq_info_at = st_auction_inq_info_at + 1
+  :: st_auction_inq_info_at < 2 -> assert(st_auction_inq_info_read.auction_status[st_auction_inq_info_at] == st_auction_inq_info_written.auction_status[st_auction_inq_info_at]); st_auction_inq_info_at = st_auction_inq_info_at + 1
   :: else -> break
   od;
   st_auction_inq_info_at = 0;
@@ -1338,7 +1338,7 @@ typedef SymbolStatusChangeActionMessage {
   SecInfo sec_info;
   byte market_type[2];
   byte reserved_2[2];
-  byte action_code_short_2[2]
+  byte action_code_short[2]
 };
 
 int symbol_status_change_action_message_at;
@@ -1358,7 +1358,7 @@ inline fill_symbol_status_change_action_message(symbol_status_change_action_mess
   od;
   symbol_status_change_action_message_at = 0;
   do
-  :: symbol_status_change_action_message_at < 2 -> symbol_status_change_action_message_record.action_code_short_2[symbol_status_change_action_message_at] = symbol_status_change_action_message_value; symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
+  :: symbol_status_change_action_message_at < 2 -> symbol_status_change_action_message_record.action_code_short[symbol_status_change_action_message_at] = symbol_status_change_action_message_value; symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
   :: else -> break
   od;
   skip
@@ -1379,7 +1379,7 @@ inline ramp_symbol_status_change_action_message(symbol_status_change_action_mess
   od;
   symbol_status_change_action_message_at = 0;
   do
-  :: symbol_status_change_action_message_at < 2 -> symbol_status_change_action_message_record.action_code_short_2[symbol_status_change_action_message_at] = (symbol_status_change_action_message_base + 16 + symbol_status_change_action_message_at + 1) % 256; symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
+  :: symbol_status_change_action_message_at < 2 -> symbol_status_change_action_message_record.action_code_short[symbol_status_change_action_message_at] = (symbol_status_change_action_message_base + 16 + symbol_status_change_action_message_at + 1) % 256; symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
   :: else -> break
   od;
   skip
@@ -1400,7 +1400,7 @@ inline encode_symbol_status_change_action_message(symbol_status_change_action_me
   od;
   symbol_status_change_action_message_at = 0;
   do
-  :: symbol_status_change_action_message_at < 2 -> wire[at] = symbol_status_change_action_message_record.action_code_short_2[symbol_status_change_action_message_at]; at = at + 1; symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
+  :: symbol_status_change_action_message_at < 2 -> wire[at] = symbol_status_change_action_message_record.action_code_short[symbol_status_change_action_message_at]; at = at + 1; symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
   :: else -> break
   od;
   skip
@@ -1421,7 +1421,7 @@ inline decode_symbol_status_change_action_message(symbol_status_change_action_me
   od;
   symbol_status_change_action_message_at = 0;
   do
-  :: symbol_status_change_action_message_at < 2 -> symbol_status_change_action_message_record.action_code_short_2[symbol_status_change_action_message_at] = wire[at]; at = at + 1; symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
+  :: symbol_status_change_action_message_at < 2 -> symbol_status_change_action_message_record.action_code_short[symbol_status_change_action_message_at] = wire[at]; at = at + 1; symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
   :: else -> break
   od;
   skip
@@ -1442,7 +1442,7 @@ inline equal_symbol_status_change_action_message(symbol_status_change_action_mes
   od;
   symbol_status_change_action_message_at = 0;
   do
-  :: symbol_status_change_action_message_at < 2 -> assert(symbol_status_change_action_message_read.action_code_short_2[symbol_status_change_action_message_at] == symbol_status_change_action_message_written.action_code_short_2[symbol_status_change_action_message_at]); symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
+  :: symbol_status_change_action_message_at < 2 -> assert(symbol_status_change_action_message_read.action_code_short[symbol_status_change_action_message_at] == symbol_status_change_action_message_written.action_code_short[symbol_status_change_action_message_at]); symbol_status_change_action_message_at = symbol_status_change_action_message_at + 1
   :: else -> break
   od;
   skip
@@ -1453,7 +1453,7 @@ inline equal_symbol_status_change_action_message(symbol_status_change_action_mes
 /* Carries the open price of a security when the market opens. The document states this transaction code is not sent by the exchange */
 typedef SecurityOpenPriceMessage {
   SecInfo sec_info;
-  byte token_short_2[2];
+  byte token_short[2];
   byte opening_price[4]
 };
 
@@ -1464,7 +1464,7 @@ inline fill_security_open_price_message(security_open_price_message_record, secu
   fill_sec_info(security_open_price_message_record.sec_info, security_open_price_message_value);
   security_open_price_message_at = 0;
   do
-  :: security_open_price_message_at < 2 -> security_open_price_message_record.token_short_2[security_open_price_message_at] = security_open_price_message_value; security_open_price_message_at = security_open_price_message_at + 1
+  :: security_open_price_message_at < 2 -> security_open_price_message_record.token_short[security_open_price_message_at] = security_open_price_message_value; security_open_price_message_at = security_open_price_message_at + 1
   :: else -> break
   od;
   security_open_price_message_at = 0;
@@ -1480,7 +1480,7 @@ inline ramp_security_open_price_message(security_open_price_message_record, secu
   ramp_sec_info(security_open_price_message_record.sec_info, security_open_price_message_base + 0);
   security_open_price_message_at = 0;
   do
-  :: security_open_price_message_at < 2 -> security_open_price_message_record.token_short_2[security_open_price_message_at] = (security_open_price_message_base + 12 + security_open_price_message_at + 1) % 256; security_open_price_message_at = security_open_price_message_at + 1
+  :: security_open_price_message_at < 2 -> security_open_price_message_record.token_short[security_open_price_message_at] = (security_open_price_message_base + 12 + security_open_price_message_at + 1) % 256; security_open_price_message_at = security_open_price_message_at + 1
   :: else -> break
   od;
   security_open_price_message_at = 0;
@@ -1496,7 +1496,7 @@ inline encode_security_open_price_message(security_open_price_message_record) {
   encode_sec_info(security_open_price_message_record.sec_info);
   security_open_price_message_at = 0;
   do
-  :: security_open_price_message_at < 2 -> wire[at] = security_open_price_message_record.token_short_2[security_open_price_message_at]; at = at + 1; security_open_price_message_at = security_open_price_message_at + 1
+  :: security_open_price_message_at < 2 -> wire[at] = security_open_price_message_record.token_short[security_open_price_message_at]; at = at + 1; security_open_price_message_at = security_open_price_message_at + 1
   :: else -> break
   od;
   security_open_price_message_at = 0;
@@ -1512,7 +1512,7 @@ inline decode_security_open_price_message(security_open_price_message_record) {
   decode_sec_info(security_open_price_message_record.sec_info);
   security_open_price_message_at = 0;
   do
-  :: security_open_price_message_at < 2 -> security_open_price_message_record.token_short_2[security_open_price_message_at] = wire[at]; at = at + 1; security_open_price_message_at = security_open_price_message_at + 1
+  :: security_open_price_message_at < 2 -> security_open_price_message_record.token_short[security_open_price_message_at] = wire[at]; at = at + 1; security_open_price_message_at = security_open_price_message_at + 1
   :: else -> break
   od;
   security_open_price_message_at = 0;
@@ -1528,7 +1528,7 @@ inline equal_security_open_price_message(security_open_price_message_read, secur
   equal_sec_info(security_open_price_message_read.sec_info, security_open_price_message_written.sec_info);
   security_open_price_message_at = 0;
   do
-  :: security_open_price_message_at < 2 -> assert(security_open_price_message_read.token_short_2[security_open_price_message_at] == security_open_price_message_written.token_short_2[security_open_price_message_at]); security_open_price_message_at = security_open_price_message_at + 1
+  :: security_open_price_message_at < 2 -> assert(security_open_price_message_read.token_short[security_open_price_message_at] == security_open_price_message_written.token_short[security_open_price_message_at]); security_open_price_message_at = security_open_price_message_at + 1
   :: else -> break
   od;
   security_open_price_message_at = 0;
