@@ -16,6 +16,7 @@
  * What this definition does not state, and the model does:
  *   - a run filling what frames it
  *   - the dispatch that chooses a message by its type
+ *   - a Composite rule
  *   - a run counted by a field
  *
  * License: MIT No Attribution
@@ -2338,192 +2339,6 @@ inline equal_future_product(future_product_read, future_product_written) {
   :: future_product_at < 2 -> assert(future_product_read.expiry_day[future_product_at] == future_product_written.expiry_day[future_product_at]); future_product_at = future_product_at + 1
   :: else -> break
   od;
-  skip
-}
-
-/* ---- Futures Request For Quote Rfq Message: 33 bytes ------------------------- */
-
-/* Futures Request for Quote (RFQ) message */
-typedef FuturesRequestForQuoteRfqMessage {
-  LongMessageHeader long_message_header;
-  byte exchange_id;
-  FutureProduct future_product;
-  byte requested_size[8];
-  byte requested_market_side
-};
-
-int futures_request_for_quote_rfq_message_at;
-
-/* every byte of Futures Request For Quote Rfq Message set to one value */
-inline fill_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_record, futures_request_for_quote_rfq_message_value) {
-  fill_long_message_header(futures_request_for_quote_rfq_message_record.long_message_header, futures_request_for_quote_rfq_message_value);
-  futures_request_for_quote_rfq_message_record.exchange_id = futures_request_for_quote_rfq_message_value;
-  fill_future_product(futures_request_for_quote_rfq_message_record.future_product, futures_request_for_quote_rfq_message_value);
-  futures_request_for_quote_rfq_message_at = 0;
-  do
-  :: futures_request_for_quote_rfq_message_at < 8 -> futures_request_for_quote_rfq_message_record.requested_size[futures_request_for_quote_rfq_message_at] = futures_request_for_quote_rfq_message_value; futures_request_for_quote_rfq_message_at = futures_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  futures_request_for_quote_rfq_message_record.requested_market_side = futures_request_for_quote_rfq_message_value;
-  skip
-}
-
-/* each byte of Futures Request For Quote Rfq Message set to where it lies, so a field read out of place says so */
-inline ramp_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_record, futures_request_for_quote_rfq_message_base) {
-  ramp_long_message_header(futures_request_for_quote_rfq_message_record.long_message_header, futures_request_for_quote_rfq_message_base + 0);
-  futures_request_for_quote_rfq_message_record.exchange_id = (futures_request_for_quote_rfq_message_base + 12 + 1) % 256;
-  ramp_future_product(futures_request_for_quote_rfq_message_record.future_product, futures_request_for_quote_rfq_message_base + 13);
-  futures_request_for_quote_rfq_message_at = 0;
-  do
-  :: futures_request_for_quote_rfq_message_at < 8 -> futures_request_for_quote_rfq_message_record.requested_size[futures_request_for_quote_rfq_message_at] = (futures_request_for_quote_rfq_message_base + 24 + futures_request_for_quote_rfq_message_at + 1) % 256; futures_request_for_quote_rfq_message_at = futures_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  futures_request_for_quote_rfq_message_record.requested_market_side = (futures_request_for_quote_rfq_message_base + 32 + 1) % 256;
-  skip
-}
-
-/* Futures Request For Quote Rfq Message to the wire, 33 bytes from where the cursor stands */
-inline encode_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_record) {
-  encode_long_message_header(futures_request_for_quote_rfq_message_record.long_message_header);
-  wire[at] = futures_request_for_quote_rfq_message_record.exchange_id; at = at + 1;
-  encode_future_product(futures_request_for_quote_rfq_message_record.future_product);
-  futures_request_for_quote_rfq_message_at = 0;
-  do
-  :: futures_request_for_quote_rfq_message_at < 8 -> wire[at] = futures_request_for_quote_rfq_message_record.requested_size[futures_request_for_quote_rfq_message_at]; at = at + 1; futures_request_for_quote_rfq_message_at = futures_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  wire[at] = futures_request_for_quote_rfq_message_record.requested_market_side; at = at + 1;
-  skip
-}
-
-/* Futures Request For Quote Rfq Message off the wire, 33 bytes from where the cursor stands */
-inline decode_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_record) {
-  decode_long_message_header(futures_request_for_quote_rfq_message_record.long_message_header);
-  futures_request_for_quote_rfq_message_record.exchange_id = wire[at]; at = at + 1;
-  decode_future_product(futures_request_for_quote_rfq_message_record.future_product);
-  futures_request_for_quote_rfq_message_at = 0;
-  do
-  :: futures_request_for_quote_rfq_message_at < 8 -> futures_request_for_quote_rfq_message_record.requested_size[futures_request_for_quote_rfq_message_at] = wire[at]; at = at + 1; futures_request_for_quote_rfq_message_at = futures_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  futures_request_for_quote_rfq_message_record.requested_market_side = wire[at]; at = at + 1;
-  skip
-}
-
-/* what was read of Futures Request For Quote Rfq Message is what was written, byte for byte */
-inline equal_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_read, futures_request_for_quote_rfq_message_written) {
-  equal_long_message_header(futures_request_for_quote_rfq_message_read.long_message_header, futures_request_for_quote_rfq_message_written.long_message_header);
-  assert(futures_request_for_quote_rfq_message_read.exchange_id == futures_request_for_quote_rfq_message_written.exchange_id);
-  equal_future_product(futures_request_for_quote_rfq_message_read.future_product, futures_request_for_quote_rfq_message_written.future_product);
-  futures_request_for_quote_rfq_message_at = 0;
-  do
-  :: futures_request_for_quote_rfq_message_at < 8 -> assert(futures_request_for_quote_rfq_message_read.requested_size[futures_request_for_quote_rfq_message_at] == futures_request_for_quote_rfq_message_written.requested_size[futures_request_for_quote_rfq_message_at]); futures_request_for_quote_rfq_message_at = futures_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  assert(futures_request_for_quote_rfq_message_read.requested_market_side == futures_request_for_quote_rfq_message_written.requested_market_side);
-  skip
-}
-
-/* ---- Strategy Request For Quote Rfq Message: 52 bytes ------------------------ */
-
-/* Strategy Request for Quote (RFQ) message */
-typedef StrategyRequestForQuoteRfqMessage {
-  LongMessageHeader long_message_header;
-  byte exchange_id;
-  byte symbol[30];
-  byte requested_size[8];
-  byte requested_market_side
-};
-
-int strategy_request_for_quote_rfq_message_at;
-
-/* every byte of Strategy Request For Quote Rfq Message set to one value */
-inline fill_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_record, strategy_request_for_quote_rfq_message_value) {
-  fill_long_message_header(strategy_request_for_quote_rfq_message_record.long_message_header, strategy_request_for_quote_rfq_message_value);
-  strategy_request_for_quote_rfq_message_record.exchange_id = strategy_request_for_quote_rfq_message_value;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 30 -> strategy_request_for_quote_rfq_message_record.symbol[strategy_request_for_quote_rfq_message_at] = strategy_request_for_quote_rfq_message_value; strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 8 -> strategy_request_for_quote_rfq_message_record.requested_size[strategy_request_for_quote_rfq_message_at] = strategy_request_for_quote_rfq_message_value; strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  strategy_request_for_quote_rfq_message_record.requested_market_side = strategy_request_for_quote_rfq_message_value;
-  skip
-}
-
-/* each byte of Strategy Request For Quote Rfq Message set to where it lies, so a field read out of place says so */
-inline ramp_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_record, strategy_request_for_quote_rfq_message_base) {
-  ramp_long_message_header(strategy_request_for_quote_rfq_message_record.long_message_header, strategy_request_for_quote_rfq_message_base + 0);
-  strategy_request_for_quote_rfq_message_record.exchange_id = (strategy_request_for_quote_rfq_message_base + 12 + 1) % 256;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 30 -> strategy_request_for_quote_rfq_message_record.symbol[strategy_request_for_quote_rfq_message_at] = (strategy_request_for_quote_rfq_message_base + 13 + strategy_request_for_quote_rfq_message_at + 1) % 256; strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 8 -> strategy_request_for_quote_rfq_message_record.requested_size[strategy_request_for_quote_rfq_message_at] = (strategy_request_for_quote_rfq_message_base + 43 + strategy_request_for_quote_rfq_message_at + 1) % 256; strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  strategy_request_for_quote_rfq_message_record.requested_market_side = (strategy_request_for_quote_rfq_message_base + 51 + 1) % 256;
-  skip
-}
-
-/* Strategy Request For Quote Rfq Message to the wire, 52 bytes from where the cursor stands */
-inline encode_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_record) {
-  encode_long_message_header(strategy_request_for_quote_rfq_message_record.long_message_header);
-  wire[at] = strategy_request_for_quote_rfq_message_record.exchange_id; at = at + 1;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 30 -> wire[at] = strategy_request_for_quote_rfq_message_record.symbol[strategy_request_for_quote_rfq_message_at]; at = at + 1; strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 8 -> wire[at] = strategy_request_for_quote_rfq_message_record.requested_size[strategy_request_for_quote_rfq_message_at]; at = at + 1; strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  wire[at] = strategy_request_for_quote_rfq_message_record.requested_market_side; at = at + 1;
-  skip
-}
-
-/* Strategy Request For Quote Rfq Message off the wire, 52 bytes from where the cursor stands */
-inline decode_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_record) {
-  decode_long_message_header(strategy_request_for_quote_rfq_message_record.long_message_header);
-  strategy_request_for_quote_rfq_message_record.exchange_id = wire[at]; at = at + 1;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 30 -> strategy_request_for_quote_rfq_message_record.symbol[strategy_request_for_quote_rfq_message_at] = wire[at]; at = at + 1; strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 8 -> strategy_request_for_quote_rfq_message_record.requested_size[strategy_request_for_quote_rfq_message_at] = wire[at]; at = at + 1; strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  strategy_request_for_quote_rfq_message_record.requested_market_side = wire[at]; at = at + 1;
-  skip
-}
-
-/* what was read of Strategy Request For Quote Rfq Message is what was written, byte for byte */
-inline equal_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_read, strategy_request_for_quote_rfq_message_written) {
-  equal_long_message_header(strategy_request_for_quote_rfq_message_read.long_message_header, strategy_request_for_quote_rfq_message_written.long_message_header);
-  assert(strategy_request_for_quote_rfq_message_read.exchange_id == strategy_request_for_quote_rfq_message_written.exchange_id);
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 30 -> assert(strategy_request_for_quote_rfq_message_read.symbol[strategy_request_for_quote_rfq_message_at] == strategy_request_for_quote_rfq_message_written.symbol[strategy_request_for_quote_rfq_message_at]); strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  strategy_request_for_quote_rfq_message_at = 0;
-  do
-  :: strategy_request_for_quote_rfq_message_at < 8 -> assert(strategy_request_for_quote_rfq_message_read.requested_size[strategy_request_for_quote_rfq_message_at] == strategy_request_for_quote_rfq_message_written.requested_size[strategy_request_for_quote_rfq_message_at]); strategy_request_for_quote_rfq_message_at = strategy_request_for_quote_rfq_message_at + 1
-  :: else -> break
-  od;
-  assert(strategy_request_for_quote_rfq_message_read.requested_market_side == strategy_request_for_quote_rfq_message_written.requested_market_side);
   skip
 }
 
@@ -17741,8 +17556,8 @@ proctype check_net_change_future_options_trade_message_negative_million_pair() {
 proctype check_future_product() {
   FutureProduct future_product_sent;
   FutureProduct future_product_got;
-  FuturesRequestForQuoteRfqMessage futures_request_for_quote_rfq_message_sent;
-  FuturesRequestForQuoteRfqMessage futures_request_for_quote_rfq_message_got;
+  StrikePriceScheduleNoticeNegativeWholePair strike_price_schedule_notice_negative_whole_pair_sent;
+  StrikePriceScheduleNoticeNegativeWholePair strike_price_schedule_notice_negative_whole_pair_got;
   int record;
   int pattern;
 
@@ -17775,67 +17590,6 @@ proctype check_future_product() {
       decode_future_product(future_product_got);
       assert(at == 11);
       equal_future_product(future_product_got, future_product_sent)
-    }
-
-  :: else ->
-    if
-    :: pattern == 0 -> fill_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_sent, 0)
-    :: pattern == 1 -> fill_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_sent, 32)
-    :: pattern == 2 -> fill_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_sent, 255)
-    :: else -> ramp_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_sent, 0)
-    fi;
-
-    atomic {
-      at = 0;
-      encode_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_sent);
-      assert(at == 33);
-      at = 0;
-      decode_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_got);
-      assert(at == 33);
-      equal_futures_request_for_quote_rfq_message(futures_request_for_quote_rfq_message_got, futures_request_for_quote_rfq_message_sent)
-    }
-
-  fi
-}
-
-/* 2 records: each encoded, read back, and compared */
-proctype check_strategy_request_for_quote_rfq_message() {
-  StrategyRequestForQuoteRfqMessage strategy_request_for_quote_rfq_message_sent;
-  StrategyRequestForQuoteRfqMessage strategy_request_for_quote_rfq_message_got;
-  StrikePriceScheduleNoticeNegativeWholePair strike_price_schedule_notice_negative_whole_pair_sent;
-  StrikePriceScheduleNoticeNegativeWholePair strike_price_schedule_notice_negative_whole_pair_got;
-  int record;
-  int pattern;
-
-  if
-  :: pattern = 0
-  :: pattern = 1
-  :: pattern = 2
-  :: pattern = 3
-  fi;
-
-  if
-  :: record = 0
-  :: record = 1
-  fi;
-
-  if
-  :: record == 0 ->
-    if
-    :: pattern == 0 -> fill_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_sent, 0)
-    :: pattern == 1 -> fill_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_sent, 32)
-    :: pattern == 2 -> fill_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_sent, 255)
-    :: else -> ramp_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_sent, 0)
-    fi;
-
-    atomic {
-      at = 0;
-      encode_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_sent);
-      assert(at == 52);
-      at = 0;
-      decode_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_got);
-      assert(at == 52);
-      equal_strategy_request_for_quote_rfq_message(strategy_request_for_quote_rfq_message_got, strategy_request_for_quote_rfq_message_sent)
     }
 
   :: else ->
@@ -24529,7 +24283,6 @@ init {
   :: run check_net_change_future_options_trade_message_negative_ten_thousand_pair()
   :: run check_net_change_future_options_trade_message_negative_million_pair()
   :: run check_future_product()
-  :: run check_strategy_request_for_quote_rfq_message()
   :: run check_strike_price_schedule_notice_negative_ten_pair()
   :: run check_strike_price_schedule_notice_negative_thousand_pair()
   :: run check_strike_price_schedule_notice_negative_hundred_thousand_pair()

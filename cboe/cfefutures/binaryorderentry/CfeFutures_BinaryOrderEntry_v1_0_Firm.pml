@@ -228,10 +228,10 @@ inline equal_prevent_match(prevent_match_read, prevent_match_written) {
   skip
 }
 
-/* ---- New Order Message: 129 bytes -------------------------------------------- */
+/* ---- New Order: 129 bytes ---------------------------------------------------- */
 
 /* New order futures message */
-typedef NewOrderMessage {
+typedef NewOrder {
   byte cl_ord_id[20];
   byte side;
   byte order_qty[4];
@@ -258,457 +258,457 @@ typedef NewOrderMessage {
   byte cust_order_handling_inst
 };
 
-int new_order_message_at;
+int new_order_at;
 
-/* every byte of New Order Message set to one value */
-inline fill_new_order_message(new_order_message_record, new_order_message_value) {
-  new_order_message_at = 0;
+/* every byte of New Order set to one value */
+inline fill_new_order(new_order_record, new_order_value) {
+  new_order_at = 0;
   do
-  :: new_order_message_at < 20 -> new_order_message_record.cl_ord_id[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 20 -> new_order_record.cl_ord_id[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.side = new_order_message_value;
-  new_order_message_at = 0;
+  new_order_record.side = new_order_value;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.order_qty[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.order_qty[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.clearing_firm[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.clearing_firm[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.clearing_account[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.clearing_account[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.price[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.price[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.ord_type = new_order_message_value;
-  new_order_message_record.time_in_force = new_order_message_value;
-  new_order_message_at = 0;
+  new_order_record.ord_type = new_order_value;
+  new_order_record.time_in_force = new_order_value;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.min_qty[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.min_qty[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.symbol[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.symbol[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.capacity = new_order_message_value;
-  new_order_message_at = 0;
+  new_order_record.capacity = new_order_value;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 16 -> new_order_message_record.account[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 16 -> new_order_record.account[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  fill_prevent_match(new_order_message_record.prevent_match, new_order_message_value);
-  new_order_message_at = 0;
+  fill_prevent_match(new_order_record.prevent_match, new_order_value);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.expire_time[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.expire_time[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.maturity_date[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.maturity_date[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.open_close = new_order_message_value;
-  new_order_message_at = 0;
+  new_order_record.open_close = new_order_value;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.cmta_number[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.cmta_number[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.stop_px[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.stop_px[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 2 -> new_order_message_record.custom_group_id[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 2 -> new_order_record.custom_group_id[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.cti_code = new_order_message_value;
-  new_order_message_record.manual_order_indicator = new_order_message_value;
-  new_order_message_at = 0;
+  new_order_record.cti_code = new_order_value;
+  new_order_record.manual_order_indicator = new_order_value;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 18 -> new_order_message_record.oeo_id[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 18 -> new_order_record.oeo_id[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 6 -> new_order_message_record.frequent_trader_id[new_order_message_at] = new_order_message_value; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 6 -> new_order_record.frequent_trader_id[new_order_at] = new_order_value; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.cust_order_handling_inst = new_order_message_value;
+  new_order_record.cust_order_handling_inst = new_order_value;
   skip
 }
 
-/* each byte of New Order Message set to where it lies, so a field read out of place says so */
-inline ramp_new_order_message(new_order_message_record, new_order_message_base) {
-  new_order_message_at = 0;
+/* each byte of New Order set to where it lies, so a field read out of place says so */
+inline ramp_new_order(new_order_record, new_order_base) {
+  new_order_at = 0;
   do
-  :: new_order_message_at < 20 -> new_order_message_record.cl_ord_id[new_order_message_at] = (new_order_message_base + 0 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 20 -> new_order_record.cl_ord_id[new_order_at] = (new_order_base + 0 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.side = (new_order_message_base + 20 + 1) % 256;
-  new_order_message_at = 0;
+  new_order_record.side = (new_order_base + 20 + 1) % 256;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.order_qty[new_order_message_at] = (new_order_message_base + 21 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.order_qty[new_order_at] = (new_order_base + 21 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.clearing_firm[new_order_message_at] = (new_order_message_base + 25 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.clearing_firm[new_order_at] = (new_order_base + 25 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.clearing_account[new_order_message_at] = (new_order_message_base + 29 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.clearing_account[new_order_at] = (new_order_base + 29 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.price[new_order_message_at] = (new_order_message_base + 33 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.price[new_order_at] = (new_order_base + 33 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.ord_type = (new_order_message_base + 41 + 1) % 256;
-  new_order_message_record.time_in_force = (new_order_message_base + 42 + 1) % 256;
-  new_order_message_at = 0;
+  new_order_record.ord_type = (new_order_base + 41 + 1) % 256;
+  new_order_record.time_in_force = (new_order_base + 42 + 1) % 256;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.min_qty[new_order_message_at] = (new_order_message_base + 43 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.min_qty[new_order_at] = (new_order_base + 43 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.symbol[new_order_message_at] = (new_order_message_base + 47 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.symbol[new_order_at] = (new_order_base + 47 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.capacity = (new_order_message_base + 55 + 1) % 256;
-  new_order_message_at = 0;
+  new_order_record.capacity = (new_order_base + 55 + 1) % 256;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 16 -> new_order_message_record.account[new_order_message_at] = (new_order_message_base + 56 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 16 -> new_order_record.account[new_order_at] = (new_order_base + 56 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  ramp_prevent_match(new_order_message_record.prevent_match, new_order_message_base + 72);
-  new_order_message_at = 0;
+  ramp_prevent_match(new_order_record.prevent_match, new_order_base + 72);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.expire_time[new_order_message_at] = (new_order_message_base + 75 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.expire_time[new_order_at] = (new_order_base + 75 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.maturity_date[new_order_message_at] = (new_order_message_base + 83 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.maturity_date[new_order_at] = (new_order_base + 83 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.open_close = (new_order_message_base + 87 + 1) % 256;
-  new_order_message_at = 0;
+  new_order_record.open_close = (new_order_base + 87 + 1) % 256;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.cmta_number[new_order_message_at] = (new_order_message_base + 88 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.cmta_number[new_order_at] = (new_order_base + 88 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.stop_px[new_order_message_at] = (new_order_message_base + 92 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.stop_px[new_order_at] = (new_order_base + 92 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 2 -> new_order_message_record.custom_group_id[new_order_message_at] = (new_order_message_base + 100 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 2 -> new_order_record.custom_group_id[new_order_at] = (new_order_base + 100 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.cti_code = (new_order_message_base + 102 + 1) % 256;
-  new_order_message_record.manual_order_indicator = (new_order_message_base + 103 + 1) % 256;
-  new_order_message_at = 0;
+  new_order_record.cti_code = (new_order_base + 102 + 1) % 256;
+  new_order_record.manual_order_indicator = (new_order_base + 103 + 1) % 256;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 18 -> new_order_message_record.oeo_id[new_order_message_at] = (new_order_message_base + 104 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 18 -> new_order_record.oeo_id[new_order_at] = (new_order_base + 104 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 6 -> new_order_message_record.frequent_trader_id[new_order_message_at] = (new_order_message_base + 122 + new_order_message_at + 1) % 256; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 6 -> new_order_record.frequent_trader_id[new_order_at] = (new_order_base + 122 + new_order_at + 1) % 256; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.cust_order_handling_inst = (new_order_message_base + 128 + 1) % 256;
+  new_order_record.cust_order_handling_inst = (new_order_base + 128 + 1) % 256;
   skip
 }
 
-/* New Order Message to the wire, 129 bytes from where the cursor stands */
-inline encode_new_order_message(new_order_message_record) {
-  new_order_message_at = 0;
+/* New Order to the wire, 129 bytes from where the cursor stands */
+inline encode_new_order(new_order_record) {
+  new_order_at = 0;
   do
-  :: new_order_message_at < 20 -> wire[at] = new_order_message_record.cl_ord_id[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 20 -> wire[at] = new_order_record.cl_ord_id[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_message_record.side; at = at + 1;
-  new_order_message_at = 0;
+  wire[at] = new_order_record.side; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> wire[at] = new_order_message_record.order_qty[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> wire[at] = new_order_record.order_qty[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> wire[at] = new_order_message_record.clearing_firm[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> wire[at] = new_order_record.clearing_firm[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> wire[at] = new_order_message_record.clearing_account[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> wire[at] = new_order_record.clearing_account[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> wire[at] = new_order_message_record.price[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> wire[at] = new_order_record.price[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_message_record.ord_type; at = at + 1;
-  wire[at] = new_order_message_record.time_in_force; at = at + 1;
-  new_order_message_at = 0;
+  wire[at] = new_order_record.ord_type; at = at + 1;
+  wire[at] = new_order_record.time_in_force; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> wire[at] = new_order_message_record.min_qty[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> wire[at] = new_order_record.min_qty[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> wire[at] = new_order_message_record.symbol[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> wire[at] = new_order_record.symbol[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_message_record.capacity; at = at + 1;
-  new_order_message_at = 0;
+  wire[at] = new_order_record.capacity; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 16 -> wire[at] = new_order_message_record.account[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 16 -> wire[at] = new_order_record.account[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  encode_prevent_match(new_order_message_record.prevent_match);
-  new_order_message_at = 0;
+  encode_prevent_match(new_order_record.prevent_match);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> wire[at] = new_order_message_record.expire_time[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> wire[at] = new_order_record.expire_time[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> wire[at] = new_order_message_record.maturity_date[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> wire[at] = new_order_record.maturity_date[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_message_record.open_close; at = at + 1;
-  new_order_message_at = 0;
+  wire[at] = new_order_record.open_close; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> wire[at] = new_order_message_record.cmta_number[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> wire[at] = new_order_record.cmta_number[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> wire[at] = new_order_message_record.stop_px[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> wire[at] = new_order_record.stop_px[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 2 -> wire[at] = new_order_message_record.custom_group_id[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 2 -> wire[at] = new_order_record.custom_group_id[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_message_record.cti_code; at = at + 1;
-  wire[at] = new_order_message_record.manual_order_indicator; at = at + 1;
-  new_order_message_at = 0;
+  wire[at] = new_order_record.cti_code; at = at + 1;
+  wire[at] = new_order_record.manual_order_indicator; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 18 -> wire[at] = new_order_message_record.oeo_id[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 18 -> wire[at] = new_order_record.oeo_id[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 6 -> wire[at] = new_order_message_record.frequent_trader_id[new_order_message_at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 6 -> wire[at] = new_order_record.frequent_trader_id[new_order_at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  wire[at] = new_order_message_record.cust_order_handling_inst; at = at + 1;
+  wire[at] = new_order_record.cust_order_handling_inst; at = at + 1;
   skip
 }
 
-/* New Order Message off the wire, 129 bytes from where the cursor stands */
-inline decode_new_order_message(new_order_message_record) {
-  new_order_message_at = 0;
+/* New Order off the wire, 129 bytes from where the cursor stands */
+inline decode_new_order(new_order_record) {
+  new_order_at = 0;
   do
-  :: new_order_message_at < 20 -> new_order_message_record.cl_ord_id[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 20 -> new_order_record.cl_ord_id[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.side = wire[at]; at = at + 1;
-  new_order_message_at = 0;
+  new_order_record.side = wire[at]; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.order_qty[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.order_qty[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.clearing_firm[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.clearing_firm[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.clearing_account[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.clearing_account[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.price[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.price[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.ord_type = wire[at]; at = at + 1;
-  new_order_message_record.time_in_force = wire[at]; at = at + 1;
-  new_order_message_at = 0;
+  new_order_record.ord_type = wire[at]; at = at + 1;
+  new_order_record.time_in_force = wire[at]; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.min_qty[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.min_qty[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.symbol[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.symbol[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.capacity = wire[at]; at = at + 1;
-  new_order_message_at = 0;
+  new_order_record.capacity = wire[at]; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 16 -> new_order_message_record.account[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 16 -> new_order_record.account[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  decode_prevent_match(new_order_message_record.prevent_match);
-  new_order_message_at = 0;
+  decode_prevent_match(new_order_record.prevent_match);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.expire_time[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.expire_time[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.maturity_date[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.maturity_date[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.open_close = wire[at]; at = at + 1;
-  new_order_message_at = 0;
+  new_order_record.open_close = wire[at]; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> new_order_message_record.cmta_number[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> new_order_record.cmta_number[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> new_order_message_record.stop_px[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> new_order_record.stop_px[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 2 -> new_order_message_record.custom_group_id[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 2 -> new_order_record.custom_group_id[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.cti_code = wire[at]; at = at + 1;
-  new_order_message_record.manual_order_indicator = wire[at]; at = at + 1;
-  new_order_message_at = 0;
+  new_order_record.cti_code = wire[at]; at = at + 1;
+  new_order_record.manual_order_indicator = wire[at]; at = at + 1;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 18 -> new_order_message_record.oeo_id[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 18 -> new_order_record.oeo_id[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 6 -> new_order_message_record.frequent_trader_id[new_order_message_at] = wire[at]; at = at + 1; new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 6 -> new_order_record.frequent_trader_id[new_order_at] = wire[at]; at = at + 1; new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_record.cust_order_handling_inst = wire[at]; at = at + 1;
+  new_order_record.cust_order_handling_inst = wire[at]; at = at + 1;
   skip
 }
 
-/* what was read of New Order Message is what was written, byte for byte */
-inline equal_new_order_message(new_order_message_read, new_order_message_written) {
-  new_order_message_at = 0;
+/* what was read of New Order is what was written, byte for byte */
+inline equal_new_order(new_order_read, new_order_written) {
+  new_order_at = 0;
   do
-  :: new_order_message_at < 20 -> assert(new_order_message_read.cl_ord_id[new_order_message_at] == new_order_message_written.cl_ord_id[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 20 -> assert(new_order_read.cl_ord_id[new_order_at] == new_order_written.cl_ord_id[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  assert(new_order_message_read.side == new_order_message_written.side);
-  new_order_message_at = 0;
+  assert(new_order_read.side == new_order_written.side);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> assert(new_order_message_read.order_qty[new_order_message_at] == new_order_message_written.order_qty[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> assert(new_order_read.order_qty[new_order_at] == new_order_written.order_qty[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> assert(new_order_message_read.clearing_firm[new_order_message_at] == new_order_message_written.clearing_firm[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> assert(new_order_read.clearing_firm[new_order_at] == new_order_written.clearing_firm[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> assert(new_order_message_read.clearing_account[new_order_message_at] == new_order_message_written.clearing_account[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> assert(new_order_read.clearing_account[new_order_at] == new_order_written.clearing_account[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> assert(new_order_message_read.price[new_order_message_at] == new_order_message_written.price[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> assert(new_order_read.price[new_order_at] == new_order_written.price[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  assert(new_order_message_read.ord_type == new_order_message_written.ord_type);
-  assert(new_order_message_read.time_in_force == new_order_message_written.time_in_force);
-  new_order_message_at = 0;
+  assert(new_order_read.ord_type == new_order_written.ord_type);
+  assert(new_order_read.time_in_force == new_order_written.time_in_force);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> assert(new_order_message_read.min_qty[new_order_message_at] == new_order_message_written.min_qty[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> assert(new_order_read.min_qty[new_order_at] == new_order_written.min_qty[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> assert(new_order_message_read.symbol[new_order_message_at] == new_order_message_written.symbol[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> assert(new_order_read.symbol[new_order_at] == new_order_written.symbol[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  assert(new_order_message_read.capacity == new_order_message_written.capacity);
-  new_order_message_at = 0;
+  assert(new_order_read.capacity == new_order_written.capacity);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 16 -> assert(new_order_message_read.account[new_order_message_at] == new_order_message_written.account[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 16 -> assert(new_order_read.account[new_order_at] == new_order_written.account[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  equal_prevent_match(new_order_message_read.prevent_match, new_order_message_written.prevent_match);
-  new_order_message_at = 0;
+  equal_prevent_match(new_order_read.prevent_match, new_order_written.prevent_match);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> assert(new_order_message_read.expire_time[new_order_message_at] == new_order_message_written.expire_time[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> assert(new_order_read.expire_time[new_order_at] == new_order_written.expire_time[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> assert(new_order_message_read.maturity_date[new_order_message_at] == new_order_message_written.maturity_date[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> assert(new_order_read.maturity_date[new_order_at] == new_order_written.maturity_date[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  assert(new_order_message_read.open_close == new_order_message_written.open_close);
-  new_order_message_at = 0;
+  assert(new_order_read.open_close == new_order_written.open_close);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 4 -> assert(new_order_message_read.cmta_number[new_order_message_at] == new_order_message_written.cmta_number[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 4 -> assert(new_order_read.cmta_number[new_order_at] == new_order_written.cmta_number[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 8 -> assert(new_order_message_read.stop_px[new_order_message_at] == new_order_message_written.stop_px[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 8 -> assert(new_order_read.stop_px[new_order_at] == new_order_written.stop_px[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 2 -> assert(new_order_message_read.custom_group_id[new_order_message_at] == new_order_message_written.custom_group_id[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 2 -> assert(new_order_read.custom_group_id[new_order_at] == new_order_written.custom_group_id[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  assert(new_order_message_read.cti_code == new_order_message_written.cti_code);
-  assert(new_order_message_read.manual_order_indicator == new_order_message_written.manual_order_indicator);
-  new_order_message_at = 0;
+  assert(new_order_read.cti_code == new_order_written.cti_code);
+  assert(new_order_read.manual_order_indicator == new_order_written.manual_order_indicator);
+  new_order_at = 0;
   do
-  :: new_order_message_at < 18 -> assert(new_order_message_read.oeo_id[new_order_message_at] == new_order_message_written.oeo_id[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 18 -> assert(new_order_read.oeo_id[new_order_at] == new_order_written.oeo_id[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  new_order_message_at = 0;
+  new_order_at = 0;
   do
-  :: new_order_message_at < 6 -> assert(new_order_message_read.frequent_trader_id[new_order_message_at] == new_order_message_written.frequent_trader_id[new_order_message_at]); new_order_message_at = new_order_message_at + 1
+  :: new_order_at < 6 -> assert(new_order_read.frequent_trader_id[new_order_at] == new_order_written.frequent_trader_id[new_order_at]); new_order_at = new_order_at + 1
   :: else -> break
   od;
-  assert(new_order_message_read.cust_order_handling_inst == new_order_message_written.cust_order_handling_inst);
+  assert(new_order_read.cust_order_handling_inst == new_order_written.cust_order_handling_inst);
   skip
 }
 
-/* ---- Modify Order Message: 92 bytes ------------------------------------------ */
+/* ---- Modify Order: 92 bytes -------------------------------------------------- */
 
 /* Request to modify an order */
-typedef ModifyOrderMessage {
+typedef ModifyOrder {
   byte cl_ord_id[20];
   byte orig_cl_ord_id[20];
   byte clearing_firm[4];
@@ -723,365 +723,365 @@ typedef ModifyOrderMessage {
   byte cust_order_handling_inst
 };
 
-int modify_order_message_at;
+int modify_order_at;
 
-/* every byte of Modify Order Message set to one value */
-inline fill_modify_order_message(modify_order_message_record, modify_order_message_value) {
-  modify_order_message_at = 0;
+/* every byte of Modify Order set to one value */
+inline fill_modify_order(modify_order_record, modify_order_value) {
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> modify_order_message_record.cl_ord_id[modify_order_message_at] = modify_order_message_value; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> modify_order_record.cl_ord_id[modify_order_at] = modify_order_value; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> modify_order_message_record.orig_cl_ord_id[modify_order_message_at] = modify_order_message_value; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> modify_order_record.orig_cl_ord_id[modify_order_at] = modify_order_value; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> modify_order_message_record.clearing_firm[modify_order_message_at] = modify_order_message_value; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> modify_order_record.clearing_firm[modify_order_at] = modify_order_value; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> modify_order_message_record.order_qty[modify_order_message_at] = modify_order_message_value; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> modify_order_record.order_qty[modify_order_at] = modify_order_value; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> modify_order_message_record.price[modify_order_message_at] = modify_order_message_value; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> modify_order_record.price[modify_order_at] = modify_order_value; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.ord_type = modify_order_message_value;
-  modify_order_message_record.cancel_orig_on_reject = modify_order_message_value;
-  modify_order_message_at = 0;
+  modify_order_record.ord_type = modify_order_value;
+  modify_order_record.cancel_orig_on_reject = modify_order_value;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> modify_order_message_record.stop_px[modify_order_message_at] = modify_order_message_value; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> modify_order_record.stop_px[modify_order_at] = modify_order_value; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.manual_order_indicator = modify_order_message_value;
-  modify_order_message_at = 0;
+  modify_order_record.manual_order_indicator = modify_order_value;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 18 -> modify_order_message_record.oeo_id[modify_order_message_at] = modify_order_message_value; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 18 -> modify_order_record.oeo_id[modify_order_at] = modify_order_value; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 6 -> modify_order_message_record.frequent_trader_id[modify_order_message_at] = modify_order_message_value; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 6 -> modify_order_record.frequent_trader_id[modify_order_at] = modify_order_value; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.cust_order_handling_inst = modify_order_message_value;
+  modify_order_record.cust_order_handling_inst = modify_order_value;
   skip
 }
 
-/* each byte of Modify Order Message set to where it lies, so a field read out of place says so */
-inline ramp_modify_order_message(modify_order_message_record, modify_order_message_base) {
-  modify_order_message_at = 0;
+/* each byte of Modify Order set to where it lies, so a field read out of place says so */
+inline ramp_modify_order(modify_order_record, modify_order_base) {
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> modify_order_message_record.cl_ord_id[modify_order_message_at] = (modify_order_message_base + 0 + modify_order_message_at + 1) % 256; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> modify_order_record.cl_ord_id[modify_order_at] = (modify_order_base + 0 + modify_order_at + 1) % 256; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> modify_order_message_record.orig_cl_ord_id[modify_order_message_at] = (modify_order_message_base + 20 + modify_order_message_at + 1) % 256; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> modify_order_record.orig_cl_ord_id[modify_order_at] = (modify_order_base + 20 + modify_order_at + 1) % 256; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> modify_order_message_record.clearing_firm[modify_order_message_at] = (modify_order_message_base + 40 + modify_order_message_at + 1) % 256; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> modify_order_record.clearing_firm[modify_order_at] = (modify_order_base + 40 + modify_order_at + 1) % 256; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> modify_order_message_record.order_qty[modify_order_message_at] = (modify_order_message_base + 44 + modify_order_message_at + 1) % 256; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> modify_order_record.order_qty[modify_order_at] = (modify_order_base + 44 + modify_order_at + 1) % 256; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> modify_order_message_record.price[modify_order_message_at] = (modify_order_message_base + 48 + modify_order_message_at + 1) % 256; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> modify_order_record.price[modify_order_at] = (modify_order_base + 48 + modify_order_at + 1) % 256; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.ord_type = (modify_order_message_base + 56 + 1) % 256;
-  modify_order_message_record.cancel_orig_on_reject = (modify_order_message_base + 57 + 1) % 256;
-  modify_order_message_at = 0;
+  modify_order_record.ord_type = (modify_order_base + 56 + 1) % 256;
+  modify_order_record.cancel_orig_on_reject = (modify_order_base + 57 + 1) % 256;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> modify_order_message_record.stop_px[modify_order_message_at] = (modify_order_message_base + 58 + modify_order_message_at + 1) % 256; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> modify_order_record.stop_px[modify_order_at] = (modify_order_base + 58 + modify_order_at + 1) % 256; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.manual_order_indicator = (modify_order_message_base + 66 + 1) % 256;
-  modify_order_message_at = 0;
+  modify_order_record.manual_order_indicator = (modify_order_base + 66 + 1) % 256;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 18 -> modify_order_message_record.oeo_id[modify_order_message_at] = (modify_order_message_base + 67 + modify_order_message_at + 1) % 256; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 18 -> modify_order_record.oeo_id[modify_order_at] = (modify_order_base + 67 + modify_order_at + 1) % 256; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 6 -> modify_order_message_record.frequent_trader_id[modify_order_message_at] = (modify_order_message_base + 85 + modify_order_message_at + 1) % 256; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 6 -> modify_order_record.frequent_trader_id[modify_order_at] = (modify_order_base + 85 + modify_order_at + 1) % 256; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.cust_order_handling_inst = (modify_order_message_base + 91 + 1) % 256;
+  modify_order_record.cust_order_handling_inst = (modify_order_base + 91 + 1) % 256;
   skip
 }
 
-/* Modify Order Message to the wire, 92 bytes from where the cursor stands */
-inline encode_modify_order_message(modify_order_message_record) {
-  modify_order_message_at = 0;
+/* Modify Order to the wire, 92 bytes from where the cursor stands */
+inline encode_modify_order(modify_order_record) {
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> wire[at] = modify_order_message_record.cl_ord_id[modify_order_message_at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> wire[at] = modify_order_record.cl_ord_id[modify_order_at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> wire[at] = modify_order_message_record.orig_cl_ord_id[modify_order_message_at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> wire[at] = modify_order_record.orig_cl_ord_id[modify_order_at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> wire[at] = modify_order_message_record.clearing_firm[modify_order_message_at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> wire[at] = modify_order_record.clearing_firm[modify_order_at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> wire[at] = modify_order_message_record.order_qty[modify_order_message_at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> wire[at] = modify_order_record.order_qty[modify_order_at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> wire[at] = modify_order_message_record.price[modify_order_message_at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> wire[at] = modify_order_record.price[modify_order_at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  wire[at] = modify_order_message_record.ord_type; at = at + 1;
-  wire[at] = modify_order_message_record.cancel_orig_on_reject; at = at + 1;
-  modify_order_message_at = 0;
+  wire[at] = modify_order_record.ord_type; at = at + 1;
+  wire[at] = modify_order_record.cancel_orig_on_reject; at = at + 1;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> wire[at] = modify_order_message_record.stop_px[modify_order_message_at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> wire[at] = modify_order_record.stop_px[modify_order_at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  wire[at] = modify_order_message_record.manual_order_indicator; at = at + 1;
-  modify_order_message_at = 0;
+  wire[at] = modify_order_record.manual_order_indicator; at = at + 1;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 18 -> wire[at] = modify_order_message_record.oeo_id[modify_order_message_at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 18 -> wire[at] = modify_order_record.oeo_id[modify_order_at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 6 -> wire[at] = modify_order_message_record.frequent_trader_id[modify_order_message_at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 6 -> wire[at] = modify_order_record.frequent_trader_id[modify_order_at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  wire[at] = modify_order_message_record.cust_order_handling_inst; at = at + 1;
+  wire[at] = modify_order_record.cust_order_handling_inst; at = at + 1;
   skip
 }
 
-/* Modify Order Message off the wire, 92 bytes from where the cursor stands */
-inline decode_modify_order_message(modify_order_message_record) {
-  modify_order_message_at = 0;
+/* Modify Order off the wire, 92 bytes from where the cursor stands */
+inline decode_modify_order(modify_order_record) {
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> modify_order_message_record.cl_ord_id[modify_order_message_at] = wire[at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> modify_order_record.cl_ord_id[modify_order_at] = wire[at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> modify_order_message_record.orig_cl_ord_id[modify_order_message_at] = wire[at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> modify_order_record.orig_cl_ord_id[modify_order_at] = wire[at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> modify_order_message_record.clearing_firm[modify_order_message_at] = wire[at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> modify_order_record.clearing_firm[modify_order_at] = wire[at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> modify_order_message_record.order_qty[modify_order_message_at] = wire[at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> modify_order_record.order_qty[modify_order_at] = wire[at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> modify_order_message_record.price[modify_order_message_at] = wire[at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> modify_order_record.price[modify_order_at] = wire[at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.ord_type = wire[at]; at = at + 1;
-  modify_order_message_record.cancel_orig_on_reject = wire[at]; at = at + 1;
-  modify_order_message_at = 0;
+  modify_order_record.ord_type = wire[at]; at = at + 1;
+  modify_order_record.cancel_orig_on_reject = wire[at]; at = at + 1;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> modify_order_message_record.stop_px[modify_order_message_at] = wire[at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> modify_order_record.stop_px[modify_order_at] = wire[at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.manual_order_indicator = wire[at]; at = at + 1;
-  modify_order_message_at = 0;
+  modify_order_record.manual_order_indicator = wire[at]; at = at + 1;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 18 -> modify_order_message_record.oeo_id[modify_order_message_at] = wire[at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 18 -> modify_order_record.oeo_id[modify_order_at] = wire[at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 6 -> modify_order_message_record.frequent_trader_id[modify_order_message_at] = wire[at]; at = at + 1; modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 6 -> modify_order_record.frequent_trader_id[modify_order_at] = wire[at]; at = at + 1; modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_record.cust_order_handling_inst = wire[at]; at = at + 1;
+  modify_order_record.cust_order_handling_inst = wire[at]; at = at + 1;
   skip
 }
 
-/* what was read of Modify Order Message is what was written, byte for byte */
-inline equal_modify_order_message(modify_order_message_read, modify_order_message_written) {
-  modify_order_message_at = 0;
+/* what was read of Modify Order is what was written, byte for byte */
+inline equal_modify_order(modify_order_read, modify_order_written) {
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> assert(modify_order_message_read.cl_ord_id[modify_order_message_at] == modify_order_message_written.cl_ord_id[modify_order_message_at]); modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> assert(modify_order_read.cl_ord_id[modify_order_at] == modify_order_written.cl_ord_id[modify_order_at]); modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 20 -> assert(modify_order_message_read.orig_cl_ord_id[modify_order_message_at] == modify_order_message_written.orig_cl_ord_id[modify_order_message_at]); modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 20 -> assert(modify_order_read.orig_cl_ord_id[modify_order_at] == modify_order_written.orig_cl_ord_id[modify_order_at]); modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> assert(modify_order_message_read.clearing_firm[modify_order_message_at] == modify_order_message_written.clearing_firm[modify_order_message_at]); modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> assert(modify_order_read.clearing_firm[modify_order_at] == modify_order_written.clearing_firm[modify_order_at]); modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 4 -> assert(modify_order_message_read.order_qty[modify_order_message_at] == modify_order_message_written.order_qty[modify_order_message_at]); modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 4 -> assert(modify_order_read.order_qty[modify_order_at] == modify_order_written.order_qty[modify_order_at]); modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> assert(modify_order_message_read.price[modify_order_message_at] == modify_order_message_written.price[modify_order_message_at]); modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> assert(modify_order_read.price[modify_order_at] == modify_order_written.price[modify_order_at]); modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  assert(modify_order_message_read.ord_type == modify_order_message_written.ord_type);
-  assert(modify_order_message_read.cancel_orig_on_reject == modify_order_message_written.cancel_orig_on_reject);
-  modify_order_message_at = 0;
+  assert(modify_order_read.ord_type == modify_order_written.ord_type);
+  assert(modify_order_read.cancel_orig_on_reject == modify_order_written.cancel_orig_on_reject);
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 8 -> assert(modify_order_message_read.stop_px[modify_order_message_at] == modify_order_message_written.stop_px[modify_order_message_at]); modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 8 -> assert(modify_order_read.stop_px[modify_order_at] == modify_order_written.stop_px[modify_order_at]); modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  assert(modify_order_message_read.manual_order_indicator == modify_order_message_written.manual_order_indicator);
-  modify_order_message_at = 0;
+  assert(modify_order_read.manual_order_indicator == modify_order_written.manual_order_indicator);
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 18 -> assert(modify_order_message_read.oeo_id[modify_order_message_at] == modify_order_message_written.oeo_id[modify_order_message_at]); modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 18 -> assert(modify_order_read.oeo_id[modify_order_at] == modify_order_written.oeo_id[modify_order_at]); modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  modify_order_message_at = 0;
+  modify_order_at = 0;
   do
-  :: modify_order_message_at < 6 -> assert(modify_order_message_read.frequent_trader_id[modify_order_message_at] == modify_order_message_written.frequent_trader_id[modify_order_message_at]); modify_order_message_at = modify_order_message_at + 1
+  :: modify_order_at < 6 -> assert(modify_order_read.frequent_trader_id[modify_order_at] == modify_order_written.frequent_trader_id[modify_order_at]); modify_order_at = modify_order_at + 1
   :: else -> break
   od;
-  assert(modify_order_message_read.cust_order_handling_inst == modify_order_message_written.cust_order_handling_inst);
+  assert(modify_order_read.cust_order_handling_inst == modify_order_written.cust_order_handling_inst);
   skip
 }
 
-/* ---- Cancel Order Message: 43 bytes ------------------------------------------ */
+/* ---- Cancel Order: 43 bytes -------------------------------------------------- */
 
 /* Request to cancel a single order or quote */
-typedef CancelOrderMessage {
+typedef CancelOrder {
   byte orig_cl_ord_id[20];
   byte clearing_firm[4];
   byte manual_order_indicator;
   byte oeo_id[18]
 };
 
-int cancel_order_message_at;
+int cancel_order_at;
 
-/* every byte of Cancel Order Message set to one value */
-inline fill_cancel_order_message(cancel_order_message_record, cancel_order_message_value) {
-  cancel_order_message_at = 0;
+/* every byte of Cancel Order set to one value */
+inline fill_cancel_order(cancel_order_record, cancel_order_value) {
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 20 -> cancel_order_message_record.orig_cl_ord_id[cancel_order_message_at] = cancel_order_message_value; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 20 -> cancel_order_record.orig_cl_ord_id[cancel_order_at] = cancel_order_value; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
-  cancel_order_message_at = 0;
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 4 -> cancel_order_message_record.clearing_firm[cancel_order_message_at] = cancel_order_message_value; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 4 -> cancel_order_record.clearing_firm[cancel_order_at] = cancel_order_value; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
-  cancel_order_message_record.manual_order_indicator = cancel_order_message_value;
-  cancel_order_message_at = 0;
+  cancel_order_record.manual_order_indicator = cancel_order_value;
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 18 -> cancel_order_message_record.oeo_id[cancel_order_message_at] = cancel_order_message_value; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 18 -> cancel_order_record.oeo_id[cancel_order_at] = cancel_order_value; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* each byte of Cancel Order Message set to where it lies, so a field read out of place says so */
-inline ramp_cancel_order_message(cancel_order_message_record, cancel_order_message_base) {
-  cancel_order_message_at = 0;
+/* each byte of Cancel Order set to where it lies, so a field read out of place says so */
+inline ramp_cancel_order(cancel_order_record, cancel_order_base) {
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 20 -> cancel_order_message_record.orig_cl_ord_id[cancel_order_message_at] = (cancel_order_message_base + 0 + cancel_order_message_at + 1) % 256; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 20 -> cancel_order_record.orig_cl_ord_id[cancel_order_at] = (cancel_order_base + 0 + cancel_order_at + 1) % 256; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
-  cancel_order_message_at = 0;
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 4 -> cancel_order_message_record.clearing_firm[cancel_order_message_at] = (cancel_order_message_base + 20 + cancel_order_message_at + 1) % 256; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 4 -> cancel_order_record.clearing_firm[cancel_order_at] = (cancel_order_base + 20 + cancel_order_at + 1) % 256; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
-  cancel_order_message_record.manual_order_indicator = (cancel_order_message_base + 24 + 1) % 256;
-  cancel_order_message_at = 0;
+  cancel_order_record.manual_order_indicator = (cancel_order_base + 24 + 1) % 256;
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 18 -> cancel_order_message_record.oeo_id[cancel_order_message_at] = (cancel_order_message_base + 25 + cancel_order_message_at + 1) % 256; cancel_order_message_at = cancel_order_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Cancel Order Message to the wire, 43 bytes from where the cursor stands */
-inline encode_cancel_order_message(cancel_order_message_record) {
-  cancel_order_message_at = 0;
-  do
-  :: cancel_order_message_at < 20 -> wire[at] = cancel_order_message_record.orig_cl_ord_id[cancel_order_message_at]; at = at + 1; cancel_order_message_at = cancel_order_message_at + 1
-  :: else -> break
-  od;
-  cancel_order_message_at = 0;
-  do
-  :: cancel_order_message_at < 4 -> wire[at] = cancel_order_message_record.clearing_firm[cancel_order_message_at]; at = at + 1; cancel_order_message_at = cancel_order_message_at + 1
-  :: else -> break
-  od;
-  wire[at] = cancel_order_message_record.manual_order_indicator; at = at + 1;
-  cancel_order_message_at = 0;
-  do
-  :: cancel_order_message_at < 18 -> wire[at] = cancel_order_message_record.oeo_id[cancel_order_message_at]; at = at + 1; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 18 -> cancel_order_record.oeo_id[cancel_order_at] = (cancel_order_base + 25 + cancel_order_at + 1) % 256; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Cancel Order Message off the wire, 43 bytes from where the cursor stands */
-inline decode_cancel_order_message(cancel_order_message_record) {
-  cancel_order_message_at = 0;
+/* Cancel Order to the wire, 43 bytes from where the cursor stands */
+inline encode_cancel_order(cancel_order_record) {
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 20 -> cancel_order_message_record.orig_cl_ord_id[cancel_order_message_at] = wire[at]; at = at + 1; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 20 -> wire[at] = cancel_order_record.orig_cl_ord_id[cancel_order_at]; at = at + 1; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
-  cancel_order_message_at = 0;
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 4 -> cancel_order_message_record.clearing_firm[cancel_order_message_at] = wire[at]; at = at + 1; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 4 -> wire[at] = cancel_order_record.clearing_firm[cancel_order_at]; at = at + 1; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
-  cancel_order_message_record.manual_order_indicator = wire[at]; at = at + 1;
-  cancel_order_message_at = 0;
+  wire[at] = cancel_order_record.manual_order_indicator; at = at + 1;
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 18 -> cancel_order_message_record.oeo_id[cancel_order_message_at] = wire[at]; at = at + 1; cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 18 -> wire[at] = cancel_order_record.oeo_id[cancel_order_at]; at = at + 1; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* what was read of Cancel Order Message is what was written, byte for byte */
-inline equal_cancel_order_message(cancel_order_message_read, cancel_order_message_written) {
-  cancel_order_message_at = 0;
+/* Cancel Order off the wire, 43 bytes from where the cursor stands */
+inline decode_cancel_order(cancel_order_record) {
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 20 -> assert(cancel_order_message_read.orig_cl_ord_id[cancel_order_message_at] == cancel_order_message_written.orig_cl_ord_id[cancel_order_message_at]); cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 20 -> cancel_order_record.orig_cl_ord_id[cancel_order_at] = wire[at]; at = at + 1; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
-  cancel_order_message_at = 0;
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 4 -> assert(cancel_order_message_read.clearing_firm[cancel_order_message_at] == cancel_order_message_written.clearing_firm[cancel_order_message_at]); cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 4 -> cancel_order_record.clearing_firm[cancel_order_at] = wire[at]; at = at + 1; cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
-  assert(cancel_order_message_read.manual_order_indicator == cancel_order_message_written.manual_order_indicator);
-  cancel_order_message_at = 0;
+  cancel_order_record.manual_order_indicator = wire[at]; at = at + 1;
+  cancel_order_at = 0;
   do
-  :: cancel_order_message_at < 18 -> assert(cancel_order_message_read.oeo_id[cancel_order_message_at] == cancel_order_message_written.oeo_id[cancel_order_message_at]); cancel_order_message_at = cancel_order_message_at + 1
+  :: cancel_order_at < 18 -> cancel_order_record.oeo_id[cancel_order_at] = wire[at]; at = at + 1; cancel_order_at = cancel_order_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Cancel Order is what was written, byte for byte */
+inline equal_cancel_order(cancel_order_read, cancel_order_written) {
+  cancel_order_at = 0;
+  do
+  :: cancel_order_at < 20 -> assert(cancel_order_read.orig_cl_ord_id[cancel_order_at] == cancel_order_written.orig_cl_ord_id[cancel_order_at]); cancel_order_at = cancel_order_at + 1
+  :: else -> break
+  od;
+  cancel_order_at = 0;
+  do
+  :: cancel_order_at < 4 -> assert(cancel_order_read.clearing_firm[cancel_order_at] == cancel_order_written.clearing_firm[cancel_order_at]); cancel_order_at = cancel_order_at + 1
+  :: else -> break
+  od;
+  assert(cancel_order_read.manual_order_indicator == cancel_order_written.manual_order_indicator);
+  cancel_order_at = 0;
+  do
+  :: cancel_order_at < 18 -> assert(cancel_order_read.oeo_id[cancel_order_at] == cancel_order_written.oeo_id[cancel_order_at]); cancel_order_at = cancel_order_at + 1
   :: else -> break
   od;
   skip
@@ -1175,10 +1175,10 @@ inline equal_mass_cancel_inst(mass_cancel_inst_read, mass_cancel_inst_written) {
   skip
 }
 
-/* ---- Mass Cancel Order Message: 65 bytes ------------------------------------- */
+/* ---- Mass Cancel Order: 65 bytes --------------------------------------------- */
 
 /* A Mass Cancel Order message is a request to cancel a group of orders or quotes */
-typedef MassCancelOrderMessage {
+typedef MassCancelOrder {
   byte mass_cancel_id[20];
   byte clearing_firm[4];
   byte product_name[6];
@@ -1187,147 +1187,328 @@ typedef MassCancelOrderMessage {
   byte oeo_id[18]
 };
 
-int mass_cancel_order_message_at;
+int mass_cancel_order_at;
 
-/* every byte of Mass Cancel Order Message set to one value */
-inline fill_mass_cancel_order_message(mass_cancel_order_message_record, mass_cancel_order_message_value) {
-  mass_cancel_order_message_at = 0;
+/* every byte of Mass Cancel Order set to one value */
+inline fill_mass_cancel_order(mass_cancel_order_record, mass_cancel_order_value) {
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 20 -> mass_cancel_order_message_record.mass_cancel_id[mass_cancel_order_message_at] = mass_cancel_order_message_value; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 20 -> mass_cancel_order_record.mass_cancel_id[mass_cancel_order_at] = mass_cancel_order_value; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  mass_cancel_order_message_at = 0;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 4 -> mass_cancel_order_message_record.clearing_firm[mass_cancel_order_message_at] = mass_cancel_order_message_value; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 4 -> mass_cancel_order_record.clearing_firm[mass_cancel_order_at] = mass_cancel_order_value; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  mass_cancel_order_message_at = 0;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 6 -> mass_cancel_order_message_record.product_name[mass_cancel_order_message_at] = mass_cancel_order_message_value; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 6 -> mass_cancel_order_record.product_name[mass_cancel_order_at] = mass_cancel_order_value; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  fill_mass_cancel_inst(mass_cancel_order_message_record.mass_cancel_inst, mass_cancel_order_message_value);
-  mass_cancel_order_message_record.manual_order_indicator = mass_cancel_order_message_value;
-  mass_cancel_order_message_at = 0;
+  fill_mass_cancel_inst(mass_cancel_order_record.mass_cancel_inst, mass_cancel_order_value);
+  mass_cancel_order_record.manual_order_indicator = mass_cancel_order_value;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 18 -> mass_cancel_order_message_record.oeo_id[mass_cancel_order_message_at] = mass_cancel_order_message_value; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 18 -> mass_cancel_order_record.oeo_id[mass_cancel_order_at] = mass_cancel_order_value; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* each byte of Mass Cancel Order Message set to where it lies, so a field read out of place says so */
-inline ramp_mass_cancel_order_message(mass_cancel_order_message_record, mass_cancel_order_message_base) {
-  mass_cancel_order_message_at = 0;
+/* each byte of Mass Cancel Order set to where it lies, so a field read out of place says so */
+inline ramp_mass_cancel_order(mass_cancel_order_record, mass_cancel_order_base) {
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 20 -> mass_cancel_order_message_record.mass_cancel_id[mass_cancel_order_message_at] = (mass_cancel_order_message_base + 0 + mass_cancel_order_message_at + 1) % 256; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 20 -> mass_cancel_order_record.mass_cancel_id[mass_cancel_order_at] = (mass_cancel_order_base + 0 + mass_cancel_order_at + 1) % 256; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  mass_cancel_order_message_at = 0;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 4 -> mass_cancel_order_message_record.clearing_firm[mass_cancel_order_message_at] = (mass_cancel_order_message_base + 20 + mass_cancel_order_message_at + 1) % 256; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 4 -> mass_cancel_order_record.clearing_firm[mass_cancel_order_at] = (mass_cancel_order_base + 20 + mass_cancel_order_at + 1) % 256; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  mass_cancel_order_message_at = 0;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 6 -> mass_cancel_order_message_record.product_name[mass_cancel_order_message_at] = (mass_cancel_order_message_base + 24 + mass_cancel_order_message_at + 1) % 256; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 6 -> mass_cancel_order_record.product_name[mass_cancel_order_at] = (mass_cancel_order_base + 24 + mass_cancel_order_at + 1) % 256; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  ramp_mass_cancel_inst(mass_cancel_order_message_record.mass_cancel_inst, mass_cancel_order_message_base + 30);
-  mass_cancel_order_message_record.manual_order_indicator = (mass_cancel_order_message_base + 46 + 1) % 256;
-  mass_cancel_order_message_at = 0;
+  ramp_mass_cancel_inst(mass_cancel_order_record.mass_cancel_inst, mass_cancel_order_base + 30);
+  mass_cancel_order_record.manual_order_indicator = (mass_cancel_order_base + 46 + 1) % 256;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 18 -> mass_cancel_order_message_record.oeo_id[mass_cancel_order_message_at] = (mass_cancel_order_message_base + 47 + mass_cancel_order_message_at + 1) % 256; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Mass Cancel Order Message to the wire, 65 bytes from where the cursor stands */
-inline encode_mass_cancel_order_message(mass_cancel_order_message_record) {
-  mass_cancel_order_message_at = 0;
-  do
-  :: mass_cancel_order_message_at < 20 -> wire[at] = mass_cancel_order_message_record.mass_cancel_id[mass_cancel_order_message_at]; at = at + 1; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
-  :: else -> break
-  od;
-  mass_cancel_order_message_at = 0;
-  do
-  :: mass_cancel_order_message_at < 4 -> wire[at] = mass_cancel_order_message_record.clearing_firm[mass_cancel_order_message_at]; at = at + 1; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
-  :: else -> break
-  od;
-  mass_cancel_order_message_at = 0;
-  do
-  :: mass_cancel_order_message_at < 6 -> wire[at] = mass_cancel_order_message_record.product_name[mass_cancel_order_message_at]; at = at + 1; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
-  :: else -> break
-  od;
-  encode_mass_cancel_inst(mass_cancel_order_message_record.mass_cancel_inst);
-  wire[at] = mass_cancel_order_message_record.manual_order_indicator; at = at + 1;
-  mass_cancel_order_message_at = 0;
-  do
-  :: mass_cancel_order_message_at < 18 -> wire[at] = mass_cancel_order_message_record.oeo_id[mass_cancel_order_message_at]; at = at + 1; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 18 -> mass_cancel_order_record.oeo_id[mass_cancel_order_at] = (mass_cancel_order_base + 47 + mass_cancel_order_at + 1) % 256; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Mass Cancel Order Message off the wire, 65 bytes from where the cursor stands */
-inline decode_mass_cancel_order_message(mass_cancel_order_message_record) {
-  mass_cancel_order_message_at = 0;
+/* Mass Cancel Order to the wire, 65 bytes from where the cursor stands */
+inline encode_mass_cancel_order(mass_cancel_order_record) {
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 20 -> mass_cancel_order_message_record.mass_cancel_id[mass_cancel_order_message_at] = wire[at]; at = at + 1; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 20 -> wire[at] = mass_cancel_order_record.mass_cancel_id[mass_cancel_order_at]; at = at + 1; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  mass_cancel_order_message_at = 0;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 4 -> mass_cancel_order_message_record.clearing_firm[mass_cancel_order_message_at] = wire[at]; at = at + 1; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 4 -> wire[at] = mass_cancel_order_record.clearing_firm[mass_cancel_order_at]; at = at + 1; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  mass_cancel_order_message_at = 0;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 6 -> mass_cancel_order_message_record.product_name[mass_cancel_order_message_at] = wire[at]; at = at + 1; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 6 -> wire[at] = mass_cancel_order_record.product_name[mass_cancel_order_at]; at = at + 1; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
-  decode_mass_cancel_inst(mass_cancel_order_message_record.mass_cancel_inst);
-  mass_cancel_order_message_record.manual_order_indicator = wire[at]; at = at + 1;
-  mass_cancel_order_message_at = 0;
+  encode_mass_cancel_inst(mass_cancel_order_record.mass_cancel_inst);
+  wire[at] = mass_cancel_order_record.manual_order_indicator; at = at + 1;
+  mass_cancel_order_at = 0;
   do
-  :: mass_cancel_order_message_at < 18 -> mass_cancel_order_message_record.oeo_id[mass_cancel_order_message_at] = wire[at]; at = at + 1; mass_cancel_order_message_at = mass_cancel_order_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* what was read of Mass Cancel Order Message is what was written, byte for byte */
-inline equal_mass_cancel_order_message(mass_cancel_order_message_read, mass_cancel_order_message_written) {
-  mass_cancel_order_message_at = 0;
-  do
-  :: mass_cancel_order_message_at < 20 -> assert(mass_cancel_order_message_read.mass_cancel_id[mass_cancel_order_message_at] == mass_cancel_order_message_written.mass_cancel_id[mass_cancel_order_message_at]); mass_cancel_order_message_at = mass_cancel_order_message_at + 1
-  :: else -> break
-  od;
-  mass_cancel_order_message_at = 0;
-  do
-  :: mass_cancel_order_message_at < 4 -> assert(mass_cancel_order_message_read.clearing_firm[mass_cancel_order_message_at] == mass_cancel_order_message_written.clearing_firm[mass_cancel_order_message_at]); mass_cancel_order_message_at = mass_cancel_order_message_at + 1
-  :: else -> break
-  od;
-  mass_cancel_order_message_at = 0;
-  do
-  :: mass_cancel_order_message_at < 6 -> assert(mass_cancel_order_message_read.product_name[mass_cancel_order_message_at] == mass_cancel_order_message_written.product_name[mass_cancel_order_message_at]); mass_cancel_order_message_at = mass_cancel_order_message_at + 1
-  :: else -> break
-  od;
-  equal_mass_cancel_inst(mass_cancel_order_message_read.mass_cancel_inst, mass_cancel_order_message_written.mass_cancel_inst);
-  assert(mass_cancel_order_message_read.manual_order_indicator == mass_cancel_order_message_written.manual_order_indicator);
-  mass_cancel_order_message_at = 0;
-  do
-  :: mass_cancel_order_message_at < 18 -> assert(mass_cancel_order_message_read.oeo_id[mass_cancel_order_message_at] == mass_cancel_order_message_written.oeo_id[mass_cancel_order_message_at]); mass_cancel_order_message_at = mass_cancel_order_message_at + 1
+  :: mass_cancel_order_at < 18 -> wire[at] = mass_cancel_order_record.oeo_id[mass_cancel_order_at]; at = at + 1; mass_cancel_order_at = mass_cancel_order_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* ---- Reset Risk Message: 36 bytes -------------------------------------------- */
+/* Mass Cancel Order off the wire, 65 bytes from where the cursor stands */
+inline decode_mass_cancel_order(mass_cancel_order_record) {
+  mass_cancel_order_at = 0;
+  do
+  :: mass_cancel_order_at < 20 -> mass_cancel_order_record.mass_cancel_id[mass_cancel_order_at] = wire[at]; at = at + 1; mass_cancel_order_at = mass_cancel_order_at + 1
+  :: else -> break
+  od;
+  mass_cancel_order_at = 0;
+  do
+  :: mass_cancel_order_at < 4 -> mass_cancel_order_record.clearing_firm[mass_cancel_order_at] = wire[at]; at = at + 1; mass_cancel_order_at = mass_cancel_order_at + 1
+  :: else -> break
+  od;
+  mass_cancel_order_at = 0;
+  do
+  :: mass_cancel_order_at < 6 -> mass_cancel_order_record.product_name[mass_cancel_order_at] = wire[at]; at = at + 1; mass_cancel_order_at = mass_cancel_order_at + 1
+  :: else -> break
+  od;
+  decode_mass_cancel_inst(mass_cancel_order_record.mass_cancel_inst);
+  mass_cancel_order_record.manual_order_indicator = wire[at]; at = at + 1;
+  mass_cancel_order_at = 0;
+  do
+  :: mass_cancel_order_at < 18 -> mass_cancel_order_record.oeo_id[mass_cancel_order_at] = wire[at]; at = at + 1; mass_cancel_order_at = mass_cancel_order_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Mass Cancel Order is what was written, byte for byte */
+inline equal_mass_cancel_order(mass_cancel_order_read, mass_cancel_order_written) {
+  mass_cancel_order_at = 0;
+  do
+  :: mass_cancel_order_at < 20 -> assert(mass_cancel_order_read.mass_cancel_id[mass_cancel_order_at] == mass_cancel_order_written.mass_cancel_id[mass_cancel_order_at]); mass_cancel_order_at = mass_cancel_order_at + 1
+  :: else -> break
+  od;
+  mass_cancel_order_at = 0;
+  do
+  :: mass_cancel_order_at < 4 -> assert(mass_cancel_order_read.clearing_firm[mass_cancel_order_at] == mass_cancel_order_written.clearing_firm[mass_cancel_order_at]); mass_cancel_order_at = mass_cancel_order_at + 1
+  :: else -> break
+  od;
+  mass_cancel_order_at = 0;
+  do
+  :: mass_cancel_order_at < 6 -> assert(mass_cancel_order_read.product_name[mass_cancel_order_at] == mass_cancel_order_written.product_name[mass_cancel_order_at]); mass_cancel_order_at = mass_cancel_order_at + 1
+  :: else -> break
+  od;
+  equal_mass_cancel_inst(mass_cancel_order_read.mass_cancel_inst, mass_cancel_order_written.mass_cancel_inst);
+  assert(mass_cancel_order_read.manual_order_indicator == mass_cancel_order_written.manual_order_indicator);
+  mass_cancel_order_at = 0;
+  do
+  :: mass_cancel_order_at < 18 -> assert(mass_cancel_order_read.oeo_id[mass_cancel_order_at] == mass_cancel_order_written.oeo_id[mass_cancel_order_at]); mass_cancel_order_at = mass_cancel_order_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Purge Orders: 68 bytes -------------------------------------------------- */
+
+/* Request to cancel a group of orders or quotes across all the TPH's sessions for that port’s matching unit */
+typedef PurgeOrders {
+  byte mass_cancel_id[20];
+  byte clearing_firm[4];
+  byte product_name[6];
+  MassCancelInst mass_cancel_inst;
+  byte manual_order_indicator;
+  byte oeo_id[18];
+  byte custom_group_id_cnt;
+  byte custom_group_id[2]
+};
+
+int purge_orders_at;
+
+/* every byte of Purge Orders set to one value */
+inline fill_purge_orders(purge_orders_record, purge_orders_value) {
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 20 -> purge_orders_record.mass_cancel_id[purge_orders_at] = purge_orders_value; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 4 -> purge_orders_record.clearing_firm[purge_orders_at] = purge_orders_value; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 6 -> purge_orders_record.product_name[purge_orders_at] = purge_orders_value; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  fill_mass_cancel_inst(purge_orders_record.mass_cancel_inst, purge_orders_value);
+  purge_orders_record.manual_order_indicator = purge_orders_value;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 18 -> purge_orders_record.oeo_id[purge_orders_at] = purge_orders_value; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_record.custom_group_id_cnt = purge_orders_value;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 2 -> purge_orders_record.custom_group_id[purge_orders_at] = purge_orders_value; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Purge Orders set to where it lies, so a field read out of place says so */
+inline ramp_purge_orders(purge_orders_record, purge_orders_base) {
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 20 -> purge_orders_record.mass_cancel_id[purge_orders_at] = (purge_orders_base + 0 + purge_orders_at + 1) % 256; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 4 -> purge_orders_record.clearing_firm[purge_orders_at] = (purge_orders_base + 20 + purge_orders_at + 1) % 256; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 6 -> purge_orders_record.product_name[purge_orders_at] = (purge_orders_base + 24 + purge_orders_at + 1) % 256; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  ramp_mass_cancel_inst(purge_orders_record.mass_cancel_inst, purge_orders_base + 30);
+  purge_orders_record.manual_order_indicator = (purge_orders_base + 46 + 1) % 256;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 18 -> purge_orders_record.oeo_id[purge_orders_at] = (purge_orders_base + 47 + purge_orders_at + 1) % 256; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_record.custom_group_id_cnt = (purge_orders_base + 65 + 1) % 256;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 2 -> purge_orders_record.custom_group_id[purge_orders_at] = (purge_orders_base + 66 + purge_orders_at + 1) % 256; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Purge Orders to the wire, 68 bytes from where the cursor stands */
+inline encode_purge_orders(purge_orders_record) {
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 20 -> wire[at] = purge_orders_record.mass_cancel_id[purge_orders_at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 4 -> wire[at] = purge_orders_record.clearing_firm[purge_orders_at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 6 -> wire[at] = purge_orders_record.product_name[purge_orders_at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  encode_mass_cancel_inst(purge_orders_record.mass_cancel_inst);
+  wire[at] = purge_orders_record.manual_order_indicator; at = at + 1;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 18 -> wire[at] = purge_orders_record.oeo_id[purge_orders_at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  wire[at] = purge_orders_record.custom_group_id_cnt; at = at + 1;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 2 -> wire[at] = purge_orders_record.custom_group_id[purge_orders_at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Purge Orders off the wire, 68 bytes from where the cursor stands */
+inline decode_purge_orders(purge_orders_record) {
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 20 -> purge_orders_record.mass_cancel_id[purge_orders_at] = wire[at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 4 -> purge_orders_record.clearing_firm[purge_orders_at] = wire[at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 6 -> purge_orders_record.product_name[purge_orders_at] = wire[at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  decode_mass_cancel_inst(purge_orders_record.mass_cancel_inst);
+  purge_orders_record.manual_order_indicator = wire[at]; at = at + 1;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 18 -> purge_orders_record.oeo_id[purge_orders_at] = wire[at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_record.custom_group_id_cnt = wire[at]; at = at + 1;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 2 -> purge_orders_record.custom_group_id[purge_orders_at] = wire[at]; at = at + 1; purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Purge Orders is what was written, byte for byte */
+inline equal_purge_orders(purge_orders_read, purge_orders_written) {
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 20 -> assert(purge_orders_read.mass_cancel_id[purge_orders_at] == purge_orders_written.mass_cancel_id[purge_orders_at]); purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 4 -> assert(purge_orders_read.clearing_firm[purge_orders_at] == purge_orders_written.clearing_firm[purge_orders_at]); purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 6 -> assert(purge_orders_read.product_name[purge_orders_at] == purge_orders_written.product_name[purge_orders_at]); purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  equal_mass_cancel_inst(purge_orders_read.mass_cancel_inst, purge_orders_written.mass_cancel_inst);
+  assert(purge_orders_read.manual_order_indicator == purge_orders_written.manual_order_indicator);
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 18 -> assert(purge_orders_read.oeo_id[purge_orders_at] == purge_orders_written.oeo_id[purge_orders_at]); purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  assert(purge_orders_read.custom_group_id_cnt == purge_orders_written.custom_group_id_cnt);
+  purge_orders_at = 0;
+  do
+  :: purge_orders_at < 2 -> assert(purge_orders_read.custom_group_id[purge_orders_at] == purge_orders_written.custom_group_id[purge_orders_at]); purge_orders_at = purge_orders_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Reset Risk: 36 bytes ---------------------------------------------------- */
 
 /* Reset or release Firm/EFID, Product, or Custom Group Id level lockout conditions resulting from risk profile trips or self-imposed lockouts issued viaMass Cancel Order or Purge Orders messages */
-typedef ResetRiskMessage {
+typedef ResetRisk {
   byte risk_status_id[16];
   byte risk_reset[8];
   byte clearing_firm[4];
@@ -1335,153 +1516,153 @@ typedef ResetRiskMessage {
   byte custom_group_id[2]
 };
 
-int reset_risk_message_at;
+int reset_risk_at;
 
-/* every byte of Reset Risk Message set to one value */
-inline fill_reset_risk_message(reset_risk_message_record, reset_risk_message_value) {
-  reset_risk_message_at = 0;
+/* every byte of Reset Risk set to one value */
+inline fill_reset_risk(reset_risk_record, reset_risk_value) {
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 16 -> reset_risk_message_record.risk_status_id[reset_risk_message_at] = reset_risk_message_value; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 16 -> reset_risk_record.risk_status_id[reset_risk_at] = reset_risk_value; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 8 -> reset_risk_message_record.risk_reset[reset_risk_message_at] = reset_risk_message_value; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 8 -> reset_risk_record.risk_reset[reset_risk_at] = reset_risk_value; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 4 -> reset_risk_message_record.clearing_firm[reset_risk_message_at] = reset_risk_message_value; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 4 -> reset_risk_record.clearing_firm[reset_risk_at] = reset_risk_value; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 6 -> reset_risk_message_record.product_name[reset_risk_message_at] = reset_risk_message_value; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 6 -> reset_risk_record.product_name[reset_risk_at] = reset_risk_value; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 2 -> reset_risk_message_record.custom_group_id[reset_risk_message_at] = reset_risk_message_value; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 2 -> reset_risk_record.custom_group_id[reset_risk_at] = reset_risk_value; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* each byte of Reset Risk Message set to where it lies, so a field read out of place says so */
-inline ramp_reset_risk_message(reset_risk_message_record, reset_risk_message_base) {
-  reset_risk_message_at = 0;
+/* each byte of Reset Risk set to where it lies, so a field read out of place says so */
+inline ramp_reset_risk(reset_risk_record, reset_risk_base) {
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 16 -> reset_risk_message_record.risk_status_id[reset_risk_message_at] = (reset_risk_message_base + 0 + reset_risk_message_at + 1) % 256; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 16 -> reset_risk_record.risk_status_id[reset_risk_at] = (reset_risk_base + 0 + reset_risk_at + 1) % 256; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 8 -> reset_risk_message_record.risk_reset[reset_risk_message_at] = (reset_risk_message_base + 16 + reset_risk_message_at + 1) % 256; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 8 -> reset_risk_record.risk_reset[reset_risk_at] = (reset_risk_base + 16 + reset_risk_at + 1) % 256; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 4 -> reset_risk_message_record.clearing_firm[reset_risk_message_at] = (reset_risk_message_base + 24 + reset_risk_message_at + 1) % 256; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 4 -> reset_risk_record.clearing_firm[reset_risk_at] = (reset_risk_base + 24 + reset_risk_at + 1) % 256; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 6 -> reset_risk_message_record.product_name[reset_risk_message_at] = (reset_risk_message_base + 28 + reset_risk_message_at + 1) % 256; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 6 -> reset_risk_record.product_name[reset_risk_at] = (reset_risk_base + 28 + reset_risk_at + 1) % 256; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 2 -> reset_risk_message_record.custom_group_id[reset_risk_message_at] = (reset_risk_message_base + 34 + reset_risk_message_at + 1) % 256; reset_risk_message_at = reset_risk_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Reset Risk Message to the wire, 36 bytes from where the cursor stands */
-inline encode_reset_risk_message(reset_risk_message_record) {
-  reset_risk_message_at = 0;
-  do
-  :: reset_risk_message_at < 16 -> wire[at] = reset_risk_message_record.risk_status_id[reset_risk_message_at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
-  :: else -> break
-  od;
-  reset_risk_message_at = 0;
-  do
-  :: reset_risk_message_at < 8 -> wire[at] = reset_risk_message_record.risk_reset[reset_risk_message_at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
-  :: else -> break
-  od;
-  reset_risk_message_at = 0;
-  do
-  :: reset_risk_message_at < 4 -> wire[at] = reset_risk_message_record.clearing_firm[reset_risk_message_at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
-  :: else -> break
-  od;
-  reset_risk_message_at = 0;
-  do
-  :: reset_risk_message_at < 6 -> wire[at] = reset_risk_message_record.product_name[reset_risk_message_at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
-  :: else -> break
-  od;
-  reset_risk_message_at = 0;
-  do
-  :: reset_risk_message_at < 2 -> wire[at] = reset_risk_message_record.custom_group_id[reset_risk_message_at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 2 -> reset_risk_record.custom_group_id[reset_risk_at] = (reset_risk_base + 34 + reset_risk_at + 1) % 256; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Reset Risk Message off the wire, 36 bytes from where the cursor stands */
-inline decode_reset_risk_message(reset_risk_message_record) {
-  reset_risk_message_at = 0;
+/* Reset Risk to the wire, 36 bytes from where the cursor stands */
+inline encode_reset_risk(reset_risk_record) {
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 16 -> reset_risk_message_record.risk_status_id[reset_risk_message_at] = wire[at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 16 -> wire[at] = reset_risk_record.risk_status_id[reset_risk_at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 8 -> reset_risk_message_record.risk_reset[reset_risk_message_at] = wire[at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 8 -> wire[at] = reset_risk_record.risk_reset[reset_risk_at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 4 -> reset_risk_message_record.clearing_firm[reset_risk_message_at] = wire[at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 4 -> wire[at] = reset_risk_record.clearing_firm[reset_risk_at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 6 -> reset_risk_message_record.product_name[reset_risk_message_at] = wire[at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 6 -> wire[at] = reset_risk_record.product_name[reset_risk_at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 2 -> reset_risk_message_record.custom_group_id[reset_risk_message_at] = wire[at]; at = at + 1; reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 2 -> wire[at] = reset_risk_record.custom_group_id[reset_risk_at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* what was read of Reset Risk Message is what was written, byte for byte */
-inline equal_reset_risk_message(reset_risk_message_read, reset_risk_message_written) {
-  reset_risk_message_at = 0;
+/* Reset Risk off the wire, 36 bytes from where the cursor stands */
+inline decode_reset_risk(reset_risk_record) {
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 16 -> assert(reset_risk_message_read.risk_status_id[reset_risk_message_at] == reset_risk_message_written.risk_status_id[reset_risk_message_at]); reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 16 -> reset_risk_record.risk_status_id[reset_risk_at] = wire[at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 8 -> assert(reset_risk_message_read.risk_reset[reset_risk_message_at] == reset_risk_message_written.risk_reset[reset_risk_message_at]); reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 8 -> reset_risk_record.risk_reset[reset_risk_at] = wire[at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 4 -> assert(reset_risk_message_read.clearing_firm[reset_risk_message_at] == reset_risk_message_written.clearing_firm[reset_risk_message_at]); reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 4 -> reset_risk_record.clearing_firm[reset_risk_at] = wire[at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 6 -> assert(reset_risk_message_read.product_name[reset_risk_message_at] == reset_risk_message_written.product_name[reset_risk_message_at]); reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 6 -> reset_risk_record.product_name[reset_risk_at] = wire[at]; at = at + 1; reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
-  reset_risk_message_at = 0;
+  reset_risk_at = 0;
   do
-  :: reset_risk_message_at < 2 -> assert(reset_risk_message_read.custom_group_id[reset_risk_message_at] == reset_risk_message_written.custom_group_id[reset_risk_message_at]); reset_risk_message_at = reset_risk_message_at + 1
+  :: reset_risk_at < 2 -> reset_risk_record.custom_group_id[reset_risk_at] = wire[at]; at = at + 1; reset_risk_at = reset_risk_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Reset Risk is what was written, byte for byte */
+inline equal_reset_risk(reset_risk_read, reset_risk_written) {
+  reset_risk_at = 0;
+  do
+  :: reset_risk_at < 16 -> assert(reset_risk_read.risk_status_id[reset_risk_at] == reset_risk_written.risk_status_id[reset_risk_at]); reset_risk_at = reset_risk_at + 1
+  :: else -> break
+  od;
+  reset_risk_at = 0;
+  do
+  :: reset_risk_at < 8 -> assert(reset_risk_read.risk_reset[reset_risk_at] == reset_risk_written.risk_reset[reset_risk_at]); reset_risk_at = reset_risk_at + 1
+  :: else -> break
+  od;
+  reset_risk_at = 0;
+  do
+  :: reset_risk_at < 4 -> assert(reset_risk_read.clearing_firm[reset_risk_at] == reset_risk_written.clearing_firm[reset_risk_at]); reset_risk_at = reset_risk_at + 1
+  :: else -> break
+  od;
+  reset_risk_at = 0;
+  do
+  :: reset_risk_at < 6 -> assert(reset_risk_read.product_name[reset_risk_at] == reset_risk_written.product_name[reset_risk_at]); reset_risk_at = reset_risk_at + 1
+  :: else -> break
+  od;
+  reset_risk_at = 0;
+  do
+  :: reset_risk_at < 2 -> assert(reset_risk_read.custom_group_id[reset_risk_at] == reset_risk_written.custom_group_id[reset_risk_at]); reset_risk_at = reset_risk_at + 1
   :: else -> break
   od;
   skip
@@ -1551,10 +1732,10 @@ proctype check_prevent_match() {
   }
 }
 
-/* New Order Message: encoded, read back, and compared */
-proctype check_new_order_message() {
-  NewOrderMessage new_order_message_sent;
-  NewOrderMessage new_order_message_got;
+/* New Order: encoded, read back, and compared */
+proctype check_new_order() {
+  NewOrder new_order_sent;
+  NewOrder new_order_got;
   int pattern;
 
   if
@@ -1565,27 +1746,27 @@ proctype check_new_order_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_new_order_message(new_order_message_sent, 0)
-  :: pattern == 1 -> fill_new_order_message(new_order_message_sent, 32)
-  :: pattern == 2 -> fill_new_order_message(new_order_message_sent, 255)
-  :: else -> ramp_new_order_message(new_order_message_sent, 0)
+  :: pattern == 0 -> fill_new_order(new_order_sent, 0)
+  :: pattern == 1 -> fill_new_order(new_order_sent, 32)
+  :: pattern == 2 -> fill_new_order(new_order_sent, 255)
+  :: else -> ramp_new_order(new_order_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_new_order_message(new_order_message_sent);
+    encode_new_order(new_order_sent);
     assert(at == 129);
     at = 0;
-    decode_new_order_message(new_order_message_got);
+    decode_new_order(new_order_got);
     assert(at == 129);
-    equal_new_order_message(new_order_message_got, new_order_message_sent)
+    equal_new_order(new_order_got, new_order_sent)
   }
 }
 
-/* Modify Order Message: encoded, read back, and compared */
-proctype check_modify_order_message() {
-  ModifyOrderMessage modify_order_message_sent;
-  ModifyOrderMessage modify_order_message_got;
+/* Modify Order: encoded, read back, and compared */
+proctype check_modify_order() {
+  ModifyOrder modify_order_sent;
+  ModifyOrder modify_order_got;
   int pattern;
 
   if
@@ -1596,27 +1777,27 @@ proctype check_modify_order_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_modify_order_message(modify_order_message_sent, 0)
-  :: pattern == 1 -> fill_modify_order_message(modify_order_message_sent, 32)
-  :: pattern == 2 -> fill_modify_order_message(modify_order_message_sent, 255)
-  :: else -> ramp_modify_order_message(modify_order_message_sent, 0)
+  :: pattern == 0 -> fill_modify_order(modify_order_sent, 0)
+  :: pattern == 1 -> fill_modify_order(modify_order_sent, 32)
+  :: pattern == 2 -> fill_modify_order(modify_order_sent, 255)
+  :: else -> ramp_modify_order(modify_order_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_modify_order_message(modify_order_message_sent);
+    encode_modify_order(modify_order_sent);
     assert(at == 92);
     at = 0;
-    decode_modify_order_message(modify_order_message_got);
+    decode_modify_order(modify_order_got);
     assert(at == 92);
-    equal_modify_order_message(modify_order_message_got, modify_order_message_sent)
+    equal_modify_order(modify_order_got, modify_order_sent)
   }
 }
 
-/* Cancel Order Message: encoded, read back, and compared */
-proctype check_cancel_order_message() {
-  CancelOrderMessage cancel_order_message_sent;
-  CancelOrderMessage cancel_order_message_got;
+/* Cancel Order: encoded, read back, and compared */
+proctype check_cancel_order() {
+  CancelOrder cancel_order_sent;
+  CancelOrder cancel_order_got;
   int pattern;
 
   if
@@ -1627,20 +1808,20 @@ proctype check_cancel_order_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_cancel_order_message(cancel_order_message_sent, 0)
-  :: pattern == 1 -> fill_cancel_order_message(cancel_order_message_sent, 32)
-  :: pattern == 2 -> fill_cancel_order_message(cancel_order_message_sent, 255)
-  :: else -> ramp_cancel_order_message(cancel_order_message_sent, 0)
+  :: pattern == 0 -> fill_cancel_order(cancel_order_sent, 0)
+  :: pattern == 1 -> fill_cancel_order(cancel_order_sent, 32)
+  :: pattern == 2 -> fill_cancel_order(cancel_order_sent, 255)
+  :: else -> ramp_cancel_order(cancel_order_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_cancel_order_message(cancel_order_message_sent);
+    encode_cancel_order(cancel_order_sent);
     assert(at == 43);
     at = 0;
-    decode_cancel_order_message(cancel_order_message_got);
+    decode_cancel_order(cancel_order_got);
     assert(at == 43);
-    equal_cancel_order_message(cancel_order_message_got, cancel_order_message_sent)
+    equal_cancel_order(cancel_order_got, cancel_order_sent)
   }
 }
 
@@ -1675,10 +1856,10 @@ proctype check_mass_cancel_inst() {
   }
 }
 
-/* Mass Cancel Order Message: encoded, read back, and compared */
-proctype check_mass_cancel_order_message() {
-  MassCancelOrderMessage mass_cancel_order_message_sent;
-  MassCancelOrderMessage mass_cancel_order_message_got;
+/* Mass Cancel Order: encoded, read back, and compared */
+proctype check_mass_cancel_order() {
+  MassCancelOrder mass_cancel_order_sent;
+  MassCancelOrder mass_cancel_order_got;
   int pattern;
 
   if
@@ -1689,27 +1870,27 @@ proctype check_mass_cancel_order_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_mass_cancel_order_message(mass_cancel_order_message_sent, 0)
-  :: pattern == 1 -> fill_mass_cancel_order_message(mass_cancel_order_message_sent, 32)
-  :: pattern == 2 -> fill_mass_cancel_order_message(mass_cancel_order_message_sent, 255)
-  :: else -> ramp_mass_cancel_order_message(mass_cancel_order_message_sent, 0)
+  :: pattern == 0 -> fill_mass_cancel_order(mass_cancel_order_sent, 0)
+  :: pattern == 1 -> fill_mass_cancel_order(mass_cancel_order_sent, 32)
+  :: pattern == 2 -> fill_mass_cancel_order(mass_cancel_order_sent, 255)
+  :: else -> ramp_mass_cancel_order(mass_cancel_order_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_mass_cancel_order_message(mass_cancel_order_message_sent);
+    encode_mass_cancel_order(mass_cancel_order_sent);
     assert(at == 65);
     at = 0;
-    decode_mass_cancel_order_message(mass_cancel_order_message_got);
+    decode_mass_cancel_order(mass_cancel_order_got);
     assert(at == 65);
-    equal_mass_cancel_order_message(mass_cancel_order_message_got, mass_cancel_order_message_sent)
+    equal_mass_cancel_order(mass_cancel_order_got, mass_cancel_order_sent)
   }
 }
 
-/* Reset Risk Message: encoded, read back, and compared */
-proctype check_reset_risk_message() {
-  ResetRiskMessage reset_risk_message_sent;
-  ResetRiskMessage reset_risk_message_got;
+/* Purge Orders: encoded, read back, and compared */
+proctype check_purge_orders() {
+  PurgeOrders purge_orders_sent;
+  PurgeOrders purge_orders_got;
   int pattern;
 
   if
@@ -1720,20 +1901,51 @@ proctype check_reset_risk_message() {
   fi;
 
   if
-  :: pattern == 0 -> fill_reset_risk_message(reset_risk_message_sent, 0)
-  :: pattern == 1 -> fill_reset_risk_message(reset_risk_message_sent, 32)
-  :: pattern == 2 -> fill_reset_risk_message(reset_risk_message_sent, 255)
-  :: else -> ramp_reset_risk_message(reset_risk_message_sent, 0)
+  :: pattern == 0 -> fill_purge_orders(purge_orders_sent, 0)
+  :: pattern == 1 -> fill_purge_orders(purge_orders_sent, 32)
+  :: pattern == 2 -> fill_purge_orders(purge_orders_sent, 255)
+  :: else -> ramp_purge_orders(purge_orders_sent, 0)
   fi;
 
   atomic {
     at = 0;
-    encode_reset_risk_message(reset_risk_message_sent);
+    encode_purge_orders(purge_orders_sent);
+    assert(at == 68);
+    at = 0;
+    decode_purge_orders(purge_orders_got);
+    assert(at == 68);
+    equal_purge_orders(purge_orders_got, purge_orders_sent)
+  }
+}
+
+/* Reset Risk: encoded, read back, and compared */
+proctype check_reset_risk() {
+  ResetRisk reset_risk_sent;
+  ResetRisk reset_risk_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_reset_risk(reset_risk_sent, 0)
+  :: pattern == 1 -> fill_reset_risk(reset_risk_sent, 32)
+  :: pattern == 2 -> fill_reset_risk(reset_risk_sent, 255)
+  :: else -> ramp_reset_risk(reset_risk_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_reset_risk(reset_risk_sent);
     assert(at == 36);
     at = 0;
-    decode_reset_risk_message(reset_risk_message_got);
+    decode_reset_risk(reset_risk_got);
     assert(at == 36);
-    equal_reset_risk_message(reset_risk_message_got, reset_risk_message_sent)
+    equal_reset_risk(reset_risk_got, reset_risk_sent)
   }
 }
 
@@ -1742,11 +1954,12 @@ init {
   if
   :: run check_firm_message_header()
   :: run check_prevent_match()
-  :: run check_new_order_message()
-  :: run check_modify_order_message()
-  :: run check_cancel_order_message()
+  :: run check_new_order()
+  :: run check_modify_order()
+  :: run check_cancel_order()
   :: run check_mass_cancel_inst()
-  :: run check_mass_cancel_order_message()
-  :: run check_reset_risk_message()
+  :: run check_mass_cancel_order()
+  :: run check_purge_orders()
+  :: run check_reset_risk()
   fi
 }

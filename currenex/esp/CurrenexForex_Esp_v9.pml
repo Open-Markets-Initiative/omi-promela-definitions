@@ -844,12 +844,12 @@ inline equal_subscription_reply(subscription_reply_read, subscription_reply_writ
   skip
 }
 
-/* ---- Price Message: 29 bytes ------------------------------------------------- */
+/* ---- Price Message: 32 bytes ------------------------------------------------- */
 
 /* Price Message */
 typedef PriceMessage {
   byte instrument_index[2];
-  byte price_id;
+  byte price_id[4];
   byte side;
   byte max_amount[8];
   byte min_amount[8];
@@ -867,7 +867,11 @@ inline fill_price_message(price_message_record, price_message_value) {
   :: price_message_at < 2 -> price_message_record.instrument_index[price_message_at] = price_message_value; price_message_at = price_message_at + 1
   :: else -> break
   od;
-  price_message_record.price_id = price_message_value;
+  price_message_at = 0;
+  do
+  :: price_message_at < 4 -> price_message_record.price_id[price_message_at] = price_message_value; price_message_at = price_message_at + 1
+  :: else -> break
+  od;
   price_message_record.side = price_message_value;
   price_message_at = 0;
   do
@@ -900,40 +904,48 @@ inline ramp_price_message(price_message_record, price_message_base) {
   :: price_message_at < 2 -> price_message_record.instrument_index[price_message_at] = (price_message_base + 0 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
   :: else -> break
   od;
-  price_message_record.price_id = (price_message_base + 2 + 1) % 256;
-  price_message_record.side = (price_message_base + 3 + 1) % 256;
   price_message_at = 0;
   do
-  :: price_message_at < 8 -> price_message_record.max_amount[price_message_at] = (price_message_base + 4 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
+  :: price_message_at < 4 -> price_message_record.price_id[price_message_at] = (price_message_base + 2 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
+  :: else -> break
+  od;
+  price_message_record.side = (price_message_base + 6 + 1) % 256;
+  price_message_at = 0;
+  do
+  :: price_message_at < 8 -> price_message_record.max_amount[price_message_at] = (price_message_base + 7 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
   :: else -> break
   od;
   price_message_at = 0;
   do
-  :: price_message_at < 8 -> price_message_record.min_amount[price_message_at] = (price_message_base + 12 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
+  :: price_message_at < 8 -> price_message_record.min_amount[price_message_at] = (price_message_base + 15 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
   :: else -> break
   od;
   price_message_at = 0;
   do
-  :: price_message_at < 4 -> price_message_record.price[price_message_at] = (price_message_base + 20 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
+  :: price_message_at < 4 -> price_message_record.price[price_message_at] = (price_message_base + 23 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
   :: else -> break
   od;
-  price_message_record.attributed = (price_message_base + 24 + 1) % 256;
+  price_message_record.attributed = (price_message_base + 27 + 1) % 256;
   price_message_at = 0;
   do
-  :: price_message_at < 4 -> price_message_record.price_provider[price_message_at] = (price_message_base + 25 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
+  :: price_message_at < 4 -> price_message_record.price_provider[price_message_at] = (price_message_base + 28 + price_message_at + 1) % 256; price_message_at = price_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Price Message to the wire, 29 bytes from where the cursor stands */
+/* Price Message to the wire, 32 bytes from where the cursor stands */
 inline encode_price_message(price_message_record) {
   price_message_at = 0;
   do
   :: price_message_at < 2 -> wire[at] = price_message_record.instrument_index[price_message_at]; at = at + 1; price_message_at = price_message_at + 1
   :: else -> break
   od;
-  wire[at] = price_message_record.price_id; at = at + 1;
+  price_message_at = 0;
+  do
+  :: price_message_at < 4 -> wire[at] = price_message_record.price_id[price_message_at]; at = at + 1; price_message_at = price_message_at + 1
+  :: else -> break
+  od;
   wire[at] = price_message_record.side; at = at + 1;
   price_message_at = 0;
   do
@@ -959,14 +971,18 @@ inline encode_price_message(price_message_record) {
   skip
 }
 
-/* Price Message off the wire, 29 bytes from where the cursor stands */
+/* Price Message off the wire, 32 bytes from where the cursor stands */
 inline decode_price_message(price_message_record) {
   price_message_at = 0;
   do
   :: price_message_at < 2 -> price_message_record.instrument_index[price_message_at] = wire[at]; at = at + 1; price_message_at = price_message_at + 1
   :: else -> break
   od;
-  price_message_record.price_id = wire[at]; at = at + 1;
+  price_message_at = 0;
+  do
+  :: price_message_at < 4 -> price_message_record.price_id[price_message_at] = wire[at]; at = at + 1; price_message_at = price_message_at + 1
+  :: else -> break
+  od;
   price_message_record.side = wire[at]; at = at + 1;
   price_message_at = 0;
   do
@@ -999,7 +1015,11 @@ inline equal_price_message(price_message_read, price_message_written) {
   :: price_message_at < 2 -> assert(price_message_read.instrument_index[price_message_at] == price_message_written.instrument_index[price_message_at]); price_message_at = price_message_at + 1
   :: else -> break
   od;
-  assert(price_message_read.price_id == price_message_written.price_id);
+  price_message_at = 0;
+  do
+  :: price_message_at < 4 -> assert(price_message_read.price_id[price_message_at] == price_message_written.price_id[price_message_at]); price_message_at = price_message_at + 1
+  :: else -> break
+  od;
   assert(price_message_read.side == price_message_written.side);
   price_message_at = 0;
   do
@@ -1025,12 +1045,12 @@ inline equal_price_message(price_message_read, price_message_written) {
   skip
 }
 
-/* ---- Price Cancel Message: 3 bytes ------------------------------------------- */
+/* ---- Price Cancel Message: 6 bytes ------------------------------------------- */
 
 /* Price Cancel */
 typedef PriceCancelMessage {
   byte instrument_index[2];
-  byte price_id
+  byte price_id[4]
 };
 
 int price_cancel_message_at;
@@ -1042,7 +1062,11 @@ inline fill_price_cancel_message(price_cancel_message_record, price_cancel_messa
   :: price_cancel_message_at < 2 -> price_cancel_message_record.instrument_index[price_cancel_message_at] = price_cancel_message_value; price_cancel_message_at = price_cancel_message_at + 1
   :: else -> break
   od;
-  price_cancel_message_record.price_id = price_cancel_message_value;
+  price_cancel_message_at = 0;
+  do
+  :: price_cancel_message_at < 4 -> price_cancel_message_record.price_id[price_cancel_message_at] = price_cancel_message_value; price_cancel_message_at = price_cancel_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -1053,29 +1077,41 @@ inline ramp_price_cancel_message(price_cancel_message_record, price_cancel_messa
   :: price_cancel_message_at < 2 -> price_cancel_message_record.instrument_index[price_cancel_message_at] = (price_cancel_message_base + 0 + price_cancel_message_at + 1) % 256; price_cancel_message_at = price_cancel_message_at + 1
   :: else -> break
   od;
-  price_cancel_message_record.price_id = (price_cancel_message_base + 2 + 1) % 256;
+  price_cancel_message_at = 0;
+  do
+  :: price_cancel_message_at < 4 -> price_cancel_message_record.price_id[price_cancel_message_at] = (price_cancel_message_base + 2 + price_cancel_message_at + 1) % 256; price_cancel_message_at = price_cancel_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
-/* Price Cancel Message to the wire, 3 bytes from where the cursor stands */
+/* Price Cancel Message to the wire, 6 bytes from where the cursor stands */
 inline encode_price_cancel_message(price_cancel_message_record) {
   price_cancel_message_at = 0;
   do
   :: price_cancel_message_at < 2 -> wire[at] = price_cancel_message_record.instrument_index[price_cancel_message_at]; at = at + 1; price_cancel_message_at = price_cancel_message_at + 1
   :: else -> break
   od;
-  wire[at] = price_cancel_message_record.price_id; at = at + 1;
+  price_cancel_message_at = 0;
+  do
+  :: price_cancel_message_at < 4 -> wire[at] = price_cancel_message_record.price_id[price_cancel_message_at]; at = at + 1; price_cancel_message_at = price_cancel_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
-/* Price Cancel Message off the wire, 3 bytes from where the cursor stands */
+/* Price Cancel Message off the wire, 6 bytes from where the cursor stands */
 inline decode_price_cancel_message(price_cancel_message_record) {
   price_cancel_message_at = 0;
   do
   :: price_cancel_message_at < 2 -> price_cancel_message_record.instrument_index[price_cancel_message_at] = wire[at]; at = at + 1; price_cancel_message_at = price_cancel_message_at + 1
   :: else -> break
   od;
-  price_cancel_message_record.price_id = wire[at]; at = at + 1;
+  price_cancel_message_at = 0;
+  do
+  :: price_cancel_message_at < 4 -> price_cancel_message_record.price_id[price_cancel_message_at] = wire[at]; at = at + 1; price_cancel_message_at = price_cancel_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -1086,7 +1122,11 @@ inline equal_price_cancel_message(price_cancel_message_read, price_cancel_messag
   :: price_cancel_message_at < 2 -> assert(price_cancel_message_read.instrument_index[price_cancel_message_at] == price_cancel_message_written.instrument_index[price_cancel_message_at]); price_cancel_message_at = price_cancel_message_at + 1
   :: else -> break
   od;
-  assert(price_cancel_message_read.price_id == price_cancel_message_written.price_id);
+  price_cancel_message_at = 0;
+  do
+  :: price_cancel_message_at < 4 -> assert(price_cancel_message_read.price_id[price_cancel_message_at] == price_cancel_message_written.price_id[price_cancel_message_at]); price_cancel_message_at = price_cancel_message_at + 1
+  :: else -> break
+  od;
   skip
 }
 
@@ -1571,10 +1611,10 @@ proctype check_price_message() {
   atomic {
     at = 0;
     encode_price_message(price_message_sent);
-    assert(at == 29);
+    assert(at == 32);
     at = 0;
     decode_price_message(price_message_got);
-    assert(at == 29);
+    assert(at == 32);
     equal_price_message(price_message_got, price_message_sent)
   }
 }
@@ -1602,10 +1642,10 @@ proctype check_price_cancel_message() {
   atomic {
     at = 0;
     encode_price_cancel_message(price_cancel_message_sent);
-    assert(at == 3);
+    assert(at == 6);
     at = 0;
     decode_price_cancel_message(price_cancel_message_got);
-    assert(at == 3);
+    assert(at == 6);
     equal_price_cancel_message(price_cancel_message_got, price_cancel_message_sent)
   }
 }

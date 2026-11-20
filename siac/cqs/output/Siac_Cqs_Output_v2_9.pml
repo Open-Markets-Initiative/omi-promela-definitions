@@ -14,7 +14,7 @@
  * lies, which is what catches a field written or read out of place.
  *
  * What this definition does not state, and the model does:
- *   - a Checksum rule
+ *   - a Integrity rule
  *   - a run counted by a field
  *   - the dispatch that chooses a message by its type
  *   - a field present only on a condition

@@ -24,7 +24,7 @@
 /* ---- The wire ---------------------------------------------------------------- */
 
 /* the widest record this protocol states, which is the most a check writes at once */
-#define WIRE 41
+#define WIRE 45
 
 /* the bytes a record is written to and read back from */
 byte wire[WIRE];
@@ -1759,10 +1759,11 @@ inline equal_trading_status_message(trading_status_message_read, trading_status_
   skip
 }
 
-/* ---- Auction Update Message: 41 bytes ---------------------------------------- */
+/* ---- Auction Update Message: 45 bytes ---------------------------------------- */
 
 /* BYX and BZX Equities Only. Auction Update messages are used to disseminate Cboe price and size information during auctions for Cboe listed securities and for Cboe Market Close (CMC) crosses on BZX, and for Periodic Auctions on BYX. Cboe Auction Update messages support the Cboe Opening, Closing, Halt and IPO Auctions on the BZX Exchange. On the BYX Exchange, Auction Update messages will be sent out at a randomized time between the start of an auction period and the end of the auction period minus 1 millisecond to inform participants that a Periodic Auction is taking place. */
 typedef AuctionUpdateMessage {
+  byte time_offset[4];
   byte stock_symbol[8];
   byte auction_type;
   byte reference_price[8];
@@ -1776,6 +1777,11 @@ int auction_update_message_at;
 
 /* every byte of Auction Update Message set to one value */
 inline fill_auction_update_message(auction_update_message_record, auction_update_message_value) {
+  auction_update_message_at = 0;
+  do
+  :: auction_update_message_at < 4 -> auction_update_message_record.time_offset[auction_update_message_at] = auction_update_message_value; auction_update_message_at = auction_update_message_at + 1
+  :: else -> break
+  od;
   auction_update_message_at = 0;
   do
   :: auction_update_message_at < 8 -> auction_update_message_record.stock_symbol[auction_update_message_at] = auction_update_message_value; auction_update_message_at = auction_update_message_at + 1
@@ -1814,40 +1820,50 @@ inline fill_auction_update_message(auction_update_message_record, auction_update
 inline ramp_auction_update_message(auction_update_message_record, auction_update_message_base) {
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 8 -> auction_update_message_record.stock_symbol[auction_update_message_at] = (auction_update_message_base + 0 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
-  :: else -> break
-  od;
-  auction_update_message_record.auction_type = (auction_update_message_base + 8 + 1) % 256;
-  auction_update_message_at = 0;
-  do
-  :: auction_update_message_at < 8 -> auction_update_message_record.reference_price[auction_update_message_at] = (auction_update_message_base + 9 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 4 -> auction_update_message_record.time_offset[auction_update_message_at] = (auction_update_message_base + 0 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 4 -> auction_update_message_record.buy_shares[auction_update_message_at] = (auction_update_message_base + 17 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 8 -> auction_update_message_record.stock_symbol[auction_update_message_at] = (auction_update_message_base + 4 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
+  :: else -> break
+  od;
+  auction_update_message_record.auction_type = (auction_update_message_base + 12 + 1) % 256;
+  auction_update_message_at = 0;
+  do
+  :: auction_update_message_at < 8 -> auction_update_message_record.reference_price[auction_update_message_at] = (auction_update_message_base + 13 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 4 -> auction_update_message_record.sell_shares[auction_update_message_at] = (auction_update_message_base + 21 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 4 -> auction_update_message_record.buy_shares[auction_update_message_at] = (auction_update_message_base + 21 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 8 -> auction_update_message_record.indicative_price[auction_update_message_at] = (auction_update_message_base + 25 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 4 -> auction_update_message_record.sell_shares[auction_update_message_at] = (auction_update_message_base + 25 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   auction_update_message_at = 0;
   do
-  :: auction_update_message_at < 8 -> auction_update_message_record.auction_only_price[auction_update_message_at] = (auction_update_message_base + 33 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
+  :: auction_update_message_at < 8 -> auction_update_message_record.indicative_price[auction_update_message_at] = (auction_update_message_base + 29 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
+  :: else -> break
+  od;
+  auction_update_message_at = 0;
+  do
+  :: auction_update_message_at < 8 -> auction_update_message_record.auction_only_price[auction_update_message_at] = (auction_update_message_base + 37 + auction_update_message_at + 1) % 256; auction_update_message_at = auction_update_message_at + 1
   :: else -> break
   od;
   skip
 }
 
-/* Auction Update Message to the wire, 41 bytes from where the cursor stands */
+/* Auction Update Message to the wire, 45 bytes from where the cursor stands */
 inline encode_auction_update_message(auction_update_message_record) {
+  auction_update_message_at = 0;
+  do
+  :: auction_update_message_at < 4 -> wire[at] = auction_update_message_record.time_offset[auction_update_message_at]; at = at + 1; auction_update_message_at = auction_update_message_at + 1
+  :: else -> break
+  od;
   auction_update_message_at = 0;
   do
   :: auction_update_message_at < 8 -> wire[at] = auction_update_message_record.stock_symbol[auction_update_message_at]; at = at + 1; auction_update_message_at = auction_update_message_at + 1
@@ -1882,8 +1898,13 @@ inline encode_auction_update_message(auction_update_message_record) {
   skip
 }
 
-/* Auction Update Message off the wire, 41 bytes from where the cursor stands */
+/* Auction Update Message off the wire, 45 bytes from where the cursor stands */
 inline decode_auction_update_message(auction_update_message_record) {
+  auction_update_message_at = 0;
+  do
+  :: auction_update_message_at < 4 -> auction_update_message_record.time_offset[auction_update_message_at] = wire[at]; at = at + 1; auction_update_message_at = auction_update_message_at + 1
+  :: else -> break
+  od;
   auction_update_message_at = 0;
   do
   :: auction_update_message_at < 8 -> auction_update_message_record.stock_symbol[auction_update_message_at] = wire[at]; at = at + 1; auction_update_message_at = auction_update_message_at + 1
@@ -1920,6 +1941,11 @@ inline decode_auction_update_message(auction_update_message_record) {
 
 /* what was read of Auction Update Message is what was written, byte for byte */
 inline equal_auction_update_message(auction_update_message_read, auction_update_message_written) {
+  auction_update_message_at = 0;
+  do
+  :: auction_update_message_at < 4 -> assert(auction_update_message_read.time_offset[auction_update_message_at] == auction_update_message_written.time_offset[auction_update_message_at]); auction_update_message_at = auction_update_message_at + 1
+  :: else -> break
+  od;
   auction_update_message_at = 0;
   do
   :: auction_update_message_at < 8 -> assert(auction_update_message_read.stock_symbol[auction_update_message_at] == auction_update_message_written.stock_symbol[auction_update_message_at]); auction_update_message_at = auction_update_message_at + 1
@@ -2678,10 +2704,10 @@ proctype check_auction_update_message() {
   atomic {
     at = 0;
     encode_auction_update_message(auction_update_message_sent);
-    assert(at == 41);
+    assert(at == 45);
     at = 0;
     decode_auction_update_message(auction_update_message_got);
-    assert(at == 41);
+    assert(at == 45);
     equal_auction_update_message(auction_update_message_got, auction_update_message_sent)
   }
 }

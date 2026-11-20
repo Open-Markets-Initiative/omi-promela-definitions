@@ -26,7 +26,7 @@
 /* ---- The wire ---------------------------------------------------------------- */
 
 /* the widest record this protocol states, which is the most a check writes at once */
-#define WIRE 16
+#define WIRE 100
 
 /* the bytes a record is written to and read back from */
 byte wire[WIRE];
@@ -439,6 +439,760 @@ inline equal_sub_msg_header(sub_msg_header_read, sub_msg_header_written) {
   skip
 }
 
+/* ---- Exposed: 100 bytes ------------------------------------------------------ */
+
+/* Exposed */
+typedef Exposed {
+  SubMsgHeader sub_msg_header;
+  byte symbol_id[4];
+  byte mpid[4];
+  byte market_maker[10];
+  byte mp_sub_id[4];
+  byte cl_ord_id[8];
+  byte orig_cl_ord_id[8];
+  byte bitfield_order_instructions[16];
+  byte price[8];
+  byte order_qty[4];
+  byte min_qty[4];
+  byte user_data[10];
+  byte leg_open_close[8];
+  byte auction_id[8]
+};
+
+int exposed_at;
+
+/* every byte of Exposed set to one value */
+inline fill_exposed(exposed_record, exposed_value) {
+  fill_sub_msg_header(exposed_record.sub_msg_header, exposed_value);
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.symbol_id[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.mpid[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> exposed_record.market_maker[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.mp_sub_id[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.cl_ord_id[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.orig_cl_ord_id[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 16 -> exposed_record.bitfield_order_instructions[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.price[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.order_qty[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.min_qty[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> exposed_record.user_data[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.leg_open_close[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.auction_id[exposed_at] = exposed_value; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Exposed set to where it lies, so a field read out of place says so */
+inline ramp_exposed(exposed_record, exposed_base) {
+  ramp_sub_msg_header(exposed_record.sub_msg_header, exposed_base + 0);
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.symbol_id[exposed_at] = (exposed_base + 4 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.mpid[exposed_at] = (exposed_base + 8 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> exposed_record.market_maker[exposed_at] = (exposed_base + 12 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.mp_sub_id[exposed_at] = (exposed_base + 22 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.cl_ord_id[exposed_at] = (exposed_base + 26 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.orig_cl_ord_id[exposed_at] = (exposed_base + 34 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 16 -> exposed_record.bitfield_order_instructions[exposed_at] = (exposed_base + 42 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.price[exposed_at] = (exposed_base + 58 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.order_qty[exposed_at] = (exposed_base + 66 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.min_qty[exposed_at] = (exposed_base + 70 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> exposed_record.user_data[exposed_at] = (exposed_base + 74 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.leg_open_close[exposed_at] = (exposed_base + 84 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.auction_id[exposed_at] = (exposed_base + 92 + exposed_at + 1) % 256; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Exposed to the wire, 100 bytes from where the cursor stands */
+inline encode_exposed(exposed_record) {
+  encode_sub_msg_header(exposed_record.sub_msg_header);
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> wire[at] = exposed_record.symbol_id[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> wire[at] = exposed_record.mpid[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> wire[at] = exposed_record.market_maker[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> wire[at] = exposed_record.mp_sub_id[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> wire[at] = exposed_record.cl_ord_id[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> wire[at] = exposed_record.orig_cl_ord_id[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 16 -> wire[at] = exposed_record.bitfield_order_instructions[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> wire[at] = exposed_record.price[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> wire[at] = exposed_record.order_qty[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> wire[at] = exposed_record.min_qty[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> wire[at] = exposed_record.user_data[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> wire[at] = exposed_record.leg_open_close[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> wire[at] = exposed_record.auction_id[exposed_at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Exposed off the wire, 100 bytes from where the cursor stands */
+inline decode_exposed(exposed_record) {
+  decode_sub_msg_header(exposed_record.sub_msg_header);
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.symbol_id[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.mpid[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> exposed_record.market_maker[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.mp_sub_id[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.cl_ord_id[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.orig_cl_ord_id[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 16 -> exposed_record.bitfield_order_instructions[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.price[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.order_qty[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> exposed_record.min_qty[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> exposed_record.user_data[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.leg_open_close[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> exposed_record.auction_id[exposed_at] = wire[at]; at = at + 1; exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Exposed is what was written, byte for byte */
+inline equal_exposed(exposed_read, exposed_written) {
+  equal_sub_msg_header(exposed_read.sub_msg_header, exposed_written.sub_msg_header);
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> assert(exposed_read.symbol_id[exposed_at] == exposed_written.symbol_id[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> assert(exposed_read.mpid[exposed_at] == exposed_written.mpid[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> assert(exposed_read.market_maker[exposed_at] == exposed_written.market_maker[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> assert(exposed_read.mp_sub_id[exposed_at] == exposed_written.mp_sub_id[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> assert(exposed_read.cl_ord_id[exposed_at] == exposed_written.cl_ord_id[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> assert(exposed_read.orig_cl_ord_id[exposed_at] == exposed_written.orig_cl_ord_id[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 16 -> assert(exposed_read.bitfield_order_instructions[exposed_at] == exposed_written.bitfield_order_instructions[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> assert(exposed_read.price[exposed_at] == exposed_written.price[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> assert(exposed_read.order_qty[exposed_at] == exposed_written.order_qty[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 4 -> assert(exposed_read.min_qty[exposed_at] == exposed_written.min_qty[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 10 -> assert(exposed_read.user_data[exposed_at] == exposed_written.user_data[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> assert(exposed_read.leg_open_close[exposed_at] == exposed_written.leg_open_close[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  exposed_at = 0;
+  do
+  :: exposed_at < 8 -> assert(exposed_read.auction_id[exposed_at] == exposed_written.auction_id[exposed_at]); exposed_at = exposed_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Covered: 100 bytes ------------------------------------------------------ */
+
+/* Covered */
+typedef Covered {
+  SubMsgHeader sub_msg_header;
+  byte symbol_id[4];
+  byte mpid[4];
+  byte market_maker[10];
+  byte mp_sub_id[4];
+  byte cl_ord_id[8];
+  byte orig_cl_ord_id[8];
+  byte bitfield_order_instructions[16];
+  byte price[8];
+  byte order_qty[4];
+  byte min_qty[4];
+  byte user_data[10];
+  byte leg_open_close[8];
+  byte auction_id[8]
+};
+
+int covered_at;
+
+/* every byte of Covered set to one value */
+inline fill_covered(covered_record, covered_value) {
+  fill_sub_msg_header(covered_record.sub_msg_header, covered_value);
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.symbol_id[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.mpid[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> covered_record.market_maker[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.mp_sub_id[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.cl_ord_id[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.orig_cl_ord_id[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 16 -> covered_record.bitfield_order_instructions[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.price[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.order_qty[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.min_qty[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> covered_record.user_data[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.leg_open_close[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.auction_id[covered_at] = covered_value; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Covered set to where it lies, so a field read out of place says so */
+inline ramp_covered(covered_record, covered_base) {
+  ramp_sub_msg_header(covered_record.sub_msg_header, covered_base + 0);
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.symbol_id[covered_at] = (covered_base + 4 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.mpid[covered_at] = (covered_base + 8 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> covered_record.market_maker[covered_at] = (covered_base + 12 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.mp_sub_id[covered_at] = (covered_base + 22 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.cl_ord_id[covered_at] = (covered_base + 26 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.orig_cl_ord_id[covered_at] = (covered_base + 34 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 16 -> covered_record.bitfield_order_instructions[covered_at] = (covered_base + 42 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.price[covered_at] = (covered_base + 58 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.order_qty[covered_at] = (covered_base + 66 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.min_qty[covered_at] = (covered_base + 70 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> covered_record.user_data[covered_at] = (covered_base + 74 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.leg_open_close[covered_at] = (covered_base + 84 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.auction_id[covered_at] = (covered_base + 92 + covered_at + 1) % 256; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Covered to the wire, 100 bytes from where the cursor stands */
+inline encode_covered(covered_record) {
+  encode_sub_msg_header(covered_record.sub_msg_header);
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> wire[at] = covered_record.symbol_id[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> wire[at] = covered_record.mpid[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> wire[at] = covered_record.market_maker[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> wire[at] = covered_record.mp_sub_id[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> wire[at] = covered_record.cl_ord_id[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> wire[at] = covered_record.orig_cl_ord_id[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 16 -> wire[at] = covered_record.bitfield_order_instructions[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> wire[at] = covered_record.price[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> wire[at] = covered_record.order_qty[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> wire[at] = covered_record.min_qty[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> wire[at] = covered_record.user_data[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> wire[at] = covered_record.leg_open_close[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> wire[at] = covered_record.auction_id[covered_at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Covered off the wire, 100 bytes from where the cursor stands */
+inline decode_covered(covered_record) {
+  decode_sub_msg_header(covered_record.sub_msg_header);
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.symbol_id[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.mpid[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> covered_record.market_maker[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.mp_sub_id[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.cl_ord_id[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.orig_cl_ord_id[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 16 -> covered_record.bitfield_order_instructions[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.price[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.order_qty[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> covered_record.min_qty[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> covered_record.user_data[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.leg_open_close[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> covered_record.auction_id[covered_at] = wire[at]; at = at + 1; covered_at = covered_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Covered is what was written, byte for byte */
+inline equal_covered(covered_read, covered_written) {
+  equal_sub_msg_header(covered_read.sub_msg_header, covered_written.sub_msg_header);
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> assert(covered_read.symbol_id[covered_at] == covered_written.symbol_id[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> assert(covered_read.mpid[covered_at] == covered_written.mpid[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> assert(covered_read.market_maker[covered_at] == covered_written.market_maker[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> assert(covered_read.mp_sub_id[covered_at] == covered_written.mp_sub_id[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> assert(covered_read.cl_ord_id[covered_at] == covered_written.cl_ord_id[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> assert(covered_read.orig_cl_ord_id[covered_at] == covered_written.orig_cl_ord_id[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 16 -> assert(covered_read.bitfield_order_instructions[covered_at] == covered_written.bitfield_order_instructions[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> assert(covered_read.price[covered_at] == covered_written.price[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> assert(covered_read.order_qty[covered_at] == covered_written.order_qty[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 4 -> assert(covered_read.min_qty[covered_at] == covered_written.min_qty[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 10 -> assert(covered_read.user_data[covered_at] == covered_written.user_data[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> assert(covered_read.leg_open_close[covered_at] == covered_written.leg_open_close[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  covered_at = 0;
+  do
+  :: covered_at < 8 -> assert(covered_read.auction_id[covered_at] == covered_written.auction_id[covered_at]); covered_at = covered_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
 /* ---- What spin checks -------------------------------------------------------- */
 
 /* Msg Header: encoded, read back, and compared */
@@ -596,6 +1350,68 @@ proctype check_sub_msg_header() {
   }
 }
 
+/* Exposed: encoded, read back, and compared */
+proctype check_exposed() {
+  Exposed exposed_sent;
+  Exposed exposed_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_exposed(exposed_sent, 0)
+  :: pattern == 1 -> fill_exposed(exposed_sent, 32)
+  :: pattern == 2 -> fill_exposed(exposed_sent, 255)
+  :: else -> ramp_exposed(exposed_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_exposed(exposed_sent);
+    assert(at == 100);
+    at = 0;
+    decode_exposed(exposed_got);
+    assert(at == 100);
+    equal_exposed(exposed_got, exposed_sent)
+  }
+}
+
+/* Covered: encoded, read back, and compared */
+proctype check_covered() {
+  Covered covered_sent;
+  Covered covered_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_covered(covered_sent, 0)
+  :: pattern == 1 -> fill_covered(covered_sent, 32)
+  :: pattern == 2 -> fill_covered(covered_sent, 255)
+  :: else -> ramp_covered(covered_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_covered(covered_sent);
+    assert(at == 100);
+    at = 0;
+    decode_covered(covered_got);
+    assert(at == 100);
+    equal_covered(covered_got, covered_sent)
+  }
+}
+
 /* one checking process, chosen nondeterministically, so every one of them runs */
 init {
   if
@@ -604,5 +1420,7 @@ init {
   :: run check_seq_msg_id()
   :: run check_seq_msg_header()
   :: run check_sub_msg_header()
+  :: run check_exposed()
+  :: run check_covered()
   fi
 }
