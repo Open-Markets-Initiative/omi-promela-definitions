@@ -17,6 +17,7 @@
  *   - the dispatch that chooses a message by its type
  *   - a run counted by a field
  *   - a length prefix framing what follows
+ *   - a Integrity rule
  *
  * License: MIT No Attribution
  */
@@ -2656,65 +2657,6 @@ inline equal_securities_lending_trade_tick_message(securities_lending_trade_tick
   skip
 }
 
-/* ---- Message Tail: 4 bytes --------------------------------------------------- */
-
-/* Bjse Bjqg Message Tail, defining the checksum of a message, transmitted without encryption */
-typedef MessageTail {
-  byte checksum[4]
-};
-
-int message_tail_at;
-
-/* every byte of Message Tail set to one value */
-inline fill_message_tail(message_tail_record, message_tail_value) {
-  message_tail_at = 0;
-  do
-  :: message_tail_at < 4 -> message_tail_record.checksum[message_tail_at] = message_tail_value; message_tail_at = message_tail_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* each byte of Message Tail set to where it lies, so a field read out of place says so */
-inline ramp_message_tail(message_tail_record, message_tail_base) {
-  message_tail_at = 0;
-  do
-  :: message_tail_at < 4 -> message_tail_record.checksum[message_tail_at] = (message_tail_base + 0 + message_tail_at + 1) % 256; message_tail_at = message_tail_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Message Tail to the wire, 4 bytes from where the cursor stands */
-inline encode_message_tail(message_tail_record) {
-  message_tail_at = 0;
-  do
-  :: message_tail_at < 4 -> wire[at] = message_tail_record.checksum[message_tail_at]; at = at + 1; message_tail_at = message_tail_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Message Tail off the wire, 4 bytes from where the cursor stands */
-inline decode_message_tail(message_tail_record) {
-  message_tail_at = 0;
-  do
-  :: message_tail_at < 4 -> message_tail_record.checksum[message_tail_at] = wire[at]; at = at + 1; message_tail_at = message_tail_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* what was read of Message Tail is what was written, byte for byte */
-inline equal_message_tail(message_tail_read, message_tail_written) {
-  message_tail_at = 0;
-  do
-  :: message_tail_at < 4 -> assert(message_tail_read.checksum[message_tail_at] == message_tail_written.checksum[message_tail_at]); message_tail_at = message_tail_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
 /* ---- What spin checks -------------------------------------------------------- */
 
 /* Message Header: encoded, read back, and compared */
@@ -3089,37 +3031,6 @@ proctype check_securities_lending_trade_tick_message() {
   }
 }
 
-/* Message Tail: encoded, read back, and compared */
-proctype check_message_tail() {
-  MessageTail message_tail_sent;
-  MessageTail message_tail_got;
-  int pattern;
-
-  if
-  :: pattern = 0
-  :: pattern = 1
-  :: pattern = 2
-  :: pattern = 3
-  fi;
-
-  if
-  :: pattern == 0 -> fill_message_tail(message_tail_sent, 0)
-  :: pattern == 1 -> fill_message_tail(message_tail_sent, 32)
-  :: pattern == 2 -> fill_message_tail(message_tail_sent, 255)
-  :: else -> ramp_message_tail(message_tail_sent, 0)
-  fi;
-
-  atomic {
-    at = 0;
-    encode_message_tail(message_tail_sent);
-    assert(at == 4);
-    at = 0;
-    decode_message_tail(message_tail_got);
-    assert(at == 4);
-    equal_message_tail(message_tail_got, message_tail_sent)
-  }
-}
-
 /* one checking process, chosen nondeterministically, so every one of them runs */
 init {
   if
@@ -3135,6 +3046,5 @@ init {
   :: run check_bond_spot_matching_large_trade_tick_message()
   :: run check_bond_spot_negotiated_trade_tick_message()
   :: run check_securities_lending_trade_tick_message()
-  :: run check_message_tail()
   fi
 }

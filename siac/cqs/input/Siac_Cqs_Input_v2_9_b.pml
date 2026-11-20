@@ -15,6 +15,7 @@
  *
  * What this definition does not state, and the model does:
  *   - a Reassemble rule
+ *   - a Integrity rule
  *   - a run counted by a field
  *   - a field present only on a condition
  *
@@ -31,129 +32,6 @@ byte wire[WIRE];
 
 /* where the next byte is written or read, so a nested record carries on from its holder */
 int at;
-
-/* ---- Block Header: 10 bytes -------------------------------------------------- */
-
-/* Cta participant input block header */
-typedef BlockHeader {
-  byte version;
-  byte block_size[2];
-  byte block_sequence_number[4];
-  byte messages_in_block;
-  byte block_checksum[2]
-};
-
-int block_header_at;
-
-/* every byte of Block Header set to one value */
-inline fill_block_header(block_header_record, block_header_value) {
-  block_header_record.version = block_header_value;
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> block_header_record.block_size[block_header_at] = block_header_value; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  block_header_at = 0;
-  do
-  :: block_header_at < 4 -> block_header_record.block_sequence_number[block_header_at] = block_header_value; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  block_header_record.messages_in_block = block_header_value;
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> block_header_record.block_checksum[block_header_at] = block_header_value; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* each byte of Block Header set to where it lies, so a field read out of place says so */
-inline ramp_block_header(block_header_record, block_header_base) {
-  block_header_record.version = (block_header_base + 0 + 1) % 256;
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> block_header_record.block_size[block_header_at] = (block_header_base + 1 + block_header_at + 1) % 256; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  block_header_at = 0;
-  do
-  :: block_header_at < 4 -> block_header_record.block_sequence_number[block_header_at] = (block_header_base + 3 + block_header_at + 1) % 256; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  block_header_record.messages_in_block = (block_header_base + 7 + 1) % 256;
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> block_header_record.block_checksum[block_header_at] = (block_header_base + 8 + block_header_at + 1) % 256; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Block Header to the wire, 10 bytes from where the cursor stands */
-inline encode_block_header(block_header_record) {
-  wire[at] = block_header_record.version; at = at + 1;
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> wire[at] = block_header_record.block_size[block_header_at]; at = at + 1; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  block_header_at = 0;
-  do
-  :: block_header_at < 4 -> wire[at] = block_header_record.block_sequence_number[block_header_at]; at = at + 1; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  wire[at] = block_header_record.messages_in_block; at = at + 1;
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> wire[at] = block_header_record.block_checksum[block_header_at]; at = at + 1; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Block Header off the wire, 10 bytes from where the cursor stands */
-inline decode_block_header(block_header_record) {
-  block_header_record.version = wire[at]; at = at + 1;
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> block_header_record.block_size[block_header_at] = wire[at]; at = at + 1; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  block_header_at = 0;
-  do
-  :: block_header_at < 4 -> block_header_record.block_sequence_number[block_header_at] = wire[at]; at = at + 1; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  block_header_record.messages_in_block = wire[at]; at = at + 1;
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> block_header_record.block_checksum[block_header_at] = wire[at]; at = at + 1; block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* what was read of Block Header is what was written, byte for byte */
-inline equal_block_header(block_header_read, block_header_written) {
-  assert(block_header_read.version == block_header_written.version);
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> assert(block_header_read.block_size[block_header_at] == block_header_written.block_size[block_header_at]); block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  block_header_at = 0;
-  do
-  :: block_header_at < 4 -> assert(block_header_read.block_sequence_number[block_header_at] == block_header_written.block_sequence_number[block_header_at]); block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  assert(block_header_read.messages_in_block == block_header_written.messages_in_block);
-  block_header_at = 0;
-  do
-  :: block_header_at < 2 -> assert(block_header_read.block_checksum[block_header_at] == block_header_written.block_checksum[block_header_at]); block_header_at = block_header_at + 1
-  :: else -> break
-  od;
-  skip
-}
 
 /* ---- Timestamp 1: 8 bytes ---------------------------------------------------- */
 
@@ -2182,37 +2060,6 @@ inline equal_trading_status_message(trading_status_message_read, trading_status_
 
 /* ---- What spin checks -------------------------------------------------------- */
 
-/* Block Header: encoded, read back, and compared */
-proctype check_block_header() {
-  BlockHeader block_header_sent;
-  BlockHeader block_header_got;
-  int pattern;
-
-  if
-  :: pattern = 0
-  :: pattern = 1
-  :: pattern = 2
-  :: pattern = 3
-  fi;
-
-  if
-  :: pattern == 0 -> fill_block_header(block_header_sent, 0)
-  :: pattern == 1 -> fill_block_header(block_header_sent, 32)
-  :: pattern == 2 -> fill_block_header(block_header_sent, 255)
-  :: else -> ramp_block_header(block_header_sent, 0)
-  fi;
-
-  atomic {
-    at = 0;
-    encode_block_header(block_header_sent);
-    assert(at == 10);
-    at = 0;
-    decode_block_header(block_header_got);
-    assert(at == 10);
-    equal_block_header(block_header_got, block_header_sent)
-  }
-}
-
 /* Timestamp 1: encoded, read back, and compared */
 proctype check_timestamp1() {
   Timestamp1 timestamp1_sent;
@@ -2619,7 +2466,6 @@ proctype check_trading_status_message() {
 /* one checking process, chosen nondeterministically, so every one of them runs */
 init {
   if
-  :: run check_block_header()
   :: run check_timestamp1()
   :: run check_message_header()
   :: run check_rejection_message()

@@ -19,6 +19,7 @@
  *   - a field present only on a condition
  *   - a run counted by a field
  *   - a length prefix framing what follows
+ *   - a Integrity rule
  *
  * License: MIT No Attribution
  */
@@ -5473,65 +5474,6 @@ inline equal_transaction_tick_data_of_bid_quotation_message(transaction_tick_dat
   skip
 }
 
-/* ---- Packet Trailer: 4 bytes ------------------------------------------------- */
-
-/* Szse Mddp Packet Trailer, transmitted without encryption */
-typedef PacketTrailer {
-  byte checksum[4]
-};
-
-int packet_trailer_at;
-
-/* every byte of Packet Trailer set to one value */
-inline fill_packet_trailer(packet_trailer_record, packet_trailer_value) {
-  packet_trailer_at = 0;
-  do
-  :: packet_trailer_at < 4 -> packet_trailer_record.checksum[packet_trailer_at] = packet_trailer_value; packet_trailer_at = packet_trailer_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* each byte of Packet Trailer set to where it lies, so a field read out of place says so */
-inline ramp_packet_trailer(packet_trailer_record, packet_trailer_base) {
-  packet_trailer_at = 0;
-  do
-  :: packet_trailer_at < 4 -> packet_trailer_record.checksum[packet_trailer_at] = (packet_trailer_base + 0 + packet_trailer_at + 1) % 256; packet_trailer_at = packet_trailer_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Packet Trailer to the wire, 4 bytes from where the cursor stands */
-inline encode_packet_trailer(packet_trailer_record) {
-  packet_trailer_at = 0;
-  do
-  :: packet_trailer_at < 4 -> wire[at] = packet_trailer_record.checksum[packet_trailer_at]; at = at + 1; packet_trailer_at = packet_trailer_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Packet Trailer off the wire, 4 bytes from where the cursor stands */
-inline decode_packet_trailer(packet_trailer_record) {
-  packet_trailer_at = 0;
-  do
-  :: packet_trailer_at < 4 -> packet_trailer_record.checksum[packet_trailer_at] = wire[at]; at = at + 1; packet_trailer_at = packet_trailer_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* what was read of Packet Trailer is what was written, byte for byte */
-inline equal_packet_trailer(packet_trailer_read, packet_trailer_written) {
-  packet_trailer_at = 0;
-  do
-  :: packet_trailer_at < 4 -> assert(packet_trailer_read.checksum[packet_trailer_at] == packet_trailer_written.checksum[packet_trailer_at]); packet_trailer_at = packet_trailer_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
 /* ---- What spin checks -------------------------------------------------------- */
 
 /* Message Header: encoded, read back, and compared */
@@ -6123,37 +6065,6 @@ proctype check_transaction_tick_data_of_bid_quotation_message() {
   }
 }
 
-/* Packet Trailer: encoded, read back, and compared */
-proctype check_packet_trailer() {
-  PacketTrailer packet_trailer_sent;
-  PacketTrailer packet_trailer_got;
-  int pattern;
-
-  if
-  :: pattern = 0
-  :: pattern = 1
-  :: pattern = 2
-  :: pattern = 3
-  fi;
-
-  if
-  :: pattern == 0 -> fill_packet_trailer(packet_trailer_sent, 0)
-  :: pattern == 1 -> fill_packet_trailer(packet_trailer_sent, 32)
-  :: pattern == 2 -> fill_packet_trailer(packet_trailer_sent, 255)
-  :: else -> ramp_packet_trailer(packet_trailer_sent, 0)
-  fi;
-
-  atomic {
-    at = 0;
-    encode_packet_trailer(packet_trailer_sent);
-    assert(at == 4);
-    at = 0;
-    decode_packet_trailer(packet_trailer_got);
-    assert(at == 4);
-    equal_packet_trailer(packet_trailer_got, packet_trailer_sent)
-  }
-}
-
 /* one checking process, chosen nondeterministically, so every one of them runs */
 init {
   if
@@ -6176,6 +6087,5 @@ init {
   :: run check_transaction_tick_data_of_bond_general_pledged_repo_message()
   :: run check_transaction_tick_data_of_spot_bond_trading_quotation_message()
   :: run check_transaction_tick_data_of_bid_quotation_message()
-  :: run check_packet_trailer()
   fi
 }
