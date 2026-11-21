@@ -15,6 +15,7 @@
  *
  * What this definition does not state, and the model does:
  *   - a run filling what frames it
+ *   - a Integrity rule
  *   - a Composite rule
  *   - a field read in bits
  *   - a run of a stated number of entries
@@ -33,13 +34,12 @@ byte wire[WIRE];
 /* where the next byte is written or read, so a nested record carries on from its holder */
 int at;
 
-/* ---- Packet Header: 22 bytes ------------------------------------------------- */
+/* ---- Packet Header: 6 bytes -------------------------------------------------- */
 
-/* Direct interface twenty two byte packet header */
+/* Packet Length and Sequence number, the first six bytes of the direct interface's twenty two byte packet header; its last sixteen open each packet body branch */
 typedef PacketHeader {
   byte packet_length[2];
-  byte packet_sequence_number[4];
-  byte checksum[16]
+  byte packet_sequence_number[4]
 };
 
 int packet_header_at;
@@ -54,11 +54,6 @@ inline fill_packet_header(packet_header_record, packet_header_value) {
   packet_header_at = 0;
   do
   :: packet_header_at < 4 -> packet_header_record.packet_sequence_number[packet_header_at] = packet_header_value; packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 16 -> packet_header_record.checksum[packet_header_at] = packet_header_value; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -76,15 +71,10 @@ inline ramp_packet_header(packet_header_record, packet_header_base) {
   :: packet_header_at < 4 -> packet_header_record.packet_sequence_number[packet_header_at] = (packet_header_base + 2 + packet_header_at + 1) % 256; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 16 -> packet_header_record.checksum[packet_header_at] = (packet_header_base + 6 + packet_header_at + 1) % 256; packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
   skip
 }
 
-/* Packet Header to the wire, 22 bytes from where the cursor stands */
+/* Packet Header to the wire, 6 bytes from where the cursor stands */
 inline encode_packet_header(packet_header_record) {
   packet_header_at = 0;
   do
@@ -96,15 +86,10 @@ inline encode_packet_header(packet_header_record) {
   :: packet_header_at < 4 -> wire[at] = packet_header_record.packet_sequence_number[packet_header_at]; at = at + 1; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 16 -> wire[at] = packet_header_record.checksum[packet_header_at]; at = at + 1; packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
   skip
 }
 
-/* Packet Header off the wire, 22 bytes from where the cursor stands */
+/* Packet Header off the wire, 6 bytes from where the cursor stands */
 inline decode_packet_header(packet_header_record) {
   packet_header_at = 0;
   do
@@ -114,11 +99,6 @@ inline decode_packet_header(packet_header_record) {
   packet_header_at = 0;
   do
   :: packet_header_at < 4 -> packet_header_record.packet_sequence_number[packet_header_at] = wire[at]; at = at + 1; packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 16 -> packet_header_record.checksum[packet_header_at] = wire[at]; at = at + 1; packet_header_at = packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -134,11 +114,6 @@ inline equal_packet_header(packet_header_read, packet_header_written) {
   packet_header_at = 0;
   do
   :: packet_header_at < 4 -> assert(packet_header_read.packet_sequence_number[packet_header_at] == packet_header_written.packet_sequence_number[packet_header_at]); packet_header_at = packet_header_at + 1
-  :: else -> break
-  od;
-  packet_header_at = 0;
-  do
-  :: packet_header_at < 16 -> assert(packet_header_read.checksum[packet_header_at] == packet_header_written.checksum[packet_header_at]); packet_header_at = packet_header_at + 1
   :: else -> break
   od;
   skip
@@ -2442,10 +2417,10 @@ proctype check_packet_header() {
   atomic {
     at = 0;
     encode_packet_header(packet_header_sent);
-    assert(at == 22);
+    assert(at == 6);
     at = 0;
     decode_packet_header(packet_header_got);
-    assert(at == 22);
+    assert(at == 6);
     equal_packet_header(packet_header_got, packet_header_sent)
   }
 }
