@@ -523,65 +523,6 @@ inline equal_error_response_message(error_response_message_read, error_response_
   skip
 }
 
-/* ---- Secure Box Registration Request Message: 2 bytes ------------------------ */
-
-/* Sent as SECURE_BOX_REGISTRATION_REQUE */
-typedef SecureBoxRegistrationRequestMessage {
-  byte box_id[2]
-};
-
-int secure_box_registration_request_message_at;
-
-/* every byte of Secure Box Registration Request Message set to one value */
-inline fill_secure_box_registration_request_message(secure_box_registration_request_message_record, secure_box_registration_request_message_value) {
-  secure_box_registration_request_message_at = 0;
-  do
-  :: secure_box_registration_request_message_at < 2 -> secure_box_registration_request_message_record.box_id[secure_box_registration_request_message_at] = secure_box_registration_request_message_value; secure_box_registration_request_message_at = secure_box_registration_request_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* each byte of Secure Box Registration Request Message set to where it lies, so a field read out of place says so */
-inline ramp_secure_box_registration_request_message(secure_box_registration_request_message_record, secure_box_registration_request_message_base) {
-  secure_box_registration_request_message_at = 0;
-  do
-  :: secure_box_registration_request_message_at < 2 -> secure_box_registration_request_message_record.box_id[secure_box_registration_request_message_at] = (secure_box_registration_request_message_base + 0 + secure_box_registration_request_message_at + 1) % 256; secure_box_registration_request_message_at = secure_box_registration_request_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Secure Box Registration Request Message to the wire, 2 bytes from where the cursor stands */
-inline encode_secure_box_registration_request_message(secure_box_registration_request_message_record) {
-  secure_box_registration_request_message_at = 0;
-  do
-  :: secure_box_registration_request_message_at < 2 -> wire[at] = secure_box_registration_request_message_record.box_id[secure_box_registration_request_message_at]; at = at + 1; secure_box_registration_request_message_at = secure_box_registration_request_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* Secure Box Registration Request Message off the wire, 2 bytes from where the cursor stands */
-inline decode_secure_box_registration_request_message(secure_box_registration_request_message_record) {
-  secure_box_registration_request_message_at = 0;
-  do
-  :: secure_box_registration_request_message_at < 2 -> secure_box_registration_request_message_record.box_id[secure_box_registration_request_message_at] = wire[at]; at = at + 1; secure_box_registration_request_message_at = secure_box_registration_request_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
-/* what was read of Secure Box Registration Request Message is what was written, byte for byte */
-inline equal_secure_box_registration_request_message(secure_box_registration_request_message_read, secure_box_registration_request_message_written) {
-  secure_box_registration_request_message_at = 0;
-  do
-  :: secure_box_registration_request_message_at < 2 -> assert(secure_box_registration_request_message_read.box_id[secure_box_registration_request_message_at] == secure_box_registration_request_message_written.box_id[secure_box_registration_request_message_at]); secure_box_registration_request_message_at = secure_box_registration_request_message_at + 1
-  :: else -> break
-  od;
-  skip
-}
-
 /* ---- Box Sign On Response Message: 12 bytes ---------------------------------- */
 
 /* Sent as BOX_SIGN_ON_REQUEST_OUT */
@@ -2194,37 +2135,6 @@ proctype check_error_response_message() {
   }
 }
 
-/* Secure Box Registration Request Message: encoded, read back, and compared */
-proctype check_secure_box_registration_request_message() {
-  SecureBoxRegistrationRequestMessage secure_box_registration_request_message_sent;
-  SecureBoxRegistrationRequestMessage secure_box_registration_request_message_got;
-  int pattern;
-
-  if
-  :: pattern = 0
-  :: pattern = 1
-  :: pattern = 2
-  :: pattern = 3
-  fi;
-
-  if
-  :: pattern == 0 -> fill_secure_box_registration_request_message(secure_box_registration_request_message_sent, 0)
-  :: pattern == 1 -> fill_secure_box_registration_request_message(secure_box_registration_request_message_sent, 32)
-  :: pattern == 2 -> fill_secure_box_registration_request_message(secure_box_registration_request_message_sent, 255)
-  :: else -> ramp_secure_box_registration_request_message(secure_box_registration_request_message_sent, 0)
-  fi;
-
-  atomic {
-    at = 0;
-    encode_secure_box_registration_request_message(secure_box_registration_request_message_sent);
-    assert(at == 2);
-    at = 0;
-    decode_secure_box_registration_request_message(secure_box_registration_request_message_got);
-    assert(at == 2);
-    equal_secure_box_registration_request_message(secure_box_registration_request_message_got, secure_box_registration_request_message_sent)
-  }
-}
-
 /* Box Sign On Response Message: encoded, read back, and compared */
 proctype check_box_sign_on_response_message() {
   BoxSignOnResponseMessage box_sign_on_response_message_sent;
@@ -2604,7 +2514,6 @@ init {
   :: run check_cancel_on_logout_status_response_message()
   :: run check_sec_info()
   :: run check_error_response_message()
-  :: run check_secure_box_registration_request_message()
   :: run check_box_sign_on_response_message()
   :: run check_existing_encryption_tail()
   :: run check_new_encryption_tail()

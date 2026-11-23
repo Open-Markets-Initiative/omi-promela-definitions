@@ -17,6 +17,7 @@
  *   - a run filling what frames it
  *   - a Integrity rule
  *   - a Composite rule
+ *   - the dispatch that chooses a message by its type
  *
  * License: MIT No Attribution
  */

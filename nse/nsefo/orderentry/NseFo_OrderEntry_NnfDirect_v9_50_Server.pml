@@ -3643,6 +3643,332 @@ inline equal_user_address_unlock_approve_message(user_address_unlock_approve_mes
   skip
 }
 
+/* ---- Contract Desc Tr: 26 bytes ---------------------------------------------- */
+
+/* CONTRACT_DESC_TR */
+typedef ContractDescTr {
+  byte instrument_name[6];
+  byte symbol[10];
+  byte expiry_date[4];
+  byte strike_price[4];
+  byte option_type[2]
+};
+
+int contract_desc_tr_at;
+
+/* every byte of Contract Desc Tr set to one value */
+inline fill_contract_desc_tr(contract_desc_tr_record, contract_desc_tr_value) {
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 6 -> contract_desc_tr_record.instrument_name[contract_desc_tr_at] = contract_desc_tr_value; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 10 -> contract_desc_tr_record.symbol[contract_desc_tr_at] = contract_desc_tr_value; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> contract_desc_tr_record.expiry_date[contract_desc_tr_at] = contract_desc_tr_value; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> contract_desc_tr_record.strike_price[contract_desc_tr_at] = contract_desc_tr_value; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 2 -> contract_desc_tr_record.option_type[contract_desc_tr_at] = contract_desc_tr_value; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Contract Desc Tr set to where it lies, so a field read out of place says so */
+inline ramp_contract_desc_tr(contract_desc_tr_record, contract_desc_tr_base) {
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 6 -> contract_desc_tr_record.instrument_name[contract_desc_tr_at] = (contract_desc_tr_base + 0 + contract_desc_tr_at + 1) % 256; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 10 -> contract_desc_tr_record.symbol[contract_desc_tr_at] = (contract_desc_tr_base + 6 + contract_desc_tr_at + 1) % 256; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> contract_desc_tr_record.expiry_date[contract_desc_tr_at] = (contract_desc_tr_base + 16 + contract_desc_tr_at + 1) % 256; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> contract_desc_tr_record.strike_price[contract_desc_tr_at] = (contract_desc_tr_base + 20 + contract_desc_tr_at + 1) % 256; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 2 -> contract_desc_tr_record.option_type[contract_desc_tr_at] = (contract_desc_tr_base + 24 + contract_desc_tr_at + 1) % 256; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Contract Desc Tr to the wire, 26 bytes from where the cursor stands */
+inline encode_contract_desc_tr(contract_desc_tr_record) {
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 6 -> wire[at] = contract_desc_tr_record.instrument_name[contract_desc_tr_at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 10 -> wire[at] = contract_desc_tr_record.symbol[contract_desc_tr_at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> wire[at] = contract_desc_tr_record.expiry_date[contract_desc_tr_at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> wire[at] = contract_desc_tr_record.strike_price[contract_desc_tr_at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 2 -> wire[at] = contract_desc_tr_record.option_type[contract_desc_tr_at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Contract Desc Tr off the wire, 26 bytes from where the cursor stands */
+inline decode_contract_desc_tr(contract_desc_tr_record) {
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 6 -> contract_desc_tr_record.instrument_name[contract_desc_tr_at] = wire[at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 10 -> contract_desc_tr_record.symbol[contract_desc_tr_at] = wire[at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> contract_desc_tr_record.expiry_date[contract_desc_tr_at] = wire[at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> contract_desc_tr_record.strike_price[contract_desc_tr_at] = wire[at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 2 -> contract_desc_tr_record.option_type[contract_desc_tr_at] = wire[at]; at = at + 1; contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Contract Desc Tr is what was written, byte for byte */
+inline equal_contract_desc_tr(contract_desc_tr_read, contract_desc_tr_written) {
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 6 -> assert(contract_desc_tr_read.instrument_name[contract_desc_tr_at] == contract_desc_tr_written.instrument_name[contract_desc_tr_at]); contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 10 -> assert(contract_desc_tr_read.symbol[contract_desc_tr_at] == contract_desc_tr_written.symbol[contract_desc_tr_at]); contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> assert(contract_desc_tr_read.expiry_date[contract_desc_tr_at] == contract_desc_tr_written.expiry_date[contract_desc_tr_at]); contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 4 -> assert(contract_desc_tr_read.strike_price[contract_desc_tr_at] == contract_desc_tr_written.strike_price[contract_desc_tr_at]); contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  contract_desc_tr_at = 0;
+  do
+  :: contract_desc_tr_at < 2 -> assert(contract_desc_tr_read.option_type[contract_desc_tr_at] == contract_desc_tr_written.option_type[contract_desc_tr_at]); contract_desc_tr_at = contract_desc_tr_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* ---- Quick Acknowledgement Message: 20 bytes --------------------------------- */
+
+/* Immediate acknowledgement that an order related request reached the exchange */
+typedef QuickAcknowledgementMessage {
+  byte trader_id[4];
+  byte timestamp[8];
+  byte reference_long[4];
+  byte error_code[2];
+  byte message_length[2]
+};
+
+int quick_acknowledgement_message_at;
+
+/* every byte of Quick Acknowledgement Message set to one value */
+inline fill_quick_acknowledgement_message(quick_acknowledgement_message_record, quick_acknowledgement_message_value) {
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> quick_acknowledgement_message_record.trader_id[quick_acknowledgement_message_at] = quick_acknowledgement_message_value; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 8 -> quick_acknowledgement_message_record.timestamp[quick_acknowledgement_message_at] = quick_acknowledgement_message_value; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> quick_acknowledgement_message_record.reference_long[quick_acknowledgement_message_at] = quick_acknowledgement_message_value; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> quick_acknowledgement_message_record.error_code[quick_acknowledgement_message_at] = quick_acknowledgement_message_value; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> quick_acknowledgement_message_record.message_length[quick_acknowledgement_message_at] = quick_acknowledgement_message_value; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* each byte of Quick Acknowledgement Message set to where it lies, so a field read out of place says so */
+inline ramp_quick_acknowledgement_message(quick_acknowledgement_message_record, quick_acknowledgement_message_base) {
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> quick_acknowledgement_message_record.trader_id[quick_acknowledgement_message_at] = (quick_acknowledgement_message_base + 0 + quick_acknowledgement_message_at + 1) % 256; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 8 -> quick_acknowledgement_message_record.timestamp[quick_acknowledgement_message_at] = (quick_acknowledgement_message_base + 4 + quick_acknowledgement_message_at + 1) % 256; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> quick_acknowledgement_message_record.reference_long[quick_acknowledgement_message_at] = (quick_acknowledgement_message_base + 12 + quick_acknowledgement_message_at + 1) % 256; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> quick_acknowledgement_message_record.error_code[quick_acknowledgement_message_at] = (quick_acknowledgement_message_base + 16 + quick_acknowledgement_message_at + 1) % 256; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> quick_acknowledgement_message_record.message_length[quick_acknowledgement_message_at] = (quick_acknowledgement_message_base + 18 + quick_acknowledgement_message_at + 1) % 256; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Quick Acknowledgement Message to the wire, 20 bytes from where the cursor stands */
+inline encode_quick_acknowledgement_message(quick_acknowledgement_message_record) {
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> wire[at] = quick_acknowledgement_message_record.trader_id[quick_acknowledgement_message_at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 8 -> wire[at] = quick_acknowledgement_message_record.timestamp[quick_acknowledgement_message_at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> wire[at] = quick_acknowledgement_message_record.reference_long[quick_acknowledgement_message_at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> wire[at] = quick_acknowledgement_message_record.error_code[quick_acknowledgement_message_at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> wire[at] = quick_acknowledgement_message_record.message_length[quick_acknowledgement_message_at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* Quick Acknowledgement Message off the wire, 20 bytes from where the cursor stands */
+inline decode_quick_acknowledgement_message(quick_acknowledgement_message_record) {
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> quick_acknowledgement_message_record.trader_id[quick_acknowledgement_message_at] = wire[at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 8 -> quick_acknowledgement_message_record.timestamp[quick_acknowledgement_message_at] = wire[at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> quick_acknowledgement_message_record.reference_long[quick_acknowledgement_message_at] = wire[at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> quick_acknowledgement_message_record.error_code[quick_acknowledgement_message_at] = wire[at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> quick_acknowledgement_message_record.message_length[quick_acknowledgement_message_at] = wire[at]; at = at + 1; quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
+/* what was read of Quick Acknowledgement Message is what was written, byte for byte */
+inline equal_quick_acknowledgement_message(quick_acknowledgement_message_read, quick_acknowledgement_message_written) {
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> assert(quick_acknowledgement_message_read.trader_id[quick_acknowledgement_message_at] == quick_acknowledgement_message_written.trader_id[quick_acknowledgement_message_at]); quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 8 -> assert(quick_acknowledgement_message_read.timestamp[quick_acknowledgement_message_at] == quick_acknowledgement_message_written.timestamp[quick_acknowledgement_message_at]); quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 4 -> assert(quick_acknowledgement_message_read.reference_long[quick_acknowledgement_message_at] == quick_acknowledgement_message_written.reference_long[quick_acknowledgement_message_at]); quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> assert(quick_acknowledgement_message_read.error_code[quick_acknowledgement_message_at] == quick_acknowledgement_message_written.error_code[quick_acknowledgement_message_at]); quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  quick_acknowledgement_message_at = 0;
+  do
+  :: quick_acknowledgement_message_at < 2 -> assert(quick_acknowledgement_message_read.message_length[quick_acknowledgement_message_at] == quick_acknowledgement_message_written.message_length[quick_acknowledgement_message_at]); quick_acknowledgement_message_at = quick_acknowledgement_message_at + 1
+  :: else -> break
+  od;
+  skip
+}
+
 /* ---- What spin checks -------------------------------------------------------- */
 
 /* Packet Header: encoded, read back, and compared */
@@ -4482,6 +4808,68 @@ proctype check_user_address_unlock_approve_message() {
   }
 }
 
+/* Contract Desc Tr: encoded, read back, and compared */
+proctype check_contract_desc_tr() {
+  ContractDescTr contract_desc_tr_sent;
+  ContractDescTr contract_desc_tr_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_contract_desc_tr(contract_desc_tr_sent, 0)
+  :: pattern == 1 -> fill_contract_desc_tr(contract_desc_tr_sent, 32)
+  :: pattern == 2 -> fill_contract_desc_tr(contract_desc_tr_sent, 255)
+  :: else -> ramp_contract_desc_tr(contract_desc_tr_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_contract_desc_tr(contract_desc_tr_sent);
+    assert(at == 26);
+    at = 0;
+    decode_contract_desc_tr(contract_desc_tr_got);
+    assert(at == 26);
+    equal_contract_desc_tr(contract_desc_tr_got, contract_desc_tr_sent)
+  }
+}
+
+/* Quick Acknowledgement Message: encoded, read back, and compared */
+proctype check_quick_acknowledgement_message() {
+  QuickAcknowledgementMessage quick_acknowledgement_message_sent;
+  QuickAcknowledgementMessage quick_acknowledgement_message_got;
+  int pattern;
+
+  if
+  :: pattern = 0
+  :: pattern = 1
+  :: pattern = 2
+  :: pattern = 3
+  fi;
+
+  if
+  :: pattern == 0 -> fill_quick_acknowledgement_message(quick_acknowledgement_message_sent, 0)
+  :: pattern == 1 -> fill_quick_acknowledgement_message(quick_acknowledgement_message_sent, 32)
+  :: pattern == 2 -> fill_quick_acknowledgement_message(quick_acknowledgement_message_sent, 255)
+  :: else -> ramp_quick_acknowledgement_message(quick_acknowledgement_message_sent, 0)
+  fi;
+
+  atomic {
+    at = 0;
+    encode_quick_acknowledgement_message(quick_acknowledgement_message_sent);
+    assert(at == 20);
+    at = 0;
+    decode_quick_acknowledgement_message(quick_acknowledgement_message_got);
+    assert(at == 20);
+    equal_quick_acknowledgement_message(quick_acknowledgement_message_got, quick_acknowledgement_message_sent)
+  }
+}
+
 /* one checking process, chosen nondeterministically, so every one of them runs */
 init {
   if
@@ -4512,5 +4900,7 @@ init {
   :: run check_user_trade_modify_cancel_status_change_response_message()
   :: run check_user_address_unlock_confirm_message()
   :: run check_user_address_unlock_approve_message()
+  :: run check_contract_desc_tr()
+  :: run check_quick_acknowledgement_message()
   fi
 }
